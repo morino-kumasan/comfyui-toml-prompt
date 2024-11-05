@@ -1,4 +1,5 @@
 import re
+import os
 import random
 from functools import reduce
 
@@ -41,7 +42,7 @@ class MultipleLoraLoader:
                 r_model, r_clip = self.loader[i].load_lora(r_model, r_clip, lora_name, strength, strength)
 
         return (r_model, r_clip, *[
-            (kwargs[f"lora_name_{i}"] if abs(kwargs[f"strength_{i}"]) >= 1e-10 else "")
+            (os.path.basename(kwargs[f"lora_name_{i}"]) if abs(kwargs[f"strength_{i}"]) >= 1e-10 else "")
             for i in range(0, MAX_LOAD_LORA)
         ])
 
