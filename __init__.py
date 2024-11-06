@@ -25,8 +25,8 @@ class MultipleLoraLoader:
             ] for i in range(0, MAX_LOAD_LORA)]) }
         }
 
-    RETURN_TYPES = ("MODEL", "CLIP", *["STRING" for i in range(0, MAX_LOAD_LORA)])
-    OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", *["Loaded LoRA names" for i in range(0, MAX_LOAD_LORA)])
+    RETURN_TYPES = ("MODEL", "CLIP", "STRING")
+    OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", "Loaded LoRA name list")
     FUNCTION = "load_lora"
 
     CATEGORY = "loaders"
@@ -41,10 +41,10 @@ class MultipleLoraLoader:
             if abs(strength) >= 1e-10:
                 r_model, r_clip = self.loader[i].load_lora(r_model, r_clip, lora_name, strength, strength)
 
-        return (r_model, r_clip, *[
+        return (r_model, r_clip, '\n'.join([
             (os.path.basename(kwargs[f"lora_name_{i}"]) if abs(kwargs[f"strength_{i}"]) >= 1e-10 else "")
             for i in range(0, MAX_LOAD_LORA)
-        ])
+        ]))
 
 class PromptPicker:
     def __init__(self):
@@ -54,13 +54,11 @@ class PromptPicker:
     @classmethod
     def INPUT_TYPES(s):
         return {
-            "required": { k: v for k, v in [
-                ("clip", ("CLIP", {"tooltip": "The CLIP model."})),
-            ] + [
-                (f"key_name_{i}", ("STRING", {"tooltip": "Select Key Name"})) for i in range(0, MAX_LOAD_LORA)
-            ] + [
-                ("text", ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Prompt Separated by Key Name Comment (#[keyname])"})),
-            ]}
+            "required": {
+                "clip": ("CLIP", {"tooltip": "The CLIP model."}),
+                "key_name_list": ("STRING", {"multiline": True, "tooltip": "Select Key Name"}),
+                "text": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Prompt Separated by Key Name Comment (#[keyname])"}),
+            }
         }
 
     RETURN_TYPES = ("CONDITIONING", )
@@ -70,7 +68,7 @@ class PromptPicker:
     CATEGORY = "conditioning"
     DESCRIPTION = "LoRA prompt load."
 
-    def load_prompt(self, clip, text, **kwargs):
+    def load_prompt(self, clip, text, key_name_list):
         key = ""
         before_end = 0
         r_text = {}
@@ -90,8 +88,8 @@ class PromptPicker:
         r = None
         keys = r_text.keys()
         sep = '.'
-        for i in range(0, MAX_LOAD_LORA):
-            key = kwargs[f"key_name_{i}"]
+        for key in key_name_list.splitlines():
+            key = key.strip()
             if key == "":
                 continue
 
@@ -146,14 +144,12 @@ NODE_CLASS_MAPPINGS = {
     "MultipleLoraLoader": MultipleLoraLoader,
     "PromptPicker": PromptPicker,
     "PromptHolder": PromptHolder,
-    "TextGrep": TextGrep,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "MultipleLoraLoader": "Load Multiple Loras With Output Lora Name",
     "PromptPicker": "Load Prompt by Key",
     "PromptHolder": "Hold Prompt",
-    "TextGrep": "Grep Text",
 }
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
