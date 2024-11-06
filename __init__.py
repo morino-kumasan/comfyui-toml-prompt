@@ -5,7 +5,7 @@ from functools import reduce
 from folder_paths import get_filename_list
 from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat
 
-MAX_LOAD_LORA = 5
+MAX_LOAD_LORA = 10
 
 class MultipleLoraLoader:
     def __init__(self):
@@ -57,7 +57,7 @@ class PromptPicker:
             "required": {
                 "model": ("MODEL", {"tooltip": "The diffusion model."}),
                 "clip": ("CLIP", {"tooltip": "The CLIP model."}),
-                "key_name_list": ("STRING", {"multiline": True, "tooltip": "Select Key Name"}),
+                "key_name_list": ("STRING", {"multiline": True, "dynamicPrompts": True, "tooltip": "Select Key Name"}),
                 "text": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Prompt Separated by Key Name Comment (#[keyname])"}),
             }
         }
