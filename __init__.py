@@ -48,19 +48,18 @@ class MultipleLoraLoader:
 
 class PromptPicker:
     def __init__(self):
-        self.encoder = [CLIPTextEncode() for i in range(0, MAX_LOAD_LORA)]
-        self.concat = [ConditioningConcat() for i in range(0, MAX_LOAD_LORA - 1)]
+        self.encoder = CLIPTextEncode()
+        self.concat = ConditioningConcat()
 
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": { k: v for k, v in [
                 ("clip", ("CLIP", {"tooltip": "The CLIP model."})),
-                ("select_type", (["key_name", "random"], {"tooltip": "Select by Key Name or Random"})),
             ] + [
                 (f"key_name_{i}", ("STRING", {"tooltip": "Select Key Name"})) for i in range(0, MAX_LOAD_LORA)
             ] + [
-                ("text", ("STRING", {"multiline": True, "dynamicPrompts": True, "tooltip": "Prompt Separated by Key Name Comment (#[keyname])"})),
+                ("text", ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Prompt Separated by Key Name Comment (#[keyname])"})),
             ]}
         }
 
@@ -71,7 +70,7 @@ class PromptPicker:
     CATEGORY = "conditioning"
     DESCRIPTION = "LoRA prompt load."
 
-    def load_prompt(self, clip, select_type, text, **kwargs):
+    def load_prompt(self, clip, text, **kwargs):
         key = ""
         before_end = 0
         r_text = {}
@@ -87,37 +86,74 @@ class PromptPicker:
         if before_end != len(text):
             r_text[key] = text[before_end:]
 
-        # Pick Random and Encode Prompt
-        if select_type == "random":
-            prompt = random.choice([v for v in r_text.values()])
-            cond = self.encoder[0].encode(clip, prompt)[0]
-            return (cond, )
-
         # Pick key_name and Encode Prompt
         r = None
+        keys = r_text.keys()
+        sep = '.'
         for i in range(0, MAX_LOAD_LORA):
-            prompt = r_text.get(kwargs[f"key_name_{i}"], "")
-            if prompt == "":
+            key = kwargs[f"key_name_{i}"]
+            if key == "":
                 continue
-            cond = self.encoder[i].encode(clip, prompt)[0]
-            if r is None:
-                r = cond
+
+            key_parts = key.split(sep)
+            if key_parts[-1] == '?':
+                prefix = sep.join(key_parts[:-1] + [''])
+                random_keys = [key for key in keys if key if keys and key.startswith(prefix) and not key.endswith("*")]
+                available_keys = sorted([sep.join(key_parts[:l] + ["*"]) for l in range(0, len(key_parts))]) + [random.choice(random_keys)]
+                prompts = [','.join([r_text[key] for key in available_keys if key in keys])]
             else:
-                r = self.concat[i].concat(cond, r)[0]
+                available_keys = sorted([sep.join(key_parts[:l] + ["*"]) for l in range(0, len(key_parts))]) + [key]
+                prompts = [','.join([r_text[key] for key in available_keys if key in keys])]
+
+            for prompt in prompts:
+                prompt = prompt.strip()
+                if prompt == "":
+                    continue
+                cond = self.encoder.encode(clip, prompt)[0]
+                if r is None:
+                    r = cond
+                else:
+                    r = self.concat.concat(cond, r)[0]
 
         if r is None:
-            r = self.encoder[0].encode(clip, "")[0]
+            r = self.encoder.encode(clip, "")[0]
 
         return (r, )
+
+class PromptHolder:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "text": ("STRING", {"multiline": True, "dynamicPrompts": True, "tooltip": "Prompt Holder."}),
+            }
+        }
+
+    RETURN_TYPES = ("STRING", )
+    OUTPUT_TOOLTIPS = ("A Prompt.", )
+    FUNCTION = "load_prompt"
+
+    CATEGORY = "utils"
+    DESCRIPTION = "Prompt holder."
+
+    def load_prompt(self, text):
+        return (text, )
 
 NODE_CLASS_MAPPINGS = {
     "MultipleLoraLoader": MultipleLoraLoader,
     "PromptPicker": PromptPicker,
+    "PromptHolder": PromptHolder,
+    "TextGrep": TextGrep,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "MultipleLoraLoader": "Load Multiple Loras With Output Lora Name",
     "PromptPicker": "Load Prompt by Key",
+    "PromptHolder": "Hold Prompt",
+    "TextGrep": "Grep Text",
 }
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
