@@ -68,72 +68,91 @@ class PromptPicker:
 
     CATEGORY = "conditioning"
     DESCRIPTION = "LoRA prompt load."
+    SEPARATOR = "."
 
-    def load_prompt(self, model, clip, text, key_name_list):
-        sep = '.'
-        key = ""
+    def build_prompt_dict(self, text):
+        r = {}
         before_end = 0
-        prompt_dict = {}
-
-        # Find key_name
+        before_key = ""
         for m in re.finditer(r'^#\[(.+)\]$', text, flags=re.MULTILINE):
             beg, end = (m.start(), m.end())
-            if beg != before_end and key != "":
-                prompt_dict[key] = text[before_end:beg]
-            key = m.group(1)
+            if beg != before_end and before_key != "":
+                r[before_key] = text[before_end:beg]
+            before_key = m.group(1)
             before_end = end
 
         if before_end != len(text):
-            prompt_dict[key] = text[before_end:]
+            r[before_key] = text[before_end:]
+        
+        return r
 
+    def collect_prompts(self, prompt_dict, key):
+        keys = prompt_dict.keys()
+        key_parts = key.split(PromptPicker.SEPARATOR)
+        if key_parts[-1] == '?':
+            prefix = PromptPicker.SEPARATOR.join(key_parts[:-1] + [''])
+            random_keys = [key for key in keys if key if keys and key.startswith(prefix) and not key.endswith("*")]
+            available_keys = sorted([PromptPicker.SEPARATOR.join(key_parts[:l] + ["*"]) for l in range(0, len(key_parts))])
+            if len(random_keys) == 0:
+                print("Random Keys Not Found:", prefix, random_keys, keys)
+            else:
+                available_keys += [random.choice(random_keys)]
+            prompts = [','.join([prompt_dict[key] for key in available_keys if key in keys])]
+        else:
+            available_keys = sorted([PromptPicker.SEPARATOR.join(key_parts[:l] + ["*"]) for l in range(0, len(key_parts))]) + [key]
+            prompts = [','.join([prompt_dict[key] for key in available_keys if key in keys])]
+        return prompts
+
+    def load_lora_from_prompt(self, prompt, model, clip, lora_i):
+        r_model = model
+        r_clip = clip
+        loras = []
+        for lora_name, strength in re.findall(r'<lora:([^:]+):([0-9.]+)>', prompt):
+            i = len(loras) + lora_i
+            r_model, r_clip = self.loader[i].load_lora(r_model, r_clip, lora_name, float(strength), float(strength))
+            loras += [lora_name]
+            print(f"lora loaded[{i}]: {lora_name}: {strength}")
+        prompt = re.sub(r'<lora:([^:]+):([0-9.]+)>', '', prompt)
+        return (r_model, r_clip, loras)
+
+    def encode_prompts(self, prompts, model, clip, cond, loras, lora_i):
+        r_model = model
+        r_clip = clip
+        r_cond = cond
+        for prompt in prompts:
+            prompt = prompt.strip()
+            if prompt == "":
+                continue
+
+            r_model, r_clip, loaded_loras = self.load_lora_from_prompt(prompt, r_model, r_clip, lora_i)
+            lora_i += len(loaded_loras)
+            loras += loaded_loras
+
+            cond = self.encoder.encode(r_clip, prompt)[0]
+            if r_cond is None:
+                r_cond = cond
+            else:
+                r_cond = self.concat.concat(cond, r_cond)[0]
+        return (r_model, r_clip, r_cond, loras, lora_i)
+
+    def load_prompt(self, model, clip, text, key_name_list):
         r_cond = None
         r_model = model
         r_clip = clip
-        r_loras = ""
-        keys = prompt_dict.keys()
+        r_loras = []
         lora_i = 0
-
-        # Pick key_name and Encode Prompt
+        prompt_dict = self.build_prompt_dict(text)
         for key in key_name_list.splitlines():
             key = key.strip()
             if key == "":
                 continue
-
-            # Collect Prompts
-            key_parts = key.split(sep)
-            if key_parts[-1] == '?':
-                prefix = sep.join(key_parts[:-1] + [''])
-                random_keys = [key for key in keys if key if keys and key.startswith(prefix) and not key.endswith("*")]
-                available_keys = sorted([sep.join(key_parts[:l] + ["*"]) for l in range(0, len(key_parts))]) + [random.choice(random_keys)]
-                prompts = [','.join([prompt_dict[key] for key in available_keys if key in keys])]
-            else:
-                available_keys = sorted([sep.join(key_parts[:l] + ["*"]) for l in range(0, len(key_parts))]) + [key]
-                prompts = [','.join([prompt_dict[key] for key in available_keys if key in keys])]
-
-            # Encode Prompts
-            for prompt in prompts:
-                prompt = prompt.strip()
-                if prompt == "":
-                    continue
-
-                loras = re.findall(r'<lora:([^:]+):([0-9.]+)>', prompt)
-                for lora_name, strength in loras:
-                    r_model, r_clip = self.loader[lora_i].load_lora(r_model, r_clip, lora_name, float(strength), float(strength))
-                    lora_i += 1
-                    r_loras += lora_name + '\n'
-                    print(f"lora loaded: {lora_name}: {strength}")
-                prompt = re.sub(r'<lora:([^:]+):([0-9.]+)>', '', prompt)
-
-                cond = self.encoder.encode(clip, prompt)[0]
-                if r_cond is None:
-                    r_cond = cond
-                else:
-                    r_cond = self.concat.concat(cond, r_cond)[0]
+            prompts = self.collect_prompts(prompt_dict, key)
+            r_model, r_clip, r_cond, r_loras, lora_i = self.encode_prompts(prompts, r_model, r_clip, r_cond, r_loras, lora_i)
 
         if r_cond is None:
             r_cond = self.encoder.encode(clip, "")[0]
 
-        return (r_model, r_clip, r_cond, r_loras)
+        return (r_model, r_clip, r_cond, '\n'.join(r_loras))
 
 class PromptHolder:
     def __init__(self):
