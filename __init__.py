@@ -202,7 +202,7 @@ class StringSub:
     DESCRIPTION = "Concat string."
 
     def sub(self, text, pattern, to):
-        return (re.sub(pattern, to, text), )
+        return (re.sub(pattern, to, text, flags=re.MULTILINE), )
 
 NODE_CLASS_MAPPINGS = {
     "MultipleLoraLoader": MultipleLoraLoader,
