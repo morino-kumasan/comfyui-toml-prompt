@@ -102,7 +102,6 @@ class PromptPicker:
             d = d[key]
             if "_t" in d:
                 t = re.sub(r"\${([a-zA-Z0-9_-]+)}", lambda m: random.choice(d["_v"][m.group(1)]), d["_t"])
-                print(f"Prompt: {t}")
                 r += [t]
 
             if recur:
@@ -149,8 +148,8 @@ class PromptPicker:
         lora_i = 0
         prompt_dict = toml.loads(text)
         for key in key_name_list.splitlines():
-            key = key.strip()
-            if key == "":
+            key = re.sub(r"((//|#).+$|/\*.*?\*/)", "", key).strip()
+            if key == "" or key.startswith("#") or key.startswith("//"):
                 continue
             prompt = ','.join(self.collect_prompts(prompt_dict, key))
             r_model, r_clip, r_cond, r_loras, lora_i = self.encode_prompt(prompt, r_model, r_clip, r_cond, r_loras, lora_i)
