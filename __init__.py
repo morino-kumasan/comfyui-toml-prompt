@@ -62,6 +62,7 @@ class PromptPicker:
                 "model": ("MODEL", {"tooltip": "The diffusion model."}),
                 "clip": ("CLIP", {"tooltip": "The CLIP model."}),
                 "key_name_list": ("STRING", {"multiline": True, "dynamicPrompts": True, "tooltip": "Select Key Name"}),
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "tooltip": "Random seed."}),
                 "text": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Prompt Separated by Key Name Comment (#[keyname])"}),
             }
         }
@@ -137,7 +138,8 @@ class PromptPicker:
             r_cond = self.concat.concat(cond, r_cond)[0]
         return (r_model, r_clip, r_cond, loras, lora_i)
 
-    def load_prompt(self, model, clip, text, key_name_list):
+    def load_prompt(self, model, clip, text, key_name_list, seed):
+        random.seed(seed)
         r_cond = None
         r_model = model
         r_clip = clip
