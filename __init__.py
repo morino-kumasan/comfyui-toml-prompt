@@ -49,6 +49,39 @@ class MultipleLoraLoader:
             for i in range(0, MAX_LOAD_LORA)
         ]))
 
+def split_key(key_str, sep):
+    l = [(0, 0)] + [(m.start() + 1, m.end()) for m in re.finditer(f"[^\\\\]\\{sep}", key_str)] + [(len(key_str), len(key_str))]
+    keys = [re.sub(f"\\\\\\{sep}", sep, key_str[l[i][1]:l[i + 1][0]]) for i in range(0, len(l) - 1)]
+    return keys
+
+def collect_prompts(prompt_dict, key_str):
+    r = []
+    d = prompt_dict
+    keys = split_key(key_str, ".")
+    for i, key in enumerate(keys):
+        if key == "?" or key == "??":
+            assert(key == "?" or i == (len(keys) - 1))
+            recur = key == "??"
+            rand_keys = [k for k in d.keys() if k not in ["_t", "_v"]]
+            if len(rand_keys) == 0:
+                return r
+            key = random.choice(rand_keys)
+        else:
+            recur = False
+
+        if key not in d:
+            print(f"Key Not Found: {key}")
+            return r
+
+        d = d[key]
+        if "_t" in d:
+            t = re.sub(r"\${([a-zA-Z0-9_-]+)}", lambda m: random.choice(d["_v"][m.group(1)]), d["_t"])
+            r += [t]
+
+        if recur:
+            r += collect_prompts(d, "??")
+    return r
+
 class PromptPicker:
     def __init__(self):
         self.encoder = CLIPTextEncode()
@@ -77,36 +110,6 @@ class PromptPicker:
 
     CATEGORY = "conditioning"
     DESCRIPTION = "LoRA prompt load."
-
-    def collect_prompts(self, prompt_dict, key_str):
-        l = [(0, 0)] + [(m.start() + 1, m.end()) for m in re.finditer(r"[^\\]\.", key_str)] + [(len(key_str), len(key_str))]
-        keys = [re.sub(r"\\\.", ".", key_str[l[i][1]:l[i + 1][0]]) for i in range(0, len(l) - 1)]
-
-        r = []
-        d = prompt_dict
-        for i, key in enumerate(keys):
-            if key == "?" or key == "??":
-                assert(key == "?" or i == (len(keys) - 1))
-                recur = key == "??"
-                rand_keys = [k for k in d.keys() if k not in ["_t", "_v"]]
-                if len(rand_keys) == 0:
-                    return r
-                key = random.choice(rand_keys)
-            else:
-                recur = False
-
-            if key not in d:
-                print(f"Key Not Found: {key}")
-                return r
-
-            d = d[key]
-            if "_t" in d:
-                t = re.sub(r"\${([a-zA-Z0-9_-]+)}", lambda m: random.choice(d["_v"][m.group(1)]), d["_t"])
-                r += [t]
-
-            if recur:
-                r += self.collect_prompts(d, "??")
-        return r
 
     def load_lora_from_prompt(self, prompt, model, clip, lora_i):
         r_model = model
@@ -147,11 +150,12 @@ class PromptPicker:
         r_loras = []
         lora_i = 0
         prompt_dict = toml.loads(text)
-        for key in key_name_list.splitlines():
-            key = re.sub(r"((//|#).+$|/\*.*?\*/)", "", key).strip()
-            if key == "" or key.startswith("#") or key.startswith("//"):
+        for key_str in key_name_list.splitlines():
+            key_str = re.sub(r"((//|#).+$|/\*.*?\*/)", "", key_str).strip()
+            if key_str == "" or key_str.startswith("#") or key_str.startswith("//"):
                 continue
-            prompt = ','.join(self.collect_prompts(prompt_dict, key))
+            keys = [k.strip() for k in split_key(key_str, "&")]
+            prompt = ','.join([','.join(collect_prompts(prompt_dict, key)) for key in keys])
             r_model, r_clip, r_cond, r_loras, lora_i = self.encode_prompt(prompt, r_model, r_clip, r_cond, r_loras, lora_i)
 
         if r_cond is None:
