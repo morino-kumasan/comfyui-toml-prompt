@@ -71,8 +71,8 @@ class PromptPicker:
     def IS_CHANGED(s, *args, **kwargs):
         return time.time()
 
-    RETURN_TYPES = ("MODEL", "CLIP", "CONDITIONING", "STRING")
-    OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", "A Conditioning containing a text by key_name.", "Loaded LoRA name list")
+    RETURN_TYPES = ("MODEL", "CLIP", "CONDITIONING", "STRING", "INT")
+    OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", "A Conditioning containing a text by key_name.", "Loaded LoRA name list", "Random seed")
     FUNCTION = "load_prompt"
 
     CATEGORY = "conditioning"
@@ -138,7 +138,7 @@ class PromptPicker:
             r_cond = self.concat.concat(cond, r_cond)[0]
         return (r_model, r_clip, r_cond, loras, lora_i)
 
-    def load_prompt(self, model, clip, text, key_name_list, seed):
+    def load_prompt(self, model, clip, seed, text, key_name_list):
         random.seed(seed)
         r_cond = None
         r_model = model
@@ -156,7 +156,7 @@ class PromptPicker:
         if r_cond is None:
             r_cond = self.encoder.encode(clip, "")[0]
 
-        return (r_model, r_clip, r_cond, '\n'.join(r_loras))
+        return (r_model, r_clip, r_cond, '\n'.join(r_loras), seed)
 
 class PromptLoader:
     def __init__(self):
