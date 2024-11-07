@@ -88,7 +88,7 @@ class PromptPicker:
             if key == "?" or key == "??":
                 assert(key == "?" or i == (len(keys) - 1))
                 recur = key == "??"
-                rand_keys = [k for k in d.keys() if k != "_t"]
+                rand_keys = [k for k in d.keys() if k not in ["_t", "_v"]]
                 if len(rand_keys) == 0:
                     return r
                 key = random.choice(rand_keys)
@@ -101,7 +101,9 @@ class PromptPicker:
 
             d = d[key]
             if "_t" in d:
-                r += [d["_t"]]
+                t = re.sub(r"\${([a-zA-Z0-9_-]+)}", lambda m: random.choice(d["_v"][m.group(1)]), d["_t"])
+                print(f"Prompt: {t}")
+                r += [t]
 
             if recur:
                 r += self.collect_prompts(d, "??")
