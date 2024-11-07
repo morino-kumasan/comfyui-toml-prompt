@@ -2,6 +2,15 @@
 
 ComfyUI custom nodes.
 
+Install
+
+```
+cd ComfyUI/custom_nodes
+git clone git@github.com:morino-kumasan/comfyui-utils.git
+cd ../../
+python_embeded/python -m pip install -r ComfyUI/custom_nodes/comfyui-utils/requirements.txt
+```
+
 ## MultipleLoraLoader
 
 Load multiple LoRAs. (max 10)
@@ -34,24 +43,21 @@ Enable LoRA tag (max 10). ex ```<lora:lora_name:1.0>```.
   - clip
   - key_name_list
     - Key name list separated by line break.
-    - example
-    ```
-    key_name
-    key_group_1.key_group2.key_name
-    ```
-    - Random key. ex ```key_group_1.?``` choose key starting with ```key_group_1.```
+    - Example (each line): ```key_group_1.key_group2.key_name```
+    - Random key
+      - key_group_1.?
+        - Include example: key_group_1.key_name
+        - Exclude example: key_group_1.key_group_2.key_name
+      - key_group_1.??
+        - Include example: key_group_1.key_name
+        - Include example: key_group_1.key_group_2.key_name
   - text
     - Key and prompts.
-    - example
-    ``` 
-    #[key_name]
-    Simple key,
-    #[key_group_1.*]
-    Add prompts to a key starting with key_group_1,
-    #[*]
-    Add prompts to any key,
-    #[key_group_1.key_group2.key_name]
-    best quality,
+    - toml format
+    - Prompt: 
+    ```
+    [key_group_1.key_name]
+    _t = "this is prompt"
     ```
 - Output
   - MODEL
