@@ -45,12 +45,26 @@ Enable LoRA tag (max 10). ex ```<lora:lora_name:1.0>```.
     - Key name list separated by line break.
     - Example (each line): ```key_group_1.key_group2.key_name```
     - Random key
-      - key_group_1.?
-        - Include example: key_group_1.key_name
-        - Exclude example: key_group_1.key_group_2.key_name
-      - key_group_1.??
-        - Include example: key_group_1.key_name
-        - Include example: key_group_1.key_group_2.key_name
+      - ```key_group_1.?```
+        - ? replaced by key_name
+          - Exclude starting with _
+        - Include example: ```key_group_1.key_name```
+        - Exclude example: ```key_group_1.key_group_2.key_name```
+        - Exclude example: ```key_group_1._key_name```
+      - ```key_group_1.??```
+        - ?? replaced by group and key_name
+          - Exclude starting with _
+        - Include example: ```key_group_1.key_name```
+        - Include example: ```key_group_1.key_group_2.key_name```
+        - Exclude example: ```key_group_1._key_group_2.key_name```
+    - Join prompts
+      - Example (each line): ```key_name1 & key_name2```
+    - Dynamic prompt
+      - Example: ```{key_name1 | key_name2}```
+    - Comment
+      - ```# comment```
+      - ```// comment```
+      - ```/* comment */```
   - text
     - Key and prompts.
     - toml format
@@ -65,16 +79,6 @@ Enable LoRA tag (max 10). ex ```<lora:lora_name:1.0>```.
   - CONDITION
   - STRING
     - Loaded lora name
-
-## PromptHolder
-
-Hold prompt.
-
-- Input
-  - text
-- Output
-  - STRING
-    - Input text.
 
 ## MultilineStringConcat
 
