@@ -75,6 +75,8 @@ def collect_prompts(prompt_dict, key_str):
 
         d = d[key]
         if "_t" in d:
+            if '$' in d["_t"] and "_v" not in d:
+                print(f"_v Not Set: {d}")
             t = re.sub(r"\${([a-zA-Z0-9_-]+)}", lambda m: random.choice(d["_v"][m.group(1)]), d["_t"])
             r += [t]
 
