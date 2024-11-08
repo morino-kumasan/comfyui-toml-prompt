@@ -11,6 +11,9 @@ from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat
 
 MAX_LOAD_LORA = 10
 
+def escape_lora_filename(filename):
+    return re.sub(r"\.", r"\\.", re.sub(r"\\", r"\\\\", filename))
+
 class MultipleLoraLoader:
     def __init__(self):
         self.loader = [LoraLoader() for i in range(0, MAX_LOAD_LORA)]
@@ -45,8 +48,8 @@ class MultipleLoraLoader:
                 r_model, r_clip = self.loader[i].load_lora(r_model, r_clip, lora_name, strength, strength)
 
         return (r_model, r_clip, '\n'.join([
-            (re.sub(r"\.", r"\\.", kwargs[f"lora_name_{i}"]) if abs(kwargs[f"strength_{i}"]) >= 1e-10 else "")
-            for i in range(0, MAX_LOAD_LORA)
+            escape_lora_filename(kwargs[f"lora_name_{i}"])
+            for i in range(0, MAX_LOAD_LORA) if abs(kwargs[f"strength_{i}"]) >= 1e-10
         ]))
 
 def split_key(key_str, sep):
@@ -106,8 +109,8 @@ class PromptPicker:
     def IS_CHANGED(s, *args, **kwargs):
         return time.time()
 
-    RETURN_TYPES = ("MODEL", "CLIP", "CONDITIONING", "STRING", "INT")
-    OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", "A Conditioning containing a text by key_name.", "Loaded LoRA name list", "Random seed")
+    RETURN_TYPES = ("MODEL", "CLIP", "CONDITIONING", "STRING", "STRING", "INT")
+    OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", "A Conditioning containing a text by key_name.", "Loaded LoRA name list", "A prompt", "Random seed")
     FUNCTION = "load_prompt"
 
     CATEGORY = "conditioning"
@@ -120,7 +123,7 @@ class PromptPicker:
         for lora_name, strength in re.findall(r'<lora:([^:]+):([0-9.]+)>', prompt):
             i = len(loras) + lora_i
             r_model, r_clip = self.loader[i].load_lora(r_model, r_clip, lora_name, float(strength), float(strength))
-            loras += [re.sub(r"\.", r"\\.", lora_name)]
+            loras += [escape_lora_filename(lora_name)]
             print(f"Lora Loaded[{i}]: {lora_name}: {strength}")
         prompt = re.sub(r'<lora:([^:]+):([0-9.]+)>', '', prompt)
         return (r_model, r_clip, loras)
@@ -150,6 +153,7 @@ class PromptPicker:
         r_model = model
         r_clip = clip
         r_loras = []
+        r_prompt = []
         lora_i = 0
         prompt_dict = toml.loads(text)
         for key_str in key_name_list.splitlines():
@@ -159,11 +163,12 @@ class PromptPicker:
             keys = [k.strip() for k in split_key(key_str, "&")]
             prompt = ','.join([','.join(collect_prompts(prompt_dict, key)) for key in keys])
             r_model, r_clip, r_cond, r_loras, lora_i = self.encode_prompt(prompt, r_model, r_clip, r_cond, r_loras, lora_i)
+            r_prompt += [prompt]
 
         if r_cond is None:
             r_cond = self.encoder.encode(clip, "")[0]
 
-        return (r_model, r_clip, r_cond, '\n'.join(r_loras), seed)
+        return (r_model, r_clip, r_cond, '\n'.join(r_loras), '\nBREAK\n'.join(r_prompt), seed)
 
 class PromptLoader:
     def __init__(self):
@@ -267,7 +272,7 @@ class StringViewer:
     DESCRIPTION = "String Viewer."
 
     def view_str(self, text):
-        return {"ui": { "text": text }, "result": (text,)}
+        return {"ui": { "text": [text] }, "result": (text,)}
 
 NODE_CLASS_MAPPINGS = {
     "MultipleLoraLoader": MultipleLoraLoader,
@@ -287,4 +292,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "StringViewer": "StringViewer",
 }
 
-__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
+WEB_DIRECTORY = "./web"
+
+__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
