@@ -62,7 +62,7 @@ def collect_prompts(prompt_dict, key_str):
         if key == "?" or key == "??":
             assert(key == "?" or i == (len(keys) - 1))
             recur = key == "??"
-            rand_keys = [k for k in d.keys() if k not in ["_t", "_v"]]
+            rand_keys = [k for k in d.keys() if not k.startswith("_")]
             if len(rand_keys) == 0:
                 return r
             key = random.choice(rand_keys)
