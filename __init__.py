@@ -45,7 +45,7 @@ class MultipleLoraLoader:
                 r_model, r_clip = self.loader[i].load_lora(r_model, r_clip, lora_name, strength, strength)
 
         return (r_model, r_clip, '\n'.join([
-            (kwargs[f"lora_name_{i}"] if abs(kwargs[f"strength_{i}"]) >= 1e-10 else "")
+            (re.sub(r"\.", r"\\.", kwargs[f"lora_name_{i}"]) if abs(kwargs[f"strength_{i}"]) >= 1e-10 else "")
             for i in range(0, MAX_LOAD_LORA)
         ]))
 
@@ -120,7 +120,7 @@ class PromptPicker:
         for lora_name, strength in re.findall(r'<lora:([^:]+):([0-9.]+)>', prompt):
             i = len(loras) + lora_i
             r_model, r_clip = self.loader[i].load_lora(r_model, r_clip, lora_name, float(strength), float(strength))
-            loras += [lora_name]
+            loras += [re.sub(r"\.", r"\\.", lora_name)]
             print(f"Lora Loaded[{i}]: {lora_name}: {strength}")
         prompt = re.sub(r'<lora:([^:]+):([0-9.]+)>', '', prompt)
         return (r_model, r_clip, loras)
