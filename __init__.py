@@ -6,7 +6,7 @@ import time
 import toml
 from functools import reduce
 
-from folder_paths import get_filename_list, recursive_search, get_user_directory
+from folder_paths import get_filename_list, get_user_directory
 from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat
 
 MAX_LOAD_LORA = 10
@@ -246,12 +246,36 @@ class StringSub:
     def sub(self, text, pattern, to):
         return (re.sub(pattern, to, text, flags=re.MULTILINE), )
 
+class StringViewer:
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "text": ("STRING", {"forceInput": True, "multiline": True, "tooltip": "file name."}),
+            }
+        }
+
+    RETURN_TYPES = ("STRING", )
+    OUTPUT_TOOLTIPS = ("A text.", )
+    FUNCTION = "view_str"
+    OUTPUT_NODE = True
+
+    CATEGORY = "utils"
+    DESCRIPTION = "String Viewer."
+
+    def view_str(self, text):
+        return {"ui": { "text": text }, "result": (text,)}
+
 NODE_CLASS_MAPPINGS = {
     "MultipleLoraLoader": MultipleLoraLoader,
     "PromptPicker": PromptPicker,
     "PromptLoader": PromptLoader,
     "StringConcat": StringConcat,
     "StringSub": StringSub,
+    "StringViewer": StringViewer,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -260,6 +284,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "PromptLoader": "PromptLoader",
     "StringConcat": "StringConcat",
     "StringSub": "StringSub",
+    "StringViewer": "StringViewer",
 }
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]
