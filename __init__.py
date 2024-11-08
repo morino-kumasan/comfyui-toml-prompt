@@ -171,10 +171,9 @@ class PromptLoader:
 
     @classmethod
     def INPUT_TYPES(s):
-        files, _ = recursive_search(get_user_directory(), excluded_dir_names=[".git"])
         return {
             "required": {
-                "file": (files, {"tooltip": "file name."}),
+                "file": ("STRING", {"tooltip": "file name."}),
             }
         }
 
@@ -194,12 +193,12 @@ class PromptLoader:
     DESCRIPTION = "Prompt loader."
 
     def load_prompt(self, file):
-        path = os.path.join(get_user_directory(), file)
+        path = os.path.expanduser(file)
         with open(path, "r", encoding="utf-8") as f:
             text = f.read()
         return (text, )
 
-class MultilineStringConcat:
+class StringConcat:
     def __init__(self):
         pass
 
@@ -209,6 +208,7 @@ class MultilineStringConcat:
             "required": {
                 "text_from": ("STRING", {"defaultInput": True, "multiline": True, "tooltip": "Text from."}),
                 "text_to": ("STRING", {"defaultInput": True, "multiline": True, "tooltip": "Text to."}),
+                "sep": ("STRING", {"multiline": True, "tooltip": "Join separator."}),
             }
         }
 
@@ -219,8 +219,8 @@ class MultilineStringConcat:
     CATEGORY = "utils"
     DESCRIPTION = "Concat string."
 
-    def concat(self, text_from, text_to):
-        return (text_to + '\n' + text_from, )
+    def concat(self, text_from, text_to, sep):
+        return (text_to + sep + text_from, )
 
 class StringSub:
     def __init__(self):
@@ -250,7 +250,7 @@ NODE_CLASS_MAPPINGS = {
     "MultipleLoraLoader": MultipleLoraLoader,
     "PromptPicker": PromptPicker,
     "PromptLoader": PromptLoader,
-    "MultilineStringConcat": MultilineStringConcat,
+    "StringConcat": StringConcat,
     "StringSub": StringSub,
 }
 
@@ -258,7 +258,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "MultipleLoraLoader": "MultipleLoraLoader",
     "PromptPicker": "PromptPicker",
     "PromptLoader": "PromptLoader",
-    "MultilineStringConcat": "MultilineStringConcat",
+    "StringConcat": "StringConcat",
     "StringSub": "StringSub",
 }
 
