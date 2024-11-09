@@ -11,6 +11,9 @@ from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat
 def remove_comment_out(s):
     return re.sub(r"((//|#).+$|/\*.*?\*/)", "", s).strip()
 
+def select_dynamic_prompt(s):
+    return re.sub(r"{([^}]+)}", lambda m: random.choice(m.group(1).split('|')).strip(), s)
+
 class TomlPromptEncoder:
     RETURN_TYPES = ("MODEL", "CLIP", "CONDITIONING", "STRING", "STRING", "INT")
     OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", "A Conditioning containing a text by key_name.", "Loaded LoRA name list", "A prompt", "Random seed")
@@ -66,6 +69,7 @@ class TomlPromptEncoder:
                 if '$' in d["_t"] and "_v" not in d:
                     print(f"_v Not Set: {d}")
                 t = re.sub(r"\${([a-zA-Z0-9_-]+)}", lambda m: random.choice(d["_v"][m.group(1)]), d["_t"])
+                t = select_dynamic_prompt(remove_comment_out(t))
                 r += [t]
 
             if recur:
@@ -115,7 +119,7 @@ class TomlPromptEncoder:
         prompt_dict = toml.loads(text)
         lora_dict = toml.loads(lora_info)
         for key_str in key_name_list.splitlines():
-            key_str = remove_comment_out(key_str)
+            key_str = select_dynamic_prompt(remove_comment_out(key_str))
             if key_str == "":
                 continue
 
