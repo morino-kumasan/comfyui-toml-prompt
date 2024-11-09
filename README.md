@@ -56,7 +56,7 @@ shiny hair, ${color} hair"""
 color=["red", "blue", "blonde"]
 
 [base.girl.twintails]
-_t="twintails"
+_t="twintails, <lora:twintails.safetensors:1>"
 
 [base.boy]
 1boy, muscular, dark hair, formal suit,
@@ -67,8 +67,8 @@ _t="twintails"
 ```<lora:lora_name:strength>``` is replaced with prompt.
 
 ```
-["faceless.safetensors"]
-_t="faceless"
+["lora.safetensors"]
+_t="lora prompt"
 ```
 
 ### key_name_list
@@ -77,11 +77,13 @@ _t="faceless"
 // this is commont
 # this is comment
 /* this is comment */
-quality        /* encode as "best quality" */
-base & quality /* encode as "score_9, score_8_up, score_7_up, source_anime, best quality" */
-base.girl      /* equals "base & base.girl" */
-base.?         /* equals "{base.girl | base.boy}" */
-base.??        /* equals "{base.girl | base.girl.twintails | base.boy}" */
+quality          /* encode as "best quality" */
+base & quality   /* encode as "score_9, score_8_up, score_7_up, source_anime, best quality" */
+{base | quality} /* encode as "score_9, score_8_up, score_7_up, source_anime" or "best quality" */
+base.girl        /* equals "base & base.girl", but not duplicate prompt. */
+base.?           /* equals "{base.girl | base.boy}" */
+base.??          /* equals "{base.girl | base.girl.twintails | base.boy}" */
+<lora:lora.safetensors:1> /* load LoRA and encode as "lora prompt" */
 ```
 
 ## MultipleLoraTagLoader
