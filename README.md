@@ -11,13 +11,84 @@ cd ../../
 python_embeded/python -m pip install -r ComfyUI/custom_nodes/comfyui-utils/requirements.txt
 ```
 
-## MultipleLoraLoader
+## TomlPromptEncoder
 
-Load multiple LoRAs. (max 10)
+Encode Prompt in toml.
 
 - Input
   - model
   - clip
+  - key_name_list
+    - Key name list separated by line break.
+  - text
+    - toml prompt triggered by key_name
+  - lora_info
+    - toml prompt triggered by lora_name
+  - seed
+- Output
+  - MODEL
+  - CLIP
+  - CONDITION
+  - STRING
+    - Loaded lora tags
+  - STRING
+    - Prompt
+
+### text
+
+_t is prompt.
+_v is variables for random choice
+
+```
+[base]
+_t="score_9, score_8_up, score_7_up, source_anime"
+
+[quality]
+_t="best quality"
+
+[base.girl]
+_t="""1girl, perfect anatomy, 
+beautiful face, (detailed skin), (detailed face), (beautiful detailed eyes),  
+shiny hair, ${color} hair"""
+# ${color} is replaced with red, blue or blonde.
+
+[base.girl._v]
+color=["red", "blue", "blonde"]
+
+[base.girl.twintails]
+_t="twintails"
+
+[base.boy]
+1boy, muscular, dark hair, formal suit,
+```
+
+### lora_info
+
+```<lora:lora_name:strength>``` is replaced with prompt.
+
+```
+["faceless.safetensors"]
+_t="faceless"
+```
+
+### key_name_list
+
+```
+// this is commont
+# this is comment
+/* this is comment */
+quality        /* encode as "best quality" */
+base & quality /* encode as "score_9, score_8_up, score_7_up, source_anime, best quality" */
+base.girl      /* equals "base & base.girl" */
+base.?         /* equals "{base.girl | base.boy}" */
+base.??        /* equals "{base.girl | base.girl.twintails | base.boy}" */
+```
+
+## MultipleLoraTagLoader
+
+Output multiple LoRA tags. (max 10)
+
+- Input
   - lora_name_0
     - LoRA filename.
   - strength_0
@@ -28,79 +99,21 @@ Load multiple LoRAs. (max 10)
   - lora_name_9
   - strength_9
 - Output
-  - MODEL
-  - CLIP
   - STRING
-    - LoRA name list separated by line break.
+    - LoRA tag list separated by line break.
 
-## PromptPicker
+## PromptLoader
 
-Pick prompt by key name.
-Enable LoRA tag (max 10). ex ```<lora:lora_name:1.0>```.
+Load String from file.
 
-- Input
-  - model
-  - clip
-  - key_name_list
-    - Key name list separated by line break.
-    - Example (each line): ```key_group_1.key_group2.key_name```
-    - Random key
-      - ```key_group_1.?```
-        - ? replaced by key_name
-          - Exclude starting with _
-        - Include example: ```key_group_1.key_name```
-        - Exclude example: ```key_group_1.key_group_2.key_name```
-        - Exclude example: ```key_group_1._key_name```
-      - ```key_group_1.??```
-        - ?? replaced by group and key_name
-          - Exclude starting with _
-        - Include example: ```key_group_1.key_name```
-        - Include example: ```key_group_1.key_group_2.key_name```
-        - Exclude example: ```key_group_1._key_group_2.key_name```
-    - Join prompts
-      - Example (each line): ```key_name1 & key_name2```
-    - Dynamic prompt
-      - Example: ```{key_name1 | key_name2}```
-    - Comment
-      - ```# comment```
-      - ```// comment```
-      - ```/* comment */```
-  - text
-    - Key and prompts.
-    - toml format
-    - Prompt: 
-    ```
-    [key_group_1.key_name]
-    _t = "this is prompt"
-    ```
-- Output
-  - MODEL
-  - CLIP
-  - CONDITION
-  - STRING
-    - Loaded lora name
+## StringConcat
 
-## MultilineStringConcat
-
-Join texts by line break.
-
-- Input
-  - text_from
-  - text_to
-- Output
-  - STRING
-    - Input text.
+Join strings.
 
 ## StringSub
 
 Replace text by regex.
 
-- Input
-  - text
-  - pattern
-    - Regex pattern.
-  - to
-    - eplace string matching pattern with "to"
-- Output
-  - STRING
-    - Input text.
+## StringViewer
+
+View input string.
