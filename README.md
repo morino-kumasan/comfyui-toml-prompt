@@ -59,7 +59,11 @@ color=["red", "blue", "blonde"]
 _t="twintails, <lora:twintails.safetensors:1>"
 
 [base.boy]
-1boy, muscular, dark hair, formal suit,
+1boy, muscular, ${g.color} hair, formal suit,
+# ${color} is replaced with dark or light
+
+[_v]
+color=["dark", "light"]
 ```
 
 ### lora_info

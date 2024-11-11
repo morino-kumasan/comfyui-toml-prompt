@@ -11,12 +11,18 @@ def remove_comment_out(s):
 def select_dynamic_prompt(s):
     return re.sub(r"{([^}]+)}", lambda m: random.choice(m.group(1).split('|')).strip(), s)
 
-def expand_prompt_var(d):
+def expand_prompt_var(d, global_vars):
     def random_var(m):
-        if "_v" not in d:
-            print(f"_v Not Set: {d}")
-            return ""
-        return random.choice(d["_v"][m.group(1)])
+        var_name = m.group(1)
+        if var_name.startswith("g."):
+            var_name = var_name[2:]
+            vars = global_vars
+        else:
+            vars = d.get("_v", None)
+            if vars is None:
+                print(f"_v Not Set: {d}")
+                return ""
+        return random.choice(vars[var_name])
     return re.sub(r"\${([a-zA-Z0-9_-]+)}", random_var, d["_t"])
 
 def get_keys_all(d):
@@ -50,12 +56,14 @@ def build_search_keys(keys, prefix=[]):
         return [".".join(prefix + [key]) for key in keys[0]]
     return functools.reduce(lambda x, y: x + y, [[".".join(prefix + [key])] + build_search_keys(keys[1:], prefix + [key]) for key in keys[0]])
 
-def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None):
+def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, global_vars=None):
     if isinstance(keys, str):
         keys = build_search_keys(keys)
 
     if exclude_keys is None:
         exclude_keys = []
+    if global_vars is None:
+        global_vars = {}
 
     r = []
     for key in keys:
@@ -69,16 +77,16 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None):
             elif key == "??":
                 assert len(key_parts) == 0
                 keys = get_keys_random_recursive(d)
-                r += collect_prompt(d, keys, exclude_keys, prefix[:])
+                r += collect_prompt(d, keys, exclude_keys, prefix[:], global_vars)
                 break
             elif key == "*":
                 keys = [".".join([key] + key_parts) for key in get_keys_all(d)]
-                r += collect_prompt(d, keys, exclude_keys, prefix[:])
+                r += collect_prompt(d, keys, exclude_keys, prefix[:], global_vars)
                 break
             elif key == "**":
                 assert len(key_parts) == 0
                 keys = get_keys_all_recursive(d)
-                r += collect_prompt(d, keys, exclude_keys, prefix[:])
+                r += collect_prompt(d, keys, exclude_keys, prefix[:], global_vars)
                 break
 
             if key not in d:
@@ -90,7 +98,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None):
             prefix_str = ".".join(prefix)
             if "_t" in d:
                 if prefix_str not in exclude_keys:
-                    r += [select_dynamic_prompt(remove_comment_out(expand_prompt_var(d)))]
+                    r += [select_dynamic_prompt(remove_comment_out(expand_prompt_var(d, global_vars)))]
                     exclude_keys += [prefix_str]
             else:
                 print(f"Key Not Found: {prefix_str}")
