@@ -56,7 +56,7 @@ def build_search_keys(keys, prefix=[]):
         return [".".join(prefix + [key]) for key in keys[0]]
     return functools.reduce(lambda x, y: x + y, [[".".join(prefix + [key])] + build_search_keys(keys[1:], prefix + [key]) for key in keys[0]])
 
-def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, global_vars=None):
+def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, global_vars=None, ignore_split=False):
     if isinstance(keys, str):
         keys = build_search_keys(keys)
 
@@ -68,7 +68,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
     r = []
     for key in keys:
         d = prompt_dict
-        key_parts = key.split(".")
+        key_parts = key.split(".") if not ignore_split else [key]
         prefix = init_prefix or []
         while len(key_parts) > 0:
             key = key_parts.pop(0)
@@ -141,7 +141,7 @@ class TomlPromptEncoder:
                 r_model, r_clip = self.loader[lora_name].load_lora(r_model, r_clip, lora_name, float(strength), float(strength))
                 print(f"Lora Loaded: {lora_name}: {strength}")
             self.loras += ["<lora:{}:{}>".format(lora_name, strength)]
-        prompt = re.sub(r'<lora:([^:]+):([0-9.]+)>', lambda m: ','.join(collect_prompt(lora_dict, [m.group(1).replace("\\", "\\\\")])), prompt)
+        prompt = re.sub(r'<lora:([^:]+):([0-9.]+)>', lambda m: ','.join(collect_prompt(lora_dict, [m.group(1).replace("\\", "\\\\")], ignore_split=True)), prompt)
         return (r_model, r_clip, prompt)
 
     def encode_prompt(self, prompt, lora_dict, model, clip, cond):
