@@ -81,6 +81,7 @@ quality          /* encode as "best quality" */
 base & quality   /* encode as "score_9, score_8_up, score_7_up, source_anime, best quality" */
 {base | quality} /* encode as "score_9, score_8_up, score_7_up, source_anime" or "best quality" */
 base.girl        /* equals "base & base.girl", but not duplicate prompt. */
+base.girl+boy    /* equals "base.girl & base.boy" */
 base.?           /* equals "{base.girl | base.boy}" */
 base.??          /* equals "{base.girl | base.girl.twintails | base.boy}" */
 <lora:lora.safetensors:1> /* load LoRA and encode as "lora prompt" */
