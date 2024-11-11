@@ -63,7 +63,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
     if exclude_keys is None:
         exclude_keys = []
     if global_vars is None:
-        global_vars = {}
+        global_vars = prompt_dict.get("_v", {})
 
     r = []
     for key in keys:
