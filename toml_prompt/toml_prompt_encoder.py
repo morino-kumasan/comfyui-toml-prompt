@@ -90,7 +90,6 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                 break
 
             if key not in d:
-                print(f"Key Not Found: {'.'.join(prefix + [key])}")
                 break
             d = d[key]
             prefix += [key]
