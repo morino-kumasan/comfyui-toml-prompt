@@ -23,7 +23,7 @@ def expand_prompt_var(d, global_vars):
                 print(f"_v Not Set: {d}")
                 return ""
         return random.choice(vars[var_name])
-    return re.sub(r"\${([a-zA-Z0-9_-]+)}", random_var, d["_t"])
+    return re.sub(r"\${([a-zA-Z0-9_.]+)}", random_var, d["_t"])
 
 def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
