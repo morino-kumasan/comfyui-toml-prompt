@@ -20,12 +20,13 @@ class TestBuildSearchKey(unittest.TestCase):
         d = {
             "a": {
                 "b": { "_t": "" },
-                "c": { "_t": "" },
+                "c": "",
                 "d": {},
                 "_t": "",
             }
         }
         r1, r2 = get_keys_all_recursive(d)
+        print(r1, r2)
         assert r1 == ["a.b", "a.c"]
         assert r2 == ["a"]
 
@@ -128,9 +129,7 @@ class TestBuildSearchKey(unittest.TestCase):
                 },
                 "d": {
                     "_t": "d",
-                    "c": {
-                        "_t": "C",
-                    },
+                    "c": "C",
                 },
             }
         }
@@ -142,9 +141,7 @@ class TestBuildSearchKey(unittest.TestCase):
             "a": {
                 "_t": "a",
                 "b": {
-                    "c": {
-                        "_t": "c",
-                    },
+                    "c": "c",
                 }
             }
         }

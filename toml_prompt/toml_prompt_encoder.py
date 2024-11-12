@@ -23,7 +23,7 @@ def expand_prompt_var(d, global_vars):
                 print(f"_v Not Set: {d}")
                 return ""
         return random.choice(vars[var_name])
-    return re.sub(r"\${([a-zA-Z0-9_.]+)}", random_var, d["_t"])
+    return re.sub(r"\${([a-zA-Z0-9_.]+)}", random_var, d if isinstance(d, str) else d["_t"])
 
 def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
@@ -32,7 +32,9 @@ def get_keys_all_recursive(d, prefix=[]):
     r_long = []
     r_short = []
     for k, v in [(k, v) for k, v in d.items() if not k.startswith("_")]:
-        if len(get_keys_all(v)) == 0:
+        if isinstance(v, str):
+            r_long += ['.'.join(prefix + [k])]
+        elif len(get_keys_all(v)) == 0:
             if "_t" in v:
                 r_long += ['.'.join(prefix + [k])]
         else:
@@ -99,7 +101,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
             prefix += [key]
         else:
             prefix_str = ".".join(prefix)
-            if "_t" in d:
+            if isinstance(d, str) or "_t" in d:
                 if prefix_str not in exclude_keys:
                     r += [select_dynamic_prompt(remove_comment_out(expand_prompt_var(d, global_vars)))]
                     exclude_keys += [prefix_str]

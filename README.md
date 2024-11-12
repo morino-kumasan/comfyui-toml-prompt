@@ -40,11 +40,12 @@ _t is prompt.
 _v is variables for random choice
 
 ```
+# key _t is prompt
 [base]
 _t="score_9, score_8_up, score_7_up, source_anime"
 
-[quality]
-_t="best quality"
+# direct string prompt
+quality="best quality"
 
 [base.girl]
 _t="""1girl, perfect anatomy, 
