@@ -1,0 +1,49 @@
+[base]
+_t="score_9, score_8_up, score_7_up, source_anime"
+
+[base.quality]
+_t="best quality, masterpiece"
+
+[girl]
+_t="""1girl, perfect anatomy, 
+(detailed skin), (detailed face), (beautiful detailed eyes),  
+shiny hair, 
+"""
+
+[girl.random.hair]
+_r="${color} hair, wavy midium bob hair"
+[girl.random._v]
+color=["black", "silver", "blue", "red", "yellow", "pink", "purple", "green", "blonde", "brown", "orange", "white"]
+
+[girl.makeup]
+_t="makeup, juwelry, piercings, ring, nail polish, hair ornament"
+
+[pose.photo]
+_t="looking at viewer, cowboy shot, ${action}"
+[pose.photo._v]
+action=[
+    "dancing",
+    "paw pose",
+    "claw pose",
+    "selfie",
+    "hugging doll",
+    "sitting",
+    "crossed legs",
+    "girly running",
+    "fighting stance",
+]
+
+[where]
+_t="detailed background"
+
+[where.indoor]
+_t="detailed background, indoor"
+
+[where.indoor.jp_room]
+_t="Japanese-style room"
+
+[where.indoor.office]
+_t="office, room, desk"
+
+[where.indoor.classroom]
+_t="classroom, desk, wooden floor"
