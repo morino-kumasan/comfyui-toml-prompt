@@ -1,7 +1,11 @@
+import os, sys
+sys.path.append(os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
+
 import unittest
 from toml_prompt.toml_prompt_encoder import (
     get_keys_all,
     get_keys_all_recursive,
+    get_keys_random_recursive,
     build_search_keys,
     collect_prompt,
 )
@@ -21,8 +25,9 @@ class TestBuildSearchKey(unittest.TestCase):
                 "_t": "",
             }
         }
-        r = get_keys_all_recursive(d)
-        assert r == ["a", "a.b", "a.c"]
+        r1, r2 = get_keys_all_recursive(d)
+        assert r1 == ["a.b", "a.c"]
+        assert r2 == ["a"]
 
     def test__get_keys_random(self):
         d = {"a": {"b": {}, "c": {}}}
@@ -32,16 +37,19 @@ class TestBuildSearchKey(unittest.TestCase):
     def test__get_keys_random_recursive(self):
         d = {
             "a": {
+                "_t": "",
                 "b": {
                     "c": {
-                        "d": {},
                         "_t": "",
+                        "d": {
+                            "_t": ""
+                        }
                     },
                 }
             }
         }
-        r = get_keys_all_recursive(d)
-        assert r == ["a.b.c"]
+        r = get_keys_random_recursive(d)
+        assert r == ["a", "a.b.c", "a.b.c.d"]
 
     def test__search_key(self):
         r = build_search_keys("a.b+d.c")
@@ -127,7 +135,7 @@ class TestBuildSearchKey(unittest.TestCase):
             }
         }
         r = collect_prompt(d, build_search_keys("a.**"))
-        assert r == ["a", "c", "d", "C"]
+        assert r == ["a", "d", "c", "C"]
 
     def test__search_exclude(self):
         d = {
@@ -142,3 +150,6 @@ class TestBuildSearchKey(unittest.TestCase):
         }
         r = collect_prompt(d, build_search_keys("a+a.?.c"))
         assert r == ["a", "c"]
+
+if __name__ == "__main__":
+    unittest.main()

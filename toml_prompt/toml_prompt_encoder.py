@@ -29,24 +29,27 @@ def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
 
 def get_keys_all_recursive(d, prefix=[]):
-    r = []
-    if get_keys_all(d) == 0:
-        return [".".join(prefix)]
-    for k, v in d.items():
-        if k.startswith("_"):
-            continue
-        if "_t" in v:
-            r += ['.'.join(prefix + [k])]
-        r += get_keys_all_recursive(v, prefix + [k])
-    return r
+    r_long = []
+    r_short = []
+    for k, v in [(k, v) for k, v in d.items() if not k.startswith("_")]:
+        if len(get_keys_all(v)) == 0:
+            if "_t" in v:
+                r_long += ['.'.join(prefix + [k])]
+        else:
+            if "_t" in v:
+                r_short += ['.'.join(prefix + [k])]
+            l, s = get_keys_all_recursive(v, prefix + [k])
+            r_long += l
+            r_short += s
+    return (r_long, r_short)
 
 def get_keys_random(d):
     rand_keys = get_keys_all(d)
     return random.choice(rand_keys)
 
 def get_keys_random_recursive(d):
-    rand_keys = get_keys_all_recursive(d)
-    return random.choice(rand_keys)
+    rand_keys, keys = get_keys_all_recursive(d)
+    return keys + [random.choice(rand_keys)]
 
 def build_search_keys(keys, prefix=[]):
     assert len(keys) > 0
@@ -86,7 +89,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
             elif key == "**":
                 assert len(key_parts) == 0
                 keys = get_keys_all_recursive(d)
-                r += collect_prompt(d, keys, exclude_keys, prefix[:], global_vars)
+                r += collect_prompt(d, keys[1] + keys[0], exclude_keys, prefix[:], global_vars)
                 break
 
             if key not in d:
