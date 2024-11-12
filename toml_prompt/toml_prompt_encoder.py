@@ -1,6 +1,6 @@
 import re
 import random
-import toml
+import tomllib
 import functools
 
 from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat
@@ -178,8 +178,8 @@ class TomlPromptEncoder:
         r_cond = None
         r_model = model
         r_clip = clip
-        prompt_dict = toml.loads(text)
-        lora_dict = toml.loads(lora_info)
+        prompt_dict = tomllib.loads(text)
+        lora_dict = tomllib.loads(lora_info)
         for key_str in key_name_list.splitlines():
             key_str = select_dynamic_prompt(remove_comment_out(key_str))
             if key_str == "":
