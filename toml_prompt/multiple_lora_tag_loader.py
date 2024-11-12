@@ -15,7 +15,7 @@ class MultipleLoraTagLoader:
         lora_file_list = get_filename_list("loras")
         return {
             "required": { k: v for k, v in reduce(lambda x, y: x + y, [[
-                (f"lora_name_{i}", (lora_file_list, {"tooltip": "LoRA file name."})),
+                (f"lora_name_{i}", (["[none]"] + lora_file_list, {"tooltip": "LoRA file name."})),
                 (f"strength_{i}", ("FLOAT", {"default": 0.0, "min": -100.0, "max": 100.0, "step": 0.01, "tooltip": "Modify strength."})),
             ] for i in range(0, MultipleLoraTagLoader.MAX_TAG_LORA)]) }
         }
@@ -26,5 +26,6 @@ class MultipleLoraTagLoader:
     def create_tags(self, **kwargs):
         return ('\n'.join([
             "<lora:{}:{:2f}>".format(kwargs[f"lora_name_{i}"], kwargs[f"strength_{i}"])
-            for i in range(0, MultipleLoraTagLoader.MAX_TAG_LORA) if abs(kwargs[f"strength_{i}"]) >= 1e-10
+            for i in range(0, MultipleLoraTagLoader.MAX_TAG_LORA)
+            if abs(kwargs[f"strength_{i}"]) >= 1e-10 and kwargs[f"lora_name_{i}"] != "[none]"
         ]), )
