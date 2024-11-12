@@ -1,3 +1,4 @@
+import os
 import re
 import random
 import tomllib
@@ -147,7 +148,7 @@ class TomlPromptEncoder:
             self.loras += ["<lora:{}:{}>".format(lora_name, strength)]
         def lora_prompt(m):
             # for toml key
-            lora_name = m.group(1).replace("\\", "\\\\")
+            lora_name = m.group(1).replace(os.path.sep, "/")
             return ','.join(collect_prompt(lora_dict, [lora_name], ignore_split=True))
         prompt = re.sub(r'<lora:([^:]+):([0-9.]+)>', lora_prompt, prompt)
         return (r_model, r_clip, prompt)
