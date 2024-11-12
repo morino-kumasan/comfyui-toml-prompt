@@ -49,7 +49,8 @@ def get_keys_random(d):
 
 def get_keys_random_recursive(d):
     rand_keys, keys = get_keys_all_recursive(d)
-    return keys + [random.choice(rand_keys)]
+    selected_key = random.choice(rand_keys)
+    return [key for key in keys if selected_key.startswith(f"{key}.")] + [selected_key]
 
 def build_search_keys(keys, prefix=[]):
     assert len(keys) > 0
@@ -102,8 +103,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                 if prefix_str not in exclude_keys:
                     r += [select_dynamic_prompt(remove_comment_out(expand_prompt_var(d, global_vars)))]
                     exclude_keys += [prefix_str]
-            else:
-                print(f"Key Not Found: {prefix_str}")
+                    print(f"Load Prompt: {prefix_str}")
     return r
 
 class TomlPromptEncoder:
