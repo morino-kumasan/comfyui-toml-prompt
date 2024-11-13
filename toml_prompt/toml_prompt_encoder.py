@@ -76,7 +76,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
     for key in keys:
         d = prompt_dict
         key_parts = key.split(".") if not ignore_split else [key]
-        prefix = init_prefix or []
+        prefix = init_prefix[:] if init_prefix is not None else []
         while len(key_parts) > 0:
             key = key_parts.pop(0)
             if key == "?":
@@ -84,16 +84,16 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
             elif key == "??":
                 assert len(key_parts) == 0
                 keys = get_keys_random_recursive(d)
-                r += collect_prompt(d, keys, exclude_keys, prefix[:], global_vars)
+                r += collect_prompt(d, keys, exclude_keys, prefix, global_vars)
                 break
             elif key == "*":
                 keys = [".".join([key] + key_parts) for key in get_keys_all(d)]
-                r += collect_prompt(d, keys, exclude_keys, prefix[:], global_vars)
+                r += collect_prompt(d, keys, exclude_keys, prefix, global_vars)
                 break
             elif key == "**":
                 assert len(key_parts) == 0
                 keys = get_keys_all_recursive(d)
-                r += collect_prompt(d, keys[1] + keys[0], exclude_keys, prefix[:], global_vars)
+                r += collect_prompt(d, keys[1] + keys[0], exclude_keys, prefix, global_vars)
                 break
 
             if key not in d:
