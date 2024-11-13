@@ -4,8 +4,6 @@ import random
 import tomllib
 import functools
 
-from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat
-
 def remove_comment_out(s):
     return re.sub(r"((//|#).+$|/\*.*?\*/)", "", s).strip()
 
@@ -25,6 +23,16 @@ def expand_prompt_var(d, global_vars):
                 return ""
         return random.choice(vars[var_name])
     return re.sub(r"\${([a-zA-Z0-9_.]+)}", random_var, d if isinstance(d, str) else d["_t"])
+
+def expand_prompt_tag_lora(prompt, d):
+    def lora_prompt(m):
+        # for toml key
+        lora_name = m.group(1).replace(os.path.sep, "/")
+        return ','.join(collect_prompt(d, [lora_name], ignore_split=True))
+    return re.sub(r'<lora:([^:]+):([0-9.]+)>', lora_prompt, prompt, flags=re.MULTILINE)
+
+def expand_prompt_tag_negative(prompt):
+    return re.sub(r'<!:([^>]+)>', '', prompt)
 
 def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
@@ -109,80 +117,55 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                     print(f"Load Prompt: {prefix_str}")
     return r
 
-class TomlPromptEncoder:
-    RETURN_TYPES = ("MODEL", "CLIP", "CONDITIONING", "STRING", "STRING", "INT")
-    OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", "A Conditioning containing a text by key_name.", "Loaded LoRA name list", "A prompt", "Random seed")
+class TomlPromptDecode:
+    RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING")
+    OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed", "Summary")
     FUNCTION = "load_prompt"
-    CATEGORY = "conditioning"
-    DESCRIPTION = "LoRA prompt load."
+    CATEGORY = "utils"
+    DESCRIPTION = "Load toml prompt."
 
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": {
-                "model": ("MODEL", {"tooltip": "The diffusion model."}),
-                "clip": ("CLIP", {"tooltip": "The CLIP model."}),
                 "key_name_list": ("STRING", {"multiline": True, "dynamicPrompts": True, "tooltip": "Select Key Name"}),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "tooltip": "Random seed."}),
                 "text": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "TOML format prompt."}),
-                "lora_info": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "TOML format lora prompt."}),
             }
         }
 
     def __init__(self):
-        self.encoder = CLIPTextEncode()
-        self.concat = ConditioningConcat()
-        self.loader = {}
         self.loras = []
-        self.prompt = []
+        self.positive = []
+        self.negative = []
         self.loaded_keys = []
 
-    def load_lora_from_prompt(self, prompt, lora_dict, model, clip):
-        r_model = model
-        r_clip = clip
-        for lora_name, strength in re.findall(r'<lora:([^:]+):([0-9.]+)>', prompt):
-            if lora_name not in self.loader:
-                self.loader[lora_name] = LoraLoader()
-                r_model, r_clip = self.loader[lora_name].load_lora(r_model, r_clip, lora_name, float(strength), float(strength))
-                print(f"Lora Loaded: {lora_name}: {strength}")
-            self.loras += ["<lora:{}:{}>".format(lora_name, strength)]
-        def lora_prompt(m):
-            # for toml key
-            lora_name = m.group(1).replace(os.path.sep, "/")
-            return ','.join(collect_prompt(lora_dict, [lora_name], ignore_split=True))
-        prompt = re.sub(r'<lora:([^:]+):([0-9.]+)>', lora_prompt, prompt)
-        return (r_model, r_clip, prompt)
+    def expand_prompt_tag(self, prompt, lora_dict):
+        negative = []
+        for tag, args in re.findall(r'<([^:]+):([^>]+)>', prompt, flags=re.MULTILINE):
+            if tag == "lora":
+                lora_name, strength = args.split(":")
+                lora_tag = "<lora:{}:{}>".format(lora_name, strength)
+                if lora_tag not in self.loras:
+                    self.loras += [lora_tag]
+            elif tag == "!":
+                negative += [args]
+            else:
+                print(f"Unknown Tag: {tag}")
 
-    def encode_prompt(self, prompt, lora_dict, model, clip, cond):
-        r_model = model
-        r_clip = clip
-        r_cond = cond
-        prompt = prompt.strip()
-        if prompt == "":
-            return (r_model, r_clip, r_cond)
+        positive = expand_prompt_tag_lora(expand_prompt_tag_negative(prompt), lora_dict)
+        negative = ",".join(negative)
+        return (positive, negative)
 
-        r_model, r_clip, prompt = self.load_lora_from_prompt(prompt, lora_dict, r_model, r_clip)
-        self.prompt += [prompt]
-
-        cond = self.encoder.encode(r_clip, prompt)[0]
-        if r_cond is None:
-            r_cond = cond
-        else:
-            r_cond = self.concat.concat(cond, r_cond)[0]
-        return (r_model, r_clip, r_cond)
-
-    def load_prompt(self, model, clip, seed, text, lora_info, key_name_list):
+    def load_prompt(self, seed, text, key_name_list):
         random.seed(seed)
-        self.loader = {}
         self.loras = []
-        self.prompt = []
+        self.positive = []
+        self.negative = []
         self.loaded_keys = []
 
-        r_cond = None
-        r_model = model
-        r_clip = clip
         prompt_dict = tomllib.loads(text)
-        lora_dict = tomllib.loads(lora_info)
+        lora_dict = prompt_dict.get("<lora>", {})
         for key_str in key_name_list.splitlines():
             key_str = select_dynamic_prompt(remove_comment_out(key_str))
             if key_str == "":
@@ -196,11 +179,17 @@ class TomlPromptEncoder:
                     prompts += [key]
                 else:
                     prompts += [','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=self.loaded_keys))]
-            prompt = ','.join(prompts)
 
-            r_model, r_clip, r_cond = self.encode_prompt(prompt, lora_dict, r_model, r_clip, r_cond)
+            prompt = ','.join(prompts).strip()
+            if prompt == "":
+                continue
 
-        if r_cond is None:
-            r_cond = self.encoder.encode(clip, "")[0]
+            positive, negative = self.expand_prompt_tag(prompt, lora_dict)
+            self.positive += [positive]
+            self.negative += [negative]
 
-        return (r_model, r_clip, r_cond, '\n'.join(self.loras), '\nBREAK\n'.join([p for p in self.prompt if p]), seed)
+        positive = "\nBREAK\n".join([v for v in self.positive if v])
+        negative = "\nBREAK\n".join([v for v in self.negative if v])
+        lora_list = "\n".join(self.loras)
+        summary = f"---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}\n\n---- Seed ----\n{seed}"
+        return (positive, negative, lora_list, seed, summary)

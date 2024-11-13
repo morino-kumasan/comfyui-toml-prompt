@@ -2,7 +2,7 @@ import os, sys
 sys.path.append(os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
 
 import unittest
-from toml_prompt.toml_prompt_encoder import (
+from toml_prompt.toml_prompt_decode import (
     get_keys_all,
     get_keys_all_recursive,
     get_keys_random_recursive,

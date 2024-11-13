@@ -1,3 +1,5 @@
+negative = "<!:source_pony, source_furry, source_cartoon, score_6, score_5, score_4, worst quality, low quality, normal quality>"
+
 [base]
 _t="score_9, score_8_up, score_7_up, source_anime"
 
@@ -10,13 +12,12 @@ _t="""1girl, perfect anatomy,
 shiny hair, 
 """
 
+makeup = "makeup, juwelry, piercings, ring, nail polish, hair ornament"
+
 [girl.random.hair]
 _r="${color} hair, wavy midium bob hair"
 [girl.random._v]
 color=["black", "silver", "blue", "red", "yellow", "pink", "purple", "green", "blonde", "brown", "orange", "white"]
-
-[girl.makeup]
-_t="makeup, juwelry, piercings, ring, nail polish, hair ornament"
 
 [pose.photo]
 _t="looking at viewer, cowboy shot, ${action}"
@@ -38,12 +39,9 @@ _t="detailed background"
 
 [where.indoor]
 _t="detailed background, indoor"
+jp_room = "Japanese-style room"
+office = "office, room, desk"
+classroom = "classroom, desk, wooden floor"
 
-[where.indoor.jp_room]
-_t="Japanese-style room"
-
-[where.indoor.office]
-_t="office, room, desk"
-
-[where.indoor.classroom]
-_t="classroom, desk, wooden floor"
+["<lora>"]
+"dir_name\\lora_name.safetensors" = "lora default prompt"
