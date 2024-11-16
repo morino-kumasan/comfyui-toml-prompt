@@ -10,7 +10,7 @@ from toml_prompt.toml_prompt_decode import (
     collect_prompt,
 )
 
-class TestBuildSearchKey(unittest.TestCase):
+class TestSearch(unittest.TestCase):
     def test__get_keys_all(self):
         d = {"a": {"b": {}, "c": {}}}
         r = get_keys_all(d)
