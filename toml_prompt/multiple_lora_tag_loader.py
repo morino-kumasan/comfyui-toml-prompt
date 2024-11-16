@@ -1,3 +1,4 @@
+import os
 from functools import reduce
 
 from folder_paths import get_filename_list
@@ -12,7 +13,7 @@ class MultipleLoraTagLoader:
 
     @classmethod
     def INPUT_TYPES(s):
-        lora_file_list = get_filename_list("loras")
+        lora_file_list = [f.replace(os.path.sep, "/") for f in get_filename_list("loras")]
         return {
             "required": { k: v for k, v in reduce(lambda x, y: x + y, [[
                 (f"lora_name_{i}", (["[none]"] + lora_file_list, {"tooltip": "LoRA file name."})),
