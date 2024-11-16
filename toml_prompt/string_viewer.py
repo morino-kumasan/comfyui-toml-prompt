@@ -1,6 +1,6 @@
 class StringViewer:
-    RETURN_TYPES = ("STRING", )
-    OUTPUT_TOOLTIPS = ("A text.", )
+    RETURN_TYPES = ()
+    OUTPUT_TOOLTIPS = ()
     FUNCTION = "view_str"
     OUTPUT_NODE = True
     CATEGORY = "utils"
