@@ -53,11 +53,11 @@ beautiful face, (detailed skin), (detailed face), (beautiful detailed eyes),
 shiny hair, ${color} hair"""
 # ${color} is replaced with red, blue or blonde.
 
+twintails = "twintails, <lora:twintails.safetensors:1>"
+ponytails = "ponytails"
+
 [base.girl._v]
 color=["red", "blue", "blonde"]
-
-[base.girl.twintails]
-_t="twintails, <lora:twintails.safetensors:1>"
 
 [base.boy]
 1boy, muscular, ${g.color} hair, formal suit,
@@ -83,12 +83,12 @@ _t="lora prompt"
 # this is comment
 /* this is comment */
 quality          /* encode as "best quality" */
-base & quality   /* encode as "score_9, score_8_up, score_7_up, source_anime, best quality" */
+base, quality    /* encode as "score_9, score_8_up, score_7_up, source_anime, best quality" */
 {base | quality} /* encode as "score_9, score_8_up, score_7_up, source_anime" or "best quality" */
-base.girl        /* equals "base & base.girl", but not duplicate prompt. */
-base.girl+boy    /* equals "base.girl & base.boy" */
+base.girl        /* equals "base, base.girl", but not duplicate prompt. */
+base.girl+boy    /* equals "base, base.girl, base.boy" */
 base.?           /* equals "{base.girl | base.boy}" */
-base.??          /* equals "{base.girl | base.girl.twintails | base.boy}" */
+base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.boy}" */
 <lora:lora.safetensors:1> /* load LoRA and encode as "lora prompt" */
 ```
 

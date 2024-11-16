@@ -175,7 +175,7 @@ class TomlPromptDecode:
                 continue
 
             prompts = []
-            for key in [k.strip() for k in key_str.split("&")]:
+            for key in [k.strip() for k in key_str.split(",")]:
                 m = re.match(r'^<lora:([^:]+):([0-9.]+)>$', key)
                 if m:
                     # lora tag
@@ -191,8 +191,8 @@ class TomlPromptDecode:
             self.positive += [positive]
             self.negative += [negative]
 
-        positive = "\nBREAK\n".join([v for v in self.positive if v])
-        negative = "\nBREAK\n".join([v for v in self.negative if v])
+        positive = ",\n".join([v for v in self.positive if v])
+        negative = ",\n".join([v for v in self.negative if v])
         lora_list = "\n".join(self.loras)
         summary = f"---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}\n\n---- Seed ----\n{seed}"
         return (positive, negative, lora_list, seed, summary)
