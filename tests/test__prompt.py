@@ -13,6 +13,8 @@ class TestBuildKey(unittest.TestCase):
     def test__comment_out(self):
         r = remove_comment_out("a//b")
         assert r == "a"
+        r = remove_comment_out("a//b //c")
+        assert r == "a"
         r = remove_comment_out("a#b")
         assert r == "a"
         r = remove_comment_out("a/*b*/")
@@ -23,8 +25,7 @@ b// bb
 c
 d
 */""")
-        print(r)
-        assert r == "a\nb\n"
+        assert r == "a\nb"
 
     def test__dynamic_prompt(self):
         r = select_dynamic_prompt("{a | a | a}")
@@ -44,7 +45,6 @@ a
 
     def test__expand_prompt_tag_negative(self):
         r = expand_prompt_tag_negative("<!:this is negative prompt.>")
-        print(r)
         assert r == ""
         r = expand_prompt_tag_negative("""<!:this is 
 negative prompt.>""")

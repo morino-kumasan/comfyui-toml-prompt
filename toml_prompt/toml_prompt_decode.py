@@ -5,10 +5,10 @@ import tomllib
 import functools
 
 def remove_comment_out(s):
-    return re.sub(r"((//|#).+$|/\*.*?\*/)", "", s).strip()
+    return re.sub(r"((//|#).+$|/\*[\s\S]*?\*/)", "", s, flags=re.MULTILINE).strip()
 
 def select_dynamic_prompt(s):
-    return re.sub(r"{([^}]+)}", lambda m: random.choice(m.group(1).split('|')).strip(), s)
+    return re.sub(r"{([^}]+)}", lambda m: random.choice(m.group(1).split('|')).strip(), s, flags=re.MULTILINE)
 
 def expand_prompt_var(d, global_vars):
     def random_var(m):
@@ -22,7 +22,7 @@ def expand_prompt_var(d, global_vars):
                 print(f"_v Not Set: {d}")
                 return ""
         return random.choice(vars[var_name])
-    return re.sub(r"\${([a-zA-Z0-9_.]+)}", random_var, d if isinstance(d, str) else d["_t"])
+    return re.sub(r"\${([a-zA-Z0-9_.]+)}", random_var, d if isinstance(d, str) else d["_t"], flags=re.MULTILINE)
 
 def expand_prompt_tag_lora(prompt, d):
     def lora_prompt(m):
@@ -32,7 +32,7 @@ def expand_prompt_tag_lora(prompt, d):
     return re.sub(r'<lora:([^:]+):([0-9.]+)>', lora_prompt, prompt, flags=re.MULTILINE)
 
 def expand_prompt_tag_negative(prompt):
-    return re.sub(r'<!:([^>]+)>', '', prompt)
+    return re.sub(r'<!:([^>]+)>', '', prompt, flags=re.MULTILINE)
 
 def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
@@ -64,11 +64,13 @@ def get_keys_random_recursive(d):
     return [key for key in keys if selected_key.startswith(f"{key}.")] + [selected_key]
 
 def build_search_keys(keys, prefix=[]):
-    assert len(keys) > 0
     if isinstance(keys, str):
         keys = [(key.split("+")) for key in keys.split(".")]
-    if len(keys) == 1:
+    key_len = len(keys)
+    if key_len == 1:
         return [".".join(prefix + [key]) for key in keys[0]]
+    elif key_len == 0:
+        return []
     return functools.reduce(lambda x, y: x + y, [[".".join(prefix + [key])] + build_search_keys(keys[1:], prefix + [key]) for key in keys[0]])
 
 def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, global_vars=None, ignore_split=False):
@@ -166,8 +168,9 @@ class TomlPromptDecode:
 
         prompt_dict = tomllib.loads(text)
         lora_dict = prompt_dict.get("<lora>", {})
+        key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
         for key_str in key_name_list.splitlines():
-            key_str = select_dynamic_prompt(remove_comment_out(key_str))
+            key_str = key_str.strip()
             if key_str == "":
                 continue
 
