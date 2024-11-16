@@ -89,7 +89,8 @@ base.girl        /* equals "base, base.girl", but not duplicate prompt. */
 base.girl+boy    /* equals "base, base.girl, base.boy" */
 base.?           /* equals "{base.girl | base.boy}" */
 base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.boy}" */
-<lora:lora.safetensors:1> /* load LoRA and encode as "lora prompt" */
+<lora:lora.safetensors:1>    /* load LoRA and encode as "lora prompt" */
+raw:this line is raw prompt. /* raw prompt */
 ```
 
 ## MultipleLoraTagLoader

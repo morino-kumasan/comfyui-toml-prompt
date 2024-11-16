@@ -112,11 +112,15 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
             prefix += [key]
         else:
             prefix_str = ".".join(prefix)
-            if isinstance(d, str) or "_t" in d:
+            d_is_str = isinstance(d, str)
+            if d_is_str or "_t" in d:
                 if prefix_str not in exclude_keys:
                     r += [select_dynamic_prompt(remove_comment_out(expand_prompt_var(d, global_vars)))]
                     exclude_keys += [prefix_str]
                     print(f"Load Prompt: {prefix_str}")
+                elif d_is_str or len(get_keys_all(d)) == 0:
+                    r += [select_dynamic_prompt(remove_comment_out(expand_prompt_var(d, global_vars)))]
+                    print(f"Load Prompt (Duplicated): {prefix_str}")
     return r
 
 class TomlPromptDecode:
@@ -172,6 +176,10 @@ class TomlPromptDecode:
         for key_str in key_name_list.splitlines():
             key_str = key_str.strip()
             if key_str == "":
+                continue
+
+            if key_str.startswith("raw:"):
+                self.positive += [key_str[4:]]
                 continue
 
             prompts = []
