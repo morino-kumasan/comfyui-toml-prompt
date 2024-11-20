@@ -10,6 +10,19 @@ def remove_comment_out(s):
 def select_dynamic_prompt(s):
     return re.sub(r"{([^}]+)}", lambda m: random.choice(m.group(1).split('|')).strip(), s, flags=re.MULTILINE)
 
+def split_toml_prompt_line(s):
+    r = []
+    beg = 0
+    for m in re.finditer(r'<[^>]+>', s):
+        span = m.span()
+        if beg < span[0]:
+            r += [v.strip() for v in s[beg:span[0]].split(",")]
+        r += [m.group(0)]
+        beg = span[1]
+    if beg < len(s):
+        r += [v.strip() for v in s[beg:len(s)].split(",")]
+    return [v for v in r if v]
+
 def expand_prompt_var(d, global_vars):
     def random_var(m):
         var_name = m.group(1)
@@ -33,6 +46,16 @@ def expand_prompt_tag_lora(prompt, d):
 
 def expand_prompt_tag_negative(prompt):
     return re.sub(r'<!:([^>]+)>', '', prompt, flags=re.MULTILINE)
+
+def expand_prompt_tag_positive(prompt):
+    return re.sub(r'<raw:([^>]+)>', lambda m: m.group(1), prompt, flags=re.MULTILINE)
+
+def expand_prompt_tag_all(prompt, d):
+    return expand_prompt_tag_lora(
+        expand_prompt_tag_negative(
+            expand_prompt_tag_positive(prompt)
+        ), d
+    )
 
 def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
@@ -154,12 +177,14 @@ class TomlPromptDecode:
                 lora_tag = "<lora:{}:{}>".format(lora_name, strength)
                 if lora_tag not in self.loras:
                     self.loras += [lora_tag]
+            elif tag == "raw":
+                pass
             elif tag == "!":
                 negative += [args]
             else:
                 print(f"Unknown Tag: {tag}")
 
-        positive = expand_prompt_tag_lora(expand_prompt_tag_negative(prompt), lora_dict)
+        positive = expand_prompt_tag_all(prompt, lora_dict)
         negative = ",".join(negative)
         return (positive, negative)
 
@@ -178,15 +203,11 @@ class TomlPromptDecode:
             if key_str == "":
                 continue
 
-            if key_str.startswith("raw:"):
-                self.positive += [key_str[4:]]
-                continue
-
             prompts = []
-            for key in [k.strip() for k in key_str.split(",")]:
-                m = re.match(r'^<lora:([^:]+):([0-9.]+)>$', key)
+            for key in split_toml_prompt_line(key_str):
+                m = re.match(r'^<([^:]+):([^>]+)>$', key)
                 if m:
-                    # lora tag
+                    # tag
                     prompts += [key]
                 else:
                     prompts += [','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=self.loaded_keys))]
