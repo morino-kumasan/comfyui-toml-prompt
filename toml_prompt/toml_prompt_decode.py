@@ -37,26 +37,6 @@ def expand_prompt_var(d, global_vars):
         return random.choice(vars[var_name])
     return re.sub(r"\${([a-zA-Z0-9_.]+)}", random_var, d if isinstance(d, str) else d["_t"], flags=re.MULTILINE)
 
-def expand_prompt_tag_lora(prompt, d):
-    def lora_prompt(m):
-        # for toml key
-        lora_name = m.group(1).replace(os.path.sep, "/")
-        return ','.join(collect_prompt(d, [lora_name], ignore_split=True))
-    return re.sub(r'<lora:([^:]+):([0-9.]+)>', lora_prompt, prompt, flags=re.MULTILINE)
-
-def expand_prompt_tag_negative(prompt):
-    return re.sub(r'<!:([^>]+)>', '', prompt, flags=re.MULTILINE)
-
-def expand_prompt_tag_positive(prompt):
-    return re.sub(r'<raw:([^>]+)>', lambda m: m.group(1), prompt, flags=re.MULTILINE)
-
-def expand_prompt_tag_all(prompt, d):
-    return expand_prompt_tag_lora(
-        expand_prompt_tag_negative(
-            expand_prompt_tag_positive(prompt)
-        ), d
-    )
-
 def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
 
@@ -146,6 +126,78 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                     print(f"Load Prompt (Duplicated): {prefix_str}")
     return r
 
+def expand_prompt_tag_lora(prompt, d):
+    def lora_prompt(m):
+        # for toml key
+        lora_name = m.group(1).replace(os.path.sep, "/")
+        return ','.join(collect_prompt(d, [lora_name], ignore_split=True))
+    return re.sub(r'<lora:([^:]+):([0-9.]+)>', lora_prompt, prompt, flags=re.MULTILINE)
+
+def expand_prompt_tag_negative(prompt):
+    return re.sub(r'<!:([^>]+)>', '', prompt, flags=re.MULTILINE)
+
+def expand_prompt_tag_positive(prompt):
+    return re.sub(r'<raw:([^>]+)>', lambda m: m.group(1), prompt, flags=re.MULTILINE)
+
+def expand_prompt_tag_if(prompt, prompt_dict, loaded_keys, loras):
+    def cond(m):
+        keys = [v.strip() for v in m.group(1).split(",")]
+        if len([v for v in keys if v not in loaded_keys]) == 0:
+            r = load_prompt_line(m.group(2), prompt_dict, loaded_keys, loras)
+            return r[0]
+        else:
+            r = load_prompt_line(m.group(3), prompt_dict, loaded_keys, loras)
+            return r[0]
+    return re.sub(r'<if:([^:]+):([^:]*):([^>]*)>', cond, prompt, flags=re.MULTILINE)
+
+def expand_prompt_tag_if_not(prompt, prompt_dict, loaded_keys, loras):
+    def cond(m):
+        keys = [v.strip() for v in m.group(1).split(",")]
+        if len([v for v in keys if v in loaded_keys]) == 0:
+            r = load_prompt_line(m.group(2), prompt_dict, loaded_keys, loras)
+            return r[0]
+        else:
+            r = load_prompt_line(m.group(3), prompt_dict, loaded_keys, loras)
+            return r[0]
+    return re.sub(r'<if_not:([^:]+):([^:]*):([^>]*)>', cond, prompt, flags=re.MULTILINE)
+
+def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
+    negative = []
+    for tag, args in re.findall(r'<([^:]+):([^>]+)>', prompt, flags=re.MULTILINE):
+        if tag == "lora":
+            lora_name, strength = args.split(":")
+            lora_tag = "<lora:{}:{}>".format(lora_name, strength)
+            if lora_tag not in loras:
+                loras += [lora_tag]
+        elif tag == "!":
+            negative += [args]
+
+    positive = expand_prompt_tag_positive(prompt)
+    positive = expand_prompt_tag_negative(positive)
+    positive = expand_prompt_tag_if(positive, prompt_dict, loaded_keys, loras)
+    positive = expand_prompt_tag_if_not(positive, prompt_dict, loaded_keys, loras)
+    positive = expand_prompt_tag_lora(positive, prompt_dict.get("<lora>", {}))
+
+    negative = ",".join(negative)
+    return (positive, negative)
+
+def load_prompt_line(s, prompt_dict, loaded_keys, loras):
+    prompts = []
+    for key in split_toml_prompt_line(s):
+        m = re.match(r'^<([^:]+):([^>]+)>$', key)
+        if m:
+            # tag
+            prompts += [key]
+        else:
+            prompts += [','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=loaded_keys))]
+
+    prompt = ','.join(prompts).strip()
+    if prompt == "":
+        return (None, None)
+
+    positive, negative = expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras)
+    return (positive, negative)
+
 class TomlPromptDecode:
     RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING")
     OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed", "Summary")
@@ -169,25 +221,6 @@ class TomlPromptDecode:
         self.negative = []
         self.loaded_keys = []
 
-    def expand_prompt_tag(self, prompt, lora_dict):
-        negative = []
-        for tag, args in re.findall(r'<([^:]+):([^>]+)>', prompt, flags=re.MULTILINE):
-            if tag == "lora":
-                lora_name, strength = args.split(":")
-                lora_tag = "<lora:{}:{}>".format(lora_name, strength)
-                if lora_tag not in self.loras:
-                    self.loras += [lora_tag]
-            elif tag == "raw":
-                pass
-            elif tag == "!":
-                negative += [args]
-            else:
-                print(f"Unknown Tag: {tag}")
-
-        positive = expand_prompt_tag_all(prompt, lora_dict)
-        negative = ",".join(negative)
-        return (positive, negative)
-
     def load_prompt(self, seed, text, key_name_list):
         random.seed(seed)
         self.loras = []
@@ -196,27 +229,13 @@ class TomlPromptDecode:
         self.loaded_keys = []
 
         prompt_dict = tomllib.loads(text)
-        lora_dict = prompt_dict.get("<lora>", {})
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
         for key_str in key_name_list.splitlines():
             key_str = key_str.strip()
             if key_str == "":
                 continue
 
-            prompts = []
-            for key in split_toml_prompt_line(key_str):
-                m = re.match(r'^<([^:]+):([^>]+)>$', key)
-                if m:
-                    # tag
-                    prompts += [key]
-                else:
-                    prompts += [','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=self.loaded_keys))]
-
-            prompt = ','.join(prompts).strip()
-            if prompt == "":
-                continue
-
-            positive, negative = self.expand_prompt_tag(prompt, lora_dict)
+            positive, negative = load_prompt_line(key_str, prompt_dict, self.loaded_keys, self.loras)
             self.positive += [positive]
             self.negative += [negative]
 
