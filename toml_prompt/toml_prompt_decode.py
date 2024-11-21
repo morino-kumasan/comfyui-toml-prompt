@@ -169,6 +169,7 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             lora_tag = "<lora:{}:{}>".format(lora_name, strength)
             if lora_tag not in loras:
                 loras += [lora_tag]
+                loaded_keys += [lora_name]
         elif tag == "!":
             negative += [args]
 
