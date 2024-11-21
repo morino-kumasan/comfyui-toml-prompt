@@ -10,19 +10,6 @@ def remove_comment_out(s):
 def select_dynamic_prompt(s):
     return re.sub(r"{([^}]+)}", lambda m: random.choice(m.group(1).split('|')).strip(), s, flags=re.MULTILINE)
 
-def split_toml_prompt_line(s):
-    r = []
-    beg = 0
-    for m in re.finditer(r'<[^>]+>', s):
-        span = m.span()
-        if beg < span[0]:
-            r += [v.strip() for v in s[beg:span[0]].split(",")]
-        r += [m.group(0)]
-        beg = span[1]
-    if beg < len(s):
-        r += [v.strip() for v in s[beg:len(s)].split(",")]
-    return [v for v in r if v]
-
 def expand_prompt_var(d, global_vars):
     def random_var(m):
         var_name = m.group(1)
@@ -126,75 +113,108 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                     print(f"Load Prompt (Duplicated): {prefix_str}")
     return r
 
-def expand_prompt_tag_lora(prompt, d):
-    def lora_prompt(m):
-        # for toml key
-        lora_name = m.group(1).replace(os.path.sep, "/")
-        return ','.join(collect_prompt(d, [lora_name], ignore_split=True))
-    return re.sub(r'<lora:([^:]+):([0-9.]+)>', lora_prompt, prompt, flags=re.MULTILINE)
-
-def expand_prompt_tag_negative(prompt):
-    return re.sub(r'<!:([^>]+)>', '', prompt, flags=re.MULTILINE)
-
-def expand_prompt_tag_positive(prompt):
-    return re.sub(r'<raw:([^>]+)>', lambda m: m.group(1), prompt, flags=re.MULTILINE)
-
-def expand_prompt_tag_if(prompt, prompt_dict, loaded_keys, loras):
-    def cond(m):
-        keys = [v.strip() for v in m.group(1).split(",")]
-        if len([v for v in keys if v not in loaded_keys]) == 0:
-            r = load_prompt_line(m.group(2), prompt_dict, loaded_keys, loras)
-            return r[0]
-        else:
-            r = load_prompt_line(m.group(3), prompt_dict, loaded_keys, loras)
-            return r[0]
-    return re.sub(r'<if:([^:]+):([^:]*):([^>]*)>', cond, prompt, flags=re.MULTILINE)
-
-def expand_prompt_tag_if_not(prompt, prompt_dict, loaded_keys, loras):
-    def cond(m):
-        keys = [v.strip() for v in m.group(1).split(",")]
-        if len([v for v in keys if v in loaded_keys]) == 0:
-            r = load_prompt_line(m.group(2), prompt_dict, loaded_keys, loras)
-            return r[0]
-        else:
-            r = load_prompt_line(m.group(3), prompt_dict, loaded_keys, loras)
-            return r[0]
-    return re.sub(r'<if_not:([^:]+):([^:]*):([^>]*)>', cond, prompt, flags=re.MULTILINE)
-
 def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
+    positive = []
     negative = []
-    for tag, args in re.findall(r'<([^:]+):([^>]+)>', prompt, flags=re.MULTILINE):
+    for key in split_toml_prompt(prompt):
+        if not key.startswith("<"):
+            positive += [key]
+            continue
+
+        tag, args = key.split(":", 1)
+        tag = tag[1:]
+        args = split_toml_prompt_in_tag(args[:-1])
         if tag == "lora":
-            lora_name, strength = args.split(":")
+            lora_name, strength = args
+            lora_name = lora_name.replace(os.path.sep, "/")
+
             lora_tag = "<lora:{}:{}>".format(lora_name, strength)
             if lora_tag not in loras:
                 loras += [lora_tag]
                 loaded_keys += [lora_name]
+
+            lora_dict = prompt_dict.get("<lora>", {})
+            if lora_name in lora_dict:
+                positive += [','.join(collect_prompt(lora_dict, [lora_name], ignore_split=True))]
+        elif tag == "raw":
+            positive += [args[0]]
         elif tag == "!":
-            negative += [args]
+            negative += [args[0]]
+        elif tag == "if":
+            keys = [v.strip() for v in args[0].split(",")]
+            if len([v for v in keys if v not in loaded_keys]) == 0:
+                r = load_prompt(args[1], prompt_dict, loaded_keys, loras)
+                positive += [r[0]]
+                negative += [r[1]]
+            else:
+                r = load_prompt(args[2], prompt_dict, loaded_keys, loras)
+                positive += [r[0]]
+                negative += [r[1]]
 
-    positive = expand_prompt_tag_positive(prompt)
-    positive = expand_prompt_tag_negative(positive)
-    positive = expand_prompt_tag_if(positive, prompt_dict, loaded_keys, loras)
-    positive = expand_prompt_tag_if_not(positive, prompt_dict, loaded_keys, loras)
-    positive = expand_prompt_tag_lora(positive, prompt_dict.get("<lora>", {}))
+    return (",".join(positive), ",".join(negative))
 
-    negative = ",".join(negative)
-    return (positive, negative)
+def split_toml_prompt(s):
+    r = []
+    beg = 0
+    sep_num = 0
+    beg_tag = 0
+    for m in re.finditer(r'[<>]', s, flags=re.MULTILINE):
+        sep = m.group(0)
+        if sep == "<":
+            sep_num += 1
+        else:
+            sep_num -= 1
+            assert sep_num >= 0
+        
+        span = m.span()
+        if sep == "<" and sep_num == 1:
+            if beg < span[0]:
+                r += [v.strip() for v in re.split(r"[,\r\n]", s[beg:span[0]])]
+            beg_tag = span[0]
+        elif sep == ">" and sep_num == 0:
+            r += [s[beg_tag:span[1]]]
+        beg = span[1]
+    if beg < len(s):
+        r += [v.strip() for v in re.split(r"[,\r\n]", s[beg:len(s)])]
+    return [v for v in r if v]
 
-def load_prompt_line(s, prompt_dict, loaded_keys, loras):
+def split_toml_prompt_in_tag(s):
+    r = []
+    t = []
+    for key in split_toml_prompt(s):
+        key = key.strip()
+        if not key:
+            continue
+
+        if key.startswith("<"):
+            t += [key]
+            continue
+
+        key_parts = key.split(":")
+        if len(key_parts) == 1:
+            t += [key]
+        else:
+            for k in key_parts[:-1]:
+                r += [",".join([v for v in t + [k] if v])]
+                t = []
+            t = [key_parts[-1]]
+
+    if len(t) > 0:
+        r += [",".join([v for v in t if v])]
+
+    return r
+
+def load_prompt(s, prompt_dict, loaded_keys, loras):
     prompts = []
-    for key in split_toml_prompt_line(s):
-        m = re.match(r'^<([^:]+):([^>]+)>$', key)
-        if m:
-            # tag
+    for key in split_toml_prompt(s):
+        if key.startswith("<"):
             prompts += [key]
         else:
             prompts += [','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=loaded_keys))]
 
     prompt = ','.join(prompts).strip()
     if prompt == "":
-        return (None, None)
+        return ("", "")
 
     positive, negative = expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras)
     return (positive, negative)
@@ -231,14 +251,10 @@ class TomlPromptDecode:
 
         prompt_dict = tomllib.loads(text)
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
-        for key_str in key_name_list.splitlines():
-            key_str = key_str.strip()
-            if key_str == "":
-                continue
 
-            positive, negative = load_prompt_line(key_str, prompt_dict, self.loaded_keys, self.loras)
-            self.positive += [positive]
-            self.negative += [negative]
+        positive, negative = load_prompt(key_name_list, prompt_dict, self.loaded_keys, self.loras)
+        self.positive += [positive]
+        self.negative += [negative]
 
         positive = ",\n".join([v for v in self.positive if v])
         negative = ",\n".join([v for v in self.negative if v])

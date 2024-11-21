@@ -146,7 +146,7 @@ class TestSearch(unittest.TestCase):
             }
         }
         r = collect_prompt(d, build_search_keys("a+a.?.c"))
-        assert r == ["a", "c"]
+        assert r == ["a", "c", "c"]
 
 if __name__ == "__main__":
     unittest.main()

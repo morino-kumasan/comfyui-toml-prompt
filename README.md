@@ -93,7 +93,6 @@ base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.bo
 <raw:this line is raw positive prompt.> /* raw positive prompt */
 <!:this line is raw negative prompt.>   /* raw negative prompt */
 <if:base.girl:key_name1:key_name2>     /* key_name1 if key name is already loaded else key_name2 */
-<if_not:base.girl:key_name1:key_name2> /* key_name2 if key name is already loaded else key_name1 */
 ```
 
 ## MultipleLoraTagLoader

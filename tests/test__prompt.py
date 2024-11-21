@@ -7,6 +7,8 @@ from toml_prompt.toml_prompt_decode import (
     select_dynamic_prompt,
     expand_prompt_tag_negative,
     expand_prompt_tag_lora,
+    split_toml_prompt,
+    split_toml_prompt_in_tag,
 )
 
 class TestBuildKey(unittest.TestCase):
@@ -49,6 +51,31 @@ a
         r = expand_prompt_tag_negative("""<!:this is 
 negative prompt.>""")
         assert r == ""
+
+    def test__split_toml_prompt(self):
+        r = split_toml_prompt("""a, b
+c, <lora:a:1>
+d
+<if:1:a
+:
+<if:1:b:c>
+>
+e""")
+        print(r)
+        assert r == ["a", "b", "c", "<lora:a:1>", "d", "<if:1:a\n:\n<if:1:b:c>\n>", "e"]
+
+    def test__split_toml_prompt_in_tag(self):
+        r = split_toml_prompt_in_tag("""a, b
+c, <lora:a:1>:
+d
+<if:1:a
+:
+<if:1:b:c>
+>
+:
+e""")
+        print(r)
+        assert r == ["a,b,c,<lora:a:1>", "d,<if:1:a\n:\n<if:1:b:c>\n>", "e"]
 
 if __name__ == "__main__":
     unittest.main()
