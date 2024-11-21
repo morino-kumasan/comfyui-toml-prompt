@@ -426,7 +426,7 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "%date:yyyyMMdd%/%date:hhmmss%"
+        "%date:yyyyMMdd%/%date:yyyyMMdd_hhmmss%"
       ]
     },
     {
@@ -453,7 +453,7 @@
       "outputs": [],
       "properties": {},
       "widgets_values": [
-        "%date:yyyyMMdd%/%date:hhmmss%"
+        "%date:yyyyMMdd%/%date:yyyyMMdd_hhmmss%"
       ]
     },
     {
