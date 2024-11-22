@@ -122,7 +122,7 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             continue
 
         tag, args = key.split(":", 1)
-        tag = tag[1:]
+        tag = tag[1:].strip()
         args = split_toml_prompt_in_tag(args[:-1])
         if tag == "lora":
             lora_name, strength = args
@@ -157,6 +157,8 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             r = load_prompt(r, prompt_dict, loaded_keys, loras)
             positive += [r[0]]
             negative += [r[1]]
+        else:
+            print(f"Unknown Tag: {tag}")
 
     return (",".join(positive), ",".join(negative))
 
