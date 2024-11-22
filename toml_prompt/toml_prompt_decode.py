@@ -150,6 +150,13 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
                 r = load_prompt(args[2], prompt_dict, loaded_keys, loras)
                 positive += [r[0]]
                 negative += [r[1]]
+        elif tag == "random":
+            choices = [args[i] for i in range(1, len(args), 2)]
+            weights = [float(args[i]) for i in range(0, len(args), 2)]
+            r = random.choices(choices, weights)[0]
+            r = load_prompt(r, prompt_dict, loaded_keys, loras)
+            positive += [r[0]]
+            negative += [r[1]]
 
     return (",".join(positive), ",".join(negative))
 
