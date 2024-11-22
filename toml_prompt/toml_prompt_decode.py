@@ -141,15 +141,20 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
         elif tag == "!":
             negative += [args[0]]
         elif tag == "if":
-            keys = [v.strip() for v in args[0].split(",")]
-            if len([v for v in keys if v not in loaded_keys]) == 0:
-                r = load_prompt(args[1], prompt_dict, loaded_keys, loras)
-                positive += [r[0]]
-                negative += [r[1]]
+            conds = [args[i] for i in range(0, len(args), 2)]
+            branches = [args[i] for i in range(1, len(args), 2)]
+            for i, branch in enumerate(branches):
+                keys = [v.strip() for v in conds[i].split(",")]
+                if len([v for v in keys if v not in loaded_keys]) == 0:
+                    r = load_prompt(branch, prompt_dict, loaded_keys, loras)
+                    positive += [r[0]]
+                    negative += [r[1]]
+                    break
             else:
-                r = load_prompt(args[2], prompt_dict, loaded_keys, loras)
-                positive += [r[0]]
-                negative += [r[1]]
+                if len(conds) > len(branches):
+                    r = load_prompt(conds[-1], prompt_dict, loaded_keys, loras)
+                    positive += [r[0]]
+                    negative += [r[1]]
         elif tag == "random":
             choices = [args[i] for i in range(1, len(args), 2)]
             weights = [float(args[i]) for i in range(0, len(args), 2)]
