@@ -247,26 +247,18 @@ class TomlPromptDecode:
 
     def __init__(self):
         self.loras = []
-        self.positive = []
-        self.negative = []
         self.loaded_keys = []
 
     def load_prompt(self, seed, text, key_name_list):
         random.seed(seed)
         self.loras = []
-        self.positive = []
-        self.negative = []
         self.loaded_keys = []
 
         prompt_dict = tomllib.loads(text)
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
 
         positive, negative = load_prompt(key_name_list, prompt_dict, self.loaded_keys, self.loras)
-        self.positive += [positive]
-        self.negative += [negative]
 
-        positive = ",\n".join([v for v in self.positive if v])
-        negative = ",\n".join([v for v in self.negative if v])
         lora_list = "\n".join(self.loras)
         summary = f"---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}\n\n---- Seed ----\n{seed}"
         return (positive, negative, lora_list, seed, summary)
