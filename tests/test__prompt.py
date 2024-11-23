@@ -41,7 +41,7 @@ a
 
     def test__split_toml_prompt(self):
         r = split_toml_prompt("""a, b
-c, <lora:a:1>
+c <lora:a:1>
 d
 <if:1:(a:1)
 :
@@ -49,12 +49,12 @@ d
 >
 e""")
         print(r)
-        assert r == ["a", "b", "c", "<lora:a:1>", "d", "<if:1:(a:1)\n:\n<if:1:b:c>\n>", "e"]
+        assert r == ["a", " b", "c ", "<lora:a:1>", "d", "<if:1:(a:1)\n:\n<if:1:b:c>\n>", "e"]
 
     def test__split_toml_prompt_in_tag(self):
         r = split_toml_prompt_in_tag("""a, b
-c, <lora:a:1>:
-(d:1.2)
+c <lora:a:1>:
+d (d:1.2)
 <if:1:(a:1)
 :
 <if:1:b:c>
@@ -62,7 +62,11 @@ c, <lora:a:1>:
 :
 e""")
         print(r)
-        assert r == ["a,b,c,<lora:a:1>", "(d:1.2),<if:1:(a:1)\n:\n<if:1:b:c>\n>", "e"]
+        assert r == ["a, b,c ,<lora:a:1>", "d (d:1.2),<if:1:(a:1)\n:\n<if:1:b:c>\n>", "e"]
+
+        r = split_toml_prompt_in_tag("lora (pony) v1.safetensors:1")
+        print(r)
+        assert r == ["lora (pony) v1.safetensors", "1"]
 
 if __name__ == "__main__":
     unittest.main()

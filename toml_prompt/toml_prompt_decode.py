@@ -152,6 +152,7 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             for i, branch in enumerate(branches):
                 keys = [v.strip() for v in conds[i].split(",")]
                 if len([v for v in keys if v not in loaded_keys]) == 0:
+                    print(f"If {keys}: True")
                     r = load_prompt(branch, prompt_dict, loaded_keys, loras)
                     positive += [r[0]]
                     negative += [r[1]]
@@ -189,29 +190,28 @@ def split_toml_prompt(s, tag=('<', '>'), separator=r"[,\r\n]", ignore_empty=True
         span = m.span()
         if sep == tag[0] and sep_num == 1:
             if beg < span[0]:
-                r += [v.strip() for v in re.split(separator, s[beg:span[0]])]
+                r += [v for v in re.split(separator, s[beg:span[0]])]
             beg_tag = span[0]
         elif sep == tag[1] and sep_num == 0:
             r += [s[beg_tag:span[1]]]
         beg = span[1]
     if beg < len(s):
-        r += [v.strip() for v in re.split(separator, s[beg:len(s)])]
+        r += [v for v in re.split(separator, s[beg:len(s)])]
     return [v for v in r if v] if ignore_empty else r
 
 def split_toml_prompt_in_tag(s, tag=('<', '>'), sep=r"[,\r\n]", join_sep=",", inner_sep=":", ignore_empty=True):
     r = []
     t = []
     for key in split_toml_prompt(s, tag, sep, ignore_empty):
-        key = key.strip()
-        if not key and ignore_empty:
-            continue
-
         if key.startswith(tag[0]):
             t += [key]
             continue
 
         if not inner_sep:
-            r += [join_sep.join([v for v in t + [key] if v])]
+            if r and t:
+                r[-1] += join_sep.join([v for v in t + [key] if v])
+            else:
+                r += [join_sep.join([v for v in t + [key] if v])]
             t = []
             continue
 
@@ -224,7 +224,9 @@ def split_toml_prompt_in_tag(s, tag=('<', '>'), sep=r"[,\r\n]", join_sep=",", in
                 t = []
             t = [key_parts[-1]]
 
-    if t:
+    if not inner_sep and r and t:
+        r[-1] += join_sep.join([v for v in t if v])
+    elif t:
         r += [join_sep.join([v for v in t if v])]
 
     return r
@@ -232,6 +234,7 @@ def split_toml_prompt_in_tag(s, tag=('<', '>'), sep=r"[,\r\n]", join_sep=",", in
 def load_prompt(s, prompt_dict, loaded_keys, loras):
     prompts = []
     for key in split_toml_prompt(s):
+        key = key.strip()
         if key.startswith("<"):
             prompts += [key]
         else:
