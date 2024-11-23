@@ -27,6 +27,9 @@ def expand_prompt_var(d, global_vars):
 def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
 
+def get_keys_term(d, term):
+    return [k for k in get_keys_all(d) if (isinstance(d[k], str) or len(get_keys_all(d[k])) == 0) == term ]
+
 def get_keys_all_recursive(d, prefix=[]):
     r_long = []
     r_short = []
@@ -44,8 +47,8 @@ def get_keys_all_recursive(d, prefix=[]):
             r_short += s
     return (r_long, r_short)
 
-def get_keys_random(d):
-    rand_keys = get_keys_all(d)
+def get_keys_random(d, branch_term = False):
+    rand_keys = get_keys_term(d, branch_term)
     return random.choice(rand_keys)
 
 def get_keys_random_recursive(d):
@@ -58,10 +61,13 @@ def build_search_keys(keys, prefix=[]):
         keys = [(key.split("+")) for key in keys.split(".")]
     key_len = len(keys)
     if key_len == 1:
-        return [".".join(prefix + [key]) for key in keys[0]]
+        # 終端の*, ?を区別できるように変換
+        return [".".join(prefix + [key + "$" if key in ["?", "*"] else key]) for key in keys[0]]
     elif key_len == 0:
         return []
-    return functools.reduce(lambda x, y: x + y, [[".".join(prefix + [key])] + build_search_keys(keys[1:], prefix + [key]) for key in keys[0]])
+    return functools.reduce(lambda x, y: x + y, [
+        [".".join(prefix + [key])] + build_search_keys(keys[1:], prefix + [key])
+    for key in keys[0]])
 
 def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, global_vars=None, ignore_split=False):
     if isinstance(keys, str):
@@ -79,15 +85,15 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
         prefix = init_prefix[:] if init_prefix is not None else []
         while len(key_parts) > 0:
             key = key_parts.pop(0)
-            if key == "?":
-                key = get_keys_random(d)
+            if key in ["?", "?$"]:
+                key = get_keys_random(d, key.endswith("$"))
             elif key == "??":
                 assert len(key_parts) == 0
                 keys = get_keys_random_recursive(d)
                 r += collect_prompt(d, keys, exclude_keys, prefix, global_vars)
                 break
-            elif key == "*":
-                keys = [".".join([key] + key_parts) for key in get_keys_all(d)]
+            elif key in ["*", "*$"]:
+                keys = [".".join([key] + key_parts) for key in get_keys_term(d, key.endswith("$"))]
                 r += collect_prompt(d, keys, exclude_keys, prefix, global_vars)
                 break
             elif key == "**":

@@ -56,6 +56,18 @@ class TestSearch(unittest.TestCase):
         r = build_search_keys("a.b+d.c")
         assert r == ["a", "a.b", "a.b.c", "a.d", "a.d.c"]
 
+    def test__search_key_random(self):
+        r = build_search_keys("a.?.c")
+        assert r == ["a", "a.?", "a.?.c"]
+        r = build_search_keys("a.b.?")
+        assert r == ["a", "a.b", "a.b.?$"]
+
+    def test__search_key_all(self):
+        r = build_search_keys("a.*.c")
+        assert r == ["a", "a.*", "a.*.c"]
+        r = build_search_keys("a.b.*")
+        assert r == ["a", "a.b", "a.b.*$"]
+
     def test__search(self):
         d = {
             "a": {
@@ -78,10 +90,12 @@ class TestSearch(unittest.TestCase):
                     "c": {
                         "_t": "c",
                     },
-                }
+                },
+                "d": "d",
             }
         }
         r = collect_prompt(d, build_search_keys("a.?.c"))
+        print(build_search_keys("a.?.c"), r)
         assert r == ["a", "c"]
 
     def test__search_random_recursive(self):

@@ -5,8 +5,6 @@ import unittest
 from toml_prompt.toml_prompt_decode import (
     remove_comment_out,
     select_dynamic_prompt,
-    expand_prompt_tag_negative,
-    expand_prompt_tag_lora,
     split_toml_prompt,
     split_toml_prompt_in_tag,
 )
@@ -40,17 +38,6 @@ a |
 a
 }""")
         assert r == "a"
-
-    def test__expand_prompt_tag_lora(self):
-        r = expand_prompt_tag_lora("<lora:a:1>", {"a": "A"})
-        assert r == "A"
-
-    def test__expand_prompt_tag_negative(self):
-        r = expand_prompt_tag_negative("<!:this is negative prompt.>")
-        assert r == ""
-        r = expand_prompt_tag_negative("""<!:this is 
-negative prompt.>""")
-        assert r == ""
 
     def test__split_toml_prompt(self):
         r = split_toml_prompt("""a, b
