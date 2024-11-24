@@ -177,27 +177,24 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
 def split_toml_prompt(s, separator=r"[,\r\n]", ignore_empty=True):
     r = []
     beg = 0
-    before_sep = None
-    sep_num = 0
+    before_sep = []
     beg_tag = 0
     tag_starts = ['<', '(']
     tag_ends = ['>', ')']
     for m in re.finditer(r"[<>()]", s, flags=re.MULTILINE):
         sep = m.group(0)
         if sep in tag_starts:
-            sep_num += 1
-            before_sep = sep
+            before_sep += [sep]
         else:
-            sep_num -= 1
-            assert sep_num >= 0
-            assert (sep == ">" and before_sep == "<") or (sep == ")" and before_sep == "(")
+            bef = before_sep.pop(-1)
+            assert (sep == ">" and bef == "<") or (sep == ")" and bef == "(")
         
         span = m.span()
-        if sep in tag_starts and sep_num == 1:
+        if sep in tag_starts and len(before_sep) == 1:
             if beg < span[0]:
                 r += [v.strip() if ignore_empty else v for v in re.split(separator, s[beg:span[0]])] if separator else [s[beg:span[0]]]
             beg_tag = span[0]
-        elif sep in tag_ends and sep_num == 0:
+        elif sep in tag_ends and len(before_sep) == 0:
             r += [s[beg_tag:span[1]]]
         beg = span[1]
     if beg < len(s):
