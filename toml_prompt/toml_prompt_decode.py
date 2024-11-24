@@ -174,60 +174,54 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
 
     return (",".join(positive), ",".join(negative))
 
-def split_toml_prompt(s, tag=('<', '>'), separator=r"[,\r\n]", ignore_empty=True):
+def split_toml_prompt(s, separator=r"[,\r\n]", ignore_empty=True):
     r = []
     beg = 0
+    before_sep = None
     sep_num = 0
     beg_tag = 0
-    for m in re.finditer(f"[{tag[0]}{tag[1]}]", s, flags=re.MULTILINE):
+    tag_starts = ['<', '(']
+    tag_ends = ['>', ')']
+    for m in re.finditer(r"[<>()]", s, flags=re.MULTILINE):
         sep = m.group(0)
-        if sep == tag[0]:
+        if sep in tag_starts:
             sep_num += 1
+            before_sep = sep
         else:
             sep_num -= 1
             assert sep_num >= 0
+            assert (sep == ">" and before_sep == "<") or (sep == ")" and before_sep == "(")
         
         span = m.span()
-        if sep == tag[0] and sep_num == 1:
+        if sep in tag_starts and sep_num == 1:
             if beg < span[0]:
-                r += [v for v in re.split(separator, s[beg:span[0]])]
+                r += [v.strip() if ignore_empty else v for v in re.split(separator, s[beg:span[0]])] if separator else [s[beg:span[0]]]
             beg_tag = span[0]
-        elif sep == tag[1] and sep_num == 0:
+        elif sep in tag_ends and sep_num == 0:
             r += [s[beg_tag:span[1]]]
         beg = span[1]
     if beg < len(s):
-        r += [v for v in re.split(separator, s[beg:len(s)])]
+        r += [v for v in re.split(separator, s[beg:len(s)])] if separator else [s[beg:len(s)]]
     return [v for v in r if v] if ignore_empty else r
 
-def split_toml_prompt_in_tag(s, tag=('<', '>'), sep=r"[,\r\n]", join_sep=",", inner_sep=":", ignore_empty=True):
+def split_toml_prompt_in_tag(s):
     r = []
     t = []
-    for key in split_toml_prompt(s, tag, sep, ignore_empty):
-        if key.startswith(tag[0]):
+    for key in split_toml_prompt(s, ":", False):
+        if key and key[0] in ["<", "("]:
             t += [key]
             continue
 
-        if not inner_sep:
-            if r and t:
-                r[-1] += join_sep.join([v for v in t + [key] if v])
-            else:
-                r += [join_sep.join([v for v in t + [key] if v])]
-            t = []
-            continue
-
-        key_parts = split_toml_prompt_in_tag(key, ('(', ')'), inner_sep, "", None, False)
-        if len(key_parts) == 1:
-            t += [key]
+        if t and r:
+            r[-1] += "".join(t + [key])
         else:
-            for k in key_parts[:-1]:
-                r += [join_sep.join([v for v in t + [k] if v])]
-                t = []
-            t = [key_parts[-1]]
+            r += ["".join(t + [key])]
+        t = []
 
-    if not inner_sep and r and t:
-        r[-1] += join_sep.join([v for v in t if v])
+    if t and r:
+        r[-1] += "".join(t)
     elif t:
-        r += [join_sep.join([v for v in t if v])]
+        r += [",".join(t)]
 
     return r
 
