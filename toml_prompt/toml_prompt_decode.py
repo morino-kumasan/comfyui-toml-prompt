@@ -272,3 +272,50 @@ class TomlPromptDecode:
         lora_list = "\n".join(self.loras)
         summary = f"---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}\n\n---- Seed ----\n{seed}"
         return (positive, negative, lora_list, seed, summary)
+
+class SummaryReader:
+    RETURN_TYPES = ("STRING", "STRING", "STRING", "INT")
+    OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed")
+    FUNCTION = "read"
+    CATEGORY = "utils"
+    DESCRIPTION = "Read summary from TomlPromptDecode."
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "summary": ("STRING", {"multiline": True, "dynamicPrompts": True, "tooltip": "TomlPromptDecode summary."}),
+            }
+        }
+
+    def __init__(self):
+        pass
+
+    def read(self, summary):
+        positive = None
+        negative = None
+        lora_list = None
+        seed = None
+
+        def set(t, b, e):
+            nonlocal positive, negative, lora_list, seed
+            if t == "positive":
+                positive = summary[b:e].strip()
+            elif t == "negative":
+                negative = summary[b:e].strip()
+            elif t == "lora":
+                lora_list = summary[b:e].strip()
+            elif t == "seed":
+                seed = float(summary[b:e].strip())
+
+        beg = 0
+        type_ = None
+        for m in re.finditer(r"\n*---- ([a-zA-Z0-9]+) ----\n", summary, flags=re.MULTILINE):
+            s, e = m.span()
+            set(type_, beg, s)
+            beg = e
+            type_ = m.group(1).lower()
+        set(type_, beg, len(summary))
+
+        assert positive is not None and negative is not None and lora_list is not None and seed is not None
+        return (positive, negative, lora_list, seed)
