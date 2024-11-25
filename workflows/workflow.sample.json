@@ -1,6 +1,6 @@
 {
-  "last_node_id": 151,
-  "last_link_id": 421,
+  "last_node_id": 154,
+  "last_link_id": 426,
   "nodes": [
     {
       "id": 10,
@@ -14,7 +14,7 @@
         "1": 58
       },
       "flags": {},
-      "order": 9,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -103,7 +103,7 @@
         "1": 508.27252197265625
       },
       "flags": {},
-      "order": 26,
+      "order": 29,
       "mode": 0,
       "inputs": [
         {
@@ -130,7 +130,7 @@
         "1": 508.27252197265625
       },
       "flags": {},
-      "order": 29,
+      "order": 32,
       "mode": 2,
       "inputs": [
         {
@@ -157,7 +157,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 25,
+      "order": 28,
       "mode": 2,
       "inputs": [
         {
@@ -196,7 +196,7 @@
         "1": 262
       },
       "flags": {},
-      "order": 27,
+      "order": 30,
       "mode": 2,
       "inputs": [
         {
@@ -255,7 +255,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 28,
+      "order": 31,
       "mode": 2,
       "inputs": [
         {
@@ -367,141 +367,6 @@
       ]
     },
     {
-      "id": 140,
-      "type": "VAEEncode",
-      "pos": {
-        "0": 973,
-        "1": -26
-      },
-      "size": {
-        "0": 210,
-        "1": 46
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 10,
-      "mode": 2,
-      "inputs": [
-        {
-          "name": "pixels",
-          "type": "IMAGE",
-          "link": 397
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 398
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            400
-          ],
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEEncode"
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 145,
-      "type": "IntSelector",
-      "pos": {
-        "0": 981,
-        "1": -73
-      },
-      "size": {
-        "0": 215.738037109375,
-        "1": 54
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 14,
-      "mode": 2,
-      "inputs": [
-        {
-          "name": "primary",
-          "type": "INT",
-          "link": 411,
-          "widget": {
-            "name": "primary"
-          },
-          "shape": 7
-        },
-        {
-          "name": "secondary",
-          "type": "INT",
-          "link": 412,
-          "widget": {
-            "name": "secondary"
-          },
-          "shape": 7
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            413
-          ],
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "IntSelector"
-      },
-      "widgets_values": [
-        1869,
-        0
-      ]
-    },
-    {
-      "id": 138,
-      "type": "LoadImage",
-      "pos": {
-        "0": 12,
-        "1": -543
-      },
-      "size": {
-        "0": 367.2821044921875,
-        "1": 521.1101684570312
-      },
-      "flags": {},
-      "order": 3,
-      "mode": 2,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            397
-          ],
-          "slot_index": 0
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "example.png",
-        "image"
-      ]
-    },
-    {
       "id": 146,
       "type": "PrimitiveNode",
       "pos": {
@@ -513,7 +378,7 @@
         "1": 92.47408294677734
       },
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 2,
       "inputs": [],
       "outputs": [
@@ -614,7 +479,7 @@
         "1": 516.2990112304688
       },
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 2,
       "inputs": [],
       "outputs": [
@@ -733,7 +598,7 @@
         "1": 506.2227478027344
       },
       "flags": {},
-      "order": 22,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -767,7 +632,7 @@
         "1": 106
       },
       "flags": {},
-      "order": 6,
+      "order": 5,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -801,7 +666,7 @@
         "1": 241.36273193359375
       },
       "flags": {},
-      "order": 23,
+      "order": 26,
       "mode": 0,
       "inputs": [
         {
@@ -869,7 +734,7 @@
         "1": 114
       },
       "flags": {},
-      "order": 21,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -964,7 +829,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 24,
+      "order": 27,
       "mode": 0,
       "inputs": [
         {
@@ -1007,7 +872,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 17,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -1061,7 +926,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 16,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -1115,7 +980,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 18,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -1169,7 +1034,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 19,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -1210,51 +1075,6 @@
       ]
     },
     {
-      "id": 141,
-      "type": "LatentSelector",
-      "pos": {
-        "0": 1045,
-        "1": 727
-      },
-      "size": {
-        "0": 165.2305145263672,
-        "1": 46
-      },
-      "flags": {
-        "collapsed": true
-      },
-      "order": 13,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "primary",
-          "type": "LATENT",
-          "link": 400,
-          "shape": 7
-        },
-        {
-          "name": "secondary",
-          "type": "LATENT",
-          "link": 399,
-          "shape": 7
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            401
-          ],
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LatentSelector"
-      },
-      "widgets_values": []
-    },
-    {
       "id": 148,
       "type": "StringSelector",
       "pos": {
@@ -1268,7 +1088,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 20,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -1375,7 +1195,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 7,
+      "order": 6,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1410,7 +1230,7 @@
         "1": 264.3800048828125
       },
       "flags": {},
-      "order": 8,
+      "order": 7,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1432,6 +1252,297 @@
       "widgets_values": [
         "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??"
       ]
+    },
+    {
+      "id": 138,
+      "type": "LoadImage",
+      "pos": {
+        "0": 12,
+        "1": -543
+      },
+      "size": {
+        "0": 367.2821044921875,
+        "1": 521.1101684570312
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            397
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            423
+          ],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ]
+    },
+    {
+      "id": 141,
+      "type": "LatentSelector",
+      "pos": {
+        "0": 1038,
+        "1": 730
+      },
+      "size": {
+        "0": 165.2305145263672,
+        "1": 46
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "primary",
+          "type": "LATENT",
+          "link": 426,
+          "shape": 7
+        },
+        {
+          "name": "secondary",
+          "type": "LATENT",
+          "link": 399,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            401
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LatentSelector"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 153,
+      "type": "LatentSelector",
+      "pos": {
+        "0": 847,
+        "1": -26
+      },
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 22,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "primary",
+          "type": "LATENT",
+          "link": 422,
+          "shape": 7
+        },
+        {
+          "name": "secondary",
+          "type": "LATENT",
+          "link": 425,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            426
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LatentSelector"
+      }
+    },
+    {
+      "id": 140,
+      "type": "VAEEncode",
+      "pos": {
+        "0": 846,
+        "1": -249
+      },
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 13,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 397
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 398
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            424,
+            425
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 145,
+      "type": "IntSelector",
+      "pos": {
+        "0": 991,
+        "1": -248
+      },
+      "size": {
+        "0": 215.738037109375,
+        "1": 54
+      },
+      "flags": {
+        "collapsed": true
+      },
+      "order": 14,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "primary",
+          "type": "INT",
+          "link": 411,
+          "widget": {
+            "name": "primary"
+          },
+          "shape": 7
+        },
+        {
+          "name": "secondary",
+          "type": "INT",
+          "link": 412,
+          "widget": {
+            "name": "secondary"
+          },
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            413
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "IntSelector"
+      },
+      "widgets_values": [
+        1869,
+        0
+      ]
+    },
+    {
+      "id": 152,
+      "type": "SetLatentNoiseMask",
+      "pos": {
+        "0": 847,
+        "1": -134
+      },
+      "size": [
+        176.39999389648438,
+        46
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 2,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 424
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 423
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            422
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SetLatentNoiseMask"
+      }
+    },
+    {
+      "id": 154,
+      "type": "Note",
+      "pos": {
+        "0": 1133,
+        "1": -588
+      },
+      "size": [
+        389.7460049042925,
+        196.73055189692798
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "Only one of the following groups can be set to Always.\n\n- toml2img\n- img2img with summary\n\n\n(img2img summary) The following nodes can be set to Never.\n\n- Set Latent Noise Mask\n- Primitive for seed\n"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
     }
   ],
   "links": [
@@ -1628,14 +1739,6 @@
       "LATENT"
     ],
     [
-      400,
-      140,
-      0,
-      141,
-      0,
-      "LATENT"
-    ],
-    [
       401,
       141,
       0,
@@ -1786,6 +1889,46 @@
       148,
       0,
       "STRING"
+    ],
+    [
+      422,
+      152,
+      0,
+      153,
+      0,
+      "LATENT"
+    ],
+    [
+      423,
+      138,
+      1,
+      152,
+      1,
+      "MASK"
+    ],
+    [
+      424,
+      140,
+      0,
+      152,
+      0,
+      "LATENT"
+    ],
+    [
+      425,
+      140,
+      0,
+      153,
+      1,
+      "LATENT"
+    ],
+    [
+      426,
+      153,
+      0,
+      141,
+      0,
+      "LATENT"
     ]
   ],
   "groups": [
