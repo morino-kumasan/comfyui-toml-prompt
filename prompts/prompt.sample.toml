@@ -14,10 +14,15 @@ shiny hair,
 
 makeup = "makeup, juwelry, piercings, ring, nail polish, hair ornament"
 
-[girl.random.hair]
-_r="${color} hair, wavy midium bob hair"
-[girl.random._v]
-color=["black", "silver", "blue", "red", "yellow", "pink", "purple", "green", "blonde", "brown", "orange", "white"]
+[girl.hair]
+_t="wavy midium bob hair"
+black = "black hair"
+silver = "silver hair"
+blonde = "blonde hair"
+pink = "pink hair"
+blue = "blue hair"
+brown = "brown hair"
+orange = "orange hair"
 
 [pose.photo]
 _t="looking at viewer, cowboy shot, ${action}"
@@ -27,7 +32,7 @@ action=[
     "paw pose",
     "claw pose",
     "selfie",
-    "hugging doll",
+    "hugging a stuffed toy",
     "sitting",
     "crossed legs",
     "girly running",
