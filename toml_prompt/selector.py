@@ -53,8 +53,8 @@ class IntSelector:
     def INPUT_TYPES(s):
         return {
             "optional": {
-                "primary": ("INT", {"forceInput": True}),
-                "secondary": ("INT", {"forceInput": True}),
+                "primary": ("INT", {"forceInput": True, "min": 0, "max": 0xffffffffffffffff}),
+                "secondary": ("INT", {"forceInput": True, "min": 0, "max": 0xffffffffffffffff}),
             },
         }
 
