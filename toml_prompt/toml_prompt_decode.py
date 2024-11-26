@@ -131,10 +131,10 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
         tag = tag[1:].strip()
         args = split_toml_prompt_in_tag(args[:-1])
         if tag == "lora":
-            lora_name, strength = args
+            lora_name = args[0]
             lora_name = lora_name.replace(os.path.sep, "/")
 
-            lora_tag = "<lora:{}:{}>".format(lora_name, strength)
+            lora_tag = "<lora:{}>".format(":".join(args))
             if lora_tag not in loras:
                 loras += [lora_tag]
                 loaded_keys += [lora_name]

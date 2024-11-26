@@ -50,14 +50,15 @@ class MultipartCLIPTextEncode:
         r_model = model
         r_clip = clip
         for lora_tag in lora_tag_list.splitlines():
-            m = re.match(r"<lora:([^:]+):([0-9.]+)>", lora_tag)
+            m = re.match(r"<lora:([^:]+):([-0-9.]+)(:([-0-9.]+))?>", lora_tag)
             if m:
                 lora_name = m.group(1)
-                strength = float(m.group(2))
+                strength_model = float(m.group(2))
+                strength_clip = float(m.group(4)) if m.group(4) else strength_model
                 if lora_name not in self.loader:
                     self.loader[lora_name] = LoraLoader()
-                    r_model, r_clip = self.loader[lora_name].load_lora(r_model, r_clip, lora_name, strength, strength)
-                    print(f"Lora Loaded: {lora_name}: {strength}")
+                    r_model, r_clip = self.loader[lora_name].load_lora(r_model, r_clip, lora_name, strength_model, strength_clip)
+                    print(f"Lora Loaded: {lora_name}: {strength_model}")
 
         # Encode prompts
         r_positive = encode(self.encoder, self.concat, r_clip, positive)
