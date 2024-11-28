@@ -159,14 +159,16 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
                     break
             else:
                 if len(conds) > len(branches):
+                    print(f"If {keys}: Else")
                     r = load_prompt(conds[-1], prompt_dict, loaded_keys, loras)
                     positive += [r[0]]
                     negative += [r[1]]
         elif tag == "random":
-            choices = [args[i] for i in range(1, len(args), 2)]
+            choices = [i for i in range(1, len(args), 2)]
             weights = [float(args[i]) for i in range(0, len(args), 2)]
-            r = random.choices(choices, weights)[0]
-            r = load_prompt(r, prompt_dict, loaded_keys, loras)
+            i = random.choices(choices, weights)[0]
+            print(f"Random: {int((i - 1) / 2)}")
+            r = load_prompt(args[i], prompt_dict, loaded_keys, loras)
             positive += [r[0]]
             negative += [r[1]]
         else:
