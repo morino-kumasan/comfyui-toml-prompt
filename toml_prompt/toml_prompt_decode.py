@@ -25,15 +25,18 @@ def expand_prompt_var(d, global_vars):
     return re.sub(r"\${([a-zA-Z0-9_.]+)}", random_var, d if isinstance(d, str) else d["_t"], flags=re.MULTILINE)
 
 def get_keys_all(d):
+    if "_k" in d:
+        return [k for k in d["_k"] if k in d]
     return [k for k in d.keys() if not k.startswith("_")]
 
 def get_keys_term(d, term):
-    return [k for k in get_keys_all(d) if (isinstance(d[k], str) or len(get_keys_all(d[k])) == 0) == term ]
+    return [(i, k) for i, k in enumerate(get_keys_all(d)) if (isinstance(d[k], str) or len(get_keys_all(d[k])) == 0) == term ]
 
 def get_keys_all_recursive(d, prefix=[]):
     r_long = []
     r_short = []
-    for k, v in [(k, v) for k, v in d.items() if not k.startswith("_")]:
+    for k in get_keys_all(d):
+        v = d[k]
         if isinstance(v, str):
             r_long += ['.'.join(prefix + [k])]
         elif len(get_keys_all(v)) == 0:
@@ -48,13 +51,32 @@ def get_keys_all_recursive(d, prefix=[]):
     return (r_long, r_short)
 
 def get_keys_random(d, branch_term = False):
-    rand_keys = get_keys_term(d, branch_term)
-    return random.choice(rand_keys)
+    ikeys = get_keys_term(d, branch_term)
+    indices = [i for i, _ in ikeys]
+    if "_w" in d:
+        i = random.choices(indices, [v for i, v in enumerate(d["_w"]) if i in indices])[0]
+    else:
+        i = random.choice(indices)
+    return ikeys[i][1]
 
 def get_keys_random_recursive(d):
-    rand_keys, keys = get_keys_all_recursive(d)
-    selected_key = random.choice(rand_keys)
-    return [key for key in keys if selected_key.startswith(f"{key}.")] + [selected_key]
+    r = []
+    prefix = []
+    while isinstance(d, dict):
+        keys = get_keys_all(d)
+        if len(keys) == 0:
+            break
+
+        if "_w" in d:
+            key = random.choices(keys, d["_w"])[0]
+        else:
+            key = random.choice(keys)
+
+        d = d[key]
+        if isinstance(d, str) or "_t" in d:
+            r += ['.'.join(prefix + [key])]
+        prefix += [key]
+    return r
 
 def build_search_keys(keys, prefix=[]):
     if isinstance(keys, str):
@@ -93,7 +115,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                 r += collect_prompt(d, keys, exclude_keys, prefix, global_vars)
                 break
             elif key in ["*", "*$"]:
-                keys = [".".join([key] + key_parts) for key in get_keys_term(d, key.endswith("$"))]
+                keys = [".".join([key] + key_parts) for _, key in get_keys_term(d, key.endswith("$"))]
                 r += collect_prompt(d, keys, exclude_keys, prefix, global_vars)
                 break
             elif key == "**":

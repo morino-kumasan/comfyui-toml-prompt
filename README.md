@@ -37,7 +37,9 @@ Encode Prompt in toml.
 ### text
 
 _t is prompt.
-_v is variables for random choice
+_v is variables for random choice.
+_k is available keys for random choice.
+_w is weight for random choice with _k.
 
 ```
 # key _t is prompt
@@ -62,6 +64,13 @@ color=["red", "blue", "blonde"]
 [base.boy]
 1boy, muscular, ${g.color} hair, formal suit,
 # ${color} is replaced with dark or light
+
+[random_weight]
+_k = ["a", "b", "c"]
+_w = [0.8, 0.1, 0.1]
+a = "80%"
+b = "10%"
+c = "10%"
 
 [_v]
 color=["dark", "light"]
