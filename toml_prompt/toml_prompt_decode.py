@@ -212,18 +212,21 @@ def split_toml_prompt(s, separator=r"[,\r\n]", ignore_empty=True):
         else:
             bef = before_sep.pop(-1)
             assert (sep == ">" and bef == "<") or (sep == ")" and bef == "(")
-        
+
         span = m.span()
         if sep in tag_starts and len(before_sep) == 1:
             if beg < span[0]:
-                r += [v.strip() if ignore_empty else v for v in re.split(separator, s[beg:span[0]])] if separator else [s[beg:span[0]]]
+                r += [v for v in re.split(separator, s[beg:span[0]])]
             beg_tag = span[0]
         elif sep in tag_ends and len(before_sep) == 0:
-            r += [s[beg_tag:span[1]]]
+            if r and r[-1] and r[-1][-1] in ["\\", "_"]:
+                r[-1] += s[beg_tag:span[1]]
+            else:
+                r += [s[beg_tag:span[1]]]
         beg = span[1]
     if beg < len(s):
-        r += [v for v in re.split(separator, s[beg:len(s)])] if separator else [s[beg:len(s)]]
-    return [v for v in r if v] if ignore_empty else r
+        r += [v for v in re.split(separator, s[beg:len(s)])]
+    return [v.strip() for v in r if v.strip()] if ignore_empty else r
 
 def split_toml_prompt_in_tag(s):
     r = []

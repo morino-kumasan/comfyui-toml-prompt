@@ -42,23 +42,27 @@ a
     def test__split_toml_prompt(self):
         r = split_toml_prompt("""a, b
 c <lora:a:1>
-d
+d (d)
 <if:1:(a:1)
 :
 <if:1:b:c>
 >
 e""")
         print(r)
-        assert r == ["a", "b", "c", "<lora:a:1>", "d", "<if:1:(a:1)\n:\n<if:1:b:c>\n>", "e"]
+        assert r == ["a", "b", "c", "<lora:a:1>", "d", "(d)", "<if:1:(a:1)\n:\n<if:1:b:c>\n>", "e"]
 
         r = split_toml_prompt("a, b, (c, d)")
-        print(r)
         assert r == ["a", "b", "(c, d)"]
+
+        r = split_toml_prompt(r"(a:1.2), b_(c), b \(c\), a (b) c")
+        print(r)
+        assert r == ["(a:1.2)", "b_(c)", r"b \(c\)", "a", "(b)", "c"]
 
     def test__split_toml_prompt_in_tag(self):
         r = split_toml_prompt_in_tag("""a, b
 c <lora:a:1>:
 d (d:1.2)
+(e)
 <if:1:(a:1)
 :
 <if:1:b:c>
@@ -66,7 +70,7 @@ d (d:1.2)
 :
 e""")
         print(r)
-        assert r == ["a, b\nc <lora:a:1>", "\nd (d:1.2)\n<if:1:(a:1)\n:\n<if:1:b:c>\n>\n", "\ne"]
+        assert r == ["a, b\nc <lora:a:1>", "\nd (d:1.2)\n(e)\n<if:1:(a:1)\n:\n<if:1:b:c>\n>\n", "\ne"]
 
         r = split_toml_prompt_in_tag("lora (pony) v1.safetensors:1")
         print(r)
