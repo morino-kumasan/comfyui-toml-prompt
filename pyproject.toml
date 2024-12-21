@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-toml-prompt"
+description = "Encode Prompt in TOML for ComfyUI."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/morino-kumasan/comfyui-toml-prompt"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "comfyui-toml-prompt"
+Icon = ""
