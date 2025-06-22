@@ -24,5 +24,5 @@ class StringViewer:
     def view_str(self, text, unique_id=None, extra_pnginfo=None):
         if extra_pnginfo is not None:
             node = [node for node in extra_pnginfo["workflow"]["nodes"] if node["id"] == int(unique_id)][0]
-            node["widgets_values"][1] = text
+            node["widgets_values"][0] = text
         return {"ui": { "text": [text] }}
