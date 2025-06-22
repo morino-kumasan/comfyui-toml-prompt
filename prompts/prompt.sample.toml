@@ -48,5 +48,12 @@ jp_room = "Japanese-style room"
 office = "office, room, desk"
 classroom = "classroom, desk, wooden floor"
 
+[wan]
+_t = """
+The model look at the viewer and jump.
+<!:Do not stop character moving. camera moving. 
+text, watermark, extra arms, extra legs, distorted face, mutated hands, poorly drawn, bad anatomy, ugly, deformed, out of frame, low quality, low resolution, blurry, worst quality, jpeg artifacts, text, watermark, signature, duplicate, long neck, no Cock, disembodied cock, ugly, camera fade, camera moving, camera cutting away, fadeaway, scene change, static, censorship, darkening, concealed shot, darkening, smoke, privacy panel>
+"""
+
 ["<lora>"]
 "dir_name\\lora_name.safetensors" = "lora default prompt"
