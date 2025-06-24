@@ -768,8 +768,8 @@
         "Node name for S&R": "MultipleLoraTagLoader"
       },
       "widgets_values": [
-        "ATRex_style-10.safetensors",
-        1.0000000000000002,
+        "[none]",
+        0,
         "[none]",
         0,
         "[none]",
