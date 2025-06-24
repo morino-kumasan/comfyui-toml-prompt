@@ -2,7 +2,7 @@
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
   "last_node_id": 171,
-  "last_link_id": 467,
+  "last_link_id": 470,
   "nodes": [
     {
       "id": 138,
@@ -25,7 +25,9 @@
           "type": "IMAGE",
           "slot_index": 0,
           "links": [
-            450
+            468,
+            469,
+            470
           ]
         },
         {
@@ -187,7 +189,7 @@
         262
       ],
       "flags": {},
-      "order": 14,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -254,7 +256,7 @@
         78
       ],
       "flags": {},
-      "order": 9,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -265,7 +267,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 451
+          "link": 468
         }
       ],
       "outputs": [
@@ -298,7 +300,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 15,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -339,7 +341,7 @@
         256
       ],
       "flags": {},
-      "order": 11,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -462,7 +464,7 @@
         210
       ],
       "flags": {},
-      "order": 13,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
@@ -490,7 +492,7 @@
           "name": "start_image",
           "shape": 7,
           "type": "IMAGE",
-          "link": 454
+          "link": 470
         }
       ],
       "outputs": [
@@ -527,48 +529,6 @@
       ]
     },
     {
-      "id": 166,
-      "type": "ImageScale",
-      "pos": [
-        388.61834716796875,
-        -444.0562438964844
-      ],
-      "size": [
-        270,
-        130
-      ],
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "image",
-          "type": "IMAGE",
-          "link": 450
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            451,
-            453,
-            454
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ImageScale"
-      },
-      "widgets_values": [
-        "nearest-exact",
-        368,
-        608,
-        "disabled"
-      ]
-    },
-    {
       "id": 164,
       "type": "PromptLoader",
       "pos": [
@@ -600,32 +560,6 @@
       ]
     },
     {
-      "id": 168,
-      "type": "PreviewImage",
-      "pos": [
-        393.3702392578125,
-        -269.55291748046875
-      ],
-      "size": [
-        258.5272521972656,
-        244.04544067382812
-      ],
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 453
-        }
-      ],
-      "outputs": [],
-      "properties": {
-        "Node name for S&R": "PreviewImage"
-      }
-    },
-    {
       "id": 171,
       "type": "StringViewer",
       "pos": [
@@ -637,7 +571,7 @@
         502.4708251953125
       ],
       "flags": {},
-      "order": 12,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -667,7 +601,7 @@
         523.9749145507812
       ],
       "flags": {},
-      "order": 8,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -738,7 +672,7 @@
         497.28179931640625
       ],
       "flags": {},
-      "order": 16,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -756,6 +690,33 @@
         80,
         "default"
       ]
+    },
+    {
+      "id": 168,
+      "type": "PreviewImage",
+      "pos": [
+        393.3702392578125,
+        -269.55291748046875
+      ],
+      "size": [
+        258.5272521972656,
+        244.04544067382812
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 469
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
     }
   ],
   "links": [
@@ -816,44 +777,12 @@
       "CLIP_VISION"
     ],
     [
-      450,
-      138,
-      0,
-      166,
-      0,
-      "IMAGE"
-    ],
-    [
-      451,
-      166,
-      0,
-      165,
-      1,
-      "IMAGE"
-    ],
-    [
       452,
       165,
       0,
       167,
       3,
       "CLIP_VISION_OUTPUT"
-    ],
-    [
-      453,
-      166,
-      0,
-      168,
-      0,
-      "IMAGE"
-    ],
-    [
-      454,
-      166,
-      0,
-      167,
-      4,
-      "IMAGE"
     ],
     [
       455,
@@ -958,6 +887,30 @@
       171,
       0,
       "STRING"
+    ],
+    [
+      468,
+      138,
+      0,
+      165,
+      1,
+      "IMAGE"
+    ],
+    [
+      469,
+      138,
+      0,
+      168,
+      0,
+      "IMAGE"
+    ],
+    [
+      470,
+      138,
+      0,
+      167,
+      4,
+      "IMAGE"
     ]
   ],
   "groups": [
@@ -1008,10 +961,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7390983453932453,
+      "scale": 0.671907586721132,
       "offset": [
-        10.087314583997275,
-        626.8312887484552
+        8.463714683551716,
+        620.0662891632667
       ]
     },
     "frontendVersion": "1.21.7"
