@@ -25,5 +25,14 @@ app.registerExtension({
                 }
             });
         };
+        const configure = nodeType.prototype.configure;
+        nodeType.prototype.configure = function (...args) {
+            this?.widgets?.map((w) => {
+                if (w.type == "customtext") {
+                    w.value = args[0]?.widgets_values;
+                }
+            });
+            return configure?.apply(this, args);
+        };
     },
 });
