@@ -73,7 +73,7 @@
         "Node name for S&R": "UNETLoader"
       },
       "widgets_values": [
-        "Wan2_1-I2V-14B-480P_fp8_e4m3fn.safetensors",
+        "wan2.1_i2v_480p_14B_fp8_scaled.safetensors",
         "default"
       ]
     },
@@ -522,7 +522,7 @@
         "Node name for S&R": "WanImageToVideo"
       },
       "widgets_values": [
-        368,
+        416,
         608,
         33,
         1
