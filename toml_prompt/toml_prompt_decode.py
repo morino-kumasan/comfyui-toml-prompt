@@ -149,9 +149,9 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             positive += [key]
             continue
 
-        tag, args = key.split(":", 1)
+        tag, all_args = key.split(":", 1)
         tag = tag[1:].strip()
-        args = split_toml_prompt_in_tag(args[:-1])
+        args = split_toml_prompt_in_tag(all_args[:-1])
         if tag == "lora":
             lora_name = args[0]
             lora_name = lora_name.replace(os.path.sep, "/")
@@ -165,9 +165,9 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             if lora_name in lora_dict:
                 positive += [','.join(collect_prompt(lora_dict, [lora_name], ignore_split=True))]
         elif tag == "raw":
-            positive += [args[0]]
+            positive += [all_args[:-1]]
         elif tag == "!":
-            negative += [args[0]]
+            negative += [all_args[:-1]]
         elif tag == "if":
             conds = [args[i] for i in range(0, len(args), 2)]
             branches = [args[i] for i in range(1, len(args), 2)]
