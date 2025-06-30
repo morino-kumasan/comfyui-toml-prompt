@@ -6,6 +6,7 @@ from .toml_prompt.string_concat import StringConcat
 from .toml_prompt.string_sub import StringSub
 from .toml_prompt.string_viewer import StringViewer
 from .toml_prompt.selector import LatentSelector, StringSelector, IntSelector
+from .toml_prompt.picker import StringPicker
 
 NODE_CLASS_MAPPINGS = {
     "TomlPromptDecode": TomlPromptDecode,
@@ -19,6 +20,7 @@ NODE_CLASS_MAPPINGS = {
     "StringSelector": StringSelector,
     "IntSelector": IntSelector,
     "SummaryReader": SummaryReader,
+    "StringPicker": StringPicker,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -33,6 +35,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "StringSelector": "StringSelector",
     "IntSelector": "IntSelector",
     "SummaryReader": "SummaryReader",
+    "StringPicker": "StringPicker",
 }
 
 WEB_DIRECTORY = "./web"
