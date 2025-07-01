@@ -7,7 +7,7 @@ class StringPicker:
     OUTPUT_TOOLTIPS = ("STRING not disabled.",)
     FUNCTION = "pick"
     CATEGORY = "utils"
-    DESCRIPTION = "STRING Picker."
+    DESCRIPTION = "Get STRING from workflow in Image to be loaded from LoadImage."
 
     @classmethod
     def INPUT_TYPES(s):
