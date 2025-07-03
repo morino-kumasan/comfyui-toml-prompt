@@ -65,9 +65,9 @@
         408755840292608,
         "randomize",
         25,
-        8,
-        "ddim",
-        "normal",
+        5,
+        "euler_ancestral",
+        "karras",
         1
       ]
     },
@@ -669,7 +669,7 @@
         "Node name for S&R": "CheckpointLoaderSimple"
       },
       "widgets_values": [
-        "ponyDiffusionV6XL_v6StartWithThisOne.safetensors"
+        "illustriousXL_v01.safetensors"
       ]
     }
   ],
