@@ -193,6 +193,41 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             r = load_prompt(args[i], prompt_dict, loaded_keys, loras)
             positive += [r[0]]
             negative += [r[1]]
+        elif tag == "run":
+            r = load_prompt(args[0], prompt_dict, loaded_keys, loras)
+            positive += [r[0]]
+            negative += [r[1]]
+        elif tag == "set":
+            d = prompt_dict
+            for key in args[0].strip().split("."):
+                d = d[key]
+            if isinstance(d, list):
+                d[:] = [args[1]]
+                print("Set:", args[0], "=", d)
+        elif tag == "grep":
+            d = prompt_dict
+            for key in args[0].strip().split("."):
+                d = d[key]
+            if isinstance(d, list):
+                d[:] = [k for k in d if args[1] in k]
+                print("Grep:", d)
+        elif tag == "fix":
+            d = prompt_dict
+            for key in args[0].strip().split("."):
+                d = d[key]
+            if args[1].startswith("?"):
+                keys = get_keys_all_recursive(d)
+                keys = [k for k in keys[1] + keys[0] if args[1][1:] in k][0]
+                for key in keys.split("."):
+                    d["_k"] = [key]
+                    d["_w"] = [1.0]
+                    d = d[key]
+                print("Find:", keys)
+            else:
+                for key in args[1].strip().split("."):
+                    d["_k"] = [key]
+                    d["_w"] = [1.0]
+                    d = d[key]
         else:
             print(f"Unknown Tag: {tag}")
 
