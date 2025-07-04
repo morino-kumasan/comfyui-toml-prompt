@@ -231,7 +231,7 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
         else:
             print(f"Unknown Tag: {tag}")
 
-    return (",".join(positive), ",".join(negative))
+    return (",".join(positive).strip(), ",".join(negative).strip())
 
 def split_toml_prompt(s, separator=r"[,\r\n]", ignore_empty=True):
     r = []
@@ -285,20 +285,21 @@ def split_toml_prompt_in_tag(s):
     return r
 
 def load_prompt(s, prompt_dict, loaded_keys, loras):
-    prompts = []
+    r_positive = []
+    r_negative = []
     for key in split_toml_prompt(s):
         key = key.strip()
         if key.startswith("<"):
-            prompts += [key]
+            prompt = key
         else:
-            prompts += [','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=loaded_keys))]
+            prompt = ','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=loaded_keys)).strip()
 
-    prompt = ','.join(prompts).strip()
-    if prompt == "":
-        return ("", "")
-
-    positive, negative = expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras)
-    return (positive, negative)
+        positive, negative = expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras)
+        if positive:
+            r_positive += [positive]
+        if negative:
+            r_negative += [negative]
+    return (",".join(r_positive), ",".join(r_negative))
 
 class TomlPromptDecode:
     RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING")
