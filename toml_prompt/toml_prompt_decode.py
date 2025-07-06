@@ -215,23 +215,60 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             d = prompt_dict
             for key in args[0].strip().split("."):
                 d = d[key]
+            keys = get_keys_all_recursive(d)
+            all_keys = keys[0] + keys[1]
             if args[1].startswith("?"):
-                keys = get_keys_all_recursive(d)
-                keys = [k for k in keys[1] + keys[0] if args[1][1:] in k][0]
-                for key in keys.split("."):
-                    d["_k"] = [key]
-                    d["_w"] = [1.0]
-                    d = d[key]
+                # Find: *{args[1]}*
+                keys = [k for k in all_keys if args[1][1:] in k]
+                fix_route(d, keys)
                 print("Find:", keys)
+            elif args[1].startswith("!"):
+                # Find Not: *{args[1]}*
+                keys = [k for k in all_keys if args[1][1:] in k]
+                remove_route(d, keys)
+                print("FindNot:", keys)
             else:
-                for key in args[1].strip().split("."):
-                    d["_k"] = [key]
-                    d["_w"] = [1.0]
-                    d = d[key]
+                fix_route(d, [args[1]])
         else:
             print(f"Unknown Tag: {tag}")
 
     return (",".join(positive).strip(), ",".join(negative).strip())
+
+def fix_route(d, keys):
+    start = d
+    for key in keys:
+        d = start
+        for elem in key.split("."):
+            if not d.get("_fix", False):
+                d["_k"] = []
+                d["_w"] = []
+                d["_fix"] = True
+            d = d[elem]
+    for key in keys:
+        d = start
+        for elem in key.split("."):
+            if elem not in d["_k"]:
+                d["_k"] += [elem]
+                d["_w"] += [1.0]
+            d = d[elem]
+
+def remove_route(d, keys):
+    start = d
+    for key in keys:
+        d = start
+        l = key.split(".")
+        for elem in l[:-1]:
+            d = d[elem]
+        elem = l[-1]
+
+        if "_k" not in d:
+            d["_k"] = get_keys_all(d)
+
+        if elem in d["_k"]:
+            i = d["_k"].index(elem)
+            d["_k"].remove(elem)
+            if "_w" in d:
+                d["_w"].pop(i)
 
 def split_toml_prompt(s, separator=r"[,\r\n]", ignore_empty=True):
     r = []
