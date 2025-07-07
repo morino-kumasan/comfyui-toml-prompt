@@ -244,3 +244,25 @@ class StringSub:
 
     def sub(self, text, pattern, to):
         return (re.sub(pattern, to, text, flags=re.MULTILINE), )
+
+# Primitiveだとうまくいかない場合用
+class SeedGenerator:
+    RETURN_TYPES = ("INT",)
+    OUTPUT_TOOLTIPS = ("INT.",)
+    FUNCTION = "generate"
+    CATEGORY = "utils"
+    DESCRIPTION = "INT Primitive for optional force input."
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "control_after_generate": True}),
+            }
+        }
+
+    def generate(self, seed):
+        return (seed,)

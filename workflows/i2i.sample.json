@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 168,
-  "last_link_id": 464,
+  "last_node_id": 169,
+  "last_link_id": 465,
   "nodes": [
     {
       "id": 10,
@@ -335,7 +335,7 @@
           "name": "seed",
           "shape": 7,
           "type": "INT",
-          "link": 463
+          "link": 465
         },
         {
           "name": "json_text",
@@ -702,15 +702,15 @@
       "widgets_values": []
     },
     {
-      "id": 168,
-      "type": "PrimitiveNode",
+      "id": 169,
+      "type": "SeedGenerator",
       "pos": [
-        858.0125122070312,
-        -528.4488525390625
+        856.2571411132812,
+        -531.9425659179688
       ],
       "size": [
-        245.7818145751953,
-        82
+        246.5181884765625,
+        84.23636627197266
       ],
       "flags": {},
       "order": 2,
@@ -720,17 +720,13 @@
         {
           "name": "INT",
           "type": "INT",
-          "widget": {
-            "name": "seed"
-          },
           "links": [
-            463
+            465
           ]
         }
       ],
-      "title": "Seed",
       "properties": {
-        "Run widget replace on values": false
+        "Node name for S&R": "SeedGenerator"
       },
       "widgets_values": [
         0,
@@ -932,20 +928,20 @@
       "MODEL"
     ],
     [
-      463,
-      168,
-      0,
-      167,
-      4,
-      "INT"
-    ],
-    [
       464,
       139,
       4,
       167,
       5,
       "STRING"
+    ],
+    [
+      465,
+      169,
+      0,
+      167,
+      4,
+      "INT"
     ]
   ],
   "groups": [
@@ -1000,7 +996,7 @@
     "ds": {
       "scale": 0.8943089979258255,
       "offset": [
-        -14.266149776627373,
+        -13.14796802700917,
         629.2240657874235
       ]
     },
