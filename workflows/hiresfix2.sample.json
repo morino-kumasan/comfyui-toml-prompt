@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 159,
-  "last_link_id": 448,
+  "last_node_id": 164,
+  "last_link_id": 460,
   "nodes": [
     {
       "id": 136,
@@ -16,7 +16,7 @@
         82
       ],
       "flags": {},
-      "order": 5,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
@@ -55,7 +55,7 @@
         575.527099609375
       ],
       "flags": {},
-      "order": 12,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -84,7 +84,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 10,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -95,7 +95,7 @@
         {
           "name": "vae",
           "type": "VAE",
-          "link": 396
+          "link": 452
         }
       ],
       "outputs": [
@@ -125,13 +125,29 @@
         130
       ],
       "flags": {},
-      "order": 11,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
           "name": "image",
           "type": "IMAGE",
           "link": 427
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 460
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 459
         }
       ],
       "outputs": [
@@ -166,7 +182,7 @@
         262
       ],
       "flags": {},
-      "order": 9,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -214,93 +230,6 @@
       ]
     },
     {
-      "id": 4,
-      "type": "CheckpointLoaderSimple",
-      "pos": [
-        1136.705810546875,
-        -550.0756225585938
-      ],
-      "size": [
-        316.40948486328125,
-        98
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "slot_index": 0,
-          "links": [
-            368
-          ]
-        },
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "slot_index": 1,
-          "links": [
-            367
-          ]
-        },
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "slot_index": 2,
-          "links": [
-            396,
-            398
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CheckpointLoaderSimple"
-      },
-      "widgets_values": [
-        "illustriousXL_v01.safetensors"
-      ]
-    },
-    {
-      "id": 10,
-      "type": "CLIPSetLastLayer",
-      "pos": [
-        1136.7249755859375,
-        -408.5391845703125
-      ],
-      "size": [
-        316.9873962402344,
-        58
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 367
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "slot_index": 0,
-          "links": [
-            369
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CLIPSetLastLayer"
-      },
-      "widgets_values": [
-        -2
-      ]
-    },
-    {
       "id": 125,
       "type": "MultipartCLIPTextEncode",
       "pos": [
@@ -312,13 +241,13 @@
         256
       ],
       "flags": {},
-      "order": 8,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
-          "link": 368
+          "link": 449
         },
         {
           "name": "clip",
@@ -391,6 +320,264 @@
       ]
     },
     {
+      "id": 138,
+      "type": "LoadImage",
+      "pos": [
+        12,
+        -543
+      ],
+      "size": [
+        367.2821044921875,
+        521.1101684570312
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            397,
+            446
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 1,
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ]
+    },
+    {
+      "id": 159,
+      "type": "StringViewer",
+      "pos": [
+        401.4449462890625,
+        -538.8307495117188
+      ],
+      "size": [
+        434.9748840332031,
+        507.3188171386719
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 447
+        }
+      ],
+      "outputs": [],
+      "title": "Summary",
+      "properties": {
+        "Node name for S&R": "StringViewer"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 140,
+      "type": "VAEEncode",
+      "pos": [
+        853.9185180664062,
+        -323.97686767578125
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 397
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 451
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            445
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEEncode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 10,
+      "type": "CLIPSetLastLayer",
+      "pos": [
+        1138.7469482421875,
+        -401.96844482421875
+      ],
+      "size": [
+        248.6472930908203,
+        58
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 450
+        },
+        {
+          "name": "stop_at_clip_layer",
+          "type": "INT",
+          "widget": {
+            "name": "stop_at_clip_layer"
+          },
+          "link": 454
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "slot_index": 0,
+          "links": [
+            369
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPSetLastLayer"
+      },
+      "widgets_values": [
+        -2
+      ]
+    },
+    {
+      "id": 160,
+      "type": "CheckPointLoaderSimpleFromString",
+      "pos": [
+        1139.9434814453125,
+        -542.4515991210938
+      ],
+      "size": [
+        267.1128845214844,
+        98
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "ckpt_name",
+          "type": "STRING",
+          "widget": {
+            "name": "ckpt_name"
+          },
+          "link": 456
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            449
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            450
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            451,
+            452
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckPointLoaderSimpleFromString"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 161,
+      "type": "JsonExtractInt",
+      "pos": [
+        852.8116455078125,
+        -191.4910125732422
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 453
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            454
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "clip",
+        -2
+      ]
+    },
+    {
       "id": 139,
       "type": "SummaryReader",
       "pos": [
@@ -399,10 +586,10 @@
       ],
       "size": [
         249.8939971923828,
-        148
+        168
       ],
       "flags": {},
-      "order": 7,
+      "order": 3,
       "mode": 0,
       "inputs": [
         {
@@ -444,6 +631,16 @@
           "type": "INT",
           "slot_index": 3,
           "links": []
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            453,
+            455,
+            457,
+            458
+          ]
         }
       ],
       "properties": {
@@ -454,131 +651,152 @@
       ]
     },
     {
-      "id": 140,
-      "type": "VAEEncode",
+      "id": 163,
+      "type": "JsonExtractInt",
       "pos": [
-        863.4845581054688,
-        -339.0051574707031
+        852.9244995117188,
+        -145.37359619140625
       ],
       "size": [
-        210,
-        46
+        270,
+        106
       ],
       "flags": {
         "collapsed": true
       },
-      "order": 3,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "pixels",
-          "type": "IMAGE",
-          "link": 397
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 398
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "slot_index": 0,
-          "links": [
-            445
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEEncode"
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 138,
-      "type": "LoadImage",
-      "pos": [
-        12,
-        -543
-      ],
-      "size": [
-        367.2821044921875,
-        521.1101684570312
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
-          "links": [
-            397,
-            446
-          ]
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "slot_index": 1,
-          "links": []
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "example.png",
-        "image"
-      ]
-    },
-    {
-      "id": 159,
-      "type": "StringViewer",
-      "pos": [
-        401.4449462890625,
-        -538.8307495117188
-      ],
-      "size": [
-        434.9748840332031,
-        507.3188171386719
-      ],
-      "flags": {},
       "order": 6,
       "mode": 0,
       "inputs": [
         {
-          "name": "text",
+          "name": "json_text",
           "type": "STRING",
-          "link": 447
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 457
         }
       ],
-      "outputs": [],
-      "title": "Summary",
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            460
+          ]
+        }
+      ],
       "properties": {
-        "Node name for S&R": "StringViewer"
+        "Node name for S&R": "JsonExtractInt"
       },
       "widgets_values": [
-        ""
+        "",
+        "width",
+        832
+      ]
+    },
+    {
+      "id": 164,
+      "type": "JsonExtractInt",
+      "pos": [
+        854.4739379882812,
+        -98.21755981445312
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 458
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            459
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "height",
+        1216
+      ]
+    },
+    {
+      "id": 162,
+      "type": "JsonExtractString",
+      "pos": [
+        853.3104858398438,
+        -240.69248962402344
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 455
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            456
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractString"
+      },
+      "widgets_values": [
+        "",
+        "model",
+        "illustrious_v10.safetensors"
       ]
     },
     {
       "id": 158,
       "type": "StringPicker",
       "pos": [
-        858.9819946289062,
-        -283.1858215332031
+        854.9605102539062,
+        -285.15997314453125
       ],
       "size": [
         238.5360107421875,
         106
       ],
-      "flags": {},
-      "order": 4,
+      "flags": {
+        "collapsed": true
+      },
+      "order": 1,
       "mode": 0,
       "inputs": [
         {
@@ -608,22 +826,6 @@
     }
   ],
   "links": [
-    [
-      367,
-      4,
-      1,
-      10,
-      0,
-      "CLIP"
-    ],
-    [
-      368,
-      4,
-      0,
-      125,
-      0,
-      "MODEL"
-    ],
     [
       369,
       10,
@@ -673,28 +875,12 @@
       "LATENT"
     ],
     [
-      396,
-      4,
-      2,
-      137,
-      1,
-      "VAE"
-    ],
-    [
       397,
       138,
       0,
       140,
       0,
       "IMAGE"
-    ],
-    [
-      398,
-      4,
-      2,
-      140,
-      1,
-      "VAE"
     ],
     [
       427,
@@ -767,6 +953,102 @@
       139,
       0,
       "STRING"
+    ],
+    [
+      449,
+      160,
+      0,
+      125,
+      0,
+      "MODEL"
+    ],
+    [
+      450,
+      160,
+      1,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      451,
+      160,
+      2,
+      140,
+      1,
+      "VAE"
+    ],
+    [
+      452,
+      160,
+      2,
+      137,
+      1,
+      "VAE"
+    ],
+    [
+      453,
+      139,
+      4,
+      161,
+      0,
+      "STRING"
+    ],
+    [
+      454,
+      161,
+      0,
+      10,
+      1,
+      "INT"
+    ],
+    [
+      455,
+      139,
+      4,
+      162,
+      0,
+      "STRING"
+    ],
+    [
+      456,
+      162,
+      0,
+      160,
+      0,
+      "STRING"
+    ],
+    [
+      457,
+      139,
+      4,
+      163,
+      0,
+      "STRING"
+    ],
+    [
+      458,
+      139,
+      4,
+      164,
+      0,
+      "STRING"
+    ],
+    [
+      459,
+      164,
+      0,
+      155,
+      2,
+      "INT"
+    ],
+    [
+      460,
+      163,
+      0,
+      155,
+      1,
+      "INT"
     ]
   ],
   "groups": [
@@ -819,10 +1101,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7627768444385467,
+      "scale": 0.6734668939250422,
       "offset": [
-        136.06625338805256,
-        827.2505477883248
+        25.717233003000402,
+        641.208141568379
       ]
     },
     "frontendVersion": "1.21.7"

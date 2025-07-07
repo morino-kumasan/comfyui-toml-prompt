@@ -385,6 +385,7 @@ class TomlPromptDecode:
         lora_list = "\n".join(self.loras)
         exports = "\n".join(["{}: {}".format(k, v) for k, v in self.exports.items()])
         summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
+        exports = json.dumps(load_summary_header(exports))
         return (positive, negative, lora_list, seed, summary, exports)
 
 def load_summary_header(s):

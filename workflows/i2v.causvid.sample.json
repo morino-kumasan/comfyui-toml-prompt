@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 175,
-  "last_link_id": 484,
+  "last_node_id": 177,
+  "last_link_id": 488,
   "nodes": [
     {
       "id": 138,
@@ -46,38 +46,6 @@
       ]
     },
     {
-      "id": 158,
-      "type": "UNETLoader",
-      "pos": [
-        1140.7406005859375,
-        -541.40185546875
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            442
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "UNETLoader"
-      },
-      "widgets_values": [
-        "wan2.1_i2v_480p_14B_fp8_scaled.safetensors",
-        "default"
-      ]
-    },
-    {
       "id": 159,
       "type": "VAELoader",
       "pos": [
@@ -89,7 +57,7 @@
         58
       ],
       "flags": {},
-      "order": 2,
+      "order": 1,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -121,7 +89,7 @@
         58
       ],
       "flags": {},
-      "order": 3,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -152,7 +120,7 @@
         78
       ],
       "flags": {},
-      "order": 8,
+      "order": 7,
       "mode": 0,
       "inputs": [
         {
@@ -194,7 +162,7 @@
         58
       ],
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -225,7 +193,7 @@
         502.4708251953125
       ],
       "flags": {},
-      "order": 11,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -255,7 +223,7 @@
         990.0119018554688
       ],
       "flags": {},
-      "order": 17,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -302,78 +270,6 @@
       "widgets_values": []
     },
     {
-      "id": 163,
-      "type": "TomlPromptDecode",
-      "pos": [
-        665.9871215820312,
-        -543.91845703125
-      ],
-      "size": [
-        438.1300048828125,
-        523.9749145507812
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "widget": {
-            "name": "text"
-          },
-          "link": 446
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            458
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            459
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            460
-          ]
-        },
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            481,
-            482
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            467
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "TomlPromptDecode"
-      },
-      "widgets_values": [
-        "wan",
-        0,
-        "randomize",
-        ""
-      ]
-    },
-    {
       "id": 172,
       "type": "KSamplerAdvanced",
       "pos": [
@@ -385,7 +281,7 @@
         334
       ],
       "flags": {},
-      "order": 14,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -454,7 +350,7 @@
         106
       ],
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -487,7 +383,7 @@
         334
       ],
       "flags": {},
-      "order": 15,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -556,7 +452,7 @@
         210
       ],
       "flags": {},
-      "order": 13,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -585,6 +481,22 @@
           "shape": 7,
           "type": "IMAGE",
           "link": 470
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 486
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 488
         }
       ],
       "outputs": [
@@ -623,49 +535,6 @@
       ]
     },
     {
-      "id": 8,
-      "type": "VAEDecode",
-      "pos": [
-        1488.4580078125,
-        -131.78982543945312
-      ],
-      "size": [
-        197.3822021484375,
-        46
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 16,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 480
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 456
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
-          "links": [
-            457
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      },
-      "widgets_values": []
-    },
-    {
       "id": 162,
       "type": "ModelSamplingSD3",
       "pos": [
@@ -677,7 +546,7 @@
         58
       ],
       "flags": {},
-      "order": 7,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -714,7 +583,7 @@
         82
       ],
       "flags": {},
-      "order": 12,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -752,7 +621,7 @@
         256
       ],
       "flags": {},
-      "order": 10,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -829,6 +698,249 @@
         "",
         "",
         ""
+      ]
+    },
+    {
+      "id": 163,
+      "type": "TomlPromptDecode",
+      "pos": [
+        665.9871215820312,
+        -543.91845703125
+      ],
+      "size": [
+        438.1300048828125,
+        523.9749145507812
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "widget": {
+            "name": "text"
+          },
+          "link": 446
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            458
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            459
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            460
+          ]
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            481,
+            482
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            467
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            485,
+            487
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TomlPromptDecode"
+      },
+      "widgets_values": [
+        "wan",
+        0,
+        "randomize",
+        ""
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        1478.0400390625,
+        -131.78982543945312
+      ],
+      "size": [
+        197.3822021484375,
+        46
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 480
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 456
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            457
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 177,
+      "type": "JsonExtractInt",
+      "pos": [
+        1683.3680419921875,
+        -90.48005676269531
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 487
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            488
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "height",
+        608
+      ]
+    },
+    {
+      "id": 176,
+      "type": "JsonExtractInt",
+      "pos": [
+        1684.3135986328125,
+        -132.78367614746094
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 485
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            486
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "width",
+        418
+      ]
+    },
+    {
+      "id": 158,
+      "type": "UNETLoader",
+      "pos": [
+        1140.7406005859375,
+        -541.40185546875
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            442
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "wan2.1_i2v_480p_14B_fp8_scaled.safetensors",
+        "default"
       ]
     }
   ],
@@ -1072,6 +1184,38 @@
       173,
       0,
       "MODEL"
+    ],
+    [
+      485,
+      163,
+      5,
+      176,
+      0,
+      "STRING"
+    ],
+    [
+      486,
+      176,
+      0,
+      167,
+      5,
+      "INT"
+    ],
+    [
+      487,
+      163,
+      5,
+      177,
+      0,
+      "STRING"
+    ],
+    [
+      488,
+      177,
+      0,
+      167,
+      6,
+      "INT"
     ]
   ],
   "groups": [
@@ -1122,10 +1266,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7390983453932459,
+      "scale": 0.7390983453932464,
       "offset": [
-        8.9646016569671,
-        635.0625701255569
+        12.195731927262285,
+        630.778318994572
       ]
     },
     "frontendVersion": "1.21.7"

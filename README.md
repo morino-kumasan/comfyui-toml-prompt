@@ -11,28 +11,29 @@ cd ../../
 python_embeded/python -m pip install -r ComfyUI/custom_nodes/comfyui-utils/requirements.txt
 ```
 
-## TomlPromptEncoder
+## TomlPromptDecode
 
-Encode Prompt in toml.
+Decode toml into prompt
 
 - Input
-  - model
-  - clip
   - key_name_list
     - Key name list separated by line break.
-  - text
-    - toml prompt triggered by key_name
-  - lora_info
-    - toml prompt triggered by lora_name
   - seed
+  - text
+    - toml prompt triggered by key_name_list
 - Output
-  - MODEL
-  - CLIP
-  - CONDITION
+  - STRING
+    - Positive Prompt
+  - STRING
+    - Negative Prompt
   - STRING
     - Loaded lora tags
+  - INT
+    - Random Seed
   - STRING
-    - Prompt
+    - Summary
+  - STRING
+    - Exports (JSON Formatted)
 
 ### text
 
@@ -74,6 +75,9 @@ c = "10%"
 
 [_v]
 color=["dark", "light"]
+
+[_exports]
+key = "value"
 ```
 
 ### lora_info
@@ -102,6 +106,10 @@ base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.bo
 <raw:this line is raw positive prompt.> /* raw positive prompt */
 <!:this line is raw negative prompt.>   /* raw negative prompt */
 <if:base.girl:key_name1:key_name2>     /* key_name1 if key name is already loaded else key_name2 */
+<fix:base:girl>  /* fix random choise, "base.??" is always "base.girl" */
+<fix:base:?girl> /* fix random choise, "base.??" is always tag including girl */
+<fix:base:!girl> /* fix random choise, "base.??" is always tag excluding girl */
+<export:key:value> /* export key=value */
 ```
 
 ## MultipleLoraTagLoader

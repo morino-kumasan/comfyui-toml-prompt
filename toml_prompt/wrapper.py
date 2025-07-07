@@ -85,7 +85,7 @@ class CheckPointLoaderSimpleFromString:
     def __init__(self):
         self.loader = CheckpointLoaderSimple()
 
-    def concat(self, ckpt_name):
+    def load(self, ckpt_name):
         return self.loader.load_checkpoint(ckpt_name)
 
 class KSamplerFromJsonInfo:
@@ -114,7 +114,7 @@ class KSamplerFromJsonInfo:
     def __init__(self):
         self.sampler = KSampler()
 
-    def sample(self, positive, negative, latent_image, denoise, json_text, seed=None):
+    def sample(self, model, positive, negative, latent_image, denoise, json_text, seed=None):
         info = json.loads(json_text)
-        seed = seed if seed is not None else info["seed"]
-        return self.sampler.sample(info["model"], seed, info["steps"], info["cfg"], info["sampler"], info["scheduler"], positive, negative, latent_image, denoise=denoise)
+        seed = seed if seed is not None else int(info["seed"])
+        return self.sampler.sample(model, seed, int(info["steps"]), float(info["cfg"]), info["sampler"], info["scheduler"], positive, negative, latent_image, denoise=denoise)

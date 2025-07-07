@@ -1,5 +1,15 @@
 negative = "<!:source_pony, source_furry, source_cartoon, score_6, score_5, score_4, worst quality, low quality, normal quality>"
 
+[_exports]
+model = "illustrious_v10.safetensors"
+width = 832
+height = 1216
+clip = -2
+steps = 20
+cfg = 5.0
+sampler = "euler_ancestral"
+scheduler = "karras"
+
 [base]
 _t="score_9, score_8_up, score_7_up, source_anime, rating_safe"
 
