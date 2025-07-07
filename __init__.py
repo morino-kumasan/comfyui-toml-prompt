@@ -1,14 +1,9 @@
 from .toml_prompt.toml_prompt_decode import TomlPromptDecode, SummaryReader
-from .toml_prompt.multipart_clip_text_encode import MultipartCLIPTextEncode
 from .toml_prompt.multiple_lora_tag_loader import MultipleLoraTagLoader
 from .toml_prompt.prompt_loader import PromptLoader
-from .toml_prompt.string_concat import StringConcat
-from .toml_prompt.string_sub import StringSub
 from .toml_prompt.string_viewer import StringViewer
-from .toml_prompt.selector import LatentSelector, StringSelector, IntSelector
-from .toml_prompt.picker import StringPicker
-from .toml_prompt.json_extract import JsonExtractString, JsonExtractInt, JsonExtractFloat
-from .toml_prompt.checkpoint_loader_from_string import CheckPointLoaderSimpleFromString
+from .toml_prompt.util import StringPicker, JsonExtractString, JsonExtractInt, JsonExtractFloat, LatentSelector, StringSelector, IntSelector, StringSub, StringConcat
+from .toml_prompt.wrapper import MultipartCLIPTextEncode, CheckPointLoaderSimpleFromString
 
 NODE_CLASS_MAPPINGS = {
     "TomlPromptDecode": TomlPromptDecode,
