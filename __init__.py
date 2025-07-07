@@ -7,6 +7,8 @@ from .toml_prompt.string_sub import StringSub
 from .toml_prompt.string_viewer import StringViewer
 from .toml_prompt.selector import LatentSelector, StringSelector, IntSelector
 from .toml_prompt.picker import StringPicker
+from .toml_prompt.json_extract import JsonExtractString, JsonExtractInt, JsonExtractFloat
+from .toml_prompt.checkpoint_loader_from_string import CheckPointLoaderSimpleFromString
 
 NODE_CLASS_MAPPINGS = {
     "TomlPromptDecode": TomlPromptDecode,
@@ -21,6 +23,10 @@ NODE_CLASS_MAPPINGS = {
     "IntSelector": IntSelector,
     "SummaryReader": SummaryReader,
     "StringPicker": StringPicker,
+    "JsonExtractString": JsonExtractString,
+    "JsonExtractInt": JsonExtractInt,
+    "JsonExtractFloat": JsonExtractFloat,
+    "CheckPointLoaderSimpleFromString": CheckPointLoaderSimpleFromString,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -36,6 +42,10 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "IntSelector": "IntSelector",
     "SummaryReader": "SummaryReader",
     "StringPicker": "StringPicker",
+    "JsonExtractString": "JsonExtractString",
+    "JsonExtractInt": "JsonExtractInt",
+    "JsonExtractFloat": "JsonExtractFloat",
+    "CheckPointLoaderSimpleFromString": "CheckPointLoaderSimpleFromString",
 }
 
 WEB_DIRECTORY = "./web"

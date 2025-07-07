@@ -1,5 +1,6 @@
 import os
 import re
+import json
 import random
 import tomllib
 import functools
@@ -349,8 +350,8 @@ def load_prompt(s, prompt_dict, loaded_keys, loras, exports):
     return (",".join(r_positive), ",".join(r_negative))
 
 class TomlPromptDecode:
-    RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING")
-    OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed", "Summary")
+    RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING", "STRING")
+    OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed", "Summary", "Exports")
     FUNCTION = "load_prompt"
     CATEGORY = "utils"
     DESCRIPTION = "Load toml prompt."
@@ -383,12 +384,18 @@ class TomlPromptDecode:
 
         lora_list = "\n".join(self.loras)
         exports = "\n".join(["{}: {}".format(k, v) for k, v in self.exports.items()])
-        summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}\n\n---- Seed ----\n{seed}"
-        return (positive, negative, lora_list, seed, summary)
+        summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
+        return (positive, negative, lora_list, seed, summary, exports)
+
+def load_summary_header(s):
+    r = {}
+    for k, v in re.findall(r"^([^:]+): (.+)$", s, flags=re.MULTILINE):
+        r[k] = v
+    return r
 
 class SummaryReader:
-    RETURN_TYPES = ("STRING", "STRING", "STRING", "INT")
-    OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed")
+    RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING")
+    OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed", "Json Formatted Exports")
     FUNCTION = "read"
     CATEGORY = "utils"
     DESCRIPTION = "Read summary from TomlPromptDecode."
@@ -409,6 +416,7 @@ class SummaryReader:
         negative = None
         lora_list = None
         seed = None
+        exports = {}
 
         def set(t, b, e):
             nonlocal positive, negative, lora_list, seed
@@ -426,9 +434,20 @@ class SummaryReader:
         for m in re.finditer(r"\n*---- ([a-zA-Z0-9]+) ----\n", summary, flags=re.MULTILINE):
             s, e = m.span()
             set(type_, beg, s)
+            if beg == 0:
+                print(summary[:e])
+                exports = load_summary_header(summary[:e])
             beg = e
             type_ = m.group(1).lower()
         set(type_, beg, len(summary))
 
-        assert positive is not None and negative is not None and lora_list is not None and seed is not None
-        return (positive, negative, lora_list, seed)
+        assert positive is not None and negative is not None and lora_list is not None
+
+        if "Seed" in exports:
+            seed = int(exports["Seed"])
+        elif seed is not None:
+            exports["Seded"] = seed
+        else:
+            assert True, "Seed Not Found"
+            
+        return (positive, negative, lora_list, seed, json.dumps(exports))
