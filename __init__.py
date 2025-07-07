@@ -3,7 +3,7 @@ from .toml_prompt.multiple_lora_tag_loader import MultipleLoraTagLoader
 from .toml_prompt.prompt_loader import PromptLoader
 from .toml_prompt.string_viewer import StringViewer
 from .toml_prompt.util import StringPicker, JsonExtractString, JsonExtractInt, JsonExtractFloat, LatentSelector, StringSelector, IntSelector, StringSub, StringConcat
-from .toml_prompt.wrapper import MultipartCLIPTextEncode, CheckPointLoaderSimpleFromString
+from .toml_prompt.wrapper import MultipartCLIPTextEncode, CheckPointLoaderSimpleFromString, KSamplerFromJsonInfo
 
 NODE_CLASS_MAPPINGS = {
     "TomlPromptDecode": TomlPromptDecode,
@@ -22,6 +22,7 @@ NODE_CLASS_MAPPINGS = {
     "JsonExtractInt": JsonExtractInt,
     "JsonExtractFloat": JsonExtractFloat,
     "CheckPointLoaderSimpleFromString": CheckPointLoaderSimpleFromString,
+    "KSamplerFromJsonInfo": KSamplerFromJsonInfo,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -41,6 +42,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "JsonExtractInt": "JsonExtractInt",
     "JsonExtractFloat": "JsonExtractFloat",
     "CheckPointLoaderSimpleFromString": "CheckPointLoaderSimpleFromString",
+    "KSamplerFromJsonInfo": "KSamplerFromJsonInfo",
 }
 
 WEB_DIRECTORY = "./web"

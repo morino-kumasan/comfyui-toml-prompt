@@ -1,6 +1,6 @@
-import re
+import re, json
 
-from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple
+from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler
 
 
 def encode(encoder, concat, clip, text):
@@ -87,3 +87,34 @@ class CheckPointLoaderSimpleFromString:
 
     def concat(self, ckpt_name):
         return self.loader.load_checkpoint(ckpt_name)
+
+class KSamplerFromJsonInfo:
+    RETURN_TYPES = ("LATENT",)
+    OUTPUT_TOOLTIPS = ("LATENT",)
+    FUNCTION = "sample"
+    CATEGORY = "sampling"
+    DESCRIPTION = "KSampler from json info."
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "model": ("MODEL",),
+                "positive": ("CONDITIONING", {"tooltip": "Positive."}),
+                "negative": ("CONDITIONING", {"tooltip": "Negative."}),
+                "latent_image": ("LATENT",),
+                "denoise": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.01}),
+                "json_text": ("STRING", {"tooltip": "JSON text including seed, steps, cfg, sampler and scheduler"}),
+            },
+            "optional": {
+                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "forceInput": True}),
+            }
+        }
+
+    def __init__(self):
+        self.sampler = KSampler()
+
+    def sample(self, positive, negative, latent_image, denoise, json_text, seed=None):
+        info = json.loads(json_text)
+        seed = seed if seed is not None else info["seed"]
+        return self.sampler.sample(info["model"], seed, info["steps"], info["cfg"], info["sampler"], info["scheduler"], positive, negative, latent_image, denoise=denoise)

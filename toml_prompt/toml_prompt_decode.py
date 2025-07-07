@@ -375,7 +375,7 @@ class TomlPromptDecode:
         random.seed(seed)
         self.loras = []
         self.loaded_keys = []
-        self.exports = { "Seed": seed }
+        self.exports = { "seed": seed }
 
         prompt_dict = tomllib.loads(text)
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
