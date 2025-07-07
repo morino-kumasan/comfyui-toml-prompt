@@ -436,8 +436,7 @@ class SummaryReader:
             s, e = m.span()
             set(type_, beg, s)
             if beg == 0:
-                print(summary[:e])
-                exports = load_summary_header(summary[:e])
+                exports = load_summary_header(summary[:s])
             beg = e
             type_ = m.group(1).lower()
         set(type_, beg, len(summary))
