@@ -91,7 +91,7 @@ def build_search_keys(keys, prefix=[]):
         [".".join(prefix + [key])] + build_search_keys(keys[1:], prefix + [key])
     for key in keys[0]])
 
-def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, global_vars=None, ignore_split=False):
+def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, global_vars=None, ignore_split=False, exports={}):
     if isinstance(keys, str):
         keys = build_search_keys(keys)
 
@@ -112,20 +112,27 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
             elif key == "??":
                 assert len(key_parts) == 0
                 keys = get_keys_random_recursive(d)
-                r += collect_prompt(d, keys, exclude_keys, prefix, global_vars)
+                r += collect_prompt(d, keys, exclude_keys, prefix, global_vars, exports=exports)
                 break
             elif key in ["*", "*$"]:
                 keys = [".".join([key] + key_parts) for _, key in get_keys_term(d, key.endswith("$"))]
-                r += collect_prompt(d, keys, exclude_keys, prefix, global_vars)
+                r += collect_prompt(d, keys, exclude_keys, prefix, global_vars, exports=exports)
                 break
             elif key == "**":
                 assert len(key_parts) == 0
                 keys = get_keys_all_recursive(d)
-                r += collect_prompt(d, keys[1] + keys[0], exclude_keys, prefix, global_vars)
+                r += collect_prompt(d, keys[1] + keys[0], exclude_keys, prefix, global_vars, exports=exports)
                 break
 
             if key not in d:
                 break
+
+            if "_exports" in d:
+                for k, v in d["_exports"].items():
+                    if exports.get(k, None) != v:
+                        print("Export:", k, "=", v)
+                        exports[k] = v
+
             d = d[key]
             prefix += [key]
         else:
@@ -141,7 +148,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                     print(f"Load Prompt (Duplicated): {prefix_str}")
     return r
 
-def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
+def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras, exports):
     positive = []
     negative = []
     for key in split_toml_prompt(prompt):
@@ -163,7 +170,7 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
 
             lora_dict = prompt_dict.get("<lora>", {})
             if lora_name in lora_dict:
-                positive += [','.join(collect_prompt(lora_dict, [lora_name], ignore_split=True))]
+                positive += [','.join(collect_prompt(lora_dict, [lora_name], ignore_split=True, exports=exports))]
         elif tag == "raw":
             positive += [all_args[:-1]]
         elif tag == "!":
@@ -175,14 +182,14 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
                 keys = [v.strip() for v in conds[i].split(",")]
                 if len([v for v in keys if v not in loaded_keys]) == 0:
                     print(f"If {keys}: True")
-                    r = load_prompt(branch, prompt_dict, loaded_keys, loras)
+                    r = load_prompt(branch, prompt_dict, loaded_keys, loras, exports)
                     positive += [r[0]]
                     negative += [r[1]]
                     break
             else:
                 if len(conds) > len(branches):
                     print(f"If {keys}: Else")
-                    r = load_prompt(conds[-1], prompt_dict, loaded_keys, loras)
+                    r = load_prompt(conds[-1], prompt_dict, loaded_keys, loras, exports)
                     positive += [r[0]]
                     negative += [r[1]]
         elif tag == "random":
@@ -190,11 +197,11 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
             weights = [float(args[i]) for i in range(0, len(args), 2)]
             i = random.choices(choices, weights)[0]
             print(f"Random: {int((i - 1) / 2)}")
-            r = load_prompt(args[i], prompt_dict, loaded_keys, loras)
+            r = load_prompt(args[i], prompt_dict, loaded_keys, loras, exports)
             positive += [r[0]]
             negative += [r[1]]
         elif tag == "run":
-            r = load_prompt(args[0], prompt_dict, loaded_keys, loras)
+            r = load_prompt(args[0], prompt_dict, loaded_keys, loras, exports)
             positive += [r[0]]
             negative += [r[1]]
         elif tag == "set":
@@ -229,6 +236,9 @@ def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras):
                 print("FindNot:", keys)
             else:
                 fix_route(d, [args[1]])
+        elif tag == "export":
+            exports[args[0]] = args[1]
+            print("Export:", args[0], "=", args[1])
         else:
             print(f"Unknown Tag: {tag}")
 
@@ -321,7 +331,7 @@ def split_toml_prompt_in_tag(s):
 
     return r
 
-def load_prompt(s, prompt_dict, loaded_keys, loras):
+def load_prompt(s, prompt_dict, loaded_keys, loras, exports):
     r_positive = []
     r_negative = []
     for key in split_toml_prompt(s):
@@ -329,9 +339,9 @@ def load_prompt(s, prompt_dict, loaded_keys, loras):
         if key.startswith("<"):
             prompt = key
         else:
-            prompt = ','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=loaded_keys)).strip()
+            prompt = ','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=loaded_keys, exports=exports)).strip()
 
-        positive, negative = expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras)
+        positive, negative = expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras, exports)
         if positive:
             r_positive += [positive]
         if negative:
@@ -358,19 +368,22 @@ class TomlPromptDecode:
     def __init__(self):
         self.loras = []
         self.loaded_keys = []
+        self.exports = {}
 
     def load_prompt(self, seed, text, key_name_list):
         random.seed(seed)
         self.loras = []
         self.loaded_keys = []
+        self.exports = { "Seed": seed }
 
         prompt_dict = tomllib.loads(text)
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
 
-        positive, negative = load_prompt(key_name_list, prompt_dict, self.loaded_keys, self.loras)
+        positive, negative = load_prompt(key_name_list, prompt_dict, self.loaded_keys, self.loras, self.exports)
 
         lora_list = "\n".join(self.loras)
-        summary = f"---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}\n\n---- Seed ----\n{seed}"
+        exports = "\n".join(["{}: {}".format(k, v) for k, v in self.exports.items()])
+        summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}\n\n---- Seed ----\n{seed}"
         return (positive, negative, lora_list, seed, summary)
 
 class SummaryReader:
