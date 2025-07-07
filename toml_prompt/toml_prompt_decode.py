@@ -128,14 +128,14 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
             if key not in d:
                 break
 
+            d = d[key]
+            prefix += [key]
+
             if "_exports" in d:
                 for k, v in d["_exports"].items():
                     if exports.get(k, None) != v:
                         print("Export:", k, "=", v)
                         exports[k] = v
-
-            d = d[key]
-            prefix += [key]
         else:
             prefix_str = ".".join(prefix)
             d_is_str = isinstance(d, str)
