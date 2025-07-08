@@ -156,7 +156,7 @@ class TomlKeyListParser(HTMLParser):
             self.tag += [(tag, attrs)]
             return False
 
-        if len(self.cond) > 0 and not self.cond:
+        if len(self.cond) > 0 and not self.cond[-1]:
             self.tag += [(tag, attrs)]
             return False
 
@@ -184,7 +184,7 @@ class TomlKeyListParser(HTMLParser):
 
     def handle_data(self, data):
         # Condition is not True
-        if len(self.cond) > 0 and not self.cond:
+        if len(self.cond) > 0 and not self.cond[-1]:
             return
 
         tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
