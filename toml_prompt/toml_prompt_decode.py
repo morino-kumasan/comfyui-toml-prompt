@@ -4,6 +4,244 @@ import json
 import random
 import tomllib
 import functools
+from html.parser import HTMLParser
+
+class TomlKeyListParser(HTMLParser):
+    def __init__(self, prompt_dict=None, other=None):
+        HTMLParser.__init__(self)
+        if prompt_dict is not None:
+            self.positive = []
+            self.negative = []
+            self.loras = []
+            self.loaded_keys = []
+            self.prompt_dict = prompt_dict
+            self.exports = {}
+        elif other is not None:
+            self.positive = other.positive
+            self.negative = other.negative
+            self.loras = other.loras
+            self.loaded_keys = other.loaded_keys
+            self.prompt_dict = other.prompt_dict
+            self.exports = other.exports
+        self.tag = []
+        self.cond = []
+        self.random_key = []
+
+    def feed(self, data):
+        def replace(m):
+            if m.group(4) is not None:
+                return f'<lora path="{m.group(1)}" strength_model="{m.group(2)}" strength_clip="{m.group(4)}" />'
+            else:
+                return f'<lora path="{m.group(1)}" strength_model="{m.group(2)}" />'
+        data = re.sub(r"<lora:([^:>]+):([0-9\-.]+)(:([0-9\-.]+))?>", replace, data, flags=re.MULTILINE)
+        return HTMLParser.feed(self, data)
+
+    def load_lora_tag(self, lora_name, strength_model, strength_clip=None):
+        lora_name = lora_name.replace(os.path.sep, "/")
+        if strength_clip is None:
+            lora_tag = "<lora:{}:{}>".format(lora_name, strength_model)
+        else:
+            lora_tag = "<lora:{}:{}:{}>".format(lora_name, strength_model, strength_clip)
+
+        if lora_tag not in self.loras:
+            self.loras += [lora_tag]
+            self.loaded_keys += [lora_name]
+
+        lora_dict = self.prompt_dict.get("<lora>", {})
+        if lora_name in lora_dict:
+            prompt = ','.join([v.strip() for v in collect_prompt(lora_dict, [lora_name], ignore_split=True, exports=self.exports) if v.strip()])
+            if prompt:
+                self.positive += [prompt]
+
+    def tag_lora(self, attrs):
+        self.load_lora_tag(attrs["path"], attrs["strength_model"], attrs.get("strength_clip", None))
+
+    def tag_set(self, attrs):
+        d = self.prompt_dict
+        for key in attrs["key"].strip().split("."):
+            d = d[key]
+        if isinstance(d, list):
+            d[:] = [attrs["value"]]
+            print("Set:", attrs["key"], "=", d)
+
+    def tag_grep(self, attrs):
+        d = self.prompt_dict
+        for key in attrs["key"].strip().split("."):
+            d = d[key]
+        if isinstance(d, list):
+            d[:] = [k for k in d if attrs["value"] in k]
+            print("Grep:", d)
+
+    def tag_fix(self, attrs):
+        d = self.prompt_dict
+        for key in attrs["key"].strip().split("."):
+            d = d[key]
+        keys = get_keys_all_recursive(d)
+        all_keys = keys[0] + keys[1]
+        if attrs.get("find", None) is not None:
+            # Find: *{args[1]}*
+            keys = [k for k in all_keys if attrs["find"] in k]
+            fix_route(d, keys)
+            print("Find:", keys)
+        if attrs.get("remove", None) is not None:
+            # Find Not: *{args[1]}*
+            keys = [k for k in all_keys if attrs["remove"] in k]
+            remove_route(d, keys)
+            print("FindNot:", keys)
+        if attrs.get("route", None) is not None:
+            fix_route(d, [attrs["route"]])
+            print("Fix:", keys)
+
+    def tag_export(self, attrs):
+        self.exports[attrs["key"]] = attrs["value"]
+        print("Export:", attrs["key"], "=", attrs["value"])
+
+    def tag_case(self, attrs):
+        self.cond += [False]
+
+    def tag_random(self, attrs):
+        self.cond += [False]
+        choices = [k for k in attrs.keys()]
+        weights = [float(v) for v in attrs.values()]
+        key = random.choices(choices, weights)[0]
+        print(f"Random: {key} in {choices}")
+        self.random_key += [key]
+
+    def tag_empty(self, attrs):
+        pass
+
+    TAG_FUNCS = {
+        "case": tag_case,
+        "export": tag_export,
+        "fix": tag_fix,
+        "grep": tag_grep,
+        "lora": tag_lora,
+        "random": tag_random,
+        "raw": tag_empty,
+        "set": tag_set,
+        "tag": tag_empty,
+    }
+
+    def branch_cond(self, tag, attrs):
+        parent_tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
+        if tag == "when":
+            if parent_tag == "case":
+                if self.cond[-1] == False:
+                    if attrs["key"] in self.loaded_keys:
+                        self.cond[-1] = None
+                        self.cond += [True]
+                        print("Case:", attrs["key"])
+                    else:
+                        self.cond += [False]
+                else:
+                    self.cond += [False]
+            elif parent_tag == "random":
+                if self.cond[-1] == False:
+                    if attrs["key"] == self.random_key[-1]:
+                        self.cond[-1] = None
+                        self.cond += [True]
+                        print("Random:", attrs["key"])
+                    else:
+                        self.cond += [False]
+                else:
+                    self.cond += [False]
+            else:
+                self.cond += [attrs["key"] in self.loaded_keys]
+                if self.cond[-1]:
+                    print("When:", attrs["key"])
+            self.tag += [(tag, attrs)]
+            return False
+        elif tag == "else":
+            self.cond += [self.cond[-1] == False]
+            self.tag += [(tag, attrs)]
+            return False
+
+        if len(self.cond) > 0 and not self.cond:
+            self.tag += [(tag, attrs)]
+            return False
+
+        return True
+
+    def handle_starttag(self, tag, attrs):
+        dict_attrs = dict(attrs)
+        if not self.branch_cond(tag, dict_attrs):
+            return HTMLParser.handle_starttag(self, tag, dict_attrs)
+
+        self.TAG_FUNCS[tag](self, dict_attrs)
+        self.tag += [(tag, dict_attrs)]
+        return HTMLParser.handle_starttag(self, tag, attrs)
+
+    def handle_endtag(self, tag):
+        assert self.tag[-1][0] == tag
+        self.tag.pop(-1)
+        if tag == "case" or tag == "when" or tag == "else" or tag == "random":
+            self.cond.pop(-1)
+        return HTMLParser.handle_endtag(self, tag)
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        self.handle_endtag(tag)
+
+    def handle_data(self, data):
+        # Condition is not True
+        if len(self.cond) > 0 and not self.cond:
+            return
+
+        tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
+        attrs = self.tag[-1][1] if len(self.tag) > 0 else {}
+        if tag == "raw":
+            data = data.strip()
+            if data:
+                if attrs.get("type", "positive") == "negative":
+                    self.negative += [data]
+                else:
+                    self.positive += [data]
+        elif tag == "tag" or tag == "when" or tag == "else":
+            for key in re.split(r"[,\r\n]", data):
+                key = key.strip()
+                prompt = ','.join([v.strip() for v in collect_prompt(self.prompt_dict, build_search_keys(key), exclude_keys=self.loaded_keys, exports=self.exports) if v.strip()])
+                if prompt:
+                    parser = TomlKeyListParser(other=self)
+                    parser.feed(f'<raw>{prompt}</raw>')
+        else:
+            assert data.strip() == "" or data.strip() == ",", f"Unknown Data: {data} in {tag}"
+        return HTMLParser.handle_data(self, data)
+
+def fix_route(d, keys):
+    start = d
+    for key in keys:
+        d = start
+        for elem in key.split("."):
+            if not d.get("_fix", False):
+                d["_k"] = []
+                d["_w"] = []
+                d["_fix"] = True
+            d = d[elem]
+    for key in keys:
+        d = start
+        for elem in key.split("."):
+            if elem not in d["_k"]:
+                d["_k"] += [elem]
+                d["_w"] += [1.0]
+            d = d[elem]
+
+def remove_route(d, keys):
+    start = d
+    for key in keys:
+        d = start
+        l = key.split(".")
+        for elem in l[:-1]:
+            d = d[elem]
+        elem = l[-1]
+
+        if "_k" not in d:
+            d["_k"] = get_keys_all(d)
+
+        if elem in d["_k"]:
+            i = d["_k"].index(elem)
+            d["_k"].remove(elem)
+            if "_w" in d:
+                d["_w"].pop(i)
 
 def remove_comment_out(s):
     return re.sub(r"((//|#).+$|/\*[\s\S]*?\*/)", "", s, flags=re.MULTILINE).strip()
@@ -149,206 +387,6 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                     print(f"Load Prompt (Duplicated): {prefix_str}")
     return r
 
-def expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras, exports):
-    positive = []
-    negative = []
-    for key in split_toml_prompt(prompt):
-        if not key.startswith("<"):
-            positive += [key]
-            continue
-
-        tag, all_args = key.split(":", 1)
-        tag = tag[1:].strip()
-        args = split_toml_prompt_in_tag(all_args[:-1])
-        if tag == "lora":
-            lora_name = args[0]
-            lora_name = lora_name.replace(os.path.sep, "/")
-
-            lora_tag = "<lora:{}>".format(":".join(args))
-            if lora_tag not in loras:
-                loras += [lora_tag]
-                loaded_keys += [lora_name]
-
-            lora_dict = prompt_dict.get("<lora>", {})
-            if lora_name in lora_dict:
-                positive += [','.join(collect_prompt(lora_dict, [lora_name], ignore_split=True, exports=exports))]
-        elif tag == "raw":
-            positive += [all_args[:-1]]
-        elif tag == "!":
-            negative += [all_args[:-1]]
-        elif tag == "if":
-            conds = [args[i] for i in range(0, len(args), 2)]
-            branches = [args[i] for i in range(1, len(args), 2)]
-            for i, branch in enumerate(branches):
-                keys = [v.strip() for v in conds[i].split(",")]
-                if len([v for v in keys if v not in loaded_keys]) == 0:
-                    print(f"If {keys}: True")
-                    r = load_prompt(branch, prompt_dict, loaded_keys, loras, exports)
-                    positive += [r[0]]
-                    negative += [r[1]]
-                    break
-            else:
-                if len(conds) > len(branches):
-                    print(f"If {keys}: Else")
-                    r = load_prompt(conds[-1], prompt_dict, loaded_keys, loras, exports)
-                    positive += [r[0]]
-                    negative += [r[1]]
-        elif tag == "random":
-            choices = [i for i in range(1, len(args), 2)]
-            weights = [float(args[i]) for i in range(0, len(args), 2)]
-            i = random.choices(choices, weights)[0]
-            print(f"Random: {int((i - 1) / 2)}")
-            r = load_prompt(args[i], prompt_dict, loaded_keys, loras, exports)
-            positive += [r[0]]
-            negative += [r[1]]
-        elif tag == "run":
-            r = load_prompt(args[0], prompt_dict, loaded_keys, loras, exports)
-            positive += [r[0]]
-            negative += [r[1]]
-        elif tag == "set":
-            d = prompt_dict
-            for key in args[0].strip().split("."):
-                d = d[key]
-            if isinstance(d, list):
-                d[:] = [args[1]]
-                print("Set:", args[0], "=", d)
-        elif tag == "grep":
-            d = prompt_dict
-            for key in args[0].strip().split("."):
-                d = d[key]
-            if isinstance(d, list):
-                d[:] = [k for k in d if args[1] in k]
-                print("Grep:", d)
-        elif tag == "fix":
-            d = prompt_dict
-            for key in args[0].strip().split("."):
-                d = d[key]
-            keys = get_keys_all_recursive(d)
-            all_keys = keys[0] + keys[1]
-            if args[1].startswith("?"):
-                # Find: *{args[1]}*
-                keys = [k for k in all_keys if args[1][1:] in k]
-                fix_route(d, keys)
-                print("Find:", keys)
-            elif args[1].startswith("!"):
-                # Find Not: *{args[1]}*
-                keys = [k for k in all_keys if args[1][1:] in k]
-                remove_route(d, keys)
-                print("FindNot:", keys)
-            else:
-                fix_route(d, [args[1]])
-        elif tag == "export":
-            exports[args[0]] = args[1]
-            print("Export:", args[0], "=", args[1])
-        else:
-            print(f"Unknown Tag: {tag}")
-
-    return (",".join(positive).strip(), ",".join(negative).strip())
-
-def fix_route(d, keys):
-    start = d
-    for key in keys:
-        d = start
-        for elem in key.split("."):
-            if not d.get("_fix", False):
-                d["_k"] = []
-                d["_w"] = []
-                d["_fix"] = True
-            d = d[elem]
-    for key in keys:
-        d = start
-        for elem in key.split("."):
-            if elem not in d["_k"]:
-                d["_k"] += [elem]
-                d["_w"] += [1.0]
-            d = d[elem]
-
-def remove_route(d, keys):
-    start = d
-    for key in keys:
-        d = start
-        l = key.split(".")
-        for elem in l[:-1]:
-            d = d[elem]
-        elem = l[-1]
-
-        if "_k" not in d:
-            d["_k"] = get_keys_all(d)
-
-        if elem in d["_k"]:
-            i = d["_k"].index(elem)
-            d["_k"].remove(elem)
-            if "_w" in d:
-                d["_w"].pop(i)
-
-def split_toml_prompt(s, separator=r"[,\r\n]", ignore_empty=True):
-    r = []
-    beg = 0
-    before_sep = []
-    beg_tag = 0
-    tag_starts = ['<', '(']
-    tag_ends = ['>', ')']
-    for m in re.finditer(r"[<>()]", s, flags=re.MULTILINE):
-        sep = m.group(0)
-        if sep in tag_starts:
-            before_sep += [sep]
-        else:
-            bef = before_sep.pop(-1)
-            assert (sep == ">" and bef == "<") or (sep == ")" and bef == "(")
-
-        span = m.span()
-        if sep in tag_starts and len(before_sep) == 1:
-            if beg < span[0]:
-                r += [v for v in re.split(separator, s[beg:span[0]])]
-            beg_tag = span[0]
-        elif sep in tag_ends and len(before_sep) == 0:
-            if r and r[-1] and r[-1][-1] in ["\\", "_"]:
-                r[-1] += s[beg_tag:span[1]]
-            else:
-                r += [s[beg_tag:span[1]]]
-        beg = span[1]
-    if beg < len(s):
-        r += [v for v in re.split(separator, s[beg:len(s)])]
-    return [v.strip() for v in r if v.strip()] if ignore_empty else r
-
-def split_toml_prompt_in_tag(s):
-    r = []
-    t = []
-    for key in split_toml_prompt(s, ":", False):
-        if key and key[0] in ["<", "("]:
-            t += [key]
-            continue
-
-        if t and r:
-            r[-1] += "".join(t + [key])
-        else:
-            r += ["".join(t + [key])]
-        t = []
-
-    if t and r:
-        r[-1] += "".join(t)
-    elif t:
-        r += [",".join(t)]
-
-    return r
-
-def load_prompt(s, prompt_dict, loaded_keys, loras, exports):
-    r_positive = []
-    r_negative = []
-    for key in split_toml_prompt(s):
-        key = key.strip()
-        if key.startswith("<"):
-            prompt = key
-        else:
-            prompt = ','.join(collect_prompt(prompt_dict, build_search_keys(key), exclude_keys=loaded_keys, exports=exports)).strip()
-
-        positive, negative = expand_prompt_tag(prompt, prompt_dict, loaded_keys, loras, exports)
-        if positive:
-            r_positive += [positive]
-        if negative:
-            r_negative += [negative]
-    return (",".join(r_positive), ",".join(r_negative))
-
 class TomlPromptDecode:
     RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING", "STRING")
     OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed", "Summary", "Exports")
@@ -367,23 +405,21 @@ class TomlPromptDecode:
         }
 
     def __init__(self):
-        self.loras = []
-        self.loaded_keys = []
-        self.exports = {}
+        pass
 
     def load_prompt(self, seed, text, key_name_list):
         random.seed(seed)
-        self.loras = []
-        self.loaded_keys = []
-        self.exports = { "seed": seed }
 
         prompt_dict = tomllib.loads(text)
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
+        parser = TomlKeyListParser(prompt_dict=prompt_dict)
+        parser.exports = { "seed": seed }
+        parser.feed(key_name_list)
+        positive = ','.join([v.strip() for v in parser.positive if v.strip()])
+        negative = ','.join([v.strip() for v in parser.negative if v.strip()])
 
-        positive, negative = load_prompt(key_name_list, prompt_dict, self.loaded_keys, self.loras, self.exports)
-
-        lora_list = "\n".join(self.loras)
-        exports = "\n".join(["{}: {}".format(k, v) for k, v in self.exports.items()])
+        lora_list = "\n".join(parser.loras)
+        exports = "\n".join(["{}: {}".format(k, v) for k, v in parser.exports.items()])
         summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
         exports = json.dumps(load_summary_header(exports))
         return (positive, negative, lora_list, seed, summary, exports)
