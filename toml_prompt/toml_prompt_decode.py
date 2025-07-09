@@ -63,16 +63,20 @@ class TomlKeyListParser(HTMLParser):
 
     def tag_set(self, attrs):
         d = self.prompt_dict
-        for key in attrs["key"].strip().split("."):
+        keys = attrs["key"].strip().split(".")
+        for key in keys[:-1]:
             d = d[key]
+        d = d["_v"][keys[-1]]
         if isinstance(d, list):
             d[:] = [attrs["value"]]
             print("Set:", attrs["key"], "=", d)
 
     def tag_grep(self, attrs):
         d = self.prompt_dict
-        for key in attrs["key"].strip().split("."):
+        keys = attrs["key"].strip().split(".")
+        for key in keys[:-1]:
             d = d[key]
+        d = d["_v"][keys[-1]]
         if isinstance(d, list):
             d[:] = [k for k in d if attrs["value"] in k]
             print("Grep:", d)

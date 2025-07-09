@@ -45,7 +45,7 @@ color=["red", "blue", "blonde"]
 
 [base.boy]
 1boy, muscular, ${g.color} hair, formal suit,
-# ${color} is replaced with dark or light
+# ${color} is replaced with dark, light or dark blue
 
 [random_weight]
 _k = ["a", "b", "c"]
@@ -55,7 +55,7 @@ b = "10%"
 c = "10%"
 
 [_v]
-color=["dark", "light"]
+color=["dark", "light", "dark blue"]
 
 [_exports]
 key = "value"
@@ -110,6 +110,9 @@ base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.bo
 <fix key=base find=girl />     /* fix random choise, "base.??" is always tag including girl */
 <fix key=base remove=girl />   /* fix random choise, "base.??" is always tag excluding girl */
 <export key=key value=value /> /* export key=value */
+<set key=color value=black>    /* _v.color = ["black"] */
+<set key=base.girl.color value='cyan blue'> /* base.girl._v.color = ["cyan blue"] */
+<grep key=color value='ark'>   /* _v.color = ["dark", "dark blue"] */
 ```
 
 ## MultipleLoraTagLoader
