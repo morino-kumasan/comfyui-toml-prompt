@@ -110,9 +110,9 @@ base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.bo
 <fix key=base find=girl />     /* fix random choise, "base.??" is always tag including girl */
 <fix key=base remove=girl />   /* fix random choise, "base.??" is always tag excluding girl */
 <export key=key value=value /> /* export key=value */
-<set key=color value=black>    /* _v.color = ["black"] */
-<set key=base.girl.color value='cyan blue'> /* base.girl._v.color = ["cyan blue"] */
-<grep key=color value='ark'>   /* _v.color = ["dark", "dark blue"] */
+<set key=color value=black />                 /* _v.color = ["black"] */
+<set key=base.girl.color value='cyan blue' /> /* base.girl._v.color = ["cyan blue"] */
+<grep key=color value='ark' />                /* _v.color = ["dark", "dark blue"] */
 ```
 
 ## MultipleLoraTagLoader
