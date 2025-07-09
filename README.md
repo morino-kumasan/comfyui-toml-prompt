@@ -2,7 +2,7 @@
 
 ComfyUI custom nodes.
 
-Install
+## Install
 
 ```
 cd ComfyUI/custom_nodes
@@ -11,29 +11,10 @@ cd ../../
 python_embeded/python -m pip install -r ComfyUI/custom_nodes/comfyui-utils/requirements.txt
 ```
 
+## How to use
+See sample workflows.
+
 ## TomlPromptDecode
-
-Decode toml into prompt
-
-- Input
-  - key_name_list
-    - Key name list separated by line break.
-  - seed
-  - text
-    - toml prompt triggered by key_name_list
-- Output
-  - STRING
-    - Positive Prompt
-  - STRING
-    - Negative Prompt
-  - STRING
-    - Loaded lora tags
-  - INT
-    - Random Seed
-  - STRING
-    - Summary
-  - STRING
-    - Exports (JSON Formatted)
 
 ### text
 
@@ -103,13 +84,32 @@ base.girl+boy    /* equals "base, base.girl, base.boy" */
 base.?           /* equals "{base.girl | base.boy}" */
 base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.boy}" */
 <lora:lora.safetensors:1> /* load LoRA and encode as "lora prompt" */
-<raw:this line is raw positive prompt.> /* raw positive prompt */
-<!:this line is raw negative prompt.>   /* raw negative prompt */
-<if:base.girl:key_name1:key_name2>     /* key_name1 if key name is already loaded else key_name2 */
-<fix:base:girl>  /* fix random choise, "base.??" is always "base.girl" */
-<fix:base:?girl> /* fix random choise, "base.??" is always tag including girl */
-<fix:base:!girl> /* fix random choise, "base.??" is always tag excluding girl */
-<export:key:value> /* export key=value */
+<raw>
+  /* raw positive prompt */
+  this line is raw positive prompt.
+</raw>
+<raw type=negative>
+  /* raw negative prompt */
+  this line is raw negative prompt.
+</raw>
+<case>
+  /* key_name1 if key name is already loaded else key_name2 */
+  <when key=base.girl>
+    key_name1
+  </when>
+  <else>
+    key_name2
+  </else>
+</case>
+<random a=0.1 b=0.9>
+  /* 10%: key_a, 90%: key_b */
+  <when key=a>key_a</when>
+  <when key=b>key_b</when>
+</random>
+<fix key=base route=girl />    /* fix random choise, "base.??" is always "base.girl" */
+<fix key=base find=girl />     /* fix random choise, "base.??" is always tag including girl */
+<fix key=base remove=girl />   /* fix random choise, "base.??" is always tag excluding girl */
+<export key=key value=value /> /* export key=value */
 ```
 
 ## MultipleLoraTagLoader
@@ -129,19 +129,3 @@ Output multiple LoRA tags. (max 10)
 - Output
   - STRING
     - LoRA tag list separated by line break.
-
-## PromptLoader
-
-Load String from file.
-
-## StringConcat
-
-Join strings.
-
-## StringSub
-
-Replace text by regex.
-
-## StringViewer
-
-View input string.
