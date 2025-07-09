@@ -36,6 +36,11 @@ class TomlKeyListParser(HTMLParser):
         data = re.sub(r"<lora:([^:>]+):([0-9\-.]+)(:([0-9\-.]+))?>", replace, data, flags=re.MULTILINE)
         return HTMLParser.feed(self, data)
 
+    def feed_new_obj(self, prompt):
+        parser = TomlKeyListParser(other=self)
+        parser.feed(f'<raw>{prompt}</raw>')
+        assert len(parser.tag) == 0 and len(parser.cond) == 0 and len(parser.random_key) == 0, f"Tag not closed. {prompt}"
+
     def load_lora_tag(self, lora_name, strength_model, strength_clip=None):
         lora_name = lora_name.replace(os.path.sep, "/")
         if strength_clip is None:
@@ -51,7 +56,7 @@ class TomlKeyListParser(HTMLParser):
         if lora_name in lora_dict:
             prompt = ','.join([v.strip() for v in collect_prompt(lora_dict, [lora_name], ignore_split=True, exports=self.exports) if v.strip()])
             if prompt:
-                self.positive += [prompt]
+                self.feed_new_obj(prompt)
 
     def tag_lora(self, attrs):
         self.load_lora_tag(attrs["path"], attrs["strength_model"], attrs.get("strength_clip", None))
@@ -97,67 +102,98 @@ class TomlKeyListParser(HTMLParser):
         print("Export:", attrs["key"], "=", attrs["value"])
 
     def tag_case(self, attrs):
-        self.cond += [False]
+        self.cond += [len(self.cond) == 0 or self.cond[-1] == True]
 
     def tag_random(self, attrs):
-        self.cond += [False]
-        choices = [k for k in attrs.keys()]
-        weights = [float(v) for v in attrs.values()]
-        key = random.choices(choices, weights)[0]
-        print(f"Random: {key} in {choices}")
-        self.random_key += [key]
+        if len(self.cond) == 0 or self.cond[-1] == True:
+            self.cond += [True]
+            choices = [k for k in attrs.keys()]
+            weights = [float(v) for v in attrs.values()]
+            key = random.choices(choices, weights)[0]
+            print(f"Random: {key} in {choices}")
+            self.random_key += [key]
+        else:
+            self.cond += [False]
+            self.random_key += [""]
 
+    def tag_when(self, attrs):
+        self.cond += [(len(self.cond) == 0 or self.cond[-1] == True) and attrs["key"] in self.loaded_keys]
+        if self.cond[-1]:
+            print("When:", attrs["key"])
+
+    def tag_case_when(self, attrs):
+        if self.cond[-1] == True:
+            if attrs["key"] in self.loaded_keys:
+                self.cond[-1] = False
+                self.cond += [True]
+                print("Case:", attrs["key"])
+            else:
+                self.cond += [False]
+        else:
+            self.cond += [False]
+
+    def tag_random_when(self, attrs):
+        if self.cond[-1] == True:
+            if attrs["key"] == self.random_key[-1]:
+                self.cond[-1] = False
+                self.cond += [True]
+                print("Random:", attrs["key"])
+            else:
+                self.cond += [False]
+        else:
+            self.cond += [False]
+
+    def tag_else(self, attrs):
+        self.cond += [self.cond[-1] == True]
+
+    # 制御タグ用
     def tag_empty(self, attrs):
         pass
 
     TAG_FUNCS = {
-        "case": tag_case,
-        "export": tag_export,
-        "fix": tag_fix,
-        "grep": tag_grep,
-        "lora": tag_lora,
-        "random": tag_random,
-        "raw": tag_empty,
-        "set": tag_set,
-        "tag": tag_empty,
+        "case": (tag_empty, True),
+        "else": (tag_empty, True),
+        "export": (tag_export, False),
+        "fix": (tag_fix, False),
+        "grep": (tag_grep, False),
+        "lora": (tag_lora, False),
+        "random": (tag_empty, True),
+        "raw": (tag_empty, True),
+        "set": (tag_set, False),
+        "tag": (tag_empty, True),
+        "when": (tag_empty, True),
     }
 
     def branch_cond(self, tag, attrs):
         parent_tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
+        ret = False
         if tag == "when":
             if parent_tag == "case":
-                if self.cond[-1] == False:
-                    if attrs["key"] in self.loaded_keys:
-                        self.cond[-1] = None
-                        self.cond += [True]
-                        print("Case:", attrs["key"])
-                    else:
-                        self.cond += [False]
-                else:
-                    self.cond += [False]
+                self.tag_case_when(attrs)
             elif parent_tag == "random":
-                if self.cond[-1] == False:
-                    if attrs["key"] == self.random_key[-1]:
-                        self.cond[-1] = None
-                        self.cond += [True]
-                        print("Random:", attrs["key"])
-                    else:
-                        self.cond += [False]
-                else:
-                    self.cond += [False]
+                self.tag_random_when(attrs)
             else:
-                self.cond += [attrs["key"] in self.loaded_keys]
-                if self.cond[-1]:
-                    print("When:", attrs["key"])
-            self.tag += [(tag, attrs)]
-            return False
+                self.tag_when(attrs)
         elif tag == "else":
-            self.cond += [self.cond[-1] == False]
-            self.tag += [(tag, attrs)]
+            self.tag_else(attrs)
+            print("Else:", parent_tag)
+        elif tag == "case":
+            self.tag_case(attrs)
+        elif tag == "random":
+            self.tag_random(attrs)
+        else:
+            ret = True
+
+        # タグは処理した
+        if not ret:
+            if self.TAG_FUNCS[tag][1]:
+                self.tag += [(tag, attrs)]
             return False
 
+        # 上の階層でcond=Falseになっている
         if len(self.cond) > 0 and not self.cond[-1]:
-            self.tag += [(tag, attrs)]
+            if self.TAG_FUNCS[tag][1]:
+                self.tag += [(tag, attrs)]
             return False
 
         return True
@@ -167,20 +203,25 @@ class TomlKeyListParser(HTMLParser):
         if not self.branch_cond(tag, dict_attrs):
             return HTMLParser.handle_starttag(self, tag, dict_attrs)
 
-        self.TAG_FUNCS[tag](self, dict_attrs)
-        self.tag += [(tag, dict_attrs)]
+        self.TAG_FUNCS[tag][0](self, dict_attrs)
+        if self.TAG_FUNCS[tag][1]:
+            self.tag += [(tag, dict_attrs)]
         return HTMLParser.handle_starttag(self, tag, attrs)
 
     def handle_endtag(self, tag):
-        assert self.tag[-1][0] == tag
+        assert self.TAG_FUNCS[tag][1], f"</{tag}> is not needed"
+        assert self.tag[-1][0] == tag, f"{tag} != {self.tag}[-1][0]"
         self.tag.pop(-1)
-        if tag == "case" or tag == "when" or tag == "else" or tag == "random":
-            self.cond.pop(-1)
+        if tag in ["case", "when", "else", "random"]:
+            cond = self.cond.pop(-1)
+        if tag == "random":
+            self.random_key.pop(-1)
         return HTMLParser.handle_endtag(self, tag)
 
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
-        self.handle_endtag(tag)
+        if self.TAG_FUNCS[tag][1]:
+            self.handle_endtag(tag)
 
     def handle_data(self, data):
         # Condition is not True
@@ -201,8 +242,7 @@ class TomlKeyListParser(HTMLParser):
                 key = key.strip()
                 prompt = ','.join([v.strip() for v in collect_prompt(self.prompt_dict, build_search_keys(key), exclude_keys=self.loaded_keys, exports=self.exports) if v.strip()])
                 if prompt:
-                    parser = TomlKeyListParser(other=self)
-                    parser.feed(f'<raw>{prompt}</raw>')
+                    self.feed_new_obj(prompt)
         else:
             assert data.strip() == "" or data.strip() == ",", f"Unknown Data: {data} in {tag}"
         return HTMLParser.handle_data(self, data)
@@ -330,6 +370,13 @@ def build_search_keys(keys, prefix=[]):
         [".".join(prefix + [key])] + build_search_keys(keys[1:], prefix + [key])
     for key in keys[0]])
 
+def export_values(d, exports):
+    if "_exports" in d:
+        for k, v in d["_exports"].items():
+            if exports.get(k, None) != v:
+                print("Export:", k, "=", v)
+                exports[k] = v
+
 def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, global_vars=None, ignore_split=False, exports={}):
     if isinstance(keys, str):
         keys = build_search_keys(keys)
@@ -369,11 +416,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
             d = d[key]
             prefix += [key]
 
-            if "_exports" in d:
-                for k, v in d["_exports"].items():
-                    if exports.get(k, None) != v:
-                        print("Export:", k, "=", v)
-                        exports[k] = v
+            export_values(d, exports)
         else:
             prefix_str = ".".join(prefix)
             d_is_str = isinstance(d, str)
@@ -385,6 +428,12 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                 elif d_is_str or len(get_keys_all(d)) == 0:
                     r += [select_dynamic_prompt(remove_comment_out(expand_prompt_var(d, global_vars)))]
                     print(f"Load Prompt (Duplicated): {prefix_str}")
+    return r
+
+def load_summary_header(s):
+    r = {}
+    for k, v in re.findall(r"^([^:]+): (.+)$", s, flags=re.MULTILINE):
+        r[k] = v
     return r
 
 class TomlPromptDecode:
@@ -414,6 +463,9 @@ class TomlPromptDecode:
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
         parser = TomlKeyListParser(prompt_dict=prompt_dict)
         parser.exports = { "seed": seed }
+        export_values(prompt_dict, parser.exports)
+
+        # Decode
         parser.feed(key_name_list)
         positive = ','.join([v.strip() for v in parser.positive if v.strip()])
         negative = ','.join([v.strip() for v in parser.negative if v.strip()])
@@ -423,12 +475,6 @@ class TomlPromptDecode:
         summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
         exports = json.dumps(load_summary_header(exports))
         return (positive, negative, lora_list, seed, summary, exports)
-
-def load_summary_header(s):
-    r = {}
-    for k, v in re.findall(r"^([^:]+): (.+)$", s, flags=re.MULTILINE):
-        r[k] = v
-    return r
 
 class SummaryReader:
     RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING")
