@@ -466,7 +466,7 @@ class TomlPromptDecode:
         prompt_dict = tomllib.loads(text)
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
         parser = TomlKeyListParser(prompt_dict=prompt_dict)
-        parser.exports = { "seed": seed }
+        parser.exports = { "prompt_seed": seed }
         export_values(prompt_dict, parser.exports)
 
         # Decode
@@ -529,10 +529,10 @@ class SummaryReader:
 
         assert positive is not None and negative is not None and lora_list is not None
 
-        if "Seed" in exports:
-            seed = int(exports["Seed"])
+        if "seed" in exports:
+            seed = int(exports["seed"])
         elif seed is not None:
-            exports["Seded"] = seed
+            exports["seed"] = seed
         else:
             assert True, "Seed Not Found"
             

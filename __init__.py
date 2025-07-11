@@ -2,7 +2,7 @@ from .toml_prompt.toml_prompt_decode import TomlPromptDecode, SummaryReader
 from .toml_prompt.multiple_lora_tag_loader import MultipleLoraTagLoader
 from .toml_prompt.prompt_loader import PromptLoader
 from .toml_prompt.string_viewer import StringViewer
-from .toml_prompt.util import StringPicker, JsonExtractString, JsonExtractInt, JsonExtractFloat, LatentSelector, StringSelector, IntSelector, StringSub, StringConcat, SeedGenerator
+from .toml_prompt.util import StringPicker, JsonExtractString, JsonExtractInt, JsonExtractFloat, LatentSelector, StringSelector, IntSelector, StringConcat, StringConcatInt, SeedGenerator
 from .toml_prompt.wrapper import MultipartCLIPTextEncode, CheckPointLoaderSimpleFromString, KSamplerFromJsonInfo
 
 NODE_CLASS_MAPPINGS = {
@@ -11,7 +11,7 @@ NODE_CLASS_MAPPINGS = {
     "MultipleLoraTagLoader": MultipleLoraTagLoader,
     "PromptLoader": PromptLoader,
     "StringConcat": StringConcat,
-    "StringSub": StringSub,
+    "StringConcatInt": StringConcatInt,
     "StringViewer": StringViewer,
     "LatentSelector": LatentSelector,
     "StringSelector": StringSelector,
@@ -32,7 +32,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "MultipleLoraTagLoader": "MultipleLoraTagLoader",
     "PromptLoader": "PromptLoader",
     "StringConcat": "StringConcat",
-    "StringSub": "StringSub",
+    "StringConcatInt": "StringConcatInt",
     "StringViewer": "StringViewer",
     "LatentSelector": "LatentSelector",
     "StringSelector": "StringSelector",

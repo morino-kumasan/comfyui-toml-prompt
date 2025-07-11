@@ -222,28 +222,28 @@ class StringConcat:
     def concat(self, text_from, text_to, sep):
         return (text_to + sep + text_from, )
 
-class StringSub:
+class StringConcatInt:
     RETURN_TYPES = ("STRING", )
     OUTPUT_TOOLTIPS = ("A text.", )
-    FUNCTION = "sub"
+    FUNCTION = "concat"
     CATEGORY = "utils"
-    DESCRIPTION = "Concat string."
-
-    def __init__(self):
-        pass
+    DESCRIPTION = "Concat string and int."
 
     @classmethod
     def INPUT_TYPES(s):
         return {
             "required": {
-                "text": ("STRING", {"defaultInput": True, "multiline": True, "tooltip": "Text."}),
-                "pattern": ("STRING", {"tooltip": "Matching regex pattern."}),
-                "to": ("STRING", {"tooltip": "Matching text to."}),
+                "text_from": ("INT", {"min": -sys.maxsize, "max": sys.maxsize, "tooltip": "Text to."}),
+                "text_to": ("STRING", {"defaultInput": True, "multiline": True, "tooltip": "Text from."}),
+                "sep": ("STRING", {"multiline": True, "tooltip": "Join separator."}),
             }
         }
 
-    def sub(self, text, pattern, to):
-        return (re.sub(pattern, to, text, flags=re.MULTILINE), )
+    def __init__(self):
+        pass
+
+    def concat(self, text_from, text_to, sep):
+        return (text_to + sep + str(text_from), )
 
 # Primitiveだとうまくいかない場合用
 class SeedGenerator:

@@ -1,8 +1,8 @@
 {
   "id": "72d8440a-46f6-4473-a4b4-244695d3a285",
   "revision": 0,
-  "last_node_id": 162,
-  "last_link_id": 458,
+  "last_node_id": 168,
+  "last_link_id": 465,
   "nodes": [
     {
       "id": 10,
@@ -16,7 +16,7 @@
         58
       ],
       "flags": {},
-      "order": 12,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -62,7 +62,7 @@
         508.27252197265625
       ],
       "flags": {},
-      "order": 16,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -121,7 +121,7 @@
         106
       ],
       "flags": {},
-      "order": 10,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -212,182 +212,6 @@
       ]
     },
     {
-      "id": 119,
-      "type": "PrimitiveNode",
-      "pos": [
-        304,
-        77
-      ],
-      "size": [
-        474.4100036621094,
-        264.3800048828125
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "widget": {
-            "name": "text_to"
-          },
-          "slot_index": 0,
-          "links": [
-            333
-          ]
-        }
-      ],
-      "properties": {
-        "Run widget replace on values": false
-      },
-      "widgets_values": [
-        "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??"
-      ]
-    },
-    {
-      "id": 118,
-      "type": "StringConcat",
-      "pos": [
-        804,
-        236
-      ],
-      "size": [
-        210,
-        176
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 3,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_from",
-          "type": "STRING",
-          "widget": {
-            "name": "text_from"
-          },
-          "link": 350
-        },
-        {
-          "name": "text_to",
-          "type": "STRING",
-          "widget": {
-            "name": "text_to"
-          },
-          "link": 333
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 0,
-          "links": [
-            377
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "StringConcat"
-      },
-      "widgets_values": [
-        "",
-        "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
-        "\n"
-      ]
-    },
-    {
-      "id": 157,
-      "type": "JsonExtractInt",
-      "pos": [
-        802.6112060546875,
-        275.2933654785156
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 434
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            435
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractInt"
-      },
-      "widgets_values": [
-        "",
-        "width",
-        832
-      ]
-    },
-    {
-      "id": 158,
-      "type": "JsonExtractInt",
-      "pos": [
-        804.4374389648438,
-        315.9021301269531
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 436
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            437
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractInt"
-      },
-      "widgets_values": [
-        "",
-        "height",
-        1216
-      ]
-    },
-    {
       "id": 162,
       "type": "CheckPointLoaderSimpleFromString",
       "pos": [
@@ -401,7 +225,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 11,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -455,7 +279,7 @@
         162
       ],
       "flags": {},
-      "order": 14,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -482,7 +306,7 @@
           "name": "seed",
           "shape": 7,
           "type": "INT",
-          "link": null
+          "link": 465
         },
         {
           "name": "json_text",
@@ -522,7 +346,7 @@
         256
       ],
       "flags": {},
-      "order": 13,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -601,47 +425,83 @@
       ]
     },
     {
-      "id": 8,
-      "type": "VAEDecode",
+      "id": 161,
+      "type": "JsonExtractInt",
       "pos": [
-        1051.60986328125,
-        729.2001953125
+        1057.6336669921875,
+        820.2947998046875
       ],
       "size": [
-        197.3822021484375,
-        46
+        270,
+        106
       ],
       "flags": {
         "collapsed": true
       },
-      "order": 15,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 449
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 456
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 457
         }
       ],
       "outputs": [
         {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
+          "name": "INT",
+          "type": "INT",
           "links": [
-            9
+            458
           ]
         }
       ],
       "properties": {
-        "Node name for S&R": "VAEDecode"
+        "Node name for S&R": "JsonExtractInt"
       },
-      "widgets_values": []
+      "widgets_values": [
+        "",
+        "clip",
+        -2
+      ]
+    },
+    {
+      "id": 119,
+      "type": "PrimitiveNode",
+      "pos": [
+        304,
+        77
+      ],
+      "size": [
+        474.4100036621094,
+        264.3800048828125
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "widget": {
+            "name": "text_to"
+          },
+          "slot_index": 0,
+          "links": [
+            333
+          ]
+        }
+      ],
+      "properties": {
+        "Run widget replace on values": false
+      },
+      "widgets_values": [
+        "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??"
+      ]
     },
     {
       "id": 126,
@@ -657,7 +517,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 4,
+      "order": 6,
       "mode": 0,
       "inputs": [
         {
@@ -713,7 +573,7 @@
           "type": "STRING",
           "slot_index": 4,
           "links": [
-            439
+            462
           ]
         },
         {
@@ -739,55 +599,213 @@
       ]
     },
     {
-      "id": 161,
-      "type": "JsonExtractInt",
+      "id": 129,
+      "type": "StringViewer",
       "pos": [
-        1057.6336669921875,
-        820.2947998046875
+        571.0111694335938,
+        429.0114440917969
       ],
       "size": [
-        270,
-        106
+        438.7670593261719,
+        506.2227478027344
       ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 9,
+      "flags": {},
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
-          "name": "json_text",
+          "name": "text",
           "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 457
+          "link": 464
         }
       ],
+      "outputs": [],
+      "title": "Summary",
+      "properties": {
+        "Node name for S&R": "StringViewer"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 166,
+      "type": "SeedGenerator",
+      "pos": [
+        797.9357299804688,
+        238.1626739501953
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
       "outputs": [
         {
           "name": "INT",
           "type": "INT",
           "links": [
-            458
+            459,
+            465
           ]
         }
       ],
       "properties": {
-        "Node name for S&R": "JsonExtractInt"
+        "Node name for S&R": "SeedGenerator"
+      },
+      "widgets_values": [
+        0,
+        "randomize"
+      ]
+    },
+    {
+      "id": 167,
+      "type": "StringConcatInt",
+      "pos": [
+        1058.7366943359375,
+        869.0142211914062
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_from",
+          "type": "INT",
+          "widget": {
+            "name": "text_from"
+          },
+          "link": 459
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            463
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "StringConcatInt"
+      },
+      "widgets_values": [
+        0,
+        "seed: ",
+        ""
+      ]
+    },
+    {
+      "id": 168,
+      "type": "StringConcat",
+      "pos": [
+        1059.9351806640625,
+        919.4276123046875
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_from",
+          "type": "STRING",
+          "widget": {
+            "name": "text_from"
+          },
+          "link": 462
+        },
+        {
+          "name": "text_to",
+          "type": "STRING",
+          "widget": {
+            "name": "text_to"
+          },
+          "link": 463
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            464
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "StringConcat"
       },
       "widgets_values": [
         "",
-        "clip",
-        -2
+        "",
+        "\n"
       ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        1057.2908935546875,
+        729.8313598632812
+      ],
+      "size": [
+        197.3822021484375,
+        46
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 449
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 456
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
     },
     {
       "id": 160,
       "type": "JsonExtractString",
       "pos": [
-        1053.94384765625,
-        776.0145874023438
+        1054.5750732421875,
+        775.3834228515625
       ],
       "size": [
         270,
@@ -796,7 +814,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 8,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -827,33 +845,144 @@
       ]
     },
     {
-      "id": 129,
-      "type": "StringViewer",
+      "id": 118,
+      "type": "StringConcat",
       "pos": [
-        571.0111420898438,
-        429.0114384765625
+        1230.5355224609375,
+        819.9425048828125
       ],
       "size": [
-        438.7670593261719,
-        506.2227478027344
+        210,
+        176
       ],
-      "flags": {},
-      "order": 5,
+      "flags": {
+        "collapsed": true
+      },
+      "order": 4,
       "mode": 0,
       "inputs": [
         {
-          "name": "text",
+          "name": "text_from",
           "type": "STRING",
-          "link": 439
+          "widget": {
+            "name": "text_from"
+          },
+          "link": 350
+        },
+        {
+          "name": "text_to",
+          "type": "STRING",
+          "widget": {
+            "name": "text_to"
+          },
+          "link": 333
         }
       ],
-      "outputs": [],
-      "title": "Summary",
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            377
+          ]
+        }
+      ],
       "properties": {
-        "Node name for S&R": "StringViewer"
+        "Node name for S&R": "StringConcat"
       },
       "widgets_values": [
-        ""
+        "",
+        "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
+        "\n"
+      ]
+    },
+    {
+      "id": 157,
+      "type": "JsonExtractInt",
+      "pos": [
+        1231.224609375,
+        867.9013061523438
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 434
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            435
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "width",
+        832
+      ]
+    },
+    {
+      "id": 158,
+      "type": "JsonExtractInt",
+      "pos": [
+        1233.4984130859375,
+        918.1646118164062
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 436
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            437
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "height",
+        1216
       ]
     }
   ],
@@ -937,14 +1066,6 @@
       5,
       1,
       "INT"
-    ],
-    [
-      439,
-      126,
-      4,
-      129,
-      0,
-      "STRING"
     ],
     [
       441,
@@ -1073,6 +1194,46 @@
       10,
       1,
       "INT"
+    ],
+    [
+      459,
+      166,
+      0,
+      167,
+      0,
+      "INT"
+    ],
+    [
+      462,
+      126,
+      4,
+      168,
+      0,
+      "STRING"
+    ],
+    [
+      463,
+      167,
+      0,
+      168,
+      1,
+      "STRING"
+    ],
+    [
+      464,
+      168,
+      0,
+      129,
+      0,
+      "STRING"
+    ],
+    [
+      465,
+      166,
+      0,
+      159,
+      4,
+      "INT"
     ]
   ],
   "groups": [
@@ -1125,10 +1286,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.9837398977184033,
+      "scale": 0.7390983453932416,
       "offset": [
-        305.0787204824199,
-        -163.89077490806787
+        -5.459896129049683,
+        26.69830909818434
       ]
     },
     "frontendVersion": "1.21.7"

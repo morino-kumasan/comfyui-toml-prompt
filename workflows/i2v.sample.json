@@ -178,73 +178,6 @@
       ]
     },
     {
-      "id": 3,
-      "type": "KSampler",
-      "pos": [
-        1441.0426025390625,
-        -427.99462890625
-      ],
-      "size": [
-        305.987060546875,
-        262
-      ],
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 373
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 465
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 466
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 462
-        },
-        {
-          "name": "seed",
-          "type": "INT",
-          "widget": {
-            "name": "seed"
-          },
-          "link": 461
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "slot_index": 0,
-          "links": [
-            7
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSampler"
-      },
-      "widgets_values": [
-        408755840292608,
-        "randomize",
-        20,
-        6,
-        "uni_pc",
-        "simple",
-        1
-      ]
-    },
-    {
       "id": 165,
       "type": "CLIPVisionEncode",
       "pos": [
@@ -679,9 +612,7 @@
         {
           "name": "INT",
           "type": "INT",
-          "links": [
-            461
-          ]
+          "links": []
         },
         {
           "name": "STRING",
@@ -829,6 +760,65 @@
         "wan",
         "default"
       ]
+    },
+    {
+      "id": 3,
+      "type": "KSampler",
+      "pos": [
+        1441.0426025390625,
+        -427.99462890625
+      ],
+      "size": [
+        305.987060546875,
+        262
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 373
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 465
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 466
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 462
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            7
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        408755840292608,
+        "randomize",
+        20,
+        6,
+        "uni_pc",
+        "simple",
+        1
+      ]
     }
   ],
   "links": [
@@ -943,14 +933,6 @@
       125,
       2,
       "STRING"
-    ],
-    [
-      461,
-      163,
-      3,
-      3,
-      4,
-      "INT"
     ],
     [
       462,
@@ -1105,10 +1087,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7390983453932453,
+      "scale": 0.671907586721132,
       "offset": [
-        -0.5644847628656033,
-        627.3109887190428
+        17.701014117147704,
+        652.0708872008379
       ]
     },
     "frontendVersion": "1.21.7"

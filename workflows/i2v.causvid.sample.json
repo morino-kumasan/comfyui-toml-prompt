@@ -270,75 +270,6 @@
       "widgets_values": []
     },
     {
-      "id": 172,
-      "type": "KSamplerAdvanced",
-      "pos": [
-        1145.425048828125,
-        240.4169158935547
-      ],
-      "size": [
-        308,
-        334
-      ],
-      "flags": {},
-      "order": 16,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 471
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 472
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 473
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 474
-        },
-        {
-          "name": "noise_seed",
-          "type": "INT",
-          "widget": {
-            "name": "noise_seed"
-          },
-          "link": 481
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            475
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSamplerAdvanced"
-      },
-      "widgets_values": [
-        "enable",
-        0,
-        "randomize",
-        8,
-        4,
-        "ddim",
-        "simple",
-        0,
-        3,
-        "disable"
-      ]
-    },
-    {
       "id": 161,
       "type": "CLIPLoader",
       "pos": [
@@ -369,75 +300,6 @@
         "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
         "wan",
         "default"
-      ]
-    },
-    {
-      "id": 173,
-      "type": "KSamplerAdvanced",
-      "pos": [
-        1480.4639892578125,
-        241.46253967285156
-      ],
-      "size": [
-        308,
-        334
-      ],
-      "flags": {},
-      "order": 17,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 484
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 478
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 479
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 475
-        },
-        {
-          "name": "noise_seed",
-          "type": "INT",
-          "widget": {
-            "name": "noise_seed"
-          },
-          "link": 482
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            480
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSamplerAdvanced"
-      },
-      "widgets_values": [
-        "enable",
-        0,
-        "randomize",
-        8,
-        1,
-        "euler",
-        "simple",
-        3,
-        8,
-        "disable"
       ]
     },
     {
@@ -749,10 +611,7 @@
         {
           "name": "INT",
           "type": "INT",
-          "links": [
-            481,
-            482
-          ]
+          "links": []
         },
         {
           "name": "STRING",
@@ -941,6 +800,128 @@
       "widgets_values": [
         "wan2.1_i2v_480p_14B_fp8_scaled.safetensors",
         "default"
+      ]
+    },
+    {
+      "id": 172,
+      "type": "KSamplerAdvanced",
+      "pos": [
+        1145.425048828125,
+        240.4169158935547
+      ],
+      "size": [
+        308,
+        334
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 471
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 472
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 473
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 474
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            475
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerAdvanced"
+      },
+      "widgets_values": [
+        "enable",
+        0,
+        "randomize",
+        8,
+        4,
+        "ddim",
+        "simple",
+        0,
+        3,
+        "disable"
+      ]
+    },
+    {
+      "id": 173,
+      "type": "KSamplerAdvanced",
+      "pos": [
+        1480.4639892578125,
+        241.46253967285156
+      ],
+      "size": [
+        308,
+        334
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 484
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 478
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 479
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 475
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            480
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerAdvanced"
+      },
+      "widgets_values": [
+        "enable",
+        0,
+        "randomize",
+        8,
+        1,
+        "euler",
+        "simple",
+        3,
+        8,
+        "disable"
       ]
     }
   ],
@@ -1154,22 +1135,6 @@
       "LATENT"
     ],
     [
-      481,
-      163,
-      3,
-      172,
-      4,
-      "INT"
-    ],
-    [
-      482,
-      163,
-      3,
-      173,
-      4,
-      "INT"
-    ],
-    [
       483,
       125,
       0,
@@ -1266,10 +1231,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7390983453932464,
+      "scale": 0.6108250788373937,
       "offset": [
-        12.195731927262285,
-        630.778318994572
+        22.221461312513892,
+        651.208617741845
       ]
     },
     "frontendVersion": "1.21.7"
