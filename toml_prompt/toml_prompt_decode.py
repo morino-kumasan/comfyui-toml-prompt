@@ -161,6 +161,7 @@ class TomlKeyListParser(HTMLParser):
         "fix": (tag_fix, False),
         "grep": (tag_grep, False),
         "lora": (tag_lora, False),
+        "neg": (tag_empty, True),
         "random": (tag_empty, True),
         "raw": (tag_empty, True),
         "set": (tag_set, False),
@@ -241,6 +242,10 @@ class TomlKeyListParser(HTMLParser):
                     self.negative += [data]
                 else:
                     self.positive += [data]
+        elif tag == "neg":
+            data = data.strip()
+            if data:
+                self.negative += [data]
         elif tag == "tag" or tag == "when" or tag == "else":
             for key in re.split(r"[,\r\n]", data):
                 key = key.strip()
