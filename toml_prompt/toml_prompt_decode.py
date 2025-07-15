@@ -379,10 +379,10 @@ def build_search_keys(keys, prefix=[]):
         [".".join(prefix + [key])] + build_search_keys(keys[1:], prefix + [key])
     for key in keys[0]])
 
-def export_values(d, exports):
+def export_values(d, exports, prefix, exclude_keys):
     if "_exports" in d:
         for k, v in d["_exports"].items():
-            if exports.get(k, None) != v:
+            if exports.get(k, None) != v and prefix not in exclude_keys:
                 print("Export:", k, "=", v)
                 exports[k] = v
 
@@ -425,7 +425,7 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
             d = d[key]
             prefix += [key]
 
-            export_values(d, exports)
+            export_values(d, exports, ".".join(prefix), exclude_keys)
         else:
             prefix_str = ".".join(prefix)
             d_is_str = isinstance(d, str)
@@ -472,7 +472,7 @@ class TomlPromptDecode:
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
         parser = TomlKeyListParser(prompt_dict=prompt_dict)
         parser.exports = { "prompt_seed": seed }
-        export_values(prompt_dict, parser.exports)
+        export_values(prompt_dict, parser.exports, ".", {})
 
         # Decode
         parser.feed(key_name_list)
