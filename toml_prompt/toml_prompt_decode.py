@@ -301,8 +301,8 @@ def select_dynamic_prompt(s):
 def expand_prompt_var(d, global_vars):
     def random_var(m):
         var_name = m.group(1)
-        if var_name.startswith("g."):
-            var_name = var_name[2:]
+        if var_name.startswith("."):
+            var_name = var_name[1:]
             vars = global_vars
         else:
             vars = d.get("_v", None)
@@ -418,6 +418,9 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                 keys = get_keys_all_recursive(d)
                 r += collect_prompt(d, keys[1] + keys[0], exclude_keys, prefix, global_vars, exports=exports)
                 break
+            elif key.endswith("()"):
+                key_parts = ["_f"] + key_parts
+                key = key[:-2]
 
             if key not in d:
                 break

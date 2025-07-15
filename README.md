@@ -22,6 +22,8 @@ _t is prompt.
 _v is variables for random choice.
 _k is available keys for random choice.
 _w is weight for random choice with _k.
+_export is string to export to output.
+_f is called by toml_key_name().
 
 ```
 # key _t is prompt
@@ -44,8 +46,14 @@ ponytails = "ponytails"
 color=["red", "blue", "blonde"]
 
 [base.boy]
-1boy, muscular, ${g.color} hair, formal suit,
+1boy, muscular, ${.color} hair, formal suit,
 # ${color} is replaced with dark, light or dark blue
+
+# base().test equals base._f.test
+[base._f]
+_t = "base() is called"
+
+test="test1"
 
 [random_weight]
 _k = ["a", "b", "c"]
