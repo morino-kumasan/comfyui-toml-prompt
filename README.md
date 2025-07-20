@@ -49,18 +49,29 @@ color=["red", "blue", "blonde"]
 1boy, muscular, ${.color} hair, formal suit,
 # ${color} is replaced with dark, light or dark blue
 
-# base().test equals base._f.test
+# "base().test" equals "base._f.test"
 [base._f]
 _t = "base() is called"
 
 test="test1"
 
+# "random_weight.?" to select a or b or c
 [random_weight]
 _k = ["a", "b", "c"]
+# random select weight
 _w = [0.8, 0.1, 0.1]
 a = "80%"
 b = "10%"
 c = "10%"
+
+# "random_weight.*" to select a and b and c
+[random_weight2]
+_k = ["a", "b", "c"]
+# each select ratio
+_r = [0.8, 0.3, 0.3]
+a = "80%"
+b = "30%"
+c = "30%"
 
 [_v]
 color=["dark", "light", "dark blue"]

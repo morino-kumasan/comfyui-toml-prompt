@@ -197,17 +197,14 @@ class TomlKeyListParser(HTMLParser):
 
         if args[0] == "fix":
             fix_route(d, [args[2]])
-            print("Fix:", keys)
         elif args[0] == "find":
             all_keys = keys[0] + keys[1]
             keys = [k for k in all_keys if args[2] in k]
             fix_route(d, keys)
-            print("Find:", keys)
         elif args[0] == "remove":
             all_keys = keys[0] + keys[1]
             keys = [k for k in all_keys if args[2] in k]
             remove_route(d, keys)
-            print("FindNot:", keys)
 
     def pi_export(self, args):
         self.exports[args[0]] = args[1]
@@ -292,7 +289,7 @@ def get_keys_all(d):
     return [k for k in d.keys() if not k.startswith("_")]
 
 def get_keys_term(d, term):
-    return [(i, k) for i, k in enumerate(get_keys_all(d)) if (isinstance(d[k], str) or len(get_keys_all(d[k])) == 0) == term ]
+    return [(i, k) for i, k in enumerate(get_keys_all(d)) if (isinstance(d[k], str) or len(get_keys_all(d[k])) == 0) == term]
 
 def get_keys_all_recursive(d, prefix=[]):
     r_long = []
@@ -384,7 +381,12 @@ def collect_prompt(prompt_dict, keys, exclude_keys=None, init_prefix=None, globa
                 r += collect_prompt(d, keys, exclude_keys, prefix, global_vars, exports=exports)
                 break
             elif key in ["*", "*$"]:
-                keys = [".".join([key] + key_parts) for _, key in get_keys_term(d, key.endswith("$"))]
+                keys = get_keys_term(d, key.endswith("$"))
+                if "_r" in d:
+                    all_keys = keys
+                    keys = [key for i, key in enumerate(keys) if random.choices([True, False], [d["_r"][i], 1.0 - d["_r"][i]])[0]]
+                    print("RandomAll:", [key for _, key in all_keys], "->", [key for _, key in keys])
+                keys = [".".join([key] + key_parts) for _, key in keys]
                 r += collect_prompt(d, keys, exclude_keys, prefix, global_vars, exports=exports)
                 break
             elif key == "**":
