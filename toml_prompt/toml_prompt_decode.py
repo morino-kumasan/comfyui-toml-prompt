@@ -189,34 +189,25 @@ class TomlKeyListParser(HTMLParser):
             d[:] = [k for k in d if args[1] in k]
             print("Grep:", d)
 
-    def pi_find(self, args):
+    def pi_route(self, args):
         d = self.prompt_dict
-        for key in args[0].strip().split("."):
+        for key in args[1].strip().split("."):
             d = d[key]
         keys = get_keys_all_recursive(d)
-        all_keys = keys[0] + keys[1]
-        keys = [k for k in all_keys if args[1] in k]
-        fix_route(d, keys)
-        print("Find:", keys)
 
-    def pi_remove(self, args):
-        d = self.prompt_dict
-        for key in args[0].strip().split("."):
-            d = d[key]
-        keys = get_keys_all_recursive(d)
-        all_keys = keys[0] + keys[1]
-        keys = [k for k in all_keys if args[1] in k]
-        remove_route(d, keys)
-        print("FindNot:", keys)
-
-    def pi_fix(self, args):
-        d = self.prompt_dict
-        for key in args[0].strip().split("."):
-            d = d[key]
-        keys = get_keys_all_recursive(d)
-        all_keys = keys[0] + keys[1]
-        fix_route(d, [args[1]])
-        print("Fix:", keys)
+        if args[0] == "fix":
+            fix_route(d, [args[2]])
+            print("Fix:", keys)
+        elif args[0] == "find":
+            all_keys = keys[0] + keys[1]
+            keys = [k for k in all_keys if args[2] in k]
+            fix_route(d, keys)
+            print("Find:", keys)
+        elif args[0] == "remove":
+            all_keys = keys[0] + keys[1]
+            keys = [k for k in all_keys if args[2] in k]
+            remove_route(d, keys)
+            print("FindNot:", keys)
 
     def pi_export(self, args):
         self.exports[args[0]] = args[1]
@@ -224,9 +215,7 @@ class TomlKeyListParser(HTMLParser):
 
     PI_FUNCS = {
         "export": pi_export,
-        "fix": pi_fix,
-        "find": pi_find,
-        "remove": pi_remove,
+        "route": pi_route,
         "grep": pi_grep,
         "lora": pi_lora,
         "set": pi_set,
