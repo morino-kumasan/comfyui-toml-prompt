@@ -2,6 +2,7 @@ import os
 import re
 import json
 import random
+import shlex
 import tomllib
 import functools
 from html.parser import HTMLParser
@@ -30,9 +31,9 @@ class TomlKeyListParser(HTMLParser):
     def feed(self, data):
         def replace(m):
             if m.group(4) is not None:
-                return f'<lora path="{m.group(1)}" strength_model="{m.group(2)}" strength_clip="{m.group(4)}" />'
+                return f'<?lora "{m.group(1)}" "{m.group(2)}" "{m.group(4)}">'
             else:
-                return f'<lora path="{m.group(1)}" strength_model="{m.group(2)}" />'
+                return f'<?lora "{m.group(1)}" "{m.group(2)}">'
         data = re.sub(r"<lora:([^:>]+):([0-9\-.]+)(:([0-9\-.]+))?>", replace, data, flags=re.MULTILINE)
         return HTMLParser.feed(self, data)
 
@@ -40,70 +41,6 @@ class TomlKeyListParser(HTMLParser):
         parser = TomlKeyListParser(other=self)
         parser.feed(f'<raw>{prompt}</raw>')
         assert len(parser.tag) == 0 and len(parser.cond) == 0 and len(parser.random_key) == 0, f"Tag not closed. {prompt}"
-
-    def load_lora_tag(self, lora_name, strength_model, strength_clip=None):
-        lora_name = lora_name.replace(os.path.sep, "/")
-        if strength_clip is None:
-            lora_tag = "<lora:{}:{}>".format(lora_name, strength_model)
-        else:
-            lora_tag = "<lora:{}:{}:{}>".format(lora_name, strength_model, strength_clip)
-
-        if lora_tag not in self.loras:
-            self.loras += [lora_tag]
-            self.loaded_keys += [lora_name]
-
-        lora_dict = self.prompt_dict.get("<lora>", {})
-        if lora_name in lora_dict:
-            prompt = ','.join([v.strip() for v in collect_prompt(lora_dict, [lora_name], ignore_split=True, exports=self.exports) if v.strip()])
-            if prompt:
-                self.feed_new_obj(prompt)
-
-    def tag_lora(self, attrs):
-        self.load_lora_tag(attrs["path"], attrs["strength_model"], attrs.get("strength_clip", None))
-
-    def tag_set(self, attrs):
-        d = self.prompt_dict
-        keys = attrs["key"].strip().split(".")
-        for key in keys[:-1]:
-            d = d[key]
-        d = d["_v"][keys[-1]]
-        if isinstance(d, list):
-            d[:] = [attrs["value"]]
-            print("Set:", attrs["key"], "=", d)
-
-    def tag_grep(self, attrs):
-        d = self.prompt_dict
-        keys = attrs["key"].strip().split(".")
-        for key in keys[:-1]:
-            d = d[key]
-        d = d["_v"][keys[-1]]
-        if isinstance(d, list):
-            d[:] = [k for k in d if attrs["value"] in k]
-            print("Grep:", d)
-
-    def tag_fix(self, attrs):
-        d = self.prompt_dict
-        for key in attrs["key"].strip().split("."):
-            d = d[key]
-        keys = get_keys_all_recursive(d)
-        all_keys = keys[0] + keys[1]
-        if attrs.get("find", None) is not None:
-            # Find: *{args[1]}*
-            keys = [k for k in all_keys if attrs["find"] in k]
-            fix_route(d, keys)
-            print("Find:", keys)
-        if attrs.get("remove", None) is not None:
-            # Find Not: *{args[1]}*
-            keys = [k for k in all_keys if attrs["remove"] in k]
-            remove_route(d, keys)
-            print("FindNot:", keys)
-        if attrs.get("route", None) is not None:
-            fix_route(d, [attrs["route"]])
-            print("Fix:", keys)
-
-    def tag_export(self, attrs):
-        self.exports[attrs["key"]] = attrs["value"]
-        print("Export:", attrs["key"], "=", attrs["value"])
 
     def tag_case(self, attrs):
         self.cond += [len(self.cond) == 0 or self.cond[-1] == True]
@@ -150,28 +87,9 @@ class TomlKeyListParser(HTMLParser):
     def tag_else(self, attrs):
         self.cond += [self.cond[-1] == True]
 
-    # 制御タグ用
-    def tag_empty(self, attrs):
-        pass
-
-    TAG_FUNCS = {
-        "case": (tag_empty, True),
-        "else": (tag_empty, True),
-        "export": (tag_export, False),
-        "fix": (tag_fix, False),
-        "grep": (tag_grep, False),
-        "lora": (tag_lora, False),
-        "neg": (tag_empty, True),
-        "random": (tag_empty, True),
-        "raw": (tag_empty, True),
-        "set": (tag_set, False),
-        "tag": (tag_empty, True),
-        "when": (tag_empty, True),
-    }
-
-    def branch_cond(self, tag, attrs):
+    def handle_starttag(self, tag, orig_attrs):
+        attrs = dict(orig_attrs)
         parent_tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
-        ret = False
         if tag == "when":
             if parent_tag == "case":
                 self.tag_case_when(attrs)
@@ -186,35 +104,11 @@ class TomlKeyListParser(HTMLParser):
             self.tag_case(attrs)
         elif tag == "random":
             self.tag_random(attrs)
-        else:
-            ret = True
 
-        # タグは処理した
-        if not ret:
-            if self.TAG_FUNCS[tag][1]:
-                self.tag += [(tag, attrs)]
-            return False
-
-        # 上の階層でcond=Falseになっている
-        if len(self.cond) > 0 and not self.cond[-1]:
-            if self.TAG_FUNCS[tag][1]:
-                self.tag += [(tag, attrs)]
-            return False
-
-        return True
-
-    def handle_starttag(self, tag, attrs):
-        dict_attrs = dict(attrs)
-        if not self.branch_cond(tag, dict_attrs):
-            return HTMLParser.handle_starttag(self, tag, dict_attrs)
-
-        self.TAG_FUNCS[tag][0](self, dict_attrs)
-        if self.TAG_FUNCS[tag][1]:
-            self.tag += [(tag, dict_attrs)]
-        return HTMLParser.handle_starttag(self, tag, attrs)
+        self.tag += [(tag, attrs)]
+        return HTMLParser.handle_starttag(self, tag, orig_attrs)
 
     def handle_endtag(self, tag):
-        assert self.TAG_FUNCS[tag][1], f"</{tag}> is not needed"
         assert self.tag[-1][0] == tag, f"{tag} != {self.tag}[-1][0]"
         self.tag.pop(-1)
         if tag in ["case", "when", "else", "random"]:
@@ -225,13 +119,12 @@ class TomlKeyListParser(HTMLParser):
 
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
-        if self.TAG_FUNCS[tag][1]:
-            self.handle_endtag(tag)
+        self.handle_endtag(tag)
 
     def handle_data(self, data):
         # Condition is not True
         if len(self.cond) > 0 and not self.cond[-1]:
-            return
+            return HTMLParser.handle_data(self, data)
 
         tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
         attrs = self.tag[-1][1] if len(self.tag) > 0 else {}
@@ -255,6 +148,98 @@ class TomlKeyListParser(HTMLParser):
         else:
             assert data.strip() == "" or data.strip() == ",", f"Unknown Data: {data} in {tag}"
         return HTMLParser.handle_data(self, data)
+
+    def load_lora_tag(self, lora_name, strength_model, strength_clip=None):
+        lora_name = lora_name.replace(os.path.sep, "/")
+        if strength_clip is None:
+            lora_tag = "<lora:{}:{}>".format(lora_name, strength_model)
+        else:
+            lora_tag = "<lora:{}:{}:{}>".format(lora_name, strength_model, strength_clip)
+
+        if lora_tag not in self.loras:
+            self.loras += [lora_tag]
+            self.loaded_keys += [lora_name]
+
+        lora_dict = self.prompt_dict.get("<lora>", {})
+        if lora_name in lora_dict:
+            prompt = ','.join([v.strip() for v in collect_prompt(lora_dict, [lora_name], ignore_split=True, exports=self.exports) if v.strip()])
+            if prompt:
+                self.feed_new_obj(prompt)
+
+    def pi_lora(self, args):
+        self.load_lora_tag(args[0], args[1] if len(args) >= 2 else 1.0, args[2] if len(args) >= 3 else None)
+
+    def pi_set(self, args):
+        d = self.prompt_dict
+        keys = args[0].strip().split(".")
+        for key in keys[:-1]:
+            d = d[key]
+        d = d["_v"][keys[-1]]
+        if isinstance(d, list):
+            d[:] = [args[1]]
+            print("Set:", args[0], "=", d)
+
+    def pi_grep(self, args):
+        d = self.prompt_dict
+        keys = args[0].strip().split(".")
+        for key in keys[:-1]:
+            d = d[key]
+        d = d["_v"][keys[-1]]
+        if isinstance(d, list):
+            d[:] = [k for k in d if args[1] in k]
+            print("Grep:", d)
+
+    def pi_find(self, args):
+        d = self.prompt_dict
+        for key in args[0].strip().split("."):
+            d = d[key]
+        keys = get_keys_all_recursive(d)
+        all_keys = keys[0] + keys[1]
+        keys = [k for k in all_keys if args[1] in k]
+        fix_route(d, keys)
+        print("Find:", keys)
+
+    def pi_remove(self, args):
+        d = self.prompt_dict
+        for key in args[0].strip().split("."):
+            d = d[key]
+        keys = get_keys_all_recursive(d)
+        all_keys = keys[0] + keys[1]
+        keys = [k for k in all_keys if args[1] in k]
+        remove_route(d, keys)
+        print("FindNot:", keys)
+
+    def pi_fix(self, args):
+        d = self.prompt_dict
+        for key in args[0].strip().split("."):
+            d = d[key]
+        keys = get_keys_all_recursive(d)
+        all_keys = keys[0] + keys[1]
+        fix_route(d, [args[1]])
+        print("Fix:", keys)
+
+    def pi_export(self, args):
+        self.exports[args[0]] = args[1]
+        print("Export:", args[0], "=", args[1])
+
+    PI_FUNCS = {
+        "export": pi_export,
+        "fix": pi_fix,
+        "find": pi_find,
+        "remove": pi_remove,
+        "grep": pi_grep,
+        "lora": pi_lora,
+        "set": pi_set,
+    }
+
+    def handle_pi(self, data):
+        # Condition is not True
+        if len(self.cond) > 0 and not self.cond[-1]:
+            return HTMLParser.handle_pi(self, data)
+
+        args = shlex.split(data)
+        self.PI_FUNCS[args[0]](self, args[1:])
+        return HTMLParser.handle_pi(self, data)
 
 def fix_route(d, keys):
     start = d

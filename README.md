@@ -114,13 +114,13 @@ base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.bo
   <when key=a>key_a</when>
   <when key=b>key_b</when>
 </random>
-<fix key=base route=girl />    /* fix random choise, "base.??" is always "base.girl" */
-<fix key=base find=girl />     /* fix random choise, "base.??" is always tag including girl */
-<fix key=base remove=girl />   /* fix random choise, "base.??" is always tag excluding girl */
-<export key=key value=value /> /* export key=value */
-<set key=color value=black />                 /* _v.color = ["black"] */
-<set key=base.girl.color value='cyan blue' /> /* base.girl._v.color = ["cyan blue"] */
-<grep key=color value='ark' />                /* _v.color = ["dark", "dark blue"] */
+<?fix base girl>    /* fix random choise, "base.??" is always "base.girl" */
+<?find base girl>   /* fix random choise, "base.??" is always tag including girl */
+<?remove base girl> /* fix random choise, "base.??" is always tag excluding girl */
+<?export key value> /* export key=value */
+<?set color black>                 /* _v.color = ["black"] */
+<?set base.girl.color 'cyan blue'> /* base.girl._v.color = ["cyan blue"] */
+<?grep color 'ark'>                /* _v.color = ["dark", "dark blue"] */
 ```
 
 ## MultipleLoraTagLoader
