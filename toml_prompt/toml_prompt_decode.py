@@ -313,7 +313,10 @@ def get_keys_random(d, branch_term = False):
     ikeys = get_keys_term(d, branch_term)
     indices = [i for i, _ in ikeys]
     if "_w" in d:
-        i = random.choices(indices, [v for i, v in enumerate(d["_w"]) if i in indices])[0]
+        try:
+            i = random.choices(indices, [v for i, v in enumerate(d["_w"]) if i in indices])[0]
+        except:
+            raise Exception(f"Invalid weights: keys={ikeys}, weights={d["_w"]}")
     else:
         i = random.choice(indices)
     return ikeys[i][1]
