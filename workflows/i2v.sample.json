@@ -2,7 +2,7 @@
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
   "last_node_id": 173,
-  "last_link_id": 474,
+  "last_link_id": 475,
   "nodes": [
     {
       "id": 138,
@@ -445,37 +445,6 @@
       ]
     },
     {
-      "id": 164,
-      "type": "PromptLoader",
-      "pos": [
-        389.67559814453125,
-        -541.4169921875
-      ],
-      "size": [
-        270,
-        58
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            446
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "PromptLoader"
-      },
-      "widgets_values": [
-        "prompt.sample.toml"
-      ]
-    },
-    {
       "id": 171,
       "type": "StringViewer",
       "pos": [
@@ -579,12 +548,9 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "text",
-          "type": "STRING",
-          "widget": {
-            "name": "text"
-          },
-          "link": 446
+          "name": "toml",
+          "type": "TOML_PROMPT",
+          "link": 475
         }
       ],
       "outputs": [
@@ -636,8 +602,7 @@
       "widgets_values": [
         "wan",
         0,
-        "randomize",
-        ""
+        "randomize"
       ]
     },
     {
@@ -740,7 +705,7 @@
         106
       ],
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -819,6 +784,37 @@
         "simple",
         1
       ]
+    },
+    {
+      "id": 164,
+      "type": "PromptLoader",
+      "pos": [
+        389.67559814453125,
+        -541.4169921875
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "TOML_PROMPT",
+          "type": "TOML_PROMPT",
+          "links": [
+            475
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PromptLoader"
+      },
+      "widgets_values": [
+        "prompt.sample.toml"
+      ]
     }
   ],
   "links": [
@@ -861,14 +857,6 @@
       125,
       1,
       "CLIP"
-    ],
-    [
-      446,
-      164,
-      0,
-      163,
-      0,
-      "STRING"
     ],
     [
       449,
@@ -1037,6 +1025,14 @@
       167,
       6,
       "INT"
+    ],
+    [
+      475,
+      164,
+      0,
+      163,
+      0,
+      "TOML_PROMPT"
     ]
   ],
   "groups": [
@@ -1093,7 +1089,7 @@
         652.0708872008379
       ]
     },
-    "frontendVersion": "1.21.7"
+    "frontendVersion": "1.23.4"
   },
   "version": 0.4
 }

@@ -1,10 +1,18 @@
 import os
 import hashlib
+import tomllib
 
 base_path = os.path.realpath(os.path.join(os.path.dirname(__file__), "..", "prompts"))
 
+class TomlPrompt:
+    def __init__(self, path):
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read()
+        self.prompt_dict = tomllib.loads(text)
+        self.path = path
+
 class PromptLoader:
-    RETURN_TYPES = ("STRING", )
+    RETURN_TYPES = ("TOML_PROMPT", )
     OUTPUT_TOOLTIPS = ("A Prompt.", )
     FUNCTION = "load_prompt"
     CATEGORY = "utils"
@@ -34,6 +42,5 @@ class PromptLoader:
 
     def load_prompt(self, file):
         path = os.path.join(base_path, file)
-        with open(path, "r", encoding="utf-8") as f:
-            text = f.read()
-        return (text, )
+        toml = TomlPrompt(path)
+        return (toml, )

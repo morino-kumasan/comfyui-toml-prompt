@@ -2,7 +2,7 @@
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
   "last_node_id": 177,
-  "last_link_id": 488,
+  "last_link_id": 489,
   "nodes": [
     {
       "id": 138,
@@ -151,37 +151,6 @@
       ]
     },
     {
-      "id": 164,
-      "type": "PromptLoader",
-      "pos": [
-        389.67559814453125,
-        -541.4169921875
-      ],
-      "size": [
-        270,
-        58
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            446
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "PromptLoader"
-      },
-      "widgets_values": [
-        "prompt.sample.toml"
-      ]
-    },
-    {
       "id": 171,
       "type": "StringViewer",
       "pos": [
@@ -193,7 +162,7 @@
         502.4708251953125
       ],
       "flags": {},
-      "order": 10,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -281,7 +250,7 @@
         106
       ],
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -408,7 +377,7 @@
         58
       ],
       "flags": {},
-      "order": 9,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -483,7 +452,7 @@
         256
       ],
       "flags": {},
-      "order": 13,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -574,16 +543,13 @@
         523.9749145507812
       ],
       "flags": {},
-      "order": 8,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
-          "name": "text",
-          "type": "STRING",
-          "widget": {
-            "name": "text"
-          },
-          "link": 446
+          "name": "toml",
+          "type": "TOML_PROMPT",
+          "link": 489
         }
       ],
       "outputs": [
@@ -635,8 +601,7 @@
       "widgets_values": [
         "wan",
         0,
-        "randomize",
-        ""
+        "randomize"
       ]
     },
     {
@@ -696,7 +661,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 12,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -740,7 +705,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 11,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
@@ -782,7 +747,7 @@
         82
       ],
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -923,6 +888,37 @@
         8,
         "disable"
       ]
+    },
+    {
+      "id": 164,
+      "type": "PromptLoader",
+      "pos": [
+        389.67559814453125,
+        -541.4169921875
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "TOML_PROMPT",
+          "type": "TOML_PROMPT",
+          "links": [
+            489
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PromptLoader"
+      },
+      "widgets_values": [
+        "prompt.sample.toml"
+      ]
     }
   ],
   "links": [
@@ -949,14 +945,6 @@
       125,
       1,
       "CLIP"
-    ],
-    [
-      446,
-      164,
-      0,
-      163,
-      0,
-      "STRING"
     ],
     [
       449,
@@ -1181,6 +1169,14 @@
       167,
       6,
       "INT"
+    ],
+    [
+      489,
+      164,
+      0,
+      163,
+      0,
+      "TOML_PROMPT"
     ]
   ],
   "groups": [
@@ -1237,7 +1233,7 @@
         651.208617741845
       ]
     },
-    "frontendVersion": "1.21.7"
+    "frontendVersion": "1.23.4"
   },
   "version": 0.4
 }
