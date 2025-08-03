@@ -7,9 +7,11 @@ base_path = os.path.realpath(os.path.join(os.path.dirname(__file__), "..", "prom
 class TomlPrompt:
     def __init__(self, path):
         with open(path, "r", encoding="utf-8") as f:
-            text = f.read()
-        self.prompt_dict = tomllib.loads(text)
+            self.text = f.read()
         self.path = path
+    
+    def load(self):
+        self.prompt_dict = tomllib.loads(self.text)
 
 class PromptLoader:
     RETURN_TYPES = ("TOML_PROMPT", )

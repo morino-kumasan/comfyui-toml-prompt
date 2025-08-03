@@ -465,6 +465,7 @@ class TomlPromptDecode:
 
     def load_prompt(self, seed, toml, key_name_list):
         random.seed(seed)
+        toml.load()
 
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
         parser = TomlKeyListParser(toml=toml)
