@@ -14,14 +14,16 @@ class TomlKeyListParser(HTMLParser):
             self.negative = []
             self.loras = []
             self.loaded_keys = []
-            self.toml = toml
+            self.prompt_dict = toml.load()
+            self.root_dir = os.path.dirname(toml.path)
             self.exports = {}
         elif other is not None:
             self.positive = other.positive
             self.negative = other.negative
             self.loras = other.loras
             self.loaded_keys = other.loaded_keys
-            self.toml = other.toml
+            self.prompt_dict = other.prompt_dict
+            self.root_dir = other.root_dir
             self.exports = other.exports
         self.tag = []
         self.cond = []
@@ -141,7 +143,7 @@ class TomlKeyListParser(HTMLParser):
         elif tag == "tag" or tag == "when" or tag == "else":
             for key in re.split(r"[,\r\n]", data):
                 key = key.strip()
-                prompt = ','.join([v.strip() for v in collect_prompt(self.toml.prompt_dict, build_search_keys(key), exclude_keys=self.loaded_keys, exports=self.exports, root_dir=os.path.dirname(self.toml.path)) if v.strip()])
+                prompt = ','.join([v.strip() for v in collect_prompt(self.prompt_dict, build_search_keys(key), exclude_keys=self.loaded_keys, exports=self.exports, root_dir=self.root_dir) if v.strip()])
                 if prompt:
                     self.feed_new_obj(prompt)
         else:
@@ -159,9 +161,9 @@ class TomlKeyListParser(HTMLParser):
             self.loras += [lora_tag]
             self.loaded_keys += [lora_name]
 
-        lora_dict = self.toml.prompt_dict.get("<lora>", {})
+        lora_dict = self.prompt_dict.get("<lora>", {})
         if lora_name in lora_dict:
-            prompt = ','.join([v.strip() for v in collect_prompt(lora_dict, [lora_name], ignore_split=True, exports=self.exports, root_dir=os.path.dirname(self.toml.path)) if v.strip()])
+            prompt = ','.join([v.strip() for v in collect_prompt(lora_dict, [lora_name], ignore_split=True, exports=self.exports, root_dir=self.root_dir) if v.strip()])
             if prompt:
                 self.feed_new_obj(prompt)
 
@@ -169,29 +171,29 @@ class TomlKeyListParser(HTMLParser):
         self.load_lora_tag(args[0], args[1] if len(args) >= 2 else 1.0, args[2] if len(args) >= 3 else None)
 
     def pi_set(self, args):
-        d = self.toml.prompt_dict
+        d = self.prompt_dict
         keys = args[0].strip().split(".")
         for key in keys[:-1]:
             d = d[key]
-        load_prompt_var(d, keys[-1], self.toml.prompt_dict)
+        load_prompt_var(d["_v"], keys[-1], self.root_dir)
         d = d["_v"][keys[-1]]
         if isinstance(d, list):
             d[:] = [args[1]]
             print("Set:", args[0], "=", d)
 
     def pi_grep(self, args):
-        d = self.toml.prompt_dict
+        d = self.prompt_dict
         keys = args[0].strip().split(".")
         for key in keys[:-1]:
             d = d[key]
-        load_prompt_var(d, keys[-1], self.toml.prompt_dict)
+        load_prompt_var(d["_v"], keys[-1], self.root_dir)
         d = d["_v"][keys[-1]]
         if isinstance(d, list):
             d[:] = [k for k in d if args[1] in k]
             print("Grep:", d)
 
     def pi_route(self, args):
-        d = self.toml.prompt_dict
+        d = self.prompt_dict
         for key in args[1].strip().split("."):
             d = d[key]
         keys = get_keys_all_recursive(d)
@@ -465,12 +467,11 @@ class TomlPromptDecode:
 
     def load_prompt(self, seed, toml, key_name_list):
         random.seed(seed)
-        toml.load()
 
         key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
         parser = TomlKeyListParser(toml=toml)
         parser.exports = { "prompt_seed": seed }
-        export_values(toml.prompt_dict, parser.exports, ".", {})
+        export_values(parser.prompt_dict, parser.exports, ".", {})
 
         # Decode
         parser.feed(key_name_list)

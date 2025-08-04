@@ -11,7 +11,7 @@ class TomlPrompt:
         self.path = path
     
     def load(self):
-        self.prompt_dict = tomllib.loads(self.text)
+        return tomllib.loads(self.text)
 
 class PromptLoader:
     RETURN_TYPES = ("TOML_PROMPT", )
