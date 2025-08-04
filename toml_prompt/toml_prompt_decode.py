@@ -445,6 +445,12 @@ def load_summary_header(s):
         r[k] = v
     return r
 
+def normalize_prompt(s):
+    s = re.sub(r'\s+', ' ', s)
+    s = re.sub(r', ', ',', s)
+    s = re.sub(r',+', ',', s)
+    return s[1:] if s.startswith(",") else s
+
 class TomlPromptDecode:
     RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING", "STRING")
     OUTPUT_TOOLTIPS = ("Positive prompt", "Negative prompt", "Loaded LoRA name list", "Random seed", "Summary", "Exports")
@@ -475,8 +481,8 @@ class TomlPromptDecode:
 
         # Decode
         parser.feed(key_name_list)
-        positive = ','.join([v.strip() for v in parser.positive if v.strip()])
-        negative = ','.join([v.strip() for v in parser.negative if v.strip()])
+        positive = normalize_prompt(','.join([v.strip() for v in parser.positive if v.strip()]))
+        negative = normalize_prompt(','.join([v.strip() for v in parser.negative if v.strip()]))
 
         lora_list = "\n".join(parser.loras)
         exports = "\n".join(["{}: {}".format(k, v) for k, v in parser.exports.items()])
