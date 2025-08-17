@@ -87,6 +87,8 @@ class TomlKeyListParser(HTMLParser):
 
     def tag_else(self, attrs):
         self.cond += [self.cond[-1] == True]
+        if self.cond[-1]:
+            print("Else")
 
     def handle_starttag(self, tag, orig_attrs):
         attrs = dict(orig_attrs)
@@ -100,7 +102,6 @@ class TomlKeyListParser(HTMLParser):
                 self.tag_when(attrs)
         elif tag == "else":
             self.tag_else(attrs)
-            print("Else:", parent_tag)
         elif tag == "case":
             self.tag_case(attrs)
         elif tag == "random":
