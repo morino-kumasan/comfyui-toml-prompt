@@ -53,6 +53,9 @@ class MultipartCLIPTextEncode:
         r_model = model
         r_clip = clip
         for lora_tag in lora_tag_list.splitlines():
+            # HIGHとLOWを両方読み込むことはない
+            if lora_tag == "--":
+                break
             m = re.match(r"<lora:([^:]+):([-0-9.]+)(:([-0-9.]+))?>", lora_tag)
             if m:
                 lora_name = m.group(1)

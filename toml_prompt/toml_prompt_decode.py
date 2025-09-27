@@ -13,6 +13,7 @@ class TomlKeyListParser(HTMLParser):
             self.positive = []
             self.negative = []
             self.loras = []
+            self.loras_low = []
             self.loaded_keys = []
             self.prompt_dict = toml.load()
             self.root_dir = os.path.dirname(toml.path)
@@ -21,6 +22,7 @@ class TomlKeyListParser(HTMLParser):
             self.positive = other.positive
             self.negative = other.negative
             self.loras = other.loras
+            self.loras_low = other.loras_low
             self.loaded_keys = other.loaded_keys
             self.prompt_dict = other.prompt_dict
             self.root_dir = other.root_dir
@@ -31,11 +33,11 @@ class TomlKeyListParser(HTMLParser):
 
     def feed(self, data):
         def replace(m):
-            if m.group(4) is not None:
-                return f'<?lora "{m.group(1)}" "{m.group(2)}" "{m.group(4)}">'
+            if m.group(5) is not None:
+                return f'<?{m.group(1)} "{m.group(2)}" "{m.group(3)}" "{m.group(5)}">'
             else:
-                return f'<?lora "{m.group(1)}" "{m.group(2)}">'
-        data = re.sub(r"<lora:([^:>]+):([0-9\-.]+)(:([0-9\-.]+))?>", replace, data, flags=re.MULTILINE)
+                return f'<?{m.group(1)} "{m.group(2)}" "{m.group(3)}">'
+        data = re.sub(r"<(lora[_a-z]*):([^:>]+):([0-9\-.]+)(:([0-9\-.]+))?>", replace, data, flags=re.MULTILINE)
         return HTMLParser.feed(self, data)
 
     def feed_new_obj(self, prompt):
@@ -151,7 +153,7 @@ class TomlKeyListParser(HTMLParser):
             assert data.strip() == "" or data.strip() == ",", f"Unknown Data: {data} in {tag}"
         return HTMLParser.handle_data(self, data)
 
-    def load_lora_tag(self, lora_name, strength_model, strength_clip=None):
+    def load_lora_tag(self, lora_name, strength_model, strength_clip, low):
         lora_name = lora_name.replace(os.path.sep, "/")
         if strength_clip is None:
             lora_tag = "<lora:{}:{}>".format(lora_name, strength_model)
@@ -159,7 +161,10 @@ class TomlKeyListParser(HTMLParser):
             lora_tag = "<lora:{}:{}:{}>".format(lora_name, strength_model, strength_clip)
 
         if lora_tag not in self.loras:
-            self.loras += [lora_tag]
+            if low:
+                self.loras_low += [lora_tag]
+            else:
+                self.loras += [lora_tag]
             self.loaded_keys += [lora_name]
 
         lora_dict = self.prompt_dict.get("<lora>", {})
@@ -169,7 +174,10 @@ class TomlKeyListParser(HTMLParser):
                 self.feed_new_obj(prompt)
 
     def pi_lora(self, args):
-        self.load_lora_tag(args[0], args[1] if len(args) >= 2 else 1.0, args[2] if len(args) >= 3 else None)
+        self.load_lora_tag(args[0], args[1] if len(args) >= 2 else 1.0, args[2] if len(args) >= 3 else None, False)
+
+    def pi_lora_low(self, args):
+        self.load_lora_tag(args[0], args[1] if len(args) >= 2 else 1.0, args[2] if len(args) >= 3 else None, True)
 
     def pi_set(self, args):
         d = self.prompt_dict
@@ -219,6 +227,10 @@ class TomlKeyListParser(HTMLParser):
         "route": pi_route,
         "grep": pi_grep,
         "lora": pi_lora,
+        "lora_high": pi_lora,
+        "lora_h": pi_lora,
+        "lora_low": pi_lora_low,
+        "lora_l": pi_lora_low,
         "set": pi_set,
     }
 
@@ -486,6 +498,9 @@ class TomlPromptDecode:
         negative = normalize_prompt(','.join([v.strip() for v in parser.negative if v.strip()]))
 
         lora_list = "\n".join(parser.loras)
+        if parser.loras_low:
+            lora_list += "\n--\n"
+            lora_list += "\n".join(parser.loras_low)
         exports = "\n".join(["{}: {}".format(k, v) for k, v in parser.exports.items()])
         summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
         exports = json.dumps(load_summary_header(exports))
@@ -548,3 +563,25 @@ class SummaryReader:
             assert True, "Seed Not Found"
             
         return (positive, negative, lora_list, seed, json.dumps(exports))
+
+class SplitLoraList:
+    RETURN_TYPES = ("STRING", "STRING")
+    OUTPUT_TOOLTIPS = ("High noise lora list.", "Low noise lora list.")
+    FUNCTION = "split"
+    CATEGORY = "utils"
+    DESCRIPTION = "Split lora list."
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "lora_list": ("STRING", {"defaultInput": True, "multiline": True, "tooltip": "Lora list."}),
+            }
+        }
+
+    def __init__(self):
+        pass
+
+    def split(self, lora_list):
+        r = lora_list.split("\n--\n", 1)
+        return (r[0], r[1] if len(r) == 2 else "")
