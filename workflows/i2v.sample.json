@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 187,
-  "last_link_id": 509,
+  "last_node_id": 188,
+  "last_link_id": 512,
   "nodes": [
     {
       "id": 138,
@@ -86,7 +86,7 @@
         990.0119018554688
       ],
       "flags": {},
-      "order": 25,
+      "order": 26,
       "mode": 0,
       "inputs": [
         {
@@ -272,7 +272,7 @@
         210
       ],
       "flags": {},
-      "order": 17,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -399,50 +399,6 @@
       ]
     },
     {
-      "id": 177,
-      "type": "JsonExtractInt",
-      "pos": [
-        1861.7188720703125,
-        50.969913482666016
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 14,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 487
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            488
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractInt"
-      },
-      "widgets_values": [
-        "",
-        "height",
-        608
-      ]
-    },
-    {
       "id": 172,
       "type": "KSamplerAdvanced",
       "pos": [
@@ -454,7 +410,7 @@
         334
       ],
       "flags": {},
-      "order": 22,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -476,6 +432,14 @@
           "name": "latent_image",
           "type": "LATENT",
           "link": 474
+        },
+        {
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": 511
         }
       ],
       "outputs": [
@@ -517,7 +481,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 24,
+      "order": 25,
       "mode": 0,
       "inputs": [
         {
@@ -558,7 +522,7 @@
         334
       ],
       "flags": {},
-      "order": 23,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -580,6 +544,14 @@
           "name": "latent_image",
           "type": "LATENT",
           "link": 475
+        },
+        {
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": 512
         }
       ],
       "outputs": [
@@ -729,80 +701,6 @@
       ]
     },
     {
-      "id": 163,
-      "type": "TomlPromptDecode",
-      "pos": [
-        665.9871215820312,
-        -543.91845703125
-      ],
-      "size": [
-        438.1300048828125,
-        523.9749145507812
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "toml",
-          "type": "TOML_PROMPT",
-          "link": 489
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            458
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            459
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            460,
-            503
-          ]
-        },
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": []
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            467
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            485,
-            487
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "TomlPromptDecode"
-      },
-      "widgets_values": [
-        "wan",
-        0,
-        "randomize"
-      ]
-    },
-    {
       "id": 183,
       "type": "LoadLoraFromLoraList",
       "pos": [
@@ -816,7 +714,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 18,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -863,7 +761,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 15,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -915,7 +813,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 16,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -967,7 +865,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 19,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -1012,7 +910,7 @@
         58
       ],
       "flags": {},
-      "order": 21,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -1049,7 +947,7 @@
         58
       ],
       "flags": {},
-      "order": 20,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -1221,6 +1119,170 @@
         0,
         "[none]",
         0
+      ]
+    },
+    {
+      "id": 163,
+      "type": "TomlPromptDecode",
+      "pos": [
+        665.9871215820312,
+        -543.91845703125
+      ],
+      "size": [
+        438.1300048828125,
+        523.9749145507812
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "toml",
+          "type": "TOML_PROMPT",
+          "link": 489
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            458
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            459
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            460,
+            503
+          ]
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": []
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            467
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            485,
+            487,
+            510
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TomlPromptDecode"
+      },
+      "widgets_values": [
+        "wan",
+        0,
+        "randomize"
+      ]
+    },
+    {
+      "id": 177,
+      "type": "JsonExtractInt",
+      "pos": [
+        1861.7188720703125,
+        50.969913482666016
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 487
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            488
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "height",
+        608
+      ]
+    },
+    {
+      "id": 188,
+      "type": "JsonExtractFloat",
+      "pos": [
+        1853.234375,
+        111.54373168945312
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 510
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            511,
+            512
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractFloat"
+      },
+      "widgets_values": [
+        "",
+        "cfg",
+        1
       ]
     }
   ],
@@ -1520,6 +1582,30 @@
       184,
       1,
       "STRING"
+    ],
+    [
+      510,
+      163,
+      5,
+      188,
+      0,
+      "STRING"
+    ],
+    [
+      511,
+      188,
+      0,
+      172,
+      4,
+      "FLOAT"
+    ],
+    [
+      512,
+      188,
+      0,
+      173,
+      4,
+      "FLOAT"
     ]
   ],
   "groups": [
@@ -1572,10 +1658,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.3941002467216879,
+      "scale": 0.37476868500958727,
       "offset": [
-        475.05668175508436,
-        915.584513346354
+        560.3950892689172,
+        915.5845133463542
       ]
     },
     "frontendVersion": "1.26.13"
