@@ -3,7 +3,7 @@ from .toml_prompt.multiple_lora_tag_loader import MultipleLoraTagLoader
 from .toml_prompt.prompt_loader import PromptLoader
 from .toml_prompt.string_viewer import StringViewer
 from .toml_prompt.util import StringPicker, JsonExtractString, JsonExtractInt, JsonExtractFloat, LatentSelector, StringSelector, IntSelector, StringConcat, StringConcatInt, SeedGenerator
-from .toml_prompt.wrapper import MultipartCLIPTextEncode, CheckPointLoaderSimpleFromString, KSamplerFromJsonInfo
+from .toml_prompt.wrapper import MultipartCLIPTextEncode, CheckPointLoaderSimpleFromString, KSamplerFromJsonInfo, LoadLoraFromLoraList
 
 NODE_CLASS_MAPPINGS = {
     "TomlPromptDecode": TomlPromptDecode,
@@ -24,6 +24,7 @@ NODE_CLASS_MAPPINGS = {
     "CheckPointLoaderSimpleFromString": CheckPointLoaderSimpleFromString,
     "KSamplerFromJsonInfo": KSamplerFromJsonInfo,
     "SeedGenerator": SeedGenerator,
+    "LoadLoraFromLoraList": LoadLoraFromLoraList,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -45,6 +46,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "CheckPointLoaderSimpleFromString": "CheckPointLoaderSimpleFromString",
     "KSamplerFromJsonInfo": "KSamplerFromJsonInfo",
     "SeedGenerator": "SeedGenerator",
+    "LoadLoraFromLoraList": "LoadLoraFromLoraList",
 }
 
 WEB_DIRECTORY = "./web"

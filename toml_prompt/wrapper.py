@@ -1,6 +1,6 @@
 import re, json
 
-from nodes import LoraLoader, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler
+from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler
 
 
 def encode(encoder, concat, clip, text):
@@ -31,12 +31,14 @@ class MultipartCLIPTextEncode:
     def INPUT_TYPES(s):
         return {
             "required": {
-                "model": ("MODEL", {"tooltip": "The diffusion model."}),
                 "clip": ("CLIP", {"tooltip": "The CLIP model."}),
                 "lora_tag_list": ("STRING", {"multiline": True, "tooltip": "LoRA tag list."}),
                 "positive": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Positive prompt."}),
                 "negative": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Negative prompt."}),
-            }
+            },
+            "optional": {
+                "model": ("MODEL", {"tooltip": "The diffusion model."}),
+            },
         }
 
     def __init__(self):
@@ -44,7 +46,7 @@ class MultipartCLIPTextEncode:
         self.concat = ConditioningConcat()
         self.loader = {}
 
-    def load_prompt(self, model, clip, positive, negative, lora_tag_list):
+    def load_prompt(self, clip, positive, negative, lora_tag_list, model=None):
         self.loader = {}
 
         # Load LoRAs
@@ -57,8 +59,9 @@ class MultipartCLIPTextEncode:
                 strength_model = float(m.group(2))
                 strength_clip = float(m.group(4)) if m.group(4) else strength_model
                 if lora_name not in self.loader:
-                    self.loader[lora_name] = LoraLoader()
-                    r_model, r_clip = self.loader[lora_name].load_lora(r_model, r_clip, lora_name, strength_model, strength_clip)
+                    if r_model is not None:
+                        self.loader[lora_name] = LoraLoader()
+                        r_model, r_clip = self.loader[lora_name].load_lora(r_model, r_clip, lora_name, strength_model, strength_clip)
                     print(f"Lora Loaded: {lora_name}: {strength_model}")
 
         # Encode prompts
@@ -66,6 +69,42 @@ class MultipartCLIPTextEncode:
         r_negative = encode(self.encoder, self.concat, r_clip, negative)
 
         return (r_model, r_clip, r_positive, r_negative)
+
+class LoadLoraFromLoraList:
+    RETURN_TYPES = ("MODEL",)
+    OUTPUT_TOOLTIPS = ("The diffusion model.",)
+    FUNCTION = "load_loras"
+    CATEGORY = "loaders"
+    DESCRIPTION = "Load loras."
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "model": ("MODEL", {"tooltip": "The diffusion model."}),
+                "lora_tag_list": ("STRING", {"multiline": True, "tooltip": "LoRA tag list."}),
+            },
+        }
+
+    def __init__(self):
+        self.loader = {}
+
+    def load_loras(self, model, lora_tag_list):
+        self.loader = {}
+
+        # Load LoRAs
+        r_model = model
+        for lora_tag in lora_tag_list.splitlines():
+            m = re.match(r"<lora:([^:]+):([-0-9.]+)(:([-0-9.]+))?>", lora_tag)
+            if m:
+                lora_name = m.group(1)
+                strength_model = float(m.group(2))
+                if lora_name not in self.loader:
+                    self.loader[lora_name] = LoraLoaderModelOnly()
+                    r_model = self.loader[lora_name].load_lora_model_only(r_model, lora_name, strength_model)[0]
+                    print(f"Lora Loaded: {lora_name}: {strength_model}")
+
+        return (r_model,)
 
 class CheckPointLoaderSimpleFromString:
     RETURN_TYPES = ("MODEL", "CLIP", "VAE")

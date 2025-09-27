@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 180,
-  "last_link_id": 495,
+  "last_node_id": 184,
+  "last_link_id": 502,
   "nodes": [
     {
       "id": 138,
@@ -56,7 +56,7 @@
         502.4708251953125
       ],
       "flags": {},
-      "order": 10,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -86,7 +86,7 @@
         990.0119018554688
       ],
       "flags": {},
-      "order": 20,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -117,7 +117,7 @@
         244.04544067382812
       ],
       "flags": {},
-      "order": 6,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -144,7 +144,7 @@
         523.9749145507812
       ],
       "flags": {},
-      "order": 7,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -256,7 +256,7 @@
           "name": "MODEL",
           "type": "MODEL",
           "links": [
-            491
+            496
           ]
         }
       ],
@@ -266,188 +266,6 @@
       "widgets_values": [
         "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors",
         "default"
-      ]
-    },
-    {
-      "id": 178,
-      "type": "UNETLoader",
-      "pos": [
-        1142.911865234375,
-        -419.802978515625
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            493
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "UNETLoader"
-      },
-      "widgets_values": [
-        "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
-        "default"
-      ]
-    },
-    {
-      "id": 180,
-      "type": "LoraLoaderModelOnly",
-      "pos": [
-        1424.7677001953125,
-        -540.8516845703125
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 491
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            492
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoraLoaderModelOnly"
-      },
-      "widgets_values": [
-        "wan22\\wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
-        1
-      ]
-    },
-    {
-      "id": 175,
-      "type": "LoraLoaderModelOnly",
-      "pos": [
-        1425.274169921875,
-        -418.5463562011719
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 493
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            494
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoraLoaderModelOnly"
-      },
-      "widgets_values": [
-        "wan22\\wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
-        1
-      ]
-    },
-    {
-      "id": 162,
-      "type": "ModelSamplingSD3",
-      "pos": [
-        1707.719970703125,
-        -538.711669921875
-      ],
-      "size": [
-        270,
-        58
-      ],
-      "flags": {},
-      "order": 13,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 492
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            444
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ModelSamplingSD3"
-      },
-      "widgets_values": [
-        5
-      ]
-    },
-    {
-      "id": 179,
-      "type": "ModelSamplingSD3",
-      "pos": [
-        1709.2928466796875,
-        -418.9700622558594
-      ],
-      "size": [
-        270,
-        58
-      ],
-      "flags": {},
-      "order": 14,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 494
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            495
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ModelSamplingSD3"
-      },
-      "widgets_values": [
-        5
       ]
     },
     {
@@ -462,7 +280,7 @@
         106
       ],
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -495,7 +313,7 @@
         58
       ],
       "flags": {},
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -516,96 +334,6 @@
       ]
     },
     {
-      "id": 125,
-      "type": "MultipartCLIPTextEncode",
-      "pos": [
-        1453.2720947265625,
-        -224.176513671875
-      ],
-      "size": [
-        210,
-        256
-      ],
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 444
-        },
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 445
-        },
-        {
-          "name": "lora_tag_list",
-          "type": "STRING",
-          "widget": {
-            "name": "lora_tag_list"
-          },
-          "link": 460
-        },
-        {
-          "name": "positive",
-          "type": "STRING",
-          "widget": {
-            "name": "positive"
-          },
-          "link": 458
-        },
-        {
-          "name": "negative",
-          "type": "STRING",
-          "widget": {
-            "name": "negative"
-          },
-          "link": 459
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "slot_index": 0,
-          "links": [
-            471
-          ]
-        },
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "links": null
-        },
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "slot_index": 2,
-          "links": [
-            463
-          ]
-        },
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "slot_index": 3,
-          "links": [
-            464
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "MultipartCLIPTextEncode"
-      },
-      "widgets_values": [
-        "",
-        "",
-        ""
-      ]
-    },
-    {
       "id": 167,
       "type": "WanImageToVideo",
       "pos": [
@@ -617,7 +345,7 @@
         210
       ],
       "flags": {},
-      "order": 16,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -713,7 +441,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 11,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -757,7 +485,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 12,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -799,13 +527,13 @@
         334
       ],
       "flags": {},
-      "order": 17,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
-          "link": 471
+          "link": 502
         },
         {
           "name": "positive",
@@ -862,7 +590,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 19,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -903,7 +631,7 @@
         334
       ],
       "flags": {},
-      "order": 18,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -951,23 +679,404 @@
         4,
         "disable"
       ]
+    },
+    {
+      "id": 178,
+      "type": "UNETLoader",
+      "pos": [
+        1142.911865234375,
+        -419.802978515625
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            498
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
+        "default"
+      ]
+    },
+    {
+      "id": 183,
+      "type": "LoadLoraFromLoraList",
+      "pos": [
+        1434.8094482421875,
+        -512.4996337890625
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 496
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 500
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            497
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadLoraFromLoraList"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 162,
+      "type": "ModelSamplingSD3",
+      "pos": [
+        1641.5164794921875,
+        -540.8822021484375
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 497
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            502
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelSamplingSD3"
+      },
+      "widgets_values": [
+        5
+      ]
+    },
+    {
+      "id": 125,
+      "type": "MultipartCLIPTextEncode",
+      "pos": [
+        1453.2720947265625,
+        -224.176513671875
+      ],
+      "size": [
+        210,
+        256
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 445
+        },
+        {
+          "name": "model",
+          "shape": 7,
+          "type": "MODEL",
+          "link": null
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 460
+        },
+        {
+          "name": "positive",
+          "type": "STRING",
+          "widget": {
+            "name": "positive"
+          },
+          "link": 458
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "widget": {
+            "name": "negative"
+          },
+          "link": 459
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": []
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null
+        },
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 2,
+          "links": [
+            463
+          ]
+        },
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 3,
+          "links": [
+            464
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MultipartCLIPTextEncode"
+      },
+      "widgets_values": [
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 179,
+      "type": "ModelSamplingSD3",
+      "pos": [
+        1638.7491455078125,
+        -424.39642333984375
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 499
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            495
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelSamplingSD3"
+      },
+      "widgets_values": [
+        5
+      ]
+    },
+    {
+      "id": 184,
+      "type": "LoadLoraFromLoraList",
+      "pos": [
+        1436.38818359375,
+        -392.03424072265625
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 498
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 501
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            499
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadLoraFromLoraList"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 181,
+      "type": "MultipleLoraTagLoader",
+      "pos": [
+        2030.72021484375,
+        -535.5966186523438
+      ],
+      "size": [
+        270,
+        514
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            500
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MultipleLoraTagLoader"
+      },
+      "widgets_values": [
+        "wan/wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+        1,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0
+      ]
+    },
+    {
+      "id": 182,
+      "type": "MultipleLoraTagLoader",
+      "pos": [
+        2031.59765625,
+        23.23336410522461
+      ],
+      "size": [
+        270,
+        514
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            501
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MultipleLoraTagLoader"
+      },
+      "widgets_values": [
+        "wan/wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
+        1,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0,
+        "[none]",
+        0
+      ]
     }
   ],
   "links": [
-    [
-      444,
-      162,
-      0,
-      125,
-      0,
-      "MODEL"
-    ],
     [
       445,
       161,
       0,
       125,
-      1,
+      0,
       "CLIP"
     ],
     [
@@ -1057,14 +1166,6 @@
       167,
       4,
       "IMAGE"
-    ],
-    [
-      471,
-      125,
-      0,
-      172,
-      0,
-      "MODEL"
     ],
     [
       472,
@@ -1163,42 +1264,66 @@
       "TOML_PROMPT"
     ],
     [
-      491,
-      158,
+      495,
+      179,
       0,
-      180,
+      173,
       0,
       "MODEL"
     ],
     [
-      492,
-      180,
+      496,
+      158,
+      0,
+      183,
+      0,
+      "MODEL"
+    ],
+    [
+      497,
+      183,
       0,
       162,
       0,
       "MODEL"
     ],
     [
-      493,
+      498,
       178,
       0,
-      175,
+      184,
       0,
       "MODEL"
     ],
     [
-      494,
-      175,
+      499,
+      184,
       0,
       179,
       0,
       "MODEL"
     ],
     [
-      495,
-      179,
+      500,
+      181,
       0,
-      173,
+      183,
+      1,
+      "STRING"
+    ],
+    [
+      501,
+      182,
+      0,
+      184,
+      1,
+      "STRING"
+    ],
+    [
+      502,
+      162,
+      0,
+      172,
       0,
       "MODEL"
     ]
@@ -1225,12 +1350,14 @@
       "bounding": [
         1125.705810546875,
         -621.07568359375,
-        1087.398193359375,
-        1209.7861328125
+        1231.9954833984375,
+        1207.9017333984375
       ],
       "color": "#3f789e",
       "font_size": 24,
-      "flags": {}
+      "flags": {
+        "pinned": true
+      }
     },
     {
       "id": 5,
@@ -1251,10 +1378,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.6922777593213716,
+      "scale": 0.3941002467216879,
       "offset": [
-        7.181445590980052,
-        642.6499655741803
+        620.9586457307787,
+        915.584513346354
       ]
     },
     "frontendVersion": "1.26.13"
