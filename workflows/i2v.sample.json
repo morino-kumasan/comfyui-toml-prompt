@@ -511,75 +511,6 @@
       "widgets_values": []
     },
     {
-      "id": 173,
-      "type": "KSamplerAdvanced",
-      "pos": [
-        1497.683837890625,
-        104.93248748779297
-      ],
-      "size": [
-        308,
-        334
-      ],
-      "flags": {},
-      "order": 24,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 495
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 478
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 479
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 475
-        },
-        {
-          "name": "cfg",
-          "type": "FLOAT",
-          "widget": {
-            "name": "cfg"
-          },
-          "link": 512
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            480
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSamplerAdvanced"
-      },
-      "widgets_values": [
-        "disable",
-        0,
-        "fixed",
-        4,
-        1,
-        "euler",
-        "simple",
-        2,
-        4,
-        "disable"
-      ]
-    },
-    {
       "id": 178,
       "type": "UNETLoader",
       "pos": [
@@ -1271,8 +1202,7 @@
           "name": "FLOAT",
           "type": "FLOAT",
           "links": [
-            511,
-            512
+            511
           ]
         }
       ],
@@ -1283,6 +1213,67 @@
         "",
         "cfg",
         1
+      ]
+    },
+    {
+      "id": 173,
+      "type": "KSamplerAdvanced",
+      "pos": [
+        1497.683837890625,
+        104.93248748779297
+      ],
+      "size": [
+        308,
+        334
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 495
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 478
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 479
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 475
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            480
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerAdvanced"
+      },
+      "widgets_values": [
+        "disable",
+        0,
+        "fixed",
+        4,
+        1,
+        "euler",
+        "simple",
+        2,
+        4,
+        "disable"
       ]
     }
   ],
@@ -1598,14 +1589,6 @@
       172,
       4,
       "FLOAT"
-    ],
-    [
-      512,
-      188,
-      0,
-      173,
-      4,
-      "FLOAT"
     ]
   ],
   "groups": [
@@ -1658,10 +1641,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.37476868500958727,
+      "scale": 0.3901460636442128,
       "offset": [
-        560.3950892689172,
-        915.5845133463542
+        491.82426351398317,
+        915.584513346354
       ]
     },
     "frontendVersion": "1.26.13"
