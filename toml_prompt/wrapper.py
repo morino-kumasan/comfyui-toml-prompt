@@ -1,9 +1,12 @@
+from typing import Any
+from . import InputTypesFuncResult
+
 import re, json
 
-from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler
+from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler  # type: ignore
 
 
-def encode(encoder, concat, clip, text):
+def encode(encoder: Any, concat: Any, clip: Any, text: str):
     r_cond = None
     for prompt in re.split(r"[\s,]+BREAK[\s,]+", text):
         prompt = prompt.strip()
@@ -20,21 +23,46 @@ def encode(encoder, concat, clip, text):
         r_cond = encoder.encode(clip, "")[0]
     return r_cond
 
+
 class MultipartCLIPTextEncode:
     RETURN_TYPES = ("MODEL", "CLIP", "CONDITIONING", "CONDITIONING")
-    OUTPUT_TOOLTIPS = ("The diffusion model.", "The CLIP model.", "A Conditioning for positive.", "A Conditioning for negative.")
+    OUTPUT_TOOLTIPS = (
+        "The diffusion model.",
+        "The CLIP model.",
+        "A Conditioning for positive.",
+        "A Conditioning for negative.",
+    )
     FUNCTION = "load_prompt"
     CATEGORY = "conditioning"
     DESCRIPTION = "Encode prompt."
 
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
         return {
             "required": {
                 "clip": ("CLIP", {"tooltip": "The CLIP model."}),
-                "lora_tag_list": ("STRING", {"multiline": True, "tooltip": "LoRA tag list."}),
-                "positive": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Positive prompt."}),
-                "negative": ("STRING", {"multiline": True, "dynamicPrompts": True, "defaultInput": True, "tooltip": "Negative prompt."}),
+                "lora_tag_list": (
+                    "STRING",
+                    {"multiline": True, "tooltip": "LoRA tag list."},
+                ),
+                "positive": (
+                    "STRING",
+                    {
+                        "multiline": True,
+                        "dynamicPrompts": True,
+                        "defaultInput": True,
+                        "tooltip": "Positive prompt.",
+                    },
+                ),
+                "negative": (
+                    "STRING",
+                    {
+                        "multiline": True,
+                        "dynamicPrompts": True,
+                        "defaultInput": True,
+                        "tooltip": "Negative prompt.",
+                    },
+                ),
             },
             "optional": {
                 "model": ("MODEL", {"tooltip": "The diffusion model."}),
@@ -42,11 +70,18 @@ class MultipartCLIPTextEncode:
         }
 
     def __init__(self):
-        self.encoder = CLIPTextEncode()
-        self.concat = ConditioningConcat()
-        self.loader = {}
+        self.encoder: Any = CLIPTextEncode()
+        self.concat: Any = ConditioningConcat()
+        self.loader: dict[str, Any] = {}
 
-    def load_prompt(self, clip, positive, negative, lora_tag_list, model=None):
+    def load_prompt(
+        self,
+        clip: Any,
+        positive: str,
+        negative: str,
+        lora_tag_list: str,
+        model: Any | None = None,
+    ):
         self.loader = {}
 
         # Load LoRAs
@@ -64,7 +99,9 @@ class MultipartCLIPTextEncode:
                 if lora_name not in self.loader:
                     if r_model is not None:
                         self.loader[lora_name] = LoraLoader()
-                        r_model, r_clip = self.loader[lora_name].load_lora(r_model, r_clip, lora_name, strength_model, strength_clip)
+                        r_model, r_clip = self.loader[lora_name].load_lora(
+                            r_model, r_clip, lora_name, strength_model, strength_clip
+                        )
                     print(f"Lora Loaded: {lora_name}: {strength_model}")
 
         # Encode prompts
@@ -72,6 +109,7 @@ class MultipartCLIPTextEncode:
         r_negative = encode(self.encoder, self.concat, r_clip, negative)
 
         return (r_model, r_clip, r_positive, r_negative)
+
 
 class LoadLoraFromLoraList:
     RETURN_TYPES = ("MODEL",)
@@ -81,18 +119,21 @@ class LoadLoraFromLoraList:
     DESCRIPTION = "Load loras."
 
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
         return {
             "required": {
                 "model": ("MODEL", {"tooltip": "The diffusion model."}),
-                "lora_tag_list": ("STRING", {"multiline": True, "tooltip": "LoRA tag list."}),
+                "lora_tag_list": (
+                    "STRING",
+                    {"multiline": True, "tooltip": "LoRA tag list."},
+                ),
             },
         }
 
     def __init__(self):
-        self.loader = {}
+        self.loader: dict[str, Any] = {}
 
-    def load_loras(self, model, lora_tag_list):
+    def load_loras(self, model: Any, lora_tag_list: str):
         self.loader = {}
 
         # Load LoRAs
@@ -104,10 +145,13 @@ class LoadLoraFromLoraList:
                 strength_model = float(m.group(2))
                 if lora_name not in self.loader:
                     self.loader[lora_name] = LoraLoaderModelOnly()
-                    r_model = self.loader[lora_name].load_lora_model_only(r_model, lora_name, strength_model)[0]
+                    r_model = self.loader[lora_name].load_lora_model_only(
+                        r_model, lora_name, strength_model
+                    )[0]
                     print(f"Lora Loaded: {lora_name}: {strength_model}")
 
         return (r_model,)
+
 
 class CheckPointLoaderSimpleFromString:
     RETURN_TYPES = ("MODEL", "CLIP", "VAE")
@@ -117,7 +161,7 @@ class CheckPointLoaderSimpleFromString:
     DESCRIPTION = "Load checkpoint from string."
 
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(cls):
         return {
             "required": {
                 "ckpt_name": ("STRING",),
@@ -125,10 +169,11 @@ class CheckPointLoaderSimpleFromString:
         }
 
     def __init__(self):
-        self.loader = CheckpointLoaderSimple()
+        self.loader: Any = CheckpointLoaderSimple()
 
-    def load(self, ckpt_name):
+    def load(self, ckpt_name: str):
         return self.loader.load_checkpoint(ckpt_name)
+
 
 class KSamplerFromJsonInfo:
     RETURN_TYPES = ("LATENT",)
@@ -138,25 +183,61 @@ class KSamplerFromJsonInfo:
     DESCRIPTION = "KSampler from json info."
 
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
         return {
             "required": {
                 "model": ("MODEL",),
                 "positive": ("CONDITIONING", {"tooltip": "Positive."}),
                 "negative": ("CONDITIONING", {"tooltip": "Negative."}),
                 "latent_image": ("LATENT",),
-                "denoise": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.01}),
-                "json_text": ("STRING", {"tooltip": "JSON text including seed, steps, cfg, sampler and scheduler"}),
+                "denoise": (
+                    "FLOAT",
+                    {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.01},
+                ),
+                "json_text": (
+                    "STRING",
+                    {
+                        "tooltip": "JSON text including seed, steps, cfg, sampler and scheduler"
+                    },
+                ),
             },
             "optional": {
-                "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff, "forceInput": True}),
-            }
+                "seed": (
+                    "INT",
+                    {
+                        "default": 0,
+                        "min": 0,
+                        "max": 0xFFFFFFFFFFFFFFFF,
+                        "forceInput": True,
+                    },
+                ),
+            },
         }
 
     def __init__(self):
-        self.sampler = KSampler()
+        self.sampler: Any = KSampler()
 
-    def sample(self, model, positive, negative, latent_image, denoise, json_text, seed=None):
+    def sample(
+        self,
+        model: Any,
+        positive: str,
+        negative: str,
+        latent_image: Any,
+        denoise: float,
+        json_text: str,
+        seed: int | None = None,
+    ):
         info = json.loads(json_text)
         seed = seed if seed is not None else int(info["seed"])
-        return self.sampler.sample(model, seed, int(info["steps"]), float(info["cfg"]), info["sampler"], info["scheduler"], positive, negative, latent_image, denoise=denoise)
+        return self.sampler.sample(
+            model,
+            seed,
+            int(info["steps"]),
+            float(info["cfg"]),
+            info["sampler"],
+            info["scheduler"],
+            positive,
+            negative,
+            latent_image,
+            denoise=denoise,
+        )
