@@ -1,11 +1,33 @@
-from .toml_prompt.toml_prompt_decode import TomlPromptDecode, SummaryReader, SplitLoraList
+from typing import Any
+
+from .toml_prompt.toml_prompt_decode import (
+    TomlPromptDecode,
+    SummaryReader,
+    SplitLoraList,
+)
 from .toml_prompt.multiple_lora_tag_loader import MultipleLoraTagLoader
 from .toml_prompt.prompt_loader import PromptLoader
 from .toml_prompt.string_viewer import StringViewer
-from .toml_prompt.util import StringPicker, JsonExtractString, JsonExtractInt, JsonExtractFloat, LatentSelector, StringSelector, IntSelector, StringConcat, StringConcatInt, SeedGenerator
-from .toml_prompt.wrapper import MultipartCLIPTextEncode, CheckPointLoaderSimpleFromString, KSamplerFromJsonInfo, LoadLoraFromLoraList
+from .toml_prompt.util import (
+    StringPicker,
+    JsonExtractString,
+    JsonExtractInt,
+    JsonExtractFloat,
+    LatentSelector,
+    StringSelector,
+    IntSelector,
+    StringConcat,
+    StringConcatInt,
+    SeedGenerator,
+)
+from .toml_prompt.wrapper import (
+    MultipartCLIPTextEncode,
+    CheckPointLoaderSimpleFromString,
+    KSamplerFromJsonInfo,
+    LoadLoraFromLoraList,
+)
 
-NODE_CLASS_MAPPINGS = {
+NODE_CLASS_MAPPINGS: dict[str, Any] = {
     "TomlPromptDecode": TomlPromptDecode,
     "MultipartCLIPTextEncode": MultipartCLIPTextEncode,
     "MultipleLoraTagLoader": MultipleLoraTagLoader,
