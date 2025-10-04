@@ -2,9 +2,12 @@ from typing import cast, Any
 from . import InputTypesFuncResult
 
 import sys, os, json
-import folder_paths  # pyright: ignore
-from PIL import Image  # pyright: ignore
 
+try:
+    import folder_paths  # pyright: ignore
+    from PIL import Image  # pyright: ignore
+except ImportError:
+    pass
 
 class StringPicker:
     RETURN_TYPES = ("STRING",)

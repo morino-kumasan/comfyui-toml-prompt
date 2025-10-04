@@ -3,7 +3,10 @@ from . import InputTypesFuncResult
 
 import re, json
 
-from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler  # type: ignore
+try:
+    from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler  # type: ignore
+except ImportError:
+    pass
 
 
 def encode(encoder: Any, concat: Any, clip: Any, text: str):

@@ -1,9 +1,12 @@
-from typing import cast
+from typing import cast, Any
 
 import os
 from functools import reduce
 
-from folder_paths import get_filename_list  # type: ignore
+try:
+    from folder_paths import get_filename_list  # type: ignore
+except ImportError:
+    pass
 
 
 class MultipleLoraTagLoader:
