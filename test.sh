@@ -2,5 +2,5 @@
 
 (
     cd tests
-    pytest
+    PYTHONPATH=.. pytest
 )
