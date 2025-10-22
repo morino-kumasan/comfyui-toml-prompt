@@ -208,22 +208,23 @@ class TomlKeyListParser(HTMLParser):
             self.loaded_keys += [lora_name]
 
         lora_dict = self.prompt_dict.get("<lora>", {})
-        if lora_name in lora_dict:
-            prompt = ",".join(
-                [
-                    v.strip()
-                    for v in collect_prompt(
-                        lora_dict,
-                        [lora_name],
-                        ignore_split=True,
-                        exports=self.exports,
-                        root_dir=self.root_dir,
-                    )
-                    if v.strip()
-                ]
-            )
-            if prompt:
-                self.feed_new_obj(prompt)
+        for lora_name_key in [lora_name, lora_name.split("/")[-1]]:
+            if lora_name_key in lora_dict:
+                prompt = ",".join(
+                    [
+                        v.strip()
+                        for v in collect_prompt(
+                            lora_dict,
+                            [lora_name_key],
+                            ignore_split=True,
+                            exports=self.exports,
+                            root_dir=self.root_dir,
+                        )
+                        if v.strip()
+                    ]
+                )
+                if prompt:
+                    self.feed_new_obj(prompt)
 
     def pi_lora(self, args: list[str]):
         self.load_lora_tag(
