@@ -1,4 +1,4 @@
-from typing import cast, Any
+from typing import cast
 
 import os
 from functools import reduce

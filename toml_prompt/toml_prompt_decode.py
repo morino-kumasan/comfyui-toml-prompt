@@ -1,4 +1,4 @@
-from typing import Self, Any, Callable, cast
+from typing import Self, Any, Callable, cast, TypeVar
 import os
 import re
 import json
@@ -13,10 +13,32 @@ from .prompt_loader import TomlPrompt
 AttrType = dict[str, str | None]
 PromptDict = dict[str, Any]
 PromptVariables = dict[str, str | float | int]
+T = TypeVar("T")
+
+
+class Random(random.Random):
+    def __init__(self, seed: int | None):
+        super().__init__(seed)
+        self.count = 0
+
+    def set_count(self, count: int):
+        print(f"RandomCount: {self.count} -> {count}")
+        assert count >= self.count
+        _rands = [self.random() for _i in range(self.count, count)]
+        self.count = 0
+
+    def random(self) -> float:
+        self.count += 1
+        return super().random()
 
 
 class TomlKeyListParser(HTMLParser):
-    def __init__(self, toml: TomlPrompt | None = None, other: Self | None = None):
+    def __init__(
+        self,
+        toml: TomlPrompt | None = None,
+        other: Self | None = None,
+        seed: int | None = None,
+    ):
         HTMLParser.__init__(self)
         if toml is not None:
             self.positive: list[str] = []
@@ -27,6 +49,7 @@ class TomlKeyListParser(HTMLParser):
             self.prompt_dict = toml.load()
             self.root_dir = os.path.dirname(toml.path)
             self.exports: dict[str, str] = {}
+            self.random = Random(seed=seed)
         elif other is not None:
             self.positive = other.positive
             self.negative = other.negative
@@ -36,6 +59,7 @@ class TomlKeyListParser(HTMLParser):
             self.prompt_dict = other.prompt_dict
             self.root_dir = other.root_dir
             self.exports = other.exports
+            self.random = other.random
         self.tag: list[tuple[str, dict[str, str | None]]] = []
         self.cond: list[bool] = []
         self.random_key: list[str] = []
@@ -72,7 +96,7 @@ class TomlKeyListParser(HTMLParser):
             self.cond += [True]
             choices = [k for k in attrs.keys()]
             weights = [float(v) for v in attrs.values() if v is not None]
-            key = random.choices(choices, weights)[0]
+            key = self.random.choices(choices, weights)[0]
             print(f"Random: {key} in {choices}")
             self.random_key += [key]
         else:
@@ -172,6 +196,7 @@ class TomlKeyListParser(HTMLParser):
                     [
                         v.strip()
                         for v in collect_prompt(
+                            self.random,
                             self.prompt_dict,
                             build_search_keys(key),
                             exclude_keys=self.loaded_keys,
@@ -214,6 +239,7 @@ class TomlKeyListParser(HTMLParser):
                     [
                         v.strip()
                         for v in collect_prompt(
+                            self.random,
                             lora_dict,
                             [lora_name_key],
                             ignore_split=True,
@@ -285,6 +311,9 @@ class TomlKeyListParser(HTMLParser):
         self.exports[args[0]] = args[1]
         print("Export:", args[0], "=", args[1])
 
+    def pi_random_count(self, args: list[str]):
+        self.random.set_count(int(args[0]))
+
     PI_FUNCS: dict[str, Callable[[Self, list[str]], None]] = {
         "export": pi_export,
         "route": pi_route,
@@ -295,6 +324,7 @@ class TomlKeyListParser(HTMLParser):
         "lora_low": pi_lora_low,
         "lora_l": pi_lora_low,
         "set": pi_set,
+        "random_count": pi_random_count,
     }
 
     def handle_pi(self, data: str):
@@ -349,17 +379,17 @@ def remove_comment_out(s: str) -> str:
     return re.sub(r"((//|#).+$|/\*[\s\S]*?\*/)", "", s, flags=re.MULTILINE).strip()
 
 
-def select_dynamic_prompt(s: str) -> str:
+def select_dynamic_prompt(rand: Random, s: str) -> str:
     return re.sub(
         r"{([^}]+)}",
-        lambda m: random.choice(m.group(1).split("|")).strip(),
+        lambda m: rand.choices(m.group(1).split("|"), weights=None)[0].strip(),
         s,
         flags=re.MULTILINE,
     )
 
 
 def expand_prompt_var(
-    d: PromptDict, global_vars: PromptVariables, root_dir: str
+    rand: Random, d: PromptDict, global_vars: PromptVariables, root_dir: str
 ) -> str:
     def random_var(m: re.Match[str]):
         var_name = m.group(1)
@@ -372,7 +402,7 @@ def expand_prompt_var(
                 print(f"_v Not Set: {d}")
                 return ""
         load_prompt_var(vars, var_name, root_dir)
-        return random.choice(cast(list[Any], vars[var_name]))
+        return rand.choices(cast(list[Any], vars[var_name]), weights=None)[0]
 
     return re.sub(
         r"\${([a-zA-Z0-9_.]+)}",
@@ -438,22 +468,22 @@ def get_keys_all_recursive(
     return (r_long, r_short)
 
 
-def get_keys_random(d: PromptDict, branch_term: bool = False):
+def get_keys_random(rand: Random, d: PromptDict, branch_term: bool = False):
     ikeys = get_keys_term(d, branch_term)
     indices = [i for i, _ in ikeys]
     if "_w" in d:
         try:
-            i = random.choices(
+            i = rand.choices(
                 indices, [v for i, v in enumerate(d["_w"]) if i in indices]
             )[0]
         except:
             raise Exception(f"Invalid weights: keys={ikeys}, weights={d["_w"]}")
     else:
-        i = random.choice(indices)
+        i = rand.choices(indices, weights=None)[0]
     return ikeys[i][1]
 
 
-def get_keys_random_recursive(input_dict: PromptDict):
+def get_keys_random_recursive(rand: Random, input_dict: PromptDict):
     r: list[str] = []
     prefix: list[str] = []
     d = input_dict
@@ -462,11 +492,7 @@ def get_keys_random_recursive(input_dict: PromptDict):
         if len(keys) == 0:
             break
 
-        if "_w" in d:
-            key = random.choices(keys, d["_w"])[0]
-        else:
-            key = random.choice(keys)
-
+        key = rand.choices(keys, weights=d.get("_w", None))[0]
         d = d[key]
         if isinstance(d, str) or "_t" in d:
             r += [".".join(prefix + [key])]
@@ -510,6 +536,7 @@ def export_values(
 
 
 def collect_prompt(
+    rand: Random,
     prompt_dict: dict[str, Any],
     keys: str | list[str],
     exclude_keys: list[str] | None = None,
@@ -536,11 +563,12 @@ def collect_prompt(
         while len(key_parts) > 0:
             key = key_parts.pop(0)
             if key in ["?", "?$"]:
-                key = get_keys_random(d, key.endswith("$"))
+                key = get_keys_random(rand, d, key.endswith("$"))
             elif key == "??":
                 assert len(key_parts) == 0
-                pick_keys = get_keys_random_recursive(d)
+                pick_keys = get_keys_random_recursive(rand, d)
                 r += collect_prompt(
+                    rand,
                     d,
                     pick_keys,
                     exclude_keys,
@@ -557,9 +585,9 @@ def collect_prompt(
                     pick_keys = [
                         key
                         for i, key in enumerate(pick_keys)
-                        if random.choices(
-                            [True, False], [d["_r"][i], 1.0 - d["_r"][i]]
-                        )[0]
+                        if rand.choices([True, False], [d["_r"][i], 1.0 - d["_r"][i]])[
+                            0
+                        ]
                     ]
                     print(
                         "RandomAll:",
@@ -569,6 +597,7 @@ def collect_prompt(
                     )
                 pick_keys = [".".join([key] + key_parts) for _, key in pick_keys]
                 r += collect_prompt(
+                    rand,
                     d,
                     pick_keys,
                     exclude_keys,
@@ -582,6 +611,7 @@ def collect_prompt(
                 assert len(key_parts) == 0
                 pick_keys = get_keys_all_recursive(d)
                 r += collect_prompt(
+                    rand,
                     d,
                     pick_keys[1] + pick_keys[0],
                     exclude_keys,
@@ -609,9 +639,10 @@ def collect_prompt(
                 if prefix_str not in exclude_keys:
                     r += [
                         select_dynamic_prompt(
+                            rand,
                             remove_comment_out(
-                                expand_prompt_var(d, global_vars, root_dir)
-                            )
+                                expand_prompt_var(rand, d, global_vars, root_dir)
+                            ),
                         )
                     ]
                     exclude_keys += [prefix_str]
@@ -619,9 +650,10 @@ def collect_prompt(
                 elif d_is_str or len(get_keys_all(d)) == 0:
                     r += [
                         select_dynamic_prompt(
+                            rand,
                             remove_comment_out(
-                                expand_prompt_var(d, global_vars, root_dir)
-                            )
+                                expand_prompt_var(rand, d, global_vars, root_dir)
+                            ),
                         )
                     ]
                     print(f"Load Prompt (Duplicated): {prefix_str}")
@@ -693,12 +725,13 @@ class TomlPromptDecode:
         pass
 
     def load_prompt(self, seed: int, toml: TomlPrompt, key_name_list: str):
-        random.seed(seed)
-
-        key_name_list = select_dynamic_prompt(remove_comment_out(key_name_list))
-        parser = TomlKeyListParser(toml=toml)
+        parser = TomlKeyListParser(toml=toml, seed=seed)
         parser.exports = {"prompt_seed": f"{seed}"}
         export_values(parser.prompt_dict, parser.exports, ".", [])
+
+        key_name_list = select_dynamic_prompt(
+            parser.random, remove_comment_out(key_name_list)
+        )
 
         # Decode
         parser.feed(key_name_list)

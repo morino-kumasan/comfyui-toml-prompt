@@ -1,10 +1,12 @@
 import os, sys
+
 sys.path.append(os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
 
 from typing import Any
 
 import unittest
 from toml_prompt.toml_prompt_decode import (
+    Random,
     get_keys_all,
     get_keys_all_recursive,
     get_keys_random_recursive,
@@ -14,6 +16,9 @@ from toml_prompt.toml_prompt_decode import (
 
 
 class TestSearch(unittest.TestCase):
+    def setUp(self):
+        self.random = Random(seed=None)
+
     def test__get_keys_all(self):
         d: dict[str, Any] = {"a": {"b": {}, "c": {}}}
         r = get_keys_all(d)
@@ -47,7 +52,7 @@ class TestSearch(unittest.TestCase):
                 },
             }
         }
-        r = get_keys_random_recursive(d)
+        r = get_keys_random_recursive(self.random, d)
         assert r == ["a", "a.b.c", "a.b.c.d"]
 
     def test__search_key(self):
@@ -77,7 +82,7 @@ class TestSearch(unittest.TestCase):
                 },
             }
         }
-        r = collect_prompt(d, build_search_keys("a.b.c"))
+        r = collect_prompt(self.random, d, build_search_keys("a.b.c"))
         assert r == ["a", "c"]
 
     def test__search_random(self):
@@ -92,7 +97,7 @@ class TestSearch(unittest.TestCase):
                 "d": "d",
             }
         }
-        r = collect_prompt(d, build_search_keys("a.?.c"))
+        r = collect_prompt(self.random, d, build_search_keys("a.?.c"))
         print(build_search_keys("a.?.c"), r)
         assert r == ["a", "c"]
 
@@ -107,7 +112,7 @@ class TestSearch(unittest.TestCase):
                 },
             }
         }
-        r = collect_prompt(d, build_search_keys("a.??"))
+        r = collect_prompt(self.random, d, build_search_keys("a.??"))
         assert r == ["a", "c"]
 
     def test__search_all(self):
@@ -127,7 +132,7 @@ class TestSearch(unittest.TestCase):
                 },
             }
         }
-        r = collect_prompt(d, build_search_keys("a.*.c"))
+        r = collect_prompt(self.random, d, build_search_keys("a.*.c"))
         assert r == ["a", "d", "c", "C"]
 
     def test__search_all_recursive(self):
@@ -145,7 +150,7 @@ class TestSearch(unittest.TestCase):
                 },
             }
         }
-        r = collect_prompt(d, build_search_keys("a.**"))
+        r = collect_prompt(self.random, d, build_search_keys("a.**"))
         assert r == ["a", "d", "c", "C"]
 
     def test__search_exclude(self):
@@ -157,7 +162,7 @@ class TestSearch(unittest.TestCase):
                 },
             }
         }
-        r = collect_prompt(d, build_search_keys("a+a.?.c"))
+        r = collect_prompt(self.random, d, build_search_keys("a+a.?.c"))
         assert r == ["a", "c", "c"]
 
 
