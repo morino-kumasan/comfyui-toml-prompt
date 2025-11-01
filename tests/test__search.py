@@ -165,6 +165,23 @@ class TestSearch(unittest.TestCase):
         r = collect_prompt(self.random, d, build_search_keys("a+a.?.c"))
         assert r == ["a", "c", "c"]
 
+    def test__search_post(self):
+        d: dict[str, Any] = {
+            "a": {
+                "_t": "a",
+                "_post": "post_a",
+                "b": {
+                    "c": {
+                        "_t": "c",
+                        "_post": "post_c",
+                    },
+                },
+            }
+        }
+        r = collect_prompt(self.random, d, build_search_keys("a.??"))
+        print(build_search_keys("a.??"), r)
+        assert r == ["a", "c", "post_a", "post_c"]
+
 
 if __name__ == "__main__":
     unittest.main()

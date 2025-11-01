@@ -525,6 +525,26 @@ def build_search_keys(
     )
 
 
+def exists_in_prompt_dict(prompt_dict: PromptDict, key: str):
+    d = prompt_dict
+    for key_part in key.split("."):
+        if key_part not in d:
+            return False
+        d = d[key_part]
+    return True
+
+
+def get_post_prompt_key(
+    d: PromptDict, keys: list[str], prefix: list[str], exclude_keys: list[str]
+):
+    return [
+        ".".join(prefix + [key, "_post"])
+        for key in keys
+        if exists_in_prompt_dict(d, key + "._post")
+        and ".".join(prefix + [key, "_post"]) not in exclude_keys
+    ]
+
+
 def export_values(
     d: PromptDict, exports: dict[str, str], prefix: str, exclude_keys: list[str]
 ):
@@ -545,21 +565,29 @@ def collect_prompt(
     ignore_split: bool = False,
     exports: dict[str, str] = {},
     root_dir: str | None = None,
+    post_keys: list[str] | None = None,
+    collect_post_prompt: bool = True,
 ) -> list[str]:
-    if isinstance(keys, str):
-        keys = build_search_keys(keys)
     if exclude_keys is None:
         exclude_keys = []
     if global_vars is None:
         global_vars = cast(PromptVariables, prompt_dict.get("_v", {}))
     if root_dir is None:
         root_dir = ""
+    if init_prefix is None:
+        init_prefix = []
+    if post_keys is None:
+        post_keys = []
+
+    if isinstance(keys, str):
+        keys = build_search_keys(keys)
+    post_keys += get_post_prompt_key(prompt_dict, keys, init_prefix, exclude_keys)
 
     r: list[str] = []
     for key in keys:
         d = prompt_dict
         key_parts = key.split(".") if not ignore_split else [key]
-        prefix = init_prefix[:] if init_prefix is not None else []
+        prefix = init_prefix[:]
         while len(key_parts) > 0:
             key = key_parts.pop(0)
             if key in ["?", "?$"]:
@@ -576,6 +604,8 @@ def collect_prompt(
                     global_vars,
                     exports=exports,
                     root_dir=root_dir,
+                    post_keys=post_keys,
+                    collect_post_prompt=False,
                 )
                 break
             elif key in ["*", "*$"]:
@@ -605,6 +635,8 @@ def collect_prompt(
                     global_vars,
                     exports=exports,
                     root_dir=root_dir,
+                    post_keys=post_keys,
+                    collect_post_prompt=False,
                 )
                 break
             elif key == "**":
@@ -619,6 +651,8 @@ def collect_prompt(
                     global_vars,
                     exports=exports,
                     root_dir=root_dir,
+                    post_keys=post_keys,
+                    collect_post_prompt=False,
                 )
                 break
             elif key.endswith("()"):
@@ -657,6 +691,19 @@ def collect_prompt(
                         )
                     ]
                     print(f"Load Prompt (Duplicated): {prefix_str}")
+
+    if collect_post_prompt and post_keys:
+        r += collect_prompt(
+            rand,
+            prompt_dict,
+            post_keys,
+            exclude_keys,
+            init_prefix,
+            global_vars,
+            exports=exports,
+            root_dir=root_dir,
+            collect_post_prompt=False,
+        )
     return r
 
 
