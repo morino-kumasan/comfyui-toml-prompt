@@ -178,7 +178,7 @@ class TomlKeyListParser(HTMLParser):
 
         tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
         attrs = self.tag[-1][1] if len(self.tag) > 0 else {}
-        if tag == "raw":
+        if tag == "raw" or tag == "when" or tag == "else":
             data = data.strip()
             if data:
                 if attrs.get("type", "positive") == "negative":
@@ -189,7 +189,7 @@ class TomlKeyListParser(HTMLParser):
             data = data.strip()
             if data:
                 self.negative += [data]
-        elif tag == "tag" or tag == "when" or tag == "else":
+        elif tag == "tag":
             for key in re.split(r"[,\r\n]", data):
                 key = key.strip()
                 prompt = ",".join(
