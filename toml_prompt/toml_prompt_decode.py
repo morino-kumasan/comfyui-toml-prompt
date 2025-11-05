@@ -8,7 +8,7 @@ import functools
 from html.parser import HTMLParser
 
 from . import InputTypesFuncResult
-from .prompt_loader import TomlPrompt
+from .prompt_loader import PromptFile
 
 AttrType = dict[str, str | None]
 PromptDict = dict[str, Any]
@@ -35,7 +35,7 @@ class Random(random.Random):
 class TomlKeyListParser(HTMLParser):
     def __init__(
         self,
-        toml: TomlPrompt | None = None,
+        toml: PromptFile | None = None,
         other: Self | None = None,
         seed: int | None = None,
     ):
@@ -757,7 +757,7 @@ class TomlPromptDecode:
                     },
                 ),
                 "toml": (
-                    "TOML_PROMPT",
+                    "PROMPT_FILE",
                     {
                         "multiline": True,
                         "dynamicPrompts": True,
@@ -771,7 +771,7 @@ class TomlPromptDecode:
     def __init__(self):
         pass
 
-    def load_prompt(self, seed: int, toml: TomlPrompt, key_name_list: str):
+    def load_prompt(self, seed: int, toml: PromptFile, key_name_list: str):
         parser = TomlKeyListParser(toml=toml, seed=seed)
         parser.exports = {"prompt_seed": f"{seed}"}
         export_values(parser.prompt_dict, parser.exports, ".", [])

@@ -3,24 +3,31 @@ from typing import Any
 import os
 import hashlib
 import tomllib
+import yaml
 
 base_path: str = os.path.realpath(
     os.path.join(os.path.dirname(__file__), "..", "prompts")
 )
 
 
-class TomlPrompt:
+class PromptFile:
     def __init__(self, path: str):
         with open(path, "r", encoding="utf-8") as f:
             self.text = f.read()
         self.path = path
+        self.file_type = os.path.splitext(path)[1]
 
     def load(self) -> dict[str, Any]:
-        return tomllib.loads(self.text)
+        if self.file_type in [".toml", ".txt"]:
+            return tomllib.loads(self.text)
+        elif self.file_type in [".yaml", ".yml"]:
+            return yaml.safe_load(self.text)
+        else:
+            raise Exception("Unknown file type")
 
 
 class PromptLoader:
-    RETURN_TYPES = ("TOML_PROMPT",)
+    RETURN_TYPES = ("PROMPT_FILE",)
     OUTPUT_TOOLTIPS = ("A Prompt.",)
     FUNCTION = "load_prompt"
     CATEGORY = "utils"
@@ -30,7 +37,7 @@ class PromptLoader:
     def INPUT_TYPES(cls):
         files: list[str] = []
         for _, _, fs in os.walk(base_path):
-            files += [f for f in fs if f.endswith((".txt", ".toml"))]
+            files += [f for f in fs if f.endswith((".txt", ".toml", ".yaml", ".yml"))]
         return {
             "required": {
                 "file": (files, {"tooltip": "file name."}),
@@ -50,5 +57,5 @@ class PromptLoader:
 
     def load_prompt(self, file: str):
         path = os.path.join(base_path, file)
-        toml = TomlPrompt(path)
+        toml = PromptFile(path)
         return (toml,)

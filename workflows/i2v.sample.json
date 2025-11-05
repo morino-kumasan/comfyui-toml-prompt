@@ -149,8 +149,8 @@
       "inputs": [],
       "outputs": [
         {
-          "name": "TOML_PROMPT",
-          "type": "TOML_PROMPT",
+          "name": "PROMPT_FILE",
+          "type": "PROMPT_FILE",
           "links": [
             489
           ]
@@ -1069,7 +1069,7 @@
       "inputs": [
         {
           "name": "toml",
-          "type": "TOML_PROMPT",
+          "type": "PROMPT_FILE",
           "link": 489
         }
       ],
@@ -1468,7 +1468,7 @@
       0,
       163,
       0,
-      "TOML_PROMPT"
+      "PROMPT_FILE"
     ],
     [
       495,
