@@ -182,6 +182,66 @@ class TestSearch(unittest.TestCase):
         print(build_search_keys("a.??"), r)
         assert r == ["a", "c", "post_a", "post_c"]
 
+    def test__search_variable(self):
+        d: dict[str, Any] = {
+            "a": {
+                "_t": "a",
+                "b": {
+                    "c": {
+                        "_t": "$d c",
+                        "d": "d",
+                    },
+                },
+            }
+        }
+        r = collect_prompt(self.random, d, build_search_keys("a.b.c"))
+        assert r == ["a", "<var>a.b.c.d</var> c"]
+
+    def test__search_variable_global(self):
+        d: dict[str, Any] = {
+            "a": {
+                "_t": "a",
+                "b": {
+                    "c": {
+                        "_t": "$::a.d c",
+                    },
+                },
+                "d": "d",
+            }
+        }
+        r = collect_prompt(self.random, d, build_search_keys("a.b.c"))
+        assert r == ["a", "<var>a.d</var> c"]
+
+    def test__search_tag(self):
+        d: dict[str, Any] = {
+            "a": {
+                "_t": "a",
+                "b": {
+                    "c": {
+                        "_t": "%d c",
+                        "d": "d",
+                    },
+                },
+            }
+        }
+        r = collect_prompt(self.random, d, build_search_keys("a.b.c"))
+        assert r == ["a", "<tag>a.b.c.d</tag> c"]
+
+    def test__search_tag_global(self):
+        d: dict[str, Any] = {
+            "a": {
+                "_t": "a",
+                "b": {
+                    "c": {
+                        "_t": "%::a.d c",
+                    },
+                },
+                "d": "d",
+            }
+        }
+        r = collect_prompt(self.random, d, build_search_keys("a.b.c"))
+        assert r == ["a", "<tag>a.d</tag> c"]
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, cast
 
 import os
 import hashlib
@@ -9,6 +9,8 @@ base_path: str = os.path.realpath(
     os.path.join(os.path.dirname(__file__), "..", "prompts")
 )
 
+type PromptDict = dict[str, Any | list[Any] | PromptDict]
+
 
 class PromptFile:
     def __init__(self, path: str):
@@ -17,13 +19,13 @@ class PromptFile:
         self.path = path
         self.file_type = os.path.splitext(path)[1]
 
-    def load(self) -> dict[str, Any]:
+    def load(self) -> PromptDict:
         if self.file_type in [".toml", ".txt"]:
-            return tomllib.loads(self.text)
+            return cast(PromptDict, tomllib.loads(self.text))
         elif self.file_type in [".yaml", ".yml"]:
             return yaml.safe_load(self.text)
         else:
-            raise Exception("Unknown file type")
+            raise Exception(f"Unknown file type: {self.file_type}")
 
 
 class PromptLoader:

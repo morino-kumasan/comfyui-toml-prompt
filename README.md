@@ -19,9 +19,9 @@ See sample workflows.
 ### text
 
 _t is prompt.
-_v is variables for random choice.
 _k is available keys for random choice.
 _w is weight for random choice with _k.
+_e is chance(0.0~1.0) for all choice with _k.
 _export is string to export to output.
 _f is called by toml_key_name().
 
@@ -33,21 +33,21 @@ _t="score_9, score_8_up, score_7_up, source_anime"
 # direct string prompt
 quality="best quality"
 
+color=["dark", "light", "dark blue"]
+
 [base.girl]
 _t="""1girl, perfect anatomy, 
 beautiful face, (detailed skin), (detailed face), (beautiful detailed eyes),  
-shiny hair, ${color} hair"""
-# ${color} is replaced with red, blue or blonde.
+shiny hair, $color hair"""
+# $color is replaced with red, blue or blonde.
 
 twintails = "twintails, <lora:twintails.safetensors:1>"
 ponytails = "ponytails"
-
-[base.girl._v]
 color=["red", "blue", "blonde"]
 
 [base.boy]
-1boy, muscular, ${.color} hair, formal suit,
-# ${color} is replaced with dark, light or dark blue
+1boy, muscular, $::color hair, formal suit,
+# $color is replaced with dark, light or dark blue
 
 # "base().test" equals "base._f.test"
 [base._f]
@@ -72,9 +72,6 @@ _r = [0.8, 0.3, 0.3]
 a = "80%"
 b = "30%"
 c = "30%"
-
-[_v]
-color=["dark", "light", "dark blue"]
 
 [_exports]
 key = "value"
@@ -107,10 +104,10 @@ base.??          /* equals "{base.girl.twintails | base.girl.ponytails | base.bo
   /* raw positive prompt */
   this line is raw positive prompt.
 </raw>
-<raw type=negative>
+<neg>
   /* raw negative prompt */
   this line is raw negative prompt.
-</raw>
+</neg>
 <case>
   /* key_name1 if key name is already loaded else key_name2 */
   <when key=base.girl>

@@ -1,4 +1,4 @@
-negative = "<!:source_pony, source_furry, source_cartoon, score_6, score_5, score_4, worst quality, low quality, normal quality>"
+negative = "<neg>source_pony, source_furry, source_cartoon, score_6, score_5, score_4, worst quality, low quality, normal quality</neg>"
 
 [_exports]
 model = "illustrious_v10.safetensors"
@@ -35,9 +35,8 @@ brown = "brown hair"
 orange = "orange hair"
 
 [pose.photo]
-_t="looking at viewer, cowboy shot, ${action}"
-[pose.photo._v]
-action=[
+_t="looking at viewer, cowboy shot, ${_action}"
+_action=[
     "dancing",
     "paw pose",
     "claw pose",
@@ -61,8 +60,10 @@ classroom = "classroom, desk, wooden floor"
 [wan]
 _t = """
 The model look at the viewer and jump.
-<!:Do not stop character moving. camera moving. 
-text, watermark, extra arms, extra legs, distorted face, mutated hands, poorly drawn, bad anatomy, ugly, deformed, out of frame, low quality, low resolution, blurry, worst quality, jpeg artifacts, text, watermark, signature, duplicate, long neck, no Cock, disembodied cock, ugly, camera fade, camera moving, camera cutting away, fadeaway, scene change, static, censorship, darkening, concealed shot, darkening, smoke, privacy panel>
+<neg>
+Do not stop character moving. camera moving. 
+text, watermark, extra arms, extra legs, distorted face, mutated hands, poorly drawn, bad anatomy, ugly, deformed, out of frame, low quality, low resolution, blurry, worst quality, jpeg artifacts, text, watermark, signature, duplicate, long neck, no Cock, disembodied cock, ugly, camera fade, camera moving, camera cutting away, fadeaway, scene change, static, censorship, darkening, concealed shot, darkening, smoke, privacy panel
+</neg>
 """
 
 ["<lora>"]

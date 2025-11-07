@@ -8,11 +8,9 @@ import functools
 from html.parser import HTMLParser
 
 from . import InputTypesFuncResult
-from .prompt_loader import PromptFile
+from .prompt_loader import PromptFile, PromptDict
 
-AttrType = dict[str, str | None]
-PromptDict = dict[str, Any]
-PromptVariables = dict[str, str | float | int]
+type AttrType = dict[str, str | None]
 T = TypeVar("T")
 
 
@@ -38,6 +36,7 @@ class TomlKeyListParser(HTMLParser):
         toml: PromptFile | None = None,
         other: Self | None = None,
         seed: int | None = None,
+        simple_join: bool = False,
     ):
         HTMLParser.__init__(self)
         if toml is not None:
@@ -63,6 +62,8 @@ class TomlKeyListParser(HTMLParser):
         self.tag: list[tuple[str, dict[str, str | None]]] = []
         self.cond: list[bool] = []
         self.random_key: list[str] = []
+        self.simple_join = simple_join
+        self.before_simple_join = False
 
     def feed(self, data: str):
         def replace(m: re.Match[str]) -> str:
@@ -79,8 +80,8 @@ class TomlKeyListParser(HTMLParser):
         )
         return HTMLParser.feed(self, data)
 
-    def feed_new_obj(self, prompt: str):
-        parser = TomlKeyListParser(other=self)
+    def feed_new_obj(self, prompt: str, simple_join: bool):
+        parser = TomlKeyListParser(other=self, simple_join=simple_join)
         parser.feed(f"<raw>{prompt}</raw>")
         assert (
             len(parser.tag) == 0
@@ -177,24 +178,22 @@ class TomlKeyListParser(HTMLParser):
             return HTMLParser.handle_data(self, data)
 
         tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
-        attrs = self.tag[-1][1] if len(self.tag) > 0 else {}
         if tag == "raw" or tag == "when" or tag == "else":
-            data = data.strip()
-            if data:
-                if attrs.get("type", "positive") == "negative":
-                    self.negative += [data]
+            if data.strip():
+                if (self.simple_join or self.before_simple_join) and self.positive:
+                    self.positive[-1] += data
+                    self.before_simple_join = False
                 else:
                     self.positive += [data]
         elif tag == "neg":
-            data = data.strip()
-            if data:
+            if data.strip():
                 self.negative += [data]
-        elif tag == "tag":
+        elif tag == "tag" or tag == "var":
             for key in re.split(r"[,\r\n]", data):
                 key = key.strip()
                 prompt = ",".join(
                     [
-                        v.strip()
+                        v
                         for v in collect_prompt(
                             self.random,
                             self.prompt_dict,
@@ -207,7 +206,8 @@ class TomlKeyListParser(HTMLParser):
                     ]
                 )
                 if prompt:
-                    self.feed_new_obj(prompt)
+                    self.feed_new_obj(prompt, simple_join=tag == "var")
+                    self.before_simple_join = tag == "var"
         else:
             assert (
                 data.strip() == "" or data.strip() == ","
@@ -232,12 +232,12 @@ class TomlKeyListParser(HTMLParser):
                 self.loras += [lora_tag]
             self.loaded_keys += [lora_name]
 
-        lora_dict = self.prompt_dict.get("<lora>", {})
+        lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
         for lora_name_key in [lora_name, lora_name.split("/")[-1]]:
             if lora_name_key in lora_dict:
                 prompt = ",".join(
                     [
-                        v.strip()
+                        v
                         for v in collect_prompt(
                             self.random,
                             lora_dict,
@@ -250,7 +250,7 @@ class TomlKeyListParser(HTMLParser):
                     ]
                 )
                 if prompt:
-                    self.feed_new_obj(prompt)
+                    self.feed_new_obj(prompt, simple_join=False)
 
     def pi_lora(self, args: list[str]):
         self.load_lora_tag(
@@ -271,29 +271,25 @@ class TomlKeyListParser(HTMLParser):
     def pi_set(self, args: list[str]):
         d = self.prompt_dict
         keys = args[0].strip().split(".")
-        for key in keys[:-1]:
-            d = d[key]
-        load_prompt_var(d["_v"], keys[-1], self.root_dir)
-        d = d["_v"][keys[-1]]
-        if isinstance(d, list):
-            d[:] = [args[1]]
-            print("Set:", args[0], "=", cast(list[Any], d))
+        d, _ = load_prompt_var(d, keys, self.root_dir)
+        d[keys[-1]] = [args[1]]
+        print("Set:", args[0], "=", args[1])
 
     def pi_grep(self, args: list[str]):
         d = self.prompt_dict
         keys = args[0].strip().split(".")
-        for key in keys[:-1]:
-            d = d[key]
-        load_prompt_var(d["_v"], keys[-1], self.root_dir)
-        d = d["_v"][keys[-1]]
-        if isinstance(d, list):
-            d[:] = [k for k in cast(list[Any], d) if args[1] in k]
-            print("Grep:", cast(list[Any], d))
+        d, values = load_prompt_var(d, keys, self.root_dir)
+        d[keys[-1]] = [
+            k
+            for k in (values if isinstance(values, list) else [values])
+            if args[1] in k
+        ]
+        print("Grep:", cast(list[Any], d[keys[-1]]))
 
     def pi_route(self, args: list[str]):
         d = self.prompt_dict
         for key in args[1].strip().split("."):
-            d = d[key]
+            d = cast(PromptDict, d[key])
         keys = get_keys_all_recursive(d)
 
         if args[0] == "fix":
@@ -346,14 +342,20 @@ def fix_route(d: PromptDict, keys: list[str]):
                 d["_k"] = []
                 d["_w"] = []
                 d["_fix"] = True
-            d = d[elem]
+            d = cast(PromptDict, d[elem])
     for key in keys:
         d = start
         for elem in key.split("."):
-            if elem not in d["_k"]:
-                d["_k"] += [elem]
-                d["_w"] += [1.0]
-            d = d[elem]
+            if elem not in d.get("_k", []):
+                if "_k" in d and isinstance(d["_k"], list):
+                    d["_k"] += [elem]
+                else:
+                    d["_k"] = [elem]
+                if "_w" in d and isinstance(d["_w"], list):
+                    d["_w"] += [1.0]
+                else:
+                    d["_w"] = [1.0]
+            d = cast(PromptDict, d[elem])
 
 
 def remove_route(d: PromptDict, keys: list[str]):
@@ -362,78 +364,99 @@ def remove_route(d: PromptDict, keys: list[str]):
         d = start
         l = key.split(".")
         for elem in l[:-1]:
-            d = d[elem]
+            d = cast(PromptDict, d[elem])
         elem = l[-1]
 
         if "_k" not in d:
             d["_k"] = get_keys_all(d)
 
         if elem in d["_k"]:
-            i = d["_k"].index(elem)
-            d["_k"].remove(elem)
+            i = cast(list[str], d["_k"]).index(elem)
+            cast(list[str], d["_k"]).remove(elem)
             if "_w" in d:
-                d["_w"].pop(i)
+                cast(list[float], d["_w"]).pop(i)
 
 
 def remove_comment_out(s: str) -> str:
-    return re.sub(r"((//|#).+$|/\*[\s\S]*?\*/)", "", s, flags=re.MULTILINE).strip()
+    return re.sub(r"((//|#).+$|/\*[\s\S]*?\*/)", "", s, flags=re.MULTILINE)
 
 
 def select_dynamic_prompt(rand: Random, s: str) -> str:
     return re.sub(
         r"{([^}]+)}",
-        lambda m: rand.choices(m.group(1).split("|"), weights=None)[0].strip(),
+        lambda m: rand.choices(m.group(1).split("|"), weights=None)[0],
         s,
         flags=re.MULTILINE,
     )
 
 
 def expand_prompt_var(
-    rand: Random, d: PromptDict, global_vars: PromptVariables, root_dir: str
+    rand: Random,
+    d: PromptDict | list[str] | str | int | float | bool,
+    prefix: list[str],
 ) -> str:
-    def random_var(m: re.Match[str]):
-        var_name = m.group(1)
-        if var_name.startswith("."):
-            var_name = var_name[1:]
-            vars = global_vars
-        else:
-            vars = d.get("_v", None)
-            if vars is None:
-                print(f"_v Not Set: {d}")
-                return ""
-        load_prompt_var(vars, var_name, root_dir)
-        return rand.choices(cast(list[Any], vars[var_name]), weights=None)[0]
-
-    return re.sub(
-        r"\${([a-zA-Z0-9_.]+)}",
-        random_var,
-        d if isinstance(d, str) else d["_t"],
-        flags=re.MULTILINE,
-    )
-
-
-def load_prompt_var(vars: PromptDict, var_name: str, root_dir: str):
-    if isinstance(vars[var_name], list):
-        pass
-    elif isinstance(vars[var_name], str):
-        vars[var_name] = [vars[var_name]]
+    if isinstance(d, dict):
+        value = d.get("_t", "")
+    elif isinstance(d, list):
+        value = rand.choices(d)[0]
     else:
-        assert "_load_from_file" in vars[var_name]
+        value = str(d)
+
+    def to_tag(m: re.Match[str]) -> str:
+        var_name = m.group(1)
+        var_type = "var" if var_name[0] == "$" else "tag"
+        var_name = var_name[1:]
+        if var_name.startswith("::"):
+            r = ".".join([var_name[2:]])
+        else:
+            r = ".".join(prefix + [var_name])
+        return f"<{var_type}>{r}</{var_type}>"
+
+    while re.search(r"([$%]:*[a-zA-Z_.*?]+)", cast(str, value)):
+        value = re.sub(
+            r"([$%]:*[a-zA-Z_.*?]+)",
+            to_tag,
+            cast(str, value),
+            flags=re.MULTILINE,
+        )
+    return cast(str, value)
+
+
+def load_prompt_var(
+    d: PromptDict, keys: list[str], root_dir: str
+) -> tuple[PromptDict, list[str] | str]:
+    for key in keys[:-1]:
+        d = cast(PromptDict, d[key])
+    var_name = keys[-1]
+
+    if isinstance(d[var_name], dict) and "_load_from_file" in d[var_name]:
         with open(
-            os.path.join(root_dir, vars[var_name]["_load_from_file"]),
+            os.path.join(
+                root_dir,
+                cast(dict[str, Any], d[var_name])["_load_from_file"],
+            ),
             "r",
             encoding="utf-8",
         ) as f:
-            vars[var_name] = []
+            r: list[str] = []
             for line in f.readlines():
                 line = line.strip()
                 if not line.startswith("#") and not line.startswith("//"):
-                    vars[var_name] += [line]
+                    r += [line]
+            d[var_name] = r
+        return (d, cast(list[str], d[var_name]))
+
+    if isinstance(d[var_name], list):
+        return (d, [str(v) for v in cast(list[Any], d[var_name])])
+    elif isinstance(d[var_name], dict):
+        return (d, str(cast(PromptDict, d[var_name]).get("_t", "")))
+    else:
+        return (d, str(d[var_name]))
 
 
 def get_keys_all(d: PromptDict):
     if "_k" in d:
-        return [cast(str, k) for k in d["_k"] if k in d]
+        return [str(k) for k in d["_k"] if k in d]
     return [k for k in d.keys() if not k.startswith("_")]
 
 
@@ -441,7 +464,8 @@ def get_keys_term(d: PromptDict, term: bool):
     return [
         (i, k)
         for i, k in enumerate(get_keys_all(d))
-        if (isinstance(d[k], str) or len(get_keys_all(d[k])) == 0) == term
+        if (isinstance(d[k], str) or len(get_keys_all(cast(PromptDict, d[k]))) == 0)
+        == term
     ]
 
 
@@ -456,13 +480,13 @@ def get_keys_all_recursive(
         v = d[k]
         if isinstance(v, str):
             r_long += [".".join(prefix + [k])]
-        elif len(get_keys_all(v)) == 0:
+        elif len(get_keys_all(cast(PromptDict, v))) == 0:
             if "_t" in v:
                 r_long += [".".join(prefix + [k])]
         else:
             if "_t" in v:
                 r_short += [".".join(prefix + [k])]
-            l, s = get_keys_all_recursive(v, prefix + [k])
+            l, s = get_keys_all_recursive(cast(PromptDict, v), prefix + [k])
             r_long += l
             r_short += s
     return (r_long, r_short)
@@ -474,7 +498,8 @@ def get_keys_random(rand: Random, d: PromptDict, branch_term: bool = False):
     if "_w" in d:
         try:
             i = rand.choices(
-                indices, [v for i, v in enumerate(d["_w"]) if i in indices]
+                indices,
+                [v for i, v in enumerate(cast(list[float], d["_w"])) if i in indices],
             )[0]
         except:
             raise Exception(f"Invalid weights: keys={ikeys}, weights={d["_w"]}")
@@ -492,7 +517,7 @@ def get_keys_random_recursive(rand: Random, input_dict: PromptDict):
         if len(keys) == 0:
             break
 
-        key = rand.choices(keys, weights=d.get("_w", None))[0]
+        key = rand.choices(keys, weights=cast(list[float] | None, d.get("_w", None)))[0]
         d = d[key]
         if isinstance(d, str) or "_t" in d:
             r += [".".join(prefix + [key])]
@@ -528,7 +553,7 @@ def build_search_keys(
 def exists_in_prompt_dict(prompt_dict: PromptDict, key: str):
     d = prompt_dict
     for key_part in key.split("."):
-        if key_part not in d:
+        if not isinstance(d, dict) or key_part not in d:
             return False
         d = d[key_part]
     return True
@@ -549,7 +574,7 @@ def export_values(
     d: PromptDict, exports: dict[str, str], prefix: str, exclude_keys: list[str]
 ):
     if "_exports" in d:
-        for k, v in d["_exports"].items():
+        for k, v in cast(dict[str, Any], d["_exports"]).items():
             if exports.get(k, None) != v and prefix not in exclude_keys:
                 print("Export:", k, "=", v)
                 exports[k] = v
@@ -557,11 +582,12 @@ def export_values(
 
 def collect_prompt(
     rand: Random,
-    prompt_dict: dict[str, Any],
+    prompt_dict: PromptDict,
     keys: str | list[str],
     exclude_keys: list[str] | None = None,
     init_prefix: list[str] | None = None,
-    global_vars: PromptVariables | None = None,
+    root_dict: PromptDict | None = None,
+    parent_dict: PromptDict | None = None,
     ignore_split: bool = False,
     exports: dict[str, str] = {},
     root_dir: str | None = None,
@@ -570,8 +596,10 @@ def collect_prompt(
 ) -> list[str]:
     if exclude_keys is None:
         exclude_keys = []
-    if global_vars is None:
-        global_vars = cast(PromptVariables, prompt_dict.get("_v", {}))
+    if root_dict is None:
+        root_dict = prompt_dict
+    if parent_dict is None:
+        parent_dict = prompt_dict
     if root_dir is None:
         root_dir = ""
     if init_prefix is None:
@@ -583,9 +611,11 @@ def collect_prompt(
         keys = build_search_keys(keys)
     post_keys += get_post_prompt_key(prompt_dict, keys, init_prefix, exclude_keys)
 
+    init_parent_dict = parent_dict
     r: list[str] = []
     for key in keys:
         d = prompt_dict
+        parent_dict = init_parent_dict
         key_parts = key.split(".") if not ignore_split else [key]
         prefix = init_prefix[:]
         while len(key_parts) > 0:
@@ -601,7 +631,8 @@ def collect_prompt(
                     pick_keys,
                     exclude_keys,
                     prefix,
-                    global_vars,
+                    root_dict=root_dict,
+                    parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
                     post_keys=post_keys,
@@ -615,9 +646,13 @@ def collect_prompt(
                     pick_keys = [
                         key
                         for i, key in enumerate(pick_keys)
-                        if rand.choices([True, False], [d["_r"][i], 1.0 - d["_r"][i]])[
-                            0
-                        ]
+                        if rand.choices(
+                            [True, False],
+                            [
+                                cast(float, d["_r"][i]),
+                                1.0 - cast(float, d["_r"][i]),
+                            ],
+                        )[0]
                     ]
                     print(
                         "RandomAll:",
@@ -632,7 +667,8 @@ def collect_prompt(
                     pick_keys,
                     exclude_keys,
                     prefix,
-                    global_vars,
+                    root_dict=root_dict,
+                    parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
                     post_keys=post_keys,
@@ -648,7 +684,8 @@ def collect_prompt(
                     pick_keys[1] + pick_keys[0],
                     exclude_keys,
                     prefix,
-                    global_vars,
+                    root_dict=root_dict,
+                    parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
                     post_keys=post_keys,
@@ -659,38 +696,33 @@ def collect_prompt(
                 key_parts = ["_f"] + key_parts
                 key = key[:-2]
 
-            if key not in d:
+            if not isinstance(d, dict) or key not in d:
                 break
 
-            d = d[key]
+            parent_dict = cast(PromptDict, d)
+            d = cast(Any, d[key])
             prefix += [key]
 
             export_values(d, exports, ".".join(prefix), exclude_keys)
         else:
             prefix_str = ".".join(prefix)
-            d_is_str = isinstance(d, str)
-            if d_is_str or "_t" in d:
-                if prefix_str not in exclude_keys:
-                    r += [
-                        select_dynamic_prompt(
-                            rand,
-                            remove_comment_out(
-                                expand_prompt_var(rand, d, global_vars, root_dir)
-                            ),
-                        )
-                    ]
+            is_term = isinstance(d, (str, list)) or len(get_keys_all(d)) == 0
+            is_dict = isinstance(d, dict)
+            _, d = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
+            if prefix_str not in exclude_keys or is_term:
+                prompt = select_dynamic_prompt(
+                    rand,
+                    remove_comment_out(
+                        expand_prompt_var(rand, d, prefix if is_dict else prefix[:-1])
+                    ),
+                )
+                if prompt:
+                    r += [prompt]
+                if prefix_str in exclude_keys:
+                    print(f"Load Prompt (Duplicated): {prefix_str}")
+                else:
                     exclude_keys += [prefix_str]
                     print(f"Load Prompt: {prefix_str}")
-                elif d_is_str or len(get_keys_all(d)) == 0:
-                    r += [
-                        select_dynamic_prompt(
-                            rand,
-                            remove_comment_out(
-                                expand_prompt_var(rand, d, global_vars, root_dir)
-                            ),
-                        )
-                    ]
-                    print(f"Load Prompt (Duplicated): {prefix_str}")
 
     if collect_post_prompt and post_keys:
         r += collect_prompt(
@@ -699,7 +731,8 @@ def collect_prompt(
             post_keys,
             exclude_keys,
             init_prefix,
-            global_vars,
+            root_dict=root_dict,
+            parent_dict=parent_dict,
             exports=exports,
             root_dir=root_dir,
             collect_post_prompt=False,
