@@ -31,11 +31,11 @@ c
 d
 */"""
         )
-        assert r == "a\nb"
+        assert r.strip() == "a\nb"
 
     def test__dynamic_prompt(self):
         r = select_dynamic_prompt(self.random, "{a | a | a}")
-        assert r == "a"
+        assert r.strip() == "a"
         r = select_dynamic_prompt(self.random, "{|}")
         assert r == ""
         r = select_dynamic_prompt(
@@ -46,7 +46,7 @@ a |
 a
 }""",
         )
-        assert r == "a"
+        assert r.strip() == "a"
 
 
 if __name__ == "__main__":

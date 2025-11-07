@@ -24,6 +24,7 @@ _w is weight for random choice with _k.
 _e is chance(0.0~1.0) for all choice with _k.
 _export is string to export to output.
 _f is called by toml_key_name().
+_post, _all, _one is post prompt.
 
 ```
 # key _t is prompt
@@ -46,7 +47,7 @@ ponytails = "ponytails"
 color=["red", "blue", "blonde"]
 
 [base.boy]
-1boy, muscular, $::color hair, formal suit,
+_t = "1boy, muscular, $::color hair, formal suit"
 # $color is replaced with dark, light or dark blue
 
 # "base().test" equals "base._f.test"
@@ -73,6 +74,25 @@ a = "80%"
 b = "30%"
 c = "30%"
 
+# "post prompt" after "main prompt"
+[post]
+_t = "main prompt"
+_post = "post prompt"
+
+# "all1" and "all2" after "main prompt" if base.boy is already loaded
+[post._all.test1]
+_when = "base.boy"
+_r = [0.1, 0.1]
+all1 = "all1"
+all2 = "all2"
+
+# "one1" or "one2" after "main prompt" if base.boy is already loaded
+[post._one.test1]
+_when = "base.boy"
+_w = [0.8, 0.2]
+one1 = "one1"
+one2 = "one2"
+
 [_exports]
 key = "value"
 ```
@@ -82,8 +102,8 @@ key = "value"
 ```<lora:lora_name:strength>``` is replaced with prompt.
 
 ```
-["lora.safetensors"]
-_t="lora prompt"
+["<lora>"]
+"lora.safetensors" = "lora prompt"
 ```
 
 ### key_name_list

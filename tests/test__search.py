@@ -22,7 +22,7 @@ class TestSearch(unittest.TestCase):
     def test__get_keys_all(self):
         d: dict[str, Any] = {"a": {"b": {}, "c": {}}}
         r = get_keys_all(d)
-        assert r == ["a"]
+        assert r == [(0, "a")]
 
     def test__get_keys_all_recursive(self):
         d: dict[str, Any] = {
@@ -41,7 +41,7 @@ class TestSearch(unittest.TestCase):
     def test__get_keys_random(self):
         d: dict[str, Any] = {"a": {"b": {}, "c": {}}}
         r = get_keys_all(d)
-        assert r == ["a"]
+        assert r == [(0, "a")]
 
     def test__get_keys_random_recursive(self):
         d: dict[str, Any] = {
@@ -241,6 +241,58 @@ class TestSearch(unittest.TestCase):
         }
         r = collect_prompt(self.random, d, build_search_keys("a.b.c"))
         assert r == ["a", "<tag>a.d</tag> c"]
+
+    def test__search_all_when(self):
+        d: dict[str, Any] = {
+            "a": {
+                "_t": "a",
+                "_all": {
+                    "d": {
+                        "_when": "a.b",
+                        "_r": [1.0],
+                        "d": "all1",
+                    },
+                    "e": {
+                        "_when": "a.c",
+                        "_r": [1.0],
+                        "e": "all2",
+                    },
+                },
+                "b": "b",
+                "c": "c",
+            }
+        }
+        r = collect_prompt(self.random, d, build_search_keys("a.b"))
+        assert r == ["a", "b", "all1"]
+        r = collect_prompt(self.random, d, build_search_keys("a.c"))
+        assert r == ["a", "c", "all2"]
+
+    def test__search_one_when(self):
+        d: dict[str, Any] = {
+            "a": {
+                "_t": "a",
+                "_one": {
+                    "d": {
+                        "e": {
+                            "_when": "a.b",
+                            "_w": [1.0],
+                            "e": "one1",
+                        },
+                        "f": {
+                            "_when": "a.c",
+                            "_w": [1.0],
+                            "f": "one2",
+                        },
+                    },
+                },
+                "b": "b",
+                "c": "c",
+            }
+        }
+        r = collect_prompt(self.random, d, build_search_keys("a.b"))
+        assert r == ["a", "b", "one1"]
+        r = collect_prompt(self.random, d, build_search_keys("a.c"))
+        assert r == ["a", "c", "one2"]
 
 
 if __name__ == "__main__":

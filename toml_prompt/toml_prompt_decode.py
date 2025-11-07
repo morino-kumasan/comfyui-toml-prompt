@@ -368,7 +368,7 @@ def remove_route(d: PromptDict, keys: list[str]):
         elem = l[-1]
 
         if "_k" not in d:
-            d["_k"] = get_keys_all(d)
+            d["_k"] = [k for _, k in get_keys_all(d)]
 
         if elem in d["_k"]:
             i = cast(list[str], d["_k"]).index(elem)
@@ -454,29 +454,71 @@ def load_prompt_var(
         return (d, str(d[var_name]))
 
 
-def get_keys_all(d: PromptDict):
+def get_keys_all(
+    d: PromptDict,
+    rand: Random | None = None,
+    loaded_keys: list[str] | None = None,
+) -> list[tuple[int, str]]:
+    def when(key: str):
+        if loaded_keys is None:
+            return True
+        if not isinstance(d[key], dict):
+            return True
+        target = cast(PromptDict, d[key])
+        return "_when" not in target or target["_when"] in loaded_keys
+
     if "_k" in d:
-        return [str(k) for k in d["_k"] if k in d]
-    return [k for k in d.keys() if not k.startswith("_")]
+        keys = [(i, str(k)) for i, k in enumerate(d["_k"]) if k in d and when(k)]
+    else:
+        keys = [
+            (i, k)
+            for i, k in enumerate([k for k in d.keys() if not k.startswith("_")])
+            if when(k)
+        ]
+
+    if rand and "_r" in d:
+        indices = [i for i, _ in keys]
+        weights = cast(list[float], d["_r"])
+        return [
+            (i, key)
+            for i, key in keys
+            if rand.choices(
+                [True, False],
+                [
+                    weights[indices.index(i)],
+                    1.0 - weights[indices.index(i)],
+                ],
+            )[0]
+        ]
+    else:
+        return keys
 
 
-def get_keys_term(d: PromptDict, term: bool):
+def get_keys_term(
+    d: PromptDict,
+    term: bool,
+    rand: Random | None = None,
+    loaded_keys: list[str] | None = None,
+):
     return [
         (i, k)
-        for i, k in enumerate(get_keys_all(d))
+        for i, k in get_keys_all(d, rand=rand, loaded_keys=loaded_keys)
         if (isinstance(d[k], str) or len(get_keys_all(cast(PromptDict, d[k]))) == 0)
         == term
     ]
 
 
 def get_keys_all_recursive(
-    d: PromptDict, prefix: list[str] | None = None
+    d: PromptDict,
+    prefix: list[str] | None = None,
+    rand: Random | None = None,
+    loaded_keys: list[str] | None = None,
 ) -> tuple[list[str], list[str]]:
     if prefix is None:
         prefix = []
     r_long: list[str] = []
     r_short: list[str] = []
-    for k in get_keys_all(d):
+    for _, k in get_keys_all(d, rand=rand, loaded_keys=loaded_keys):
         v = d[k]
         if isinstance(v, str):
             r_long += [".".join(prefix + [k])]
@@ -486,38 +528,59 @@ def get_keys_all_recursive(
         else:
             if "_t" in v:
                 r_short += [".".join(prefix + [k])]
-            l, s = get_keys_all_recursive(cast(PromptDict, v), prefix + [k])
+            l, s = get_keys_all_recursive(
+                cast(PromptDict, v),
+                prefix + [k],
+                rand=rand,
+                loaded_keys=loaded_keys,
+            )
             r_long += l
             r_short += s
     return (r_long, r_short)
 
 
-def get_keys_random(rand: Random, d: PromptDict, branch_term: bool = False):
-    ikeys = get_keys_term(d, branch_term)
+def get_keys_random(
+    rand: Random,
+    d: PromptDict,
+    branch_term: bool = False,
+    loaded_keys: list[str] | None = None,
+):
+    ikeys = get_keys_term(d, branch_term, loaded_keys=loaded_keys)
     indices = [i for i, _ in ikeys]
     if "_w" in d:
         try:
             i = rand.choices(
                 indices,
-                [v for i, v in enumerate(cast(list[float], d["_w"])) if i in indices],
+                [float(v) for i, v in enumerate(d["_w"]) if i in indices],
             )[0]
         except:
             raise Exception(f"Invalid weights: keys={ikeys}, weights={d["_w"]}")
     else:
         i = rand.choices(indices, weights=None)[0]
-    return ikeys[i][1]
+    return ikeys[indices.index(i)][1]
 
 
-def get_keys_random_recursive(rand: Random, input_dict: PromptDict):
+def get_keys_random_recursive(
+    rand: Random,
+    input_dict: PromptDict,
+    loaded_keys: list[str] | None = None,
+):
     r: list[str] = []
     prefix: list[str] = []
     d = input_dict
     while isinstance(d, dict):
-        keys = get_keys_all(d)
-        if len(keys) == 0:
+        ikeys = get_keys_all(d, loaded_keys=loaded_keys)
+        indices = [i for i, _ in ikeys]
+        if len(ikeys) == 0:
             break
 
-        key = rand.choices(keys, weights=cast(list[float] | None, d.get("_w", None)))[0]
+        weights = (
+            None
+            if d.get("_w", None) is None
+            else [float(v) for i, v in enumerate(d["_w"]) if i in indices]
+        )
+        i = rand.choices(indices, weights=weights)[0]
+        key = ikeys[indices.index(i)][1]
         d = d[key]
         if isinstance(d, str) or "_t" in d:
             r += [".".join(prefix + [key])]
@@ -559,17 +622,6 @@ def exists_in_prompt_dict(prompt_dict: PromptDict, key: str):
     return True
 
 
-def get_post_prompt_key(
-    d: PromptDict, keys: list[str], prefix: list[str], exclude_keys: list[str]
-):
-    return [
-        ".".join(prefix + [key, "_post"])
-        for key in keys
-        if exists_in_prompt_dict(d, key + "._post")
-        and ".".join(prefix + [key, "_post"]) not in exclude_keys
-    ]
-
-
 def export_values(
     d: PromptDict, exports: dict[str, str], prefix: str, exclude_keys: list[str]
 ):
@@ -609,7 +661,6 @@ def collect_prompt(
 
     if isinstance(keys, str):
         keys = build_search_keys(keys)
-    post_keys += get_post_prompt_key(prompt_dict, keys, init_prefix, exclude_keys)
 
     init_parent_dict = parent_dict
     r: list[str] = []
@@ -621,10 +672,12 @@ def collect_prompt(
         while len(key_parts) > 0:
             key = key_parts.pop(0)
             if key in ["?", "?$"]:
-                key = get_keys_random(rand, d, key.endswith("$"))
+                key = get_keys_random(
+                    rand, d, key.endswith("$"), loaded_keys=exclude_keys
+                )
             elif key == "??":
                 assert len(key_parts) == 0
-                pick_keys = get_keys_random_recursive(rand, d)
+                pick_keys = get_keys_random_recursive(rand, d, loaded_keys=exclude_keys)
                 r += collect_prompt(
                     rand,
                     d,
@@ -640,26 +693,9 @@ def collect_prompt(
                 )
                 break
             elif key in ["*", "*$"]:
-                pick_keys = get_keys_term(d, key.endswith("$"))
-                if "_r" in d:
-                    all_keys = pick_keys
-                    pick_keys = [
-                        key
-                        for i, key in enumerate(pick_keys)
-                        if rand.choices(
-                            [True, False],
-                            [
-                                cast(float, d["_r"][i]),
-                                1.0 - cast(float, d["_r"][i]),
-                            ],
-                        )[0]
-                    ]
-                    print(
-                        "RandomAll:",
-                        [key for _, key in all_keys],
-                        "->",
-                        [key for _, key in pick_keys],
-                    )
+                pick_keys = get_keys_term(
+                    d, key.endswith("$"), rand=rand, loaded_keys=exclude_keys
+                )
                 pick_keys = [".".join([key] + key_parts) for _, key in pick_keys]
                 r += collect_prompt(
                     rand,
@@ -677,7 +713,9 @@ def collect_prompt(
                 break
             elif key == "**":
                 assert len(key_parts) == 0
-                pick_keys = get_keys_all_recursive(d)
+                pick_keys = get_keys_all_recursive(
+                    d, rand=rand, loaded_keys=exclude_keys
+                )
                 r += collect_prompt(
                     rand,
                     d,
@@ -708,6 +746,16 @@ def collect_prompt(
             prefix_str = ".".join(prefix)
             is_term = isinstance(d, (str, list)) or len(get_keys_all(d)) == 0
             is_dict = isinstance(d, dict)
+            if "_all" in d and f"{prefix_str}._all" not in exclude_keys:
+                post_keys += [f"{prefix_str}._all.*.**"]
+                exclude_keys += [f"{prefix_str}._all"]
+            if "_one" in d and f"{prefix_str}._one" not in exclude_keys:
+                post_keys += [f"{prefix_str}._one.*.??"]
+                exclude_keys += [f"{prefix_str}._one"]
+            if "_post" in d and f"{prefix_str}._post" not in exclude_keys:
+                post_keys += [f"{prefix_str}._post"]
+                exclude_keys += [f"{prefix_str}._post"]
+
             _, d = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
             if prefix_str not in exclude_keys or is_term:
                 prompt = select_dynamic_prompt(
