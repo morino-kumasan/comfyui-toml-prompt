@@ -80,6 +80,7 @@ _t = "main prompt"
 _post = "post prompt"
 
 # "all1" and "all2" after "main prompt" if base.boy is already loaded
+# "post._all" equals "post._all.*.**"
 [post._all.test1]
 _when = "base.boy"
 _r = [0.1, 0.1]
@@ -87,6 +88,7 @@ all1 = "all1"
 all2 = "all2"
 
 # "one1" or "one2" after "main prompt" if base.boy is already loaded
+# "post._one" equals "post._one.*.??"
 [post._one.test1]
 _when = "base.boy"
 _w = [0.8, 0.2]
