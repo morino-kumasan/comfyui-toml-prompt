@@ -799,6 +799,7 @@ def normalize_prompt(s: str):
     s = re.sub(r"\s+", " ", s)
     s = re.sub(r", ", ",", s)
     s = re.sub(r",+", ",", s)
+    s = re.sub(r"\.,", ".", s)
     return s[1:] if s.startswith(",") else s
 
 
