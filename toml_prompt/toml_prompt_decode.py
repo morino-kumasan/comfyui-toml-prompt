@@ -746,15 +746,24 @@ def collect_prompt(
             prefix_str = ".".join(prefix)
             is_term = isinstance(d, (str, list)) or len(get_keys_all(d)) == 0
             is_dict = isinstance(d, dict)
-            if "_all" in d and f"{prefix_str}._all" not in exclude_keys:
-                post_keys += [f"{prefix_str}._all.*.**"]
-                exclude_keys += [f"{prefix_str}._all"]
-            if "_one" in d and f"{prefix_str}._one" not in exclude_keys:
-                post_keys += [f"{prefix_str}._one.*.??"]
-                exclude_keys += [f"{prefix_str}._one"]
-            if "_post" in d and f"{prefix_str}._post" not in exclude_keys:
-                post_keys += [f"{prefix_str}._post"]
-                exclude_keys += [f"{prefix_str}._post"]
+            if isinstance(d, dict):
+                proc_order = [
+                    ("_all", "_all.*.**"),
+                    ("_one", "_one.*.??"),
+                    ("_post", "_post"),
+                ]
+                for post_key, post_key_suffix in proc_order:
+                    if post_key in d and f"{prefix_str}.{post_key}" not in exclude_keys:
+                        if isinstance(d[post_key], dict):
+                            order = cast(PromptDict, d[post_key]).get("_order", "last")
+                        else:
+                            order = "last"
+                        if order == "last":
+                            post_keys += [f"{prefix_str}.{post_key_suffix}"]
+                        else:
+                            order = int(cast(str | int, order))
+                            post_keys.insert(order, f"{prefix_str}.{post_key_suffix}")
+                        exclude_keys += [f"{prefix_str}.{post_key}"]
 
             _, d = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
             if prefix_str not in exclude_keys or is_term:
