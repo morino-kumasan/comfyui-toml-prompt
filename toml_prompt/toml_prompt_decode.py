@@ -479,6 +479,8 @@ def get_keys_all(
     if rand and "_r" in d:
         indices = [i for i, _ in keys]
         weights = cast(list[float], d["_r"])
+        if len(weights) < len(indices):
+            weights += [1.0 for _ in range(len(indices) - len(weights))]
         return [
             (i, key)
             for i, key in keys
@@ -644,7 +646,6 @@ def collect_prompt(
     exports: dict[str, str] = {},
     root_dir: str | None = None,
     post_keys: list[str] | None = None,
-    collect_post_prompt: bool = True,
 ) -> list[str]:
     if exclude_keys is None:
         exclude_keys = []
@@ -673,33 +674,42 @@ def collect_prompt(
             key = key_parts.pop(0)
             if key in ["?", "?$"]:
                 key = get_keys_random(
-                    rand, d, key.endswith("$"), loaded_keys=exclude_keys
+                    rand, cast(Any, d), key.endswith("$"), loaded_keys=exclude_keys
                 )
             elif key == "??":
                 assert len(key_parts) == 0
-                pick_keys = get_keys_random_recursive(rand, d, loaded_keys=exclude_keys)
-                r += collect_prompt(
-                    rand,
-                    d,
-                    pick_keys,
-                    exclude_keys,
-                    prefix,
-                    root_dict=root_dict,
-                    parent_dict=parent_dict,
-                    exports=exports,
-                    root_dir=root_dir,
-                    post_keys=post_keys,
-                    collect_post_prompt=False,
-                )
-                break
-            elif key in ["*", "*$"]:
-                pick_keys = get_keys_term(
-                    d, key.endswith("$"), rand=rand, loaded_keys=exclude_keys
+                if not isinstance(d, str) and len(get_keys_all(cast(Any, d))) > 0:
+                    pick_keys = get_keys_random_recursive(
+                        rand, cast(Any, d), loaded_keys=exclude_keys
+                    )
+                    r += collect_prompt(
+                        rand,
+                        cast(Any, d),
+                        pick_keys,
+                        exclude_keys,
+                        prefix,
+                        root_dict=root_dict,
+                        parent_dict=parent_dict,
+                        exports=exports,
+                        root_dir=root_dir,
+                        post_keys=post_keys,
+                    )
+                    break
+            elif key in ["*", "*$", "*!"]:
+                pick_keys = (
+                    get_keys_term(
+                        cast(Any, d),
+                        key.endswith("$"),
+                        rand=rand,
+                        loaded_keys=exclude_keys,
+                    )
+                    if not key.endswith("!")
+                    else get_keys_all(cast(Any, d), rand=rand, loaded_keys=exclude_keys)
                 )
                 pick_keys = [".".join([key] + key_parts) for _, key in pick_keys]
                 r += collect_prompt(
                     rand,
-                    d,
+                    cast(Any, d),
                     pick_keys,
                     exclude_keys,
                     prefix,
@@ -708,17 +718,16 @@ def collect_prompt(
                     exports=exports,
                     root_dir=root_dir,
                     post_keys=post_keys,
-                    collect_post_prompt=False,
                 )
                 break
             elif key == "**":
                 assert len(key_parts) == 0
                 pick_keys = get_keys_all_recursive(
-                    d, rand=rand, loaded_keys=exclude_keys
+                    cast(Any, d), rand=rand, loaded_keys=exclude_keys
                 )
                 r += collect_prompt(
                     rand,
-                    d,
+                    cast(Any, d),
                     pick_keys[1] + pick_keys[0],
                     exclude_keys,
                     prefix,
@@ -727,44 +736,42 @@ def collect_prompt(
                     exports=exports,
                     root_dir=root_dir,
                     post_keys=post_keys,
-                    collect_post_prompt=False,
                 )
                 break
             elif key.endswith("()"):
                 key_parts = ["_f"] + key_parts
                 key = key[:-2]
 
-            if not isinstance(d, dict) or key not in d:
-                break
+            if key != "??":
+                if not isinstance(d, dict) or key not in d:
+                    break
 
-            parent_dict = cast(PromptDict, d)
-            d = cast(Any, d[key])
-            prefix += [key]
+                parent_dict = cast(PromptDict, d)
+                d = cast(Any, d[key])
+                prefix += [key]
 
-            export_values(d, exports, ".".join(prefix), exclude_keys)
+                export_values(d, exports, ".".join(prefix), exclude_keys)
+                if isinstance(d, dict):
+                    # _postを処理
+                    key = ".".join(prefix)
+                    if "_post" in d and f"{key}._post" not in exclude_keys:
+                        if isinstance(d["_post"], dict):
+                            order = cast(PromptDict, d["_post"]).get("_order", "last")
+                            if order == "last":
+                                post_keys += [f"{key}._post.*!.??"]
+                            else:
+                                order = int(cast(str | int, order))
+                                post_keys.insert(order, f"{key}._post.*!.??")
+                        else:
+                            post_keys += [f"{key}._post"]
+                        exclude_keys += [f"{key}._post"]
+                    # _random_countを処理
+                    if "_random_count" in d:
+                        rand.set_count(int(cast(int, d["_random_count"])))
         else:
             prefix_str = ".".join(prefix)
-            is_term = isinstance(d, (str, list)) or len(get_keys_all(d)) == 0
+            is_term = isinstance(d, (str, list)) or len(get_keys_all(cast(Any, d))) == 0
             is_dict = isinstance(d, dict)
-            if isinstance(d, dict):
-                proc_order = [
-                    ("_all", "_all.*.**"),
-                    ("_one", "_one.*.??"),
-                    ("_post", "_post"),
-                ]
-                for post_key, post_key_suffix in proc_order:
-                    if post_key in d and f"{prefix_str}.{post_key}" not in exclude_keys:
-                        if isinstance(d[post_key], dict):
-                            order = cast(PromptDict, d[post_key]).get("_order", "last")
-                        else:
-                            order = "last"
-                        if order == "last":
-                            post_keys += [f"{prefix_str}.{post_key_suffix}"]
-                        else:
-                            order = int(cast(str | int, order))
-                            post_keys.insert(order, f"{prefix_str}.{post_key_suffix}")
-                        exclude_keys += [f"{prefix_str}.{post_key}"]
-
             _, d = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
             if prefix_str not in exclude_keys or is_term:
                 prompt = select_dynamic_prompt(
@@ -781,7 +788,7 @@ def collect_prompt(
                     exclude_keys += [prefix_str]
                     print(f"Load Prompt: {prefix_str}")
 
-    if collect_post_prompt and post_keys:
+    if post_keys:
         r += collect_prompt(
             rand,
             prompt_dict,
@@ -792,7 +799,6 @@ def collect_prompt(
             parent_dict=parent_dict,
             exports=exports,
             root_dir=root_dir,
-            collect_post_prompt=False,
         )
     return r
 

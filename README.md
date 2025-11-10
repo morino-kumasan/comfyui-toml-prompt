@@ -24,7 +24,7 @@ _w is weight for random choice with _k.
 _e is chance(0.0~1.0) for all choice with _k.
 _export is string to export to output.
 _f is called by toml_key_name().
-_post, _all, _one is post prompt.
+_post is post prompt. "key._post" equals "key._post.*.??"
 
 ```
 # key _t is prompt
@@ -74,26 +74,18 @@ a = "80%"
 b = "30%"
 c = "30%"
 
-# "post prompt" after "main prompt"
+# "post._post" equels "post._post.*.??"
 [post]
 _t = "main prompt"
-_post = "post prompt"
-
-# "all1" and "all2" after "main prompt" if base.boy is already loaded
-# "post._all" equals "post._all.*.**"
-[post._all.test1]
+[post._post]
 _when = "base.boy"
-_r = [0.1, 0.1]
-all1 = "all1"
-all2 = "all2"
-
-# "one1" or "one2" after "main prompt" if base.boy is already loaded
-# "post._one" equals "post._one.*.??"
-[post._one.test1]
-_when = "base.boy"
-_w = [0.8, 0.2]
-one1 = "one1"
-one2 = "one2"
+_r = [0.1, 0.1, 1.0]
+all1 = "10%"
+all2 = "10%"
+[post._post.all3] # 100%
+_w = [0.5, 0.5]
+one1 = "one1 or one2"
+one2 = "one1 or one2"
 
 [_exports]
 key = "value"

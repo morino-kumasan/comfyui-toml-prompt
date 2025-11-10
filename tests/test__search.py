@@ -242,36 +242,21 @@ class TestSearch(unittest.TestCase):
         r = collect_prompt(self.random, d, build_search_keys("a.b.c"))
         assert r == ["a", "<tag>a.d</tag> c"]
 
-    def test__search_all_when(self):
+    def test__search_post_str(self):
         d: dict[str, Any] = {
             "a": {
                 "_t": "a",
-                "_all": {
-                    "d": {
-                        "_when": "a.b",
-                        "_r": [1.0],
-                        "d": "all1",
-                    },
-                    "e": {
-                        "_when": "a.c",
-                        "_r": [1.0],
-                        "e": "all2",
-                    },
-                },
-                "b": "b",
-                "c": "c",
+                "_post": "post",
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a.b"))
-        assert r == ["a", "b", "all1"]
-        r = collect_prompt(self.random, d, build_search_keys("a.c"))
-        assert r == ["a", "c", "all2"]
+        r = collect_prompt(self.random, d, build_search_keys("a"))
+        assert r == ["a", "post"]
 
-    def test__search_one_when(self):
+    def test__search_post_when(self):
         d: dict[str, Any] = {
             "a": {
                 "_t": "a",
-                "_one": {
+                "_post": {
                     "d": {
                         "e": {
                             "_when": "a.b",
@@ -279,20 +264,23 @@ class TestSearch(unittest.TestCase):
                             "e": "one1",
                         },
                         "f": {
+                            "_post": "post_post",
                             "_when": "a.c",
                             "_w": [1.0],
                             "f": "one2",
                         },
                     },
+                    "g": {"_t": "g"},
+                    "h": "h",
                 },
                 "b": "b",
                 "c": "c",
             }
         }
         r = collect_prompt(self.random, d, build_search_keys("a.b"))
-        assert r == ["a", "b", "one1"]
+        assert r == ["a", "b", "one1", "g", "h"]
         r = collect_prompt(self.random, d, build_search_keys("a.c"))
-        assert r == ["a", "c", "one2"]
+        assert r == ["a", "c", "one2", "g", "h", "post_post"]
 
 
 if __name__ == "__main__":
