@@ -191,23 +191,14 @@ class TomlKeyListParser(HTMLParser):
         elif tag == "tag" or tag == "var":
             for key in re.split(r"[,\r\n]", data):
                 key = key.strip()
-                prompt = ",".join(
-                    [
-                        v
-                        for v in collect_prompt(
-                            self.random,
-                            self.prompt_dict,
-                            build_search_keys(key),
-                            exclude_keys=self.loaded_keys,
-                            exports=self.exports,
-                            root_dir=self.root_dir,
-                        )
-                        if v.strip()
-                    ]
-                )
-                if prompt:
-                    self.feed_new_obj(prompt, simple_join=tag == "var")
-                    self.before_simple_join = tag == "var"
+                post_keys: list[str] = []
+                keys = build_search_keys(key)
+                simple_join = tag == "var"
+                self.feed_prompt(keys, post_keys, simple_join)
+                while post_keys:
+                    keys = post_keys
+                    post_keys = []
+                    self.feed_prompt(keys, post_keys, simple_join)
         else:
             assert (
                 data.strip() == "" or data.strip() == ","
@@ -235,22 +226,42 @@ class TomlKeyListParser(HTMLParser):
         lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
         for lora_name_key in [lora_name, lora_name.split("/")[-1]]:
             if lora_name_key in lora_dict:
-                prompt = ",".join(
-                    [
-                        v
-                        for v in collect_prompt(
-                            self.random,
-                            lora_dict,
-                            [lora_name_key],
-                            ignore_split=True,
-                            exports=self.exports,
-                            root_dir=self.root_dir,
-                        )
-                        if v.strip()
-                    ]
+                keys = ["<lora>." + lora_name_key]
+                post_keys: list[str] = []
+                self.feed_prompt(keys, post_keys, ignore_split=True)
+                while post_keys:
+                    keys = post_keys
+                    post_keys = []
+                    self.feed_prompt(keys, post_keys, ignore_split=True)
+
+    def feed_prompt(
+        self,
+        keys: list[str],
+        post_keys: list[str] | None = None,
+        simple_join: bool = False,
+        ignore_split: bool = False,
+    ):
+        if post_keys is None:
+            post_keys = []
+        prompt = ",".join(
+            [
+                v
+                for v in collect_prompt(
+                    self.random,
+                    self.prompt_dict,
+                    keys,
+                    ignore_split=ignore_split,
+                    exclude_keys=self.loaded_keys,
+                    exports=self.exports,
+                    root_dir=self.root_dir,
+                    post_keys=post_keys,
                 )
-                if prompt:
-                    self.feed_new_obj(prompt, simple_join=False)
+                if v.strip()
+            ]
+        )
+        if prompt:
+            self.feed_new_obj(prompt, simple_join=simple_join)
+            self.before_simple_join = simple_join
 
     def pi_lora(self, args: list[str]):
         self.load_lora_tag(
@@ -675,17 +686,20 @@ def collect_prompt(
             key = key_parts.pop(0)
             if key in ["?", "?$"]:
                 key = get_keys_random(
-                    rand, cast(Any, d), key.endswith("$"), loaded_keys=exclude_keys
+                    rand,
+                    cast(PromptDict, d),
+                    key.endswith("$"),
+                    loaded_keys=exclude_keys,
                 )
             elif key == "??":
                 assert len(key_parts) == 0
                 if not isinstance(d, str) and len(get_keys_all(cast(Any, d))) > 0:
                     pick_keys = get_keys_random_recursive(
-                        rand, cast(Any, d), loaded_keys=exclude_keys
+                        rand, cast(PromptDict, d), loaded_keys=exclude_keys
                     )
                     r += collect_prompt(
                         rand,
-                        cast(Any, d),
+                        cast(PromptDict, d),
                         pick_keys,
                         exclude_keys,
                         prefix,
@@ -696,21 +710,25 @@ def collect_prompt(
                         post_keys=post_keys,
                     )
                     break
+                if ".".join(prefix) in exclude_keys:
+                    break
             elif key in ["*", "*$", "*!"]:
                 pick_keys = (
                     get_keys_term(
-                        cast(Any, d),
+                        cast(PromptDict, d),
                         key.endswith("$"),
                         rand=rand,
                         loaded_keys=exclude_keys,
                     )
                     if not key.endswith("!")
-                    else get_keys_all(cast(Any, d), rand=rand, loaded_keys=exclude_keys)
+                    else get_keys_all(
+                        cast(PromptDict, d), rand=rand, loaded_keys=exclude_keys
+                    )
                 )
                 pick_keys = [".".join([key] + key_parts) for _, key in pick_keys]
                 r += collect_prompt(
                     rand,
-                    cast(Any, d),
+                    cast(PromptDict, d),
                     pick_keys,
                     exclude_keys,
                     prefix,
@@ -724,11 +742,11 @@ def collect_prompt(
             elif key == "**":
                 assert len(key_parts) == 0
                 pick_keys = get_keys_all_recursive(
-                    cast(Any, d), rand=rand, loaded_keys=exclude_keys
+                    cast(PromptDict, d), rand=rand, loaded_keys=exclude_keys
                 )
                 r += collect_prompt(
                     rand,
-                    cast(Any, d),
+                    cast(PromptDict, d),
                     pick_keys[1] + pick_keys[0],
                     exclude_keys,
                     prefix,
@@ -788,19 +806,6 @@ def collect_prompt(
                 else:
                     exclude_keys += [prefix_str]
                     print(f"Load Prompt: {prefix_str}")
-
-    if post_keys:
-        r += collect_prompt(
-            rand,
-            prompt_dict,
-            post_keys,
-            exclude_keys,
-            init_prefix,
-            root_dict=root_dict,
-            parent_dict=parent_dict,
-            exports=exports,
-            root_dir=root_dir,
-        )
     return r
 
 

@@ -178,7 +178,11 @@ class TestSearch(unittest.TestCase):
                 },
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a.??"))
+        post_keys: list[str] = []
+        r = collect_prompt(
+            self.random, d, build_search_keys("a.??"), post_keys=post_keys
+        )
+        r += collect_prompt(self.random, d, post_keys)
         print(build_search_keys("a.??"), r)
         assert r == ["a", "c", "post_a", "post_c"]
 
@@ -249,7 +253,9 @@ class TestSearch(unittest.TestCase):
                 "_post": "post",
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a"))
+        post_keys: list[str] = []
+        r = collect_prompt(self.random, d, build_search_keys("a"), post_keys=post_keys)
+        r += collect_prompt(self.random, d, post_keys)
         assert r == ["a", "post"]
 
     def test__search_post_when(self):
@@ -277,9 +283,32 @@ class TestSearch(unittest.TestCase):
                 "c": "c",
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a.b"))
+        post_keys: list[str] = []
+        exclude_keys: list[str] = []
+        r = collect_prompt(
+            self.random,
+            d,
+            build_search_keys("a.b"),
+            post_keys=post_keys,
+            exclude_keys=exclude_keys,
+        )
+        r += collect_prompt(self.random, d, post_keys, exclude_keys=exclude_keys)
         assert r == ["a", "b", "one1", "g", "h"]
-        r = collect_prompt(self.random, d, build_search_keys("a.c"))
+
+        post_keys: list[str] = []
+        exclude_keys: list[str] = []
+        r = collect_prompt(
+            self.random,
+            d,
+            build_search_keys("a.c"),
+            post_keys=post_keys,
+            exclude_keys=exclude_keys,
+        )
+        post_keys2: list[str] = []
+        r += collect_prompt(
+            self.random, d, post_keys, exclude_keys=exclude_keys, post_keys=post_keys2
+        )
+        r += collect_prompt(self.random, d, post_keys2, exclude_keys=exclude_keys)
         assert r == ["a", "c", "one2", "g", "h", "post_post"]
 
 
