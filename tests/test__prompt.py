@@ -3,8 +3,8 @@ import os, sys
 sys.path.append(os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
 
 import unittest
-from toml_prompt.toml_prompt_decode import (
-    Random,
+from toml_prompt.inner.util import Random
+from toml_prompt.inner.prompt import (
     remove_comment_out,
     select_dynamic_prompt,
 )

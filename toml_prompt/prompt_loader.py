@@ -1,31 +1,11 @@
-from typing import Any, cast
-
 import os
 import hashlib
-import tomllib
-import yaml
+
+from .inner.prompt import PromptFile
 
 base_path: str = os.path.realpath(
     os.path.join(os.path.dirname(__file__), "..", "prompts")
 )
-
-type PromptDict = dict[str, Any | list[Any] | PromptDict]
-
-
-class PromptFile:
-    def __init__(self, path: str):
-        with open(path, "r", encoding="utf-8") as f:
-            self.text = f.read()
-        self.path = path
-        self.file_type = os.path.splitext(path)[1]
-
-    def load(self) -> PromptDict:
-        if self.file_type in [".toml", ".txt"]:
-            return cast(PromptDict, tomllib.loads(self.text))
-        elif self.file_type in [".yaml", ".yml"]:
-            return yaml.safe_load(self.text)
-        else:
-            raise Exception(f"Unknown file type: {self.file_type}")
 
 
 class PromptLoader:
