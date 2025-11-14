@@ -14,7 +14,7 @@ python_embeded/python -m pip install -r ComfyUI/custom_nodes/comfyui-utils/requi
 ## How to use
 See sample workflows.
 
-## TomlPromptDecode
+## PromptDecode
 
 ### text
 

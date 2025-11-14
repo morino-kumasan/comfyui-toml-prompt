@@ -19,23 +19,23 @@ type AttrType = dict[str, str | None]
 T = TypeVar("T")
 
 
-class TomlKeyListParser(HTMLParser):
+class PromptTagParser(HTMLParser):
     def __init__(
         self,
-        toml: PromptFile | None = None,
+        prompt: PromptFile | None = None,
         other: Self | None = None,
         seed: int | None = None,
         simple_join: bool = False,
     ):
         HTMLParser.__init__(self)
-        if toml is not None:
+        if prompt is not None:
             self.positive: list[str] = []
             self.negative: list[str] = []
             self.loras: list[str] = []
             self.loras_low: list[str] = []
             self.loaded_keys: list[str] = []
-            self.prompt_dict = toml.load()
-            self.root_dir = os.path.dirname(toml.path)
+            self.prompt_dict = prompt.load()
+            self.root_dir = os.path.dirname(prompt.path)
             self.exports: dict[str, str] = {}
             self.random = Random(seed=seed)
         elif other is not None:
@@ -70,7 +70,7 @@ class TomlKeyListParser(HTMLParser):
         return HTMLParser.feed(self, data)
 
     def feed_new_obj(self, prompt: str, simple_join: bool):
-        parser = TomlKeyListParser(other=self, simple_join=simple_join)
+        parser = PromptTagParser(other=self, simple_join=simple_join)
         parser.feed(f"<raw>{prompt}</raw>")
         assert (
             len(parser.tag) == 0

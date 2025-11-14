@@ -39,5 +39,5 @@ class PromptLoader:
 
     def load_prompt(self, file: str):
         path = os.path.join(base_path, file)
-        toml = PromptFile(path)
-        return (toml,)
+        prompt = PromptFile(path)
+        return (prompt,)

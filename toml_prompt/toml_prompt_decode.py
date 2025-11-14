@@ -8,7 +8,7 @@ from .inner.prompt import (
     select_dynamic_prompt,
     remove_comment_out,
 )
-from .inner.parser import TomlKeyListParser
+from .inner.parser import PromptTagParser
 
 
 def load_summary_header(s: str):
@@ -26,7 +26,7 @@ def normalize_prompt(s: str):
     return s[1:] if s.startswith(",") else s
 
 
-class TomlPromptDecode:
+class PromptDecode:
     RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING", "STRING")
     OUTPUT_TOOLTIPS = (
         "Positive prompt",
@@ -38,7 +38,7 @@ class TomlPromptDecode:
     )
     FUNCTION = "load_prompt"
     CATEGORY = "utils"
-    DESCRIPTION = "Load toml prompt."
+    DESCRIPTION = "Load prompt."
 
     @classmethod
     def INPUT_TYPES(cls) -> InputTypesFuncResult:
@@ -77,7 +77,7 @@ class TomlPromptDecode:
         pass
 
     def load_prompt(self, seed: int, toml: PromptFile, key_name_list: str):
-        parser = TomlKeyListParser(toml=toml, seed=seed)
+        parser = PromptTagParser(prompt=toml, seed=seed)
         parser.exports = {"prompt_seed": f"{seed}"}
         export_values(parser.prompt_dict, parser.exports, ".", [])
 
@@ -115,7 +115,7 @@ class SummaryReader:
     )
     FUNCTION = "read"
     CATEGORY = "utils"
-    DESCRIPTION = "Read summary from TomlPromptDecode."
+    DESCRIPTION = "Read summary from PromptDecode."
 
     @classmethod
     def INPUT_TYPES(cls) -> InputTypesFuncResult:
@@ -126,7 +126,7 @@ class SummaryReader:
                     {
                         "multiline": True,
                         "dynamicPrompts": True,
-                        "tooltip": "TomlPromptDecode summary.",
+                        "tooltip": "PromptDecode summary.",
                     },
                 ),
             }
