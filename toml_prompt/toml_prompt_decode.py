@@ -290,15 +290,16 @@ class TomlKeyListParser(HTMLParser):
         d = self.prompt_dict
         for key in args[1].strip().split("."):
             d = cast(PromptDict, d[key])
-        keys = get_keys_all_recursive(d)
 
         if args[0] == "fix":
-            fix_route(d, [args[2]])
+            fix_route(d, args[2:])
         elif args[0] == "find":
+            keys = get_keys_all_recursive(d)
             all_keys = keys[0] + keys[1]
             keys = [k for k in all_keys if args[2] in k]
             fix_route(d, keys)
         elif args[0] == "remove":
+            keys = get_keys_all_recursive(d)
             all_keys = keys[0] + keys[1]
             keys = [k for k in all_keys if args[2] in k]
             remove_route(d, keys)
