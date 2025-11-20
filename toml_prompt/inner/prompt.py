@@ -284,6 +284,17 @@ def export_values(
                 exports[k] = v
 
 
+def get_post_keys(post_keys: list[str], prefix: str):
+    def conv(k: str):
+        k = k[2:] if k.startswith("::") else prefix + "." + k
+        if k.endswith(".*") or k.endswith(".?"):
+            return k + "$"
+        else:
+            return k
+
+    return [conv(key) for key in post_keys]
+
+
 def collect_prompt(
     rand: Random,
     prompt_dict: PromptDict,
@@ -324,45 +335,38 @@ def collect_prompt(
             if key in ["?", "?$"]:
                 key = get_keys_random(
                     rand,
-                    cast(PromptDict, d),
+                    cast(Any, d),
                     key.endswith("$"),
                     loaded_keys=exclude_keys,
                 )
             elif key == "??":
                 assert len(key_parts) == 0
-                if not isinstance(d, str) and len(get_keys_all(cast(Any, d))) > 0:
-                    pick_keys = get_keys_random_recursive(
-                        rand, cast(PromptDict, d), loaded_keys=exclude_keys
-                    )
-                    r += collect_prompt(
-                        rand,
-                        cast(PromptDict, d),
-                        pick_keys,
-                        exclude_keys,
-                        prefix,
-                        root_dict=root_dict,
-                        parent_dict=parent_dict,
-                        exports=exports,
-                        root_dir=root_dir,
-                        post_keys=post_keys,
-                    )
-                    break
-                if ".".join(prefix) in exclude_keys:
-                    break
-            elif key in ["*", "*$", "*!"]:
-                pick_keys = (
-                    get_keys_term(
-                        cast(PromptDict, d),
-                        key.endswith("$"),
-                        rand=rand,
-                        loaded_keys=exclude_keys,
-                    )
-                    if not key.endswith("!")
-                    else get_keys_all(
-                        cast(PromptDict, d), rand=rand, loaded_keys=exclude_keys
-                    )
+                pick_keys = get_keys_random_recursive(
+                    rand, cast(PromptDict, d), loaded_keys=exclude_keys
                 )
-                pick_keys = [".".join([key] + key_parts) for _, key in pick_keys]
+                r += collect_prompt(
+                    rand,
+                    cast(PromptDict, d),
+                    pick_keys,
+                    exclude_keys,
+                    prefix,
+                    root_dict=root_dict,
+                    parent_dict=parent_dict,
+                    exports=exports,
+                    root_dir=root_dir,
+                    post_keys=post_keys,
+                )
+                break
+            elif key in ["*", "*$"]:
+                pick_key_and_indices = get_keys_term(
+                    cast(PromptDict, d),
+                    key.endswith("$"),
+                    rand=rand,
+                    loaded_keys=exclude_keys,
+                )
+                pick_keys = [
+                    ".".join([key] + key_parts) for _, key in pick_key_and_indices
+                ]
                 r += collect_prompt(
                     rand,
                     cast(PromptDict, d),
@@ -411,20 +415,19 @@ def collect_prompt(
                     # _postを処理
                     key = ".".join(prefix)
                     if "_post" in d and f"{key}._post" not in exclude_keys:
-                        if isinstance(d["_post"], dict):
-                            order = cast(PromptDict, d["_post"]).get("_order", "last")
-                            if order == "last":
-                                post_keys += [f"{key}._post.*!.??"]
-                            else:
-                                order = int(cast(str | int, order))
-                                post_keys.insert(order, f"{key}._post.*!.??")
+                        order = cast(PromptDict, d).get("_post_order", "last")
+                        if order == "last":
+                            post_keys += get_post_keys(cast(list[str], d["_post"]), key)
                         else:
-                            post_keys += [f"{key}._post"]
+                            order = int(cast(str | int, order))
+                            for k in get_post_keys(cast(list[str], d["_post"]), key):
+                                post_keys.insert(order, k)
                         exclude_keys += [f"{key}._post"]
                     # _random_countを処理
                     if "_random_count" in d:
                         rand.set_count(int(cast(int, d["_random_count"])))
         else:
+            # breakされてないならプロンプトを追加
             prefix_str = ".".join(prefix)
             is_term = isinstance(d, (str, list)) or len(get_keys_all(cast(Any, d))) == 0
             is_dict = isinstance(d, dict)
