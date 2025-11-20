@@ -215,20 +215,19 @@ class PromptTagParser(HTMLParser):
         lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
         for lora_name_key in [lora_name, lora_name.split("/")[-1]]:
             if lora_name_key in lora_dict:
-                keys = ["<lora>." + lora_name_key]
+                keys = [["<lora>", lora_name_key]]
                 post_keys: list[str] = []
-                self.feed_prompt(keys, post_keys, ignore_split=True)
+                self.feed_prompt(keys, post_keys)
                 while post_keys:
                     keys = post_keys
                     post_keys = []
-                    self.feed_prompt(keys, post_keys, ignore_split=True)
+                    self.feed_prompt(keys, post_keys)
 
     def feed_prompt(
         self,
-        keys: list[str],
+        keys: list[str] | list[list[str]],
         post_keys: list[str] | None = None,
         simple_join: bool = False,
-        ignore_split: bool = False,
     ):
         if post_keys is None:
             post_keys = []
@@ -239,7 +238,6 @@ class PromptTagParser(HTMLParser):
                     self.random,
                     self.prompt_dict,
                     keys,
-                    ignore_split=ignore_split,
                     exclude_keys=self.loaded_keys,
                     exports=self.exports,
                     root_dir=self.root_dir,

@@ -287,12 +287,11 @@ def export_values(
 def collect_prompt(
     rand: Random,
     prompt_dict: PromptDict,
-    keys: str | list[str],
+    keys: str | list[str] | list[list[str]],
     exclude_keys: list[str] | None = None,
     init_prefix: list[str] | None = None,
     root_dict: PromptDict | None = None,
     parent_dict: PromptDict | None = None,
-    ignore_split: bool = False,
     exports: dict[str, str] = {},
     root_dir: str | None = None,
     post_keys: list[str] | None = None,
@@ -318,7 +317,7 @@ def collect_prompt(
     for key in keys:
         d = prompt_dict
         parent_dict = init_parent_dict
-        key_parts = key.split(".") if not ignore_split else [key]
+        key_parts = key.split(".") if isinstance(key, str) else key
         prefix = init_prefix[:]
         while len(key_parts) > 0:
             key = key_parts.pop(0)
