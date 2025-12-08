@@ -205,12 +205,14 @@ class PromptTagParser(HTMLParser):
                 lora_name, strength_model, strength_clip
             )
 
-        if lora_tag not in self.loras:
-            if low:
+        if low:
+            if lora_tag not in self.loras_low:
                 self.loras_low += [lora_tag]
-            else:
+                self.loaded_keys += [lora_name]
+        else:
+            if lora_tag not in self.loras:
                 self.loras += [lora_tag]
-            self.loaded_keys += [lora_name]
+                self.loaded_keys += [lora_name]
 
         lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
         for lora_name_key in [lora_name, lora_name.split("/")[-1]]:
