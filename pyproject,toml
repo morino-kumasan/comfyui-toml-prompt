@@ -1,6 +1,0 @@
-[project]
-name = "comfyui-toml-prompt"
-description = "Encode Prompt in TOML for ComfyUI."
-version = "0.0.1"
-license = { file = "LICENSE" }
-dependencies = { file = "requirements.txt" }
