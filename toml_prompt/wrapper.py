@@ -1,10 +1,12 @@
 from typing import Any
+from collections import OrderedDict
 from . import InputTypesFuncResult
 
 import re, json
 
 try:
     from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler  # type: ignore
+    import comfy.sd, folder_paths  # type: ignore
 except ImportError:
     pass
 
@@ -176,6 +178,47 @@ class CheckPointLoaderSimpleFromString:
 
     def load(self, ckpt_name: str):
         return self.loader.load_checkpoint(ckpt_name)
+
+
+# WAN 2.2用に使いたいだけなので取り敢えず2個キャッシュしておく
+_UNET_CACHE: OrderedDict[str, Any] = OrderedDict()
+MAX_UNET_CACHE = 2
+
+
+class UNETLoaderFromString:
+    RETURN_TYPES = ("MODEL",)
+    OUTPUT_TOOLTIPS = ("The diffusion model.",)
+    FUNCTION = "load"
+    CATEGORY = "loaders"
+    DESCRIPTION = "Load checkpoint from string."
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "unet_name": ("STRING",),
+            }
+        }
+
+    def __init__(self):
+        pass
+
+    def load(self, unet_name: str):
+        if unet_name in _UNET_CACHE:
+            _UNET_CACHE.move_to_end(unet_name, True)
+            return (_UNET_CACHE[unet_name],)
+        else:
+            model_options = {}
+            unet_path = folder_paths.get_full_path_or_raise(
+                "diffusion_models", unet_name
+            )
+            model = comfy.sd.load_diffusion_model(
+                unet_path, model_options=model_options
+            )
+            if len(_UNET_CACHE) >= MAX_UNET_CACHE:
+                _UNET_CACHE.popitem(False)
+            _UNET_CACHE[unet_name] = model
+            return (model,)
 
 
 class KSamplerFromJsonInfo:

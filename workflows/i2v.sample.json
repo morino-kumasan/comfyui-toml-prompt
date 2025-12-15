@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 188,
-  "last_link_id": 512,
+  "last_node_id": 197,
+  "last_link_id": 528,
   "nodes": [
     {
       "id": 138,
@@ -56,7 +56,7 @@
         502.4708251953125
       ],
       "flags": {},
-      "order": 12,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -86,13 +86,13 @@
         990.0119018554688
       ],
       "flags": {},
-      "order": 26,
+      "order": 29,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 457
+          "link": 526
         }
       ],
       "outputs": [],
@@ -117,7 +117,7 @@
         244.04544067382812
       ],
       "flags": {},
-      "order": 8,
+      "order": 6,
       "mode": 0,
       "inputs": [
         {
@@ -164,38 +164,6 @@
       ]
     },
     {
-      "id": 158,
-      "type": "UNETLoader",
-      "pos": [
-        1140.7406005859375,
-        -541.40185546875
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            496
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "UNETLoader"
-      },
-      "widgets_values": [
-        "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors",
-        "default"
-      ]
-    },
-    {
       "id": 161,
       "type": "CLIPLoader",
       "pos": [
@@ -207,7 +175,7 @@
         106
       ],
       "flags": {},
-      "order": 3,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -240,7 +208,7 @@
         58
       ],
       "flags": {},
-      "order": 4,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -355,50 +323,6 @@
       ]
     },
     {
-      "id": 176,
-      "type": "JsonExtractInt",
-      "pos": [
-        1706.4544677734375,
-        51.7164306640625
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 13,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 485
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            486
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractInt"
-      },
-      "widgets_values": [
-        "",
-        "width",
-        418
-      ]
-    },
-    {
       "id": 172,
       "type": "KSamplerAdvanced",
       "pos": [
@@ -410,7 +334,7 @@
         334
       ],
       "flags": {},
-      "order": 23,
+      "order": 25,
       "mode": 0,
       "inputs": [
         {
@@ -468,81 +392,6 @@
       ]
     },
     {
-      "id": 8,
-      "type": "VAEDecode",
-      "pos": [
-        1160.10693359375,
-        498.462158203125
-      ],
-      "size": [
-        197.3822021484375,
-        46
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 25,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 480
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 456
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
-          "links": [
-            457
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 178,
-      "type": "UNETLoader",
-      "pos": [
-        1142.911865234375,
-        -419.802978515625
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            498
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "UNETLoader"
-      },
-      "widgets_values": [
-        "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
-        "default"
-      ]
-    },
-    {
       "id": 125,
       "type": "MultipartCLIPTextEncode",
       "pos": [
@@ -554,7 +403,7 @@
         256
       ],
       "flags": {},
-      "order": 10,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -628,53 +477,6 @@
       "widgets_values": [
         "",
         "",
-        ""
-      ]
-    },
-    {
-      "id": 183,
-      "type": "LoadLoraFromLoraList",
-      "pos": [
-        1426.5234375,
-        -462.7834167480469
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 19,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 496
-        },
-        {
-          "name": "lora_tag_list",
-          "type": "STRING",
-          "widget": {
-            "name": "lora_tag_list"
-          },
-          "link": 506
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            497
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadLoraFromLoraList"
-      },
-      "widgets_values": [
         ""
       ]
     },
@@ -783,90 +585,6 @@
       ]
     },
     {
-      "id": 184,
-      "type": "LoadLoraFromLoraList",
-      "pos": [
-        1432.65966796875,
-        -349.0226135253906
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 20,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 498
-        },
-        {
-          "name": "lora_tag_list",
-          "type": "STRING",
-          "widget": {
-            "name": "lora_tag_list"
-          },
-          "link": 509
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            499
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadLoraFromLoraList"
-      },
-      "widgets_values": [
-        ""
-      ]
-    },
-    {
-      "id": 179,
-      "type": "ModelSamplingSD3",
-      "pos": [
-        1642.79150390625,
-        -406.609375
-      ],
-      "size": [
-        270,
-        58
-      ],
-      "flags": {},
-      "order": 22,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 499
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            495
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ModelSamplingSD3"
-      },
-      "widgets_values": [
-        5
-      ]
-    },
-    {
       "id": 162,
       "type": "ModelSamplingSD3",
       "pos": [
@@ -878,7 +596,7 @@
         58
       ],
       "flags": {},
-      "order": 21,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -917,7 +635,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 11,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -964,7 +682,7 @@
         514
       ],
       "flags": {},
-      "order": 6,
+      "order": 4,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1014,7 +732,7 @@
         514
       ],
       "flags": {},
-      "order": 7,
+      "order": 5,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1053,6 +771,418 @@
       ]
     },
     {
+      "id": 177,
+      "type": "JsonExtractInt",
+      "pos": [
+        1861.7188720703125,
+        50.969913482666016
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 487
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            488
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "height",
+        608
+      ]
+    },
+    {
+      "id": 188,
+      "type": "JsonExtractFloat",
+      "pos": [
+        1853.234375,
+        111.54373168945312
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 510
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            511
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractFloat"
+      },
+      "widgets_values": [
+        "",
+        "cfg",
+        1
+      ]
+    },
+    {
+      "id": 173,
+      "type": "KSamplerAdvanced",
+      "pos": [
+        1497.683837890625,
+        104.93248748779297
+      ],
+      "size": [
+        308,
+        334
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 495
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 478
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 479
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 475
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            480
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerAdvanced"
+      },
+      "widgets_values": [
+        "disable",
+        0,
+        "fixed",
+        4,
+        1,
+        "euler",
+        "simple",
+        2,
+        4,
+        "disable"
+      ]
+    },
+    {
+      "id": 184,
+      "type": "LoadLoraFromLoraList",
+      "pos": [
+        1432.65966796875,
+        -349.0226135253906
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 521
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 509
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            499
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadLoraFromLoraList"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 179,
+      "type": "ModelSamplingSD3",
+      "pos": [
+        1662.35791015625,
+        -406.609375
+      ],
+      "size": [
+        250.43359375,
+        58
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 499
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            495
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ModelSamplingSD3"
+      },
+      "widgets_values": [
+        5
+      ]
+    },
+    {
+      "id": 183,
+      "type": "LoadLoraFromLoraList",
+      "pos": [
+        1426.5234375,
+        -462.7834167480469
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 520
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 506
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            497
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadLoraFromLoraList"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 192,
+      "type": "JsonExtractString",
+      "pos": [
+        1148.6041259765625,
+        -403.9539794921875
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 523
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            516
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractString"
+      },
+      "widgets_values": [
+        "",
+        "model_l",
+        "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors"
+      ]
+    },
+    {
+      "id": 191,
+      "type": "JsonExtractString",
+      "pos": [
+        1147.7041015625,
+        -516.8851928710938
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 522
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            515
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractString"
+      },
+      "widgets_values": [
+        "",
+        "model_h",
+        "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors"
+      ]
+    },
+    {
+      "id": 176,
+      "type": "JsonExtractInt",
+      "pos": [
+        1706.4544677734375,
+        51.7164306640625
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 485
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            486
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "width",
+        418
+      ]
+    },
+    {
       "id": 163,
       "type": "TomlPromptDecode",
       "pos": [
@@ -1064,7 +1194,7 @@
         523.9749145507812
       ],
       "flags": {},
-      "order": 9,
+      "order": 7,
       "mode": 0,
       "inputs": [
         {
@@ -1114,7 +1244,9 @@
           "links": [
             485,
             487,
-            510
+            510,
+            522,
+            523
           ]
         }
       ],
@@ -1128,152 +1260,165 @@
       ]
     },
     {
-      "id": 177,
-      "type": "JsonExtractInt",
+      "id": 8,
+      "type": "VAEDecode",
       "pos": [
-        1861.7188720703125,
-        50.969913482666016
+        1160.10693359375,
+        498.462158203125
       ],
       "size": [
-        270,
-        106
+        197.3822021484375,
+        46
       ],
       "flags": {
-        "collapsed": true
+        "collapsed": false
       },
-      "order": 14,
+      "order": 27,
       "mode": 0,
       "inputs": [
         {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 487
+          "name": "samples",
+          "type": "LATENT",
+          "link": 480
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 456
         }
       ],
       "outputs": [
         {
-          "name": "INT",
-          "type": "INT",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
           "links": [
-            488
+            525
           ]
         }
       ],
       "properties": {
-        "Node name for S&R": "JsonExtractInt"
+        "Node name for S&R": "VAEDecode"
       },
-      "widgets_values": [
-        "",
-        "height",
-        608
-      ]
+      "widgets_values": []
     },
     {
-      "id": 188,
-      "type": "JsonExtractFloat",
+      "id": 195,
+      "type": "DropFirstImage",
       "pos": [
-        1853.234375,
-        111.54373168945312
+        1379.97412109375,
+        513.9752197265625
       ],
       "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 510
-        }
-      ],
-      "outputs": [
-        {
-          "name": "FLOAT",
-          "type": "FLOAT",
-          "links": [
-            511
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractFloat"
-      },
-      "widgets_values": [
-        "",
-        "cfg",
-        1
-      ]
-    },
-    {
-      "id": 173,
-      "type": "KSamplerAdvanced",
-      "pos": [
-        1497.683837890625,
-        104.93248748779297
-      ],
-      "size": [
-        308,
-        334
+        140,
+        26
       ],
       "flags": {},
-      "order": 24,
+      "order": 28,
       "mode": 0,
       "inputs": [
         {
-          "name": "model",
-          "type": "MODEL",
-          "link": 495
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 478
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 479
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 475
+          "name": "images",
+          "type": "IMAGE",
+          "link": 525
         }
       ],
       "outputs": [
         {
-          "name": "LATENT",
-          "type": "LATENT",
+          "name": "IMAGE",
+          "type": "IMAGE",
           "links": [
-            480
+            526
           ]
         }
       ],
       "properties": {
-        "Node name for S&R": "KSamplerAdvanced"
+        "Node name for S&R": "DropFirstImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 190,
+      "type": "UNETLoaderFromString",
+      "pos": [
+        1150.7962646484375,
+        -463.6108703613281
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 19,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "unet_name",
+          "type": "STRING",
+          "widget": {
+            "name": "unet_name"
+          },
+          "link": 515
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            520
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoaderFromString"
       },
       "widgets_values": [
-        "disable",
-        0,
-        "fixed",
-        4,
-        1,
-        "euler",
-        "simple",
-        2,
-        4,
-        "disable"
+        ""
+      ]
+    },
+    {
+      "id": 193,
+      "type": "UNETLoaderFromString",
+      "pos": [
+        1162.904052734375,
+        -348.2492980957031
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 20,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "unet_name",
+          "type": "STRING",
+          "widget": {
+            "name": "unet_name"
+          },
+          "link": 516
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            521
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoaderFromString"
+      },
+      "widgets_values": [
+        ""
       ]
     }
   ],
@@ -1301,14 +1446,6 @@
       8,
       1,
       "VAE"
-    ],
-    [
-      457,
-      8,
-      0,
-      169,
-      0,
-      "IMAGE"
     ],
     [
       458,
@@ -1479,26 +1616,10 @@
       "MODEL"
     ],
     [
-      496,
-      158,
-      0,
-      183,
-      0,
-      "MODEL"
-    ],
-    [
       497,
       183,
       0,
       162,
-      0,
-      "MODEL"
-    ],
-    [
-      498,
-      178,
-      0,
-      184,
       0,
       "MODEL"
     ],
@@ -1589,6 +1710,70 @@
       172,
       4,
       "FLOAT"
+    ],
+    [
+      515,
+      191,
+      0,
+      190,
+      0,
+      "STRING"
+    ],
+    [
+      516,
+      192,
+      0,
+      193,
+      0,
+      "STRING"
+    ],
+    [
+      520,
+      190,
+      0,
+      183,
+      0,
+      "MODEL"
+    ],
+    [
+      521,
+      193,
+      0,
+      184,
+      0,
+      "MODEL"
+    ],
+    [
+      522,
+      163,
+      5,
+      191,
+      0,
+      "STRING"
+    ],
+    [
+      523,
+      163,
+      5,
+      192,
+      0,
+      "STRING"
+    ],
+    [
+      525,
+      8,
+      0,
+      195,
+      0,
+      "IMAGE"
+    ],
+    [
+      526,
+      195,
+      0,
+      169,
+      0,
+      "IMAGE"
     ]
   ],
   "groups": [
@@ -1641,10 +1826,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.3901460636442128,
+      "scale": 0.3721325629579372,
       "offset": [
-        491.82426351398317,
-        915.584513346354
+        841.4405469412129,
+        915.5845133463542
       ]
     },
     "frontendVersion": "1.26.13"

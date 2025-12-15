@@ -9,6 +9,7 @@ try:
 except ImportError:
     pass
 
+
 class StringPicker:
     RETURN_TYPES = ("STRING",)
     OUTPUT_TOOLTIPS = ("STRING not disabled.",)
@@ -337,3 +338,28 @@ class SeedGenerator:
 
     def generate(self, seed: int):
         return (seed,)
+
+
+class DropFirstImage:
+    RETURN_TYPES = ("IMAGE",)
+    OUTPUT_TOOLTIPS = ("IMAGE.",)
+    FUNCTION = "drop"
+    CATEGORY = "utils"
+    DESCRIPTION = "Drop first image."
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "images": ("IMAGE",),
+            }
+        }
+
+    def drop(self, images: Any):
+        if len(images) > 1:
+            return (images[1:],)
+        else:
+            return (images,)

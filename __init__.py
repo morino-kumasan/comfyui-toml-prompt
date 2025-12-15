@@ -19,12 +19,14 @@ from .toml_prompt.util import (
     StringConcat,
     StringConcatInt,
     SeedGenerator,
+    DropFirstImage,
 )
 from .toml_prompt.wrapper import (
     MultipartCLIPTextEncode,
     CheckPointLoaderSimpleFromString,
     KSamplerFromJsonInfo,
     LoadLoraFromLoraList,
+    UNETLoaderFromString,
 )
 
 NODE_CLASS_MAPPINGS: dict[str, Any] = {
@@ -49,6 +51,8 @@ NODE_CLASS_MAPPINGS: dict[str, Any] = {
     "SeedGenerator": SeedGenerator,
     "LoadLoraFromLoraList": LoadLoraFromLoraList,
     "SplitLoraList": SplitLoraList,
+    "UNETLoaderFromString": UNETLoaderFromString,
+    "DropFirstImage": DropFirstImage,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -73,6 +77,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "SeedGenerator": "SeedGenerator",
     "LoadLoraFromLoraList": "LoadLoraFromLoraList",
     "SplitLoraList": "SplitLoraList",
+    "UNETLoaderFromString": "UNETLoaderFromString",
+    "DropFirstImage": "DropFirstImage",
 }
 
 WEB_DIRECTORY = "./web"
