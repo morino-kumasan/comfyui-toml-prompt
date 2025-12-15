@@ -165,18 +165,21 @@ class TestSearch(unittest.TestCase):
         d: dict[str, Any] = {
             "a": {
                 "_t": "a",
-                "_post": "post_a",
+                "_post": ["::post_a"],
                 "b": {
                     "c": {
                         "_t": "c",
-                        "_post": "post_c",
+                        "_post": ["post_c"],
+                        "post_c": "post_c",
                     },
                 },
-            }
+            },
+            "post_a": "post_a",
+            "post_c": "post_c",
         }
         post_keys: list[str] = []
         r = collect_prompt(
-            self.random, d, build_search_keys("a.??"), post_keys=post_keys
+            self.random, d, build_search_keys("a.b.c"), post_keys=post_keys
         )
         r += collect_prompt(self.random, d, post_keys)
         print(build_search_keys("a.??"), r)
@@ -246,37 +249,41 @@ class TestSearch(unittest.TestCase):
         d: dict[str, Any] = {
             "a": {
                 "_t": "a",
-                "_post": "post",
-            }
+                "_post": ["::post"],
+            },
+            "post": "post",
         }
         post_keys: list[str] = []
         r = collect_prompt(self.random, d, build_search_keys("a"), post_keys=post_keys)
-        r += collect_prompt(self.random, d, post_keys)
+        keys = post_keys
+        post_keys = []
+        r += collect_prompt(self.random, d, keys, post_keys=post_keys)
         assert r == ["a", "post"]
+        assert len(post_keys) == 0
 
     def test__search_post_when(self):
         d: dict[str, Any] = {
             "a": {
                 "_t": "a",
-                "_post": {
-                    "d": {
-                        "e": {
-                            "_when": "a.b",
-                            "_w": [1.0],
-                            "e": "one1",
-                        },
-                        "f": {
-                            "_post": "post_post",
-                            "_when": "a.c",
-                            "_w": [1.0],
-                            "f": "one2",
-                        },
-                    },
-                    "g": {"_t": "g"},
-                    "h": "h",
-                },
+                "_post": ["d.**", "g", "h"],
                 "b": "b",
                 "c": "c",
+                "d": {
+                    "e": {
+                        "_when": "a.b",
+                        "_w": [1.0],
+                        "e": "one1",
+                    },
+                    "f": {
+                        "_post": ["post"],
+                        "_when": "a.c",
+                        "_w": [1.0],
+                        "f": "one2",
+                        "post": "post_post",
+                    },
+                },
+                "g": {"_t": "g"},
+                "h": "h",
             }
         }
         post_keys: list[str] = []
@@ -288,8 +295,13 @@ class TestSearch(unittest.TestCase):
             post_keys=post_keys,
             exclude_keys=exclude_keys,
         )
-        r += collect_prompt(self.random, d, post_keys, exclude_keys=exclude_keys)
+        keys = post_keys
+        post_keys = []
+        r += collect_prompt(
+            self.random, d, keys, exclude_keys=exclude_keys, post_keys=post_keys
+        )
         assert r == ["a", "b", "one1", "g", "h"]
+        assert len(post_keys) == 0
 
         post_keys: list[str] = []
         exclude_keys: list[str] = []
@@ -300,12 +312,18 @@ class TestSearch(unittest.TestCase):
             post_keys=post_keys,
             exclude_keys=exclude_keys,
         )
-        post_keys2: list[str] = []
+        keys = post_keys
+        post_keys = []
         r += collect_prompt(
-            self.random, d, post_keys, exclude_keys=exclude_keys, post_keys=post_keys2
+            self.random, d, keys, exclude_keys=exclude_keys, post_keys=post_keys
         )
-        r += collect_prompt(self.random, d, post_keys2, exclude_keys=exclude_keys)
-        assert r == ["a", "c", "one2", "g", "h", "post_post"]
+        keys = post_keys
+        post_keys = []
+        r += collect_prompt(
+            self.random, d, keys, exclude_keys=exclude_keys, post_keys=post_keys
+        )
+        assert r == ["a", "c", "one2", "post_post", "g", "h", "post_post"]
+        assert len(post_keys) == 0
 
 
 if __name__ == "__main__":
