@@ -75,37 +75,6 @@
       ]
     },
     {
-      "id": 169,
-      "type": "SaveAnimatedWEBP",
-      "pos": [
-        14.597688674926758,
-        75.96537017822266
-      ],
-      "size": [
-        577.4818115234375,
-        990.0119018554688
-      ],
-      "flags": {},
-      "order": 29,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 526
-        }
-      ],
-      "outputs": [],
-      "properties": {},
-      "widgets_values": [
-        "%date:yyyyMMdd%/%date:yyyyMMdd_hhmmss%",
-        24.000000000000004,
-        true,
-        80,
-        "default"
-      ]
-    },
-    {
       "id": 168,
       "type": "PreviewImage",
       "pos": [
@@ -1310,7 +1279,7 @@
         513.9752197265625
       ],
       "size": [
-        140,
+        141.53671875,
         26
       ],
       "flags": {},
@@ -1419,6 +1388,37 @@
       },
       "widgets_values": [
         ""
+      ]
+    },
+    {
+      "id": 169,
+      "type": "SaveAnimatedWEBP",
+      "pos": [
+        14.597688674926758,
+        75.96537017822266
+      ],
+      "size": [
+        576.2282061509281,
+        497.3449904593057
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 526
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "%date:yyyyMMdd%/%date:yyyyMMdd_hhmmss%",
+        24.000000000000004,
+        true,
+        80,
+        "default"
       ]
     }
   ],
@@ -1788,9 +1788,7 @@
       ],
       "color": "#3f789e",
       "font_size": 24,
-      "flags": {
-        "pinned": true
-      }
+      "flags": {}
     },
     {
       "id": 2,
@@ -1826,13 +1824,14 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.3721325629579372,
+      "scale": 0.48659639844338815,
       "offset": [
-        841.4405469412129,
-        915.5845133463542
+        405.1305731137593,
+        848.4050439841501
       ]
     },
-    "frontendVersion": "1.26.13"
+    "frontendVersion": "1.37.11",
+    "workflowRendererVersion": "LG"
   },
   "version": 0.4
 }
