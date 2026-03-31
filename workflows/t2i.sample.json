@@ -1,8 +1,8 @@
 {
   "id": "72d8440a-46f6-4473-a4b4-244695d3a285",
   "revision": 0,
-  "last_node_id": 168,
-  "last_link_id": 466,
+  "last_node_id": 169,
+  "last_link_id": 468,
   "nodes": [
     {
       "id": 10,
@@ -236,73 +236,6 @@
       ]
     },
     {
-      "id": 159,
-      "type": "KSamplerFromJsonInfo",
-      "pos": [
-        1044.1053466796875,
-        224.97433471679688
-      ],
-      "size": [
-        270,
-        162
-      ],
-      "flags": {},
-      "order": 17,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 453
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 446
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 447
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 448
-        },
-        {
-          "name": "seed",
-          "shape": 7,
-          "type": "INT",
-          "link": 465
-        },
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 444
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            449
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSamplerFromJsonInfo"
-      },
-      "widgets_values": [
-        1,
-        ""
-      ]
-    },
-    {
       "id": 125,
       "type": "MultipartCLIPTextEncode",
       "pos": [
@@ -318,14 +251,15 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "model",
-          "type": "MODEL",
-          "link": 454
-        },
-        {
           "name": "clip",
           "type": "CLIP",
           "link": 369
+        },
+        {
+          "name": "model",
+          "shape": 7,
+          "type": "MODEL",
+          "link": 454
         },
         {
           "name": "lora_tag_list",
@@ -589,83 +523,6 @@
         "Node name for S&R": "StringViewer"
       },
       "widgets_values": [
-        ""
-      ]
-    },
-    {
-      "id": 166,
-      "type": "SeedGenerator",
-      "pos": [
-        797.9357299804688,
-        238.1626739501953
-      ],
-      "size": [
-        210,
-        82
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            459,
-            465
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SeedGenerator"
-      },
-      "widgets_values": [
-        0,
-        "randomize"
-      ]
-    },
-    {
-      "id": 167,
-      "type": "StringConcatInt",
-      "pos": [
-        1058.7366943359375,
-        869.0142211914062
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 5,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_from",
-          "type": "INT",
-          "widget": {
-            "name": "text_from"
-          },
-          "link": 459
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            463
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "StringConcatInt"
-      },
-      "widgets_values": [
-        0,
-        "seed: ",
         ""
       ]
     },
@@ -961,7 +818,7 @@
         58
       ],
       "flags": {},
-      "order": 3,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -979,6 +836,154 @@
       },
       "widgets_values": [
         "prompt.sample.toml"
+      ]
+    },
+    {
+      "id": 159,
+      "type": "KSamplerFromJsonInfo",
+      "pos": [
+        1044.1053466796875,
+        224.97433471679688
+      ],
+      "size": [
+        270,
+        162
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 453
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 446
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 447
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 448
+        },
+        {
+          "name": "seed",
+          "shape": 7,
+          "type": "INT",
+          "link": 467
+        },
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 444
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            449
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerFromJsonInfo"
+      },
+      "widgets_values": [
+        1,
+        ""
+      ]
+    },
+    {
+      "id": 167,
+      "type": "StringConcatInt",
+      "pos": [
+        1058.9306825637923,
+        865.6423391993532
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_from",
+          "type": "INT",
+          "widget": {
+            "name": "text_from"
+          },
+          "link": 468
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            463
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "StringConcatInt"
+      },
+      "widgets_values": [
+        0,
+        "seed: ",
+        ""
+      ]
+    },
+    {
+      "id": 169,
+      "type": "PrimitiveNode",
+      "pos": [
+        797.9810488180512,
+        241.42915687343293
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "links": [
+            467,
+            468
+          ]
+        }
+      ],
+      "title": "Seed",
+      "properties": {
+        "Run widget replace on values": false
+      },
+      "widgets_values": [
+        0,
+        "randomize"
       ]
     }
   ],
@@ -1012,7 +1017,7 @@
       10,
       0,
       125,
-      1,
+      0,
       "CLIP"
     ],
     [
@@ -1148,7 +1153,7 @@
       162,
       0,
       125,
-      0,
+      1,
       "MODEL"
     ],
     [
@@ -1184,14 +1189,6 @@
       "INT"
     ],
     [
-      459,
-      166,
-      0,
-      167,
-      0,
-      "INT"
-    ],
-    [
       462,
       126,
       4,
@@ -1216,20 +1213,28 @@
       "STRING"
     ],
     [
-      465,
-      166,
-      0,
-      159,
-      4,
-      "INT"
-    ],
-    [
       466,
       79,
       0,
       126,
       0,
       "PROMPT_FILE"
+    ],
+    [
+      467,
+      169,
+      0,
+      159,
+      4,
+      "INT"
+    ],
+    [
+      468,
+      169,
+      0,
+      167,
+      0,
+      "INT"
     ]
   ],
   "groups": [
@@ -1282,13 +1287,14 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7390983453932416,
+      "scale": 0.7243257261410788,
       "offset": [
-        -5.459896129049683,
-        26.69830909818434
+        440.5683852488364,
+        168.66666666666663
       ]
     },
-    "frontendVersion": "1.23.4"
+    "frontendVersion": "1.37.11",
+    "workflowRendererVersion": "LG"
   },
   "version": 0.4
 }

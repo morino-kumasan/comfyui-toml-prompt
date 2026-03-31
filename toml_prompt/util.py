@@ -309,37 +309,6 @@ class StringConcatInt:
         return (text_to + sep + str(text_from),)
 
 
-# Primitiveだとうまくいかない場合用
-class SeedGenerator:
-    RETURN_TYPES = ("INT",)
-    OUTPUT_TOOLTIPS = ("INT.",)
-    FUNCTION = "generate"
-    CATEGORY = "utils"
-    DESCRIPTION = "INT Primitive for optional force input."
-
-    def __init__(self):
-        pass
-
-    @classmethod
-    def INPUT_TYPES(cls) -> InputTypesFuncResult:
-        return {
-            "required": {
-                "seed": (
-                    "INT",
-                    {
-                        "default": 0,
-                        "min": 0,
-                        "max": 0xFFFFFFFFFFFFFFFF,
-                        "control_after_generate": True,
-                    },
-                ),
-            }
-        }
-
-    def generate(self, seed: int):
-        return (seed,)
-
-
 class DropFirstImage:
     RETURN_TYPES = ("IMAGE",)
     OUTPUT_TOOLTIPS = ("IMAGE.",)

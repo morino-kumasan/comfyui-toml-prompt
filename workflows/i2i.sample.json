@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 169,
-  "last_link_id": 465,
+  "last_node_id": 170,
+  "last_link_id": 466,
   "nodes": [
     {
       "id": 10,
@@ -335,7 +335,7 @@
           "name": "seed",
           "shape": 7,
           "type": "INT",
-          "link": 465
+          "link": 466
         },
         {
           "name": "json_text",
@@ -379,14 +379,15 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "model",
-          "type": "MODEL",
-          "link": 445
-        },
-        {
           "name": "clip",
           "type": "CLIP",
           "link": 369
+        },
+        {
+          "name": "model",
+          "shape": 7,
+          "type": "MODEL",
+          "link": 445
         },
         {
           "name": "lora_tag_list",
@@ -666,7 +667,7 @@
         -93.03433227539062
       ],
       "size": [
-        193.89999389648438,
+        193.9,
         46
       ],
       "flags": {
@@ -702,15 +703,15 @@
       "widgets_values": []
     },
     {
-      "id": 169,
-      "type": "SeedGenerator",
+      "id": 170,
+      "type": "PrimitiveNode",
       "pos": [
-        856.2571411132812,
-        -531.9425659179688
+        859.339795393266,
+        -533.0987955550089
       ],
       "size": [
-        246.5181884765625,
-        84.23636627197266
+        210,
+        82
       ],
       "flags": {},
       "order": 2,
@@ -720,13 +721,17 @@
         {
           "name": "INT",
           "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
           "links": [
-            465
+            466
           ]
         }
       ],
+      "title": "Seed",
       "properties": {
-        "Node name for S&R": "SeedGenerator"
+        "Run widget replace on values": false
       },
       "widgets_values": [
         0,
@@ -740,7 +745,7 @@
       10,
       0,
       125,
-      1,
+      0,
       "CLIP"
     ],
     [
@@ -852,7 +857,7 @@
       158,
       0,
       125,
-      0,
+      1,
       "MODEL"
     ],
     [
@@ -936,8 +941,8 @@
       "STRING"
     ],
     [
-      465,
-      169,
+      466,
+      170,
       0,
       167,
       4,
@@ -994,13 +999,14 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.8943089979258255,
+      "scale": 0.5686491221273235,
       "offset": [
-        -13.14796802700917,
-        629.2240657874235
+        756.3441633804273,
+        835.7273668050767
       ]
     },
-    "frontendVersion": "1.21.7"
+    "frontendVersion": "1.37.11",
+    "workflowRendererVersion": "LG"
   },
   "version": 0.4
 }
