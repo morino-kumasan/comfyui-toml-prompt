@@ -1,49 +1,9 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 197,
-  "last_link_id": 528,
+  "last_node_id": 200,
+  "last_link_id": 534,
   "nodes": [
-    {
-      "id": 138,
-      "type": "LoadImage",
-      "pos": [
-        12,
-        -543
-      ],
-      "size": [
-        367.2821044921875,
-        521.1101684570312
-      ],
-      "flags": {},
-      "order": 0,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
-          "links": [
-            469,
-            470
-          ]
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "slot_index": 1,
-          "links": []
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "example.png",
-        "image"
-      ]
-    },
     {
       "id": 171,
       "type": "StringViewer",
@@ -56,7 +16,7 @@
         502.4708251953125
       ],
       "flags": {},
-      "order": 10,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
@@ -86,13 +46,13 @@
         244.04544067382812
       ],
       "flags": {},
-      "order": 6,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 469
+          "link": 530
         }
       ],
       "outputs": [],
@@ -100,37 +60,6 @@
         "Node name for S&R": "PreviewImage"
       },
       "widgets_values": []
-    },
-    {
-      "id": 164,
-      "type": "PromptLoader",
-      "pos": [
-        389.67559814453125,
-        -541.4169921875
-      ],
-      "size": [
-        270,
-        58
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "PROMPT_FILE",
-          "type": "PROMPT_FILE",
-          "links": [
-            489
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "PromptLoader"
-      },
-      "widgets_values": [
-        "prompt.sample.toml"
-      ]
     },
     {
       "id": 161,
@@ -144,7 +73,7 @@
         106
       ],
       "flags": {},
-      "order": 2,
+      "order": 0,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -177,7 +106,7 @@
         58
       ],
       "flags": {},
-      "order": 3,
+      "order": 1,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -209,7 +138,7 @@
         210
       ],
       "flags": {},
-      "order": 18,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
@@ -237,7 +166,7 @@
           "name": "start_image",
           "shape": 7,
           "type": "IMAGE",
-          "link": 470
+          "link": 531
         },
         {
           "name": "width",
@@ -303,7 +232,7 @@
         334
       ],
       "flags": {},
-      "order": 25,
+      "order": 27,
       "mode": 0,
       "inputs": [
         {
@@ -325,6 +254,14 @@
           "name": "latent_image",
           "type": "LATENT",
           "link": 474
+        },
+        {
+          "name": "noise_seed",
+          "type": "INT",
+          "widget": {
+            "name": "noise_seed"
+          },
+          "link": 534
         },
         {
           "name": "cfg",
@@ -372,7 +309,7 @@
         256
       ],
       "flags": {},
-      "order": 8,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -463,7 +400,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 16,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -515,7 +452,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 17,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
@@ -565,7 +502,7 @@
         58
       ],
       "flags": {},
-      "order": 23,
+      "order": 25,
       "mode": 0,
       "inputs": [
         {
@@ -604,7 +541,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 9,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -651,7 +588,7 @@
         514
       ],
       "flags": {},
-      "order": 4,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -701,7 +638,7 @@
         514
       ],
       "flags": {},
-      "order": 5,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -753,7 +690,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 12,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
@@ -797,7 +734,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 13,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -839,7 +776,7 @@
         334
       ],
       "flags": {},
-      "order": 26,
+      "order": 28,
       "mode": 0,
       "inputs": [
         {
@@ -902,7 +839,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 22,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -947,7 +884,7 @@
         58
       ],
       "flags": {},
-      "order": 24,
+      "order": 26,
       "mode": 0,
       "inputs": [
         {
@@ -986,7 +923,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 21,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -1033,7 +970,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 15,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -1077,7 +1014,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 14,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
@@ -1121,7 +1058,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 11,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -1163,7 +1100,7 @@
         523.9749145507812
       ],
       "flags": {},
-      "order": 7,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -1229,84 +1166,6 @@
       ]
     },
     {
-      "id": 8,
-      "type": "VAEDecode",
-      "pos": [
-        1160.10693359375,
-        498.462158203125
-      ],
-      "size": [
-        197.3822021484375,
-        46
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 27,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 480
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 456
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
-          "links": [
-            525
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 195,
-      "type": "DropFirstImage",
-      "pos": [
-        1379.97412109375,
-        513.9752197265625
-      ],
-      "size": [
-        141.53671875,
-        26
-      ],
-      "flags": {},
-      "order": 28,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 525
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            526
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "DropFirstImage"
-      },
-      "widgets_values": []
-    },
-    {
       "id": 190,
       "type": "UNETLoaderFromString",
       "pos": [
@@ -1320,7 +1179,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 19,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -1362,7 +1221,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 20,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -1402,7 +1261,7 @@
         497.3449904593057
       ],
       "flags": {},
-      "order": 29,
+      "order": 32,
       "mode": 0,
       "inputs": [
         {
@@ -1419,6 +1278,262 @@
         true,
         80,
         "default"
+      ]
+    },
+    {
+      "id": 138,
+      "type": "LoadImage",
+      "pos": [
+        12,
+        -543
+      ],
+      "size": [
+        367.2821044921875,
+        521.1101684570312
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            529
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "slot_index": 1,
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ]
+    },
+    {
+      "id": 198,
+      "type": "FlipImage",
+      "pos": [
+        -453.16340649434954,
+        -535.5661781252267
+      ],
+      "size": [
+        427.7492698214644,
+        89.1644738632483
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 529
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            530,
+            531
+          ]
+        }
+      ],
+      "title": "FlipSource",
+      "properties": {
+        "Node name for S&R": "FlipImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        1160.10693359375,
+        498.462158203125
+      ],
+      "size": [
+        197.3822021484375,
+        46
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 480
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 456
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            532
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 199,
+      "type": "FlipImage",
+      "pos": [
+        -451.5972405717803,
+        -392.68094169422943
+      ],
+      "size": [
+        427.7492698214644,
+        89.1644738632483
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 532
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            533
+          ]
+        }
+      ],
+      "title": "FlipAnimation",
+      "properties": {
+        "Node name for S&R": "FlipImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 195,
+      "type": "DropFirstImage",
+      "pos": [
+        1379.97412109375,
+        513.9752197265625
+      ],
+      "size": [
+        141.53671875,
+        26
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 533
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            526
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DropFirstImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 200,
+      "type": "PrimitiveNode",
+      "pos": [
+        393.82915867599456,
+        -440.2907557823512
+      ],
+      "size": [
+        258.8125521909973,
+        120.4269027886574
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "widget": {
+            "name": "noise_seed"
+          },
+          "links": [
+            534
+          ]
+        }
+      ],
+      "properties": {
+        "Run widget replace on values": false
+      },
+      "widgets_values": [
+        0,
+        "randomize"
+      ]
+    },
+    {
+      "id": 164,
+      "type": "PromptLoader",
+      "pos": [
+        389.67559814453125,
+        -541.4169921875
+      ],
+      "size": [
+        262.7300454183621,
+        58
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "PROMPT_FILE",
+          "type": "PROMPT_FILE",
+          "links": [
+            489
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PromptLoader"
+      },
+      "widgets_values": [
+        "prompt.sample.toml"
       ]
     }
   ],
@@ -1494,22 +1609,6 @@
       171,
       0,
       "STRING"
-    ],
-    [
-      469,
-      138,
-      0,
-      168,
-      0,
-      "IMAGE"
-    ],
-    [
-      470,
-      138,
-      0,
-      167,
-      4,
-      "IMAGE"
     ],
     [
       472,
@@ -1708,7 +1807,7 @@
       188,
       0,
       172,
-      4,
+      5,
       "FLOAT"
     ],
     [
@@ -1760,20 +1859,60 @@
       "STRING"
     ],
     [
-      525,
-      8,
-      0,
-      195,
-      0,
-      "IMAGE"
-    ],
-    [
       526,
       195,
       0,
       169,
       0,
       "IMAGE"
+    ],
+    [
+      529,
+      138,
+      0,
+      198,
+      0,
+      "IMAGE"
+    ],
+    [
+      530,
+      198,
+      0,
+      168,
+      0,
+      "IMAGE"
+    ],
+    [
+      531,
+      198,
+      0,
+      167,
+      4,
+      "IMAGE"
+    ],
+    [
+      532,
+      8,
+      0,
+      199,
+      0,
+      "IMAGE"
+    ],
+    [
+      533,
+      199,
+      0,
+      195,
+      0,
+      "IMAGE"
+    ],
+    [
+      534,
+      200,
+      0,
+      172,
+      4,
+      "INT"
     ]
   ],
   "groups": [
@@ -1819,15 +1958,30 @@
       "flags": {
         "pinned": true
       }
+    },
+    {
+      "id": 6,
+      "title": "FlipImage",
+      "bounding": [
+        -474.4364585879815,
+        -621.4460549596608,
+        465.8847166496293,
+        612.312707963561
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {
+        "pinned": true
+      }
     }
   ],
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.48659639844338815,
+      "scale": 0.9628670882869442,
       "offset": [
-        405.1305731137593,
-        848.4050439841501
+        293.7008317589026,
+        770.5544067767578
       ]
     },
     "frontendVersion": "1.37.11",

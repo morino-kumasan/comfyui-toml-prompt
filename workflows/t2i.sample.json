@@ -1,8 +1,8 @@
 {
   "id": "72d8440a-46f6-4473-a4b4-244695d3a285",
   "revision": 0,
-  "last_node_id": 169,
-  "last_link_id": 468,
+  "last_node_id": 170,
+  "last_link_id": 470,
   "nodes": [
     {
       "id": 10,
@@ -877,7 +877,7 @@
           "name": "seed",
           "shape": 7,
           "type": "INT",
-          "link": 467
+          "link": 470
         },
         {
           "name": "json_text",
@@ -928,7 +928,7 @@
           "widget": {
             "name": "text_from"
           },
-          "link": 468
+          "link": 469
         }
       ],
       "outputs": [
@@ -950,11 +950,11 @@
       ]
     },
     {
-      "id": 169,
-      "type": "PrimitiveNode",
+      "id": 170,
+      "type": "PrimitiveInt",
       "pos": [
-        797.9810488180512,
-        241.42915687343293
+        798.2925451172199,
+        244.4619281379364
       ],
       "size": [
         210,
@@ -968,18 +968,15 @@
         {
           "name": "INT",
           "type": "INT",
-          "widget": {
-            "name": "seed"
-          },
           "links": [
-            467,
-            468
+            469,
+            470
           ]
         }
       ],
       "title": "Seed",
       "properties": {
-        "Run widget replace on values": false
+        "Node name for S&R": "PrimitiveInt"
       },
       "widgets_values": [
         0,
@@ -1221,19 +1218,19 @@
       "PROMPT_FILE"
     ],
     [
-      467,
-      169,
-      0,
-      159,
-      4,
-      "INT"
-    ],
-    [
-      468,
-      169,
+      469,
+      170,
       0,
       167,
       0,
+      "INT"
+    ],
+    [
+      470,
+      170,
+      0,
+      159,
+      4,
       "INT"
     ]
   ],
@@ -1287,10 +1284,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7243257261410788,
+      "scale": 0.8764341286307056,
       "offset": [
-        440.5683852488364,
-        168.66666666666663
+        115.63809020780978,
+        25.952005160480706
       ]
     },
     "frontendVersion": "1.37.11",

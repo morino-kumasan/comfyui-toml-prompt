@@ -4,6 +4,7 @@ from . import InputTypesFuncResult
 import sys, os, json
 
 try:
+    import torch  # pyright: ignore
     import folder_paths  # pyright: ignore
     from PIL import Image  # pyright: ignore
 except ImportError:
@@ -332,3 +333,25 @@ class DropFirstImage:
             return (images[1:],)
         else:
             return (images,)
+
+
+class FlipImage:
+    RETURN_TYPES = ("IMAGE",)
+    OUTPUT_TOOLTIPS = ("IMAGE.",)
+    FUNCTION = "flip"
+    CATEGORY = "utils"
+    DESCRIPTION = "Flip images."
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "images": ("IMAGE",),
+            }
+        }
+
+    def flip(self, images: Any) -> tuple[Any]:
+        return (torch.flip(images, [1]),)  # type: ignore
