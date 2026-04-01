@@ -115,7 +115,9 @@ def get_keys_all(
         if not isinstance(d[key], dict):
             return True
         target = cast(PromptDict, d[key])
-        return "_when" not in target or target["_when"] in loaded_keys
+        return ("_when" not in target or target["_when"] in loaded_keys) and (
+            "_when_not" not in target or target["_when_not"] not in loaded_keys
+        )
 
     if "_k" in d:
         keys = [(i, str(k)) for i, k in enumerate(d["_k"]) if k in d and when(k)]
