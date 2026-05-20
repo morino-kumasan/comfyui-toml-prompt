@@ -139,8 +139,8 @@ def get_keys_all(
             if rand.choices(
                 [True, False],
                 [
-                    weights[indices.index(i)],
-                    1.0 - weights[indices.index(i)],
+                    weights[i],
+                    1.0 - weights[i],
                 ],
             )[0]
         ]
