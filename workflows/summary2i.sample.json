@@ -1,0 +1,920 @@
+{
+  "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
+  "revision": 0,
+  "last_node_id": 167,
+  "last_link_id": 473,
+  "nodes": [
+    {
+      "id": 10,
+      "type": "CLIPSetLastLayer",
+      "pos": [
+        1138.7469482421875,
+        -401.96844482421875
+      ],
+      "size": [
+        248.6472930908203,
+        58
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 450
+        },
+        {
+          "name": "stop_at_clip_layer",
+          "type": "INT",
+          "widget": {
+            "name": "stop_at_clip_layer"
+          },
+          "link": 454
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "slot_index": 0,
+          "links": [
+            369
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPSetLastLayer"
+      },
+      "widgets_values": [
+        -2
+      ]
+    },
+    {
+      "id": 160,
+      "type": "CheckPointLoaderSimpleFromString",
+      "pos": [
+        1139.9434814453125,
+        -542.4515991210938
+      ],
+      "size": [
+        279.5953125,
+        98
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "ckpt_name",
+          "type": "STRING",
+          "widget": {
+            "name": "ckpt_name"
+          },
+          "link": 456
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            449
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            450
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            452
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckPointLoaderSimpleFromString"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 161,
+      "type": "JsonExtractInt",
+      "pos": [
+        852.8116455078125,
+        -191.4910125732422
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 453
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            454
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "clip",
+        -2
+      ]
+    },
+    {
+      "id": 162,
+      "type": "JsonExtractString",
+      "pos": [
+        853.3104858398438,
+        -240.69248962402344
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 455
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            456
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractString"
+      },
+      "widgets_values": [
+        "",
+        "model",
+        "illustrious_v10.safetensors"
+      ]
+    },
+    {
+      "id": 125,
+      "type": "MultipartCLIPTextEncode",
+      "pos": [
+        1140.3560791015625,
+        -300.9310607910156
+      ],
+      "size": [
+        247.50003051757812,
+        256
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 369
+        },
+        {
+          "name": "model",
+          "shape": 7,
+          "type": "MODEL",
+          "link": 449
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 437
+        },
+        {
+          "name": "positive",
+          "type": "STRING",
+          "widget": {
+            "name": "positive"
+          },
+          "link": 436
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "widget": {
+            "name": "negative"
+          },
+          "link": 434
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            462
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null
+        },
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 2,
+          "links": [
+            466
+          ]
+        },
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 3,
+          "links": [
+            464
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MultipartCLIPTextEncode"
+      },
+      "widgets_values": [
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 163,
+      "type": "JsonExtractInt",
+      "pos": [
+        852.9244995117188,
+        -145.37359619140625
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 457
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            468
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "width",
+        832
+      ]
+    },
+    {
+      "id": 164,
+      "type": "JsonExtractInt",
+      "pos": [
+        854.4739379882812,
+        -98.21755981445312
+      ],
+      "size": [
+        270,
+        106
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 458
+        }
+      ],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            469
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JsonExtractInt"
+      },
+      "widgets_values": [
+        "",
+        "height",
+        1216
+      ]
+    },
+    {
+      "id": 166,
+      "type": "EmptyLatentImage",
+      "pos": [
+        1443.7287426869013,
+        -541.2379159155221
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 468
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 469
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "slot_index": 0,
+          "links": [
+            467
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptyLatentImage"
+      },
+      "widgets_values": [
+        832,
+        1216,
+        1
+      ]
+    },
+    {
+      "id": 165,
+      "type": "KSamplerFromJsonInfo",
+      "pos": [
+        1450.3094409078617,
+        -379.41559340055903
+      ],
+      "size": [
+        270,
+        162
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 462
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 466
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 464
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 467
+        },
+        {
+          "name": "seed",
+          "shape": 7,
+          "type": "INT",
+          "link": null
+        },
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 473
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            471
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerFromJsonInfo"
+      },
+      "widgets_values": [
+        1,
+        ""
+      ]
+    },
+    {
+      "id": 137,
+      "type": "VAEDecode",
+      "pos": [
+        1456.1909186007858,
+        -162.3391197639789
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 471
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 452
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            470
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 130,
+      "type": "SaveImage",
+      "pos": [
+        16.051023483276367,
+        76.21060943603516
+      ],
+      "size": [
+        1084.3464696994283,
+        616.0941096005796
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 470
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "%date:yyyyMMdd%/%date:yyyyMMdd_hhmmss%"
+      ]
+    },
+    {
+      "id": 167,
+      "type": "PrimitiveNode",
+      "pos": [
+        27.00562079929528,
+        -532.918274367558
+      ],
+      "size": [
+        802.7144412289938,
+        501.5502416028383
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "widget": {
+            "name": "summary"
+          },
+          "links": [
+            472
+          ]
+        }
+      ],
+      "title": "Summary",
+      "properties": {
+        "Run widget replace on values": false
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 139,
+      "type": "SummaryReader",
+      "pos": [
+        850.1347124010216,
+        -532.1199497043907
+      ],
+      "size": [
+        249.8939971923828,
+        168
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "summary",
+          "type": "STRING",
+          "widget": {
+            "name": "summary"
+          },
+          "link": 472
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            436
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 1,
+          "links": [
+            434
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 2,
+          "links": [
+            437
+          ]
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "slot_index": 3,
+          "links": []
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            453,
+            455,
+            457,
+            458,
+            473
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SummaryReader"
+      },
+      "widgets_values": [
+        ""
+      ]
+    }
+  ],
+  "links": [
+    [
+      369,
+      10,
+      0,
+      125,
+      0,
+      "CLIP"
+    ],
+    [
+      434,
+      139,
+      1,
+      125,
+      4,
+      "STRING"
+    ],
+    [
+      436,
+      139,
+      0,
+      125,
+      3,
+      "STRING"
+    ],
+    [
+      437,
+      139,
+      2,
+      125,
+      2,
+      "STRING"
+    ],
+    [
+      449,
+      160,
+      0,
+      125,
+      1,
+      "MODEL"
+    ],
+    [
+      450,
+      160,
+      1,
+      10,
+      0,
+      "CLIP"
+    ],
+    [
+      452,
+      160,
+      2,
+      137,
+      1,
+      "VAE"
+    ],
+    [
+      453,
+      139,
+      4,
+      161,
+      0,
+      "STRING"
+    ],
+    [
+      454,
+      161,
+      0,
+      10,
+      1,
+      "INT"
+    ],
+    [
+      455,
+      139,
+      4,
+      162,
+      0,
+      "STRING"
+    ],
+    [
+      456,
+      162,
+      0,
+      160,
+      0,
+      "STRING"
+    ],
+    [
+      457,
+      139,
+      4,
+      163,
+      0,
+      "STRING"
+    ],
+    [
+      458,
+      139,
+      4,
+      164,
+      0,
+      "STRING"
+    ],
+    [
+      462,
+      125,
+      0,
+      165,
+      0,
+      "MODEL"
+    ],
+    [
+      464,
+      125,
+      3,
+      165,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      466,
+      125,
+      2,
+      165,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      467,
+      166,
+      0,
+      165,
+      3,
+      "LATENT"
+    ],
+    [
+      468,
+      163,
+      0,
+      166,
+      0,
+      "INT"
+    ],
+    [
+      469,
+      164,
+      0,
+      166,
+      1,
+      "INT"
+    ],
+    [
+      470,
+      137,
+      0,
+      130,
+      0,
+      "IMAGE"
+    ],
+    [
+      471,
+      165,
+      0,
+      137,
+      0,
+      "LATENT"
+    ],
+    [
+      472,
+      167,
+      0,
+      139,
+      0,
+      "STRING"
+    ],
+    [
+      473,
+      139,
+      4,
+      165,
+      5,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 2,
+      "title": "Engine",
+      "bounding": [
+        1125.705810546875,
+        -621.07568359375,
+        624.6216580044222,
+        613.1923614380428
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {
+        "pinned": true
+      }
+    },
+    {
+      "id": 4,
+      "title": "Output",
+      "bounding": [
+        1.0510213375091553,
+        -2.7894952297210693,
+        1118.653076171875,
+        709.0840454101562
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {
+        "pinned": true
+      }
+    },
+    {
+      "id": 5,
+      "title": "Input",
+      "bounding": [
+        1,
+        -621,
+        1118,
+        612
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {
+        "pinned": true
+      }
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.9860228793956567,
+      "offset": [
+        -231.46806706987923,
+        740.7493442972957
+      ]
+    },
+    "frontendVersion": "1.37.11",
+    "workflowRendererVersion": "LG"
+  },
+  "version": 0.4
+}
