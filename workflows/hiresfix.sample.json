@@ -2,7 +2,7 @@
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
   "last_node_id": 167,
-  "last_link_id": 479,
+  "last_link_id": 482,
   "nodes": [
     {
       "id": 130,
@@ -164,70 +164,6 @@
       ]
     },
     {
-      "id": 139,
-      "type": "SummaryReader",
-      "pos": [
-        851.2503051757812,
-        -534.3511352539062
-      ],
-      "size": [
-        249.8939971923828,
-        168
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "summary",
-          "type": "STRING",
-          "widget": {
-            "name": "summary"
-          },
-          "link": 419
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 0,
-          "links": []
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 1,
-          "links": []
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 2,
-          "links": []
-        },
-        {
-          "name": "INT",
-          "type": "INT",
-          "slot_index": 3,
-          "links": []
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            458
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SummaryReader"
-      },
-      "widgets_values": [
-        ""
-      ]
-    },
-    {
       "id": 166,
       "type": "MultipartCLIPTextEncode",
       "pos": [
@@ -252,6 +188,30 @@
           "shape": 7,
           "type": "MODEL",
           "link": 460
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 482
+        },
+        {
+          "name": "positive",
+          "type": "STRING",
+          "widget": {
+            "name": "positive"
+          },
+          "link": 480
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "widget": {
+            "name": "negative"
+          },
+          "link": 481
         },
         {
           "name": "enable_break",
@@ -695,6 +655,76 @@
         "Node name for S&R": "VAEDecode"
       },
       "widgets_values": []
+    },
+    {
+      "id": 139,
+      "type": "SummaryReader",
+      "pos": [
+        851.2503051757812,
+        -534.3511352539062
+      ],
+      "size": [
+        249.8939971923828,
+        168
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "summary",
+          "type": "STRING",
+          "widget": {
+            "name": "summary"
+          },
+          "link": 419
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            480
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 1,
+          "links": [
+            481
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 2,
+          "links": [
+            482
+          ]
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "slot_index": 3,
+          "links": []
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            458
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SummaryReader"
+      },
+      "widgets_values": [
+        ""
+      ]
     }
   ],
   "links": [
@@ -799,7 +829,7 @@
       164,
       6,
       166,
-      2,
+      5,
       "BOOLEAN"
     ],
     [
@@ -888,6 +918,30 @@
       8,
       167,
       5,
+      "STRING"
+    ],
+    [
+      480,
+      139,
+      0,
+      166,
+      3,
+      "STRING"
+    ],
+    [
+      481,
+      139,
+      1,
+      166,
+      4,
+      "STRING"
+    ],
+    [
+      482,
+      139,
+      2,
+      166,
+      2,
       "STRING"
     ]
   ],
