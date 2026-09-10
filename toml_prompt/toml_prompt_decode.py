@@ -20,8 +20,8 @@ def load_summary_header(s: str):
 
 def normalize_prompt(s: str):
     s = re.sub(r"\s+", " ", s)
-    s = re.sub(r", ", ",", s)
-    s = re.sub(r",+", ",", s)
+    s = re.sub(r",[\s,]+", ", ", s)
+    s = re.sub(r"\s+,\s+", ", ", s)
     s = re.sub(r"\.,", ".", s)
     return s[1:] if s.startswith(",") else s
 
@@ -88,10 +88,10 @@ class PromptDecode:
         # Decode
         parser.feed(key_name_list)
         positive = normalize_prompt(
-            ",".join([v.strip() for v in parser.positive if v.strip()])
+            ", ".join([v.strip() for v in parser.positive if v.strip()])
         )
         negative = normalize_prompt(
-            ",".join([v.strip() for v in parser.negative if v.strip()])
+            ", ".join([v.strip() for v in parser.negative if v.strip()])
         )
 
         lora_list = "\n".join(parser.loras)

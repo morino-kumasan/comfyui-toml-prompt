@@ -175,6 +175,38 @@ class JsonExtractFloat:
         return (float(r),)
 
 
+class JsonExtractBoolean:
+    RETURN_TYPES = ("BOOLEAN",)
+    OUTPUT_TOOLTIPS = ("BOOLEAN.",)
+    FUNCTION = "extract"
+    CATEGORY = "utils"
+    DESCRIPTION = "Extract boolean from json text."
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "json_text": ("STRING",),
+                "path": ("STRING", {"tooltip": "period separated path to json value"}),
+                "default": ("BOOLEAN",),
+            },
+        }
+
+    def __init__(self):
+        pass
+
+    def extract(self, json_text: str, path: str, default: bool):
+        r = json.loads(json_text)
+        for key in path.split("."):
+            if key not in r:
+                return (default,)
+            r = r[key]
+        if isinstance(r, str):
+            return (r == "True" or r == "true",)
+        else:
+            return (not not r,)
+
+
 class LatentSelector:
     RETURN_TYPES = ("LATENT",)
     OUTPUT_TOOLTIPS = ("LATENT not disabled.",)

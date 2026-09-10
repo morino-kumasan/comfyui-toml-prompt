@@ -5,7 +5,7 @@ from . import InputTypesFuncResult
 import re, json
 
 try:
-    from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, KSampler  # type: ignore
+    from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, VAELoader, CLIPLoader, CLIPSetLastLayer, KSampler  # type: ignore
     import comfy.sd, folder_paths  # type: ignore
 except ImportError:
     pass
@@ -68,6 +68,10 @@ class MultipartCLIPTextEncode:
                         "tooltip": "Negative prompt.",
                     },
                 ),
+                "enable_break": (
+                    "BOOLEAN",
+                    {"tooltip": "prompt splited by BREAK tag."},
+                ),
             },
             "optional": {
                 "model": ("MODEL", {"tooltip": "The diffusion model."}),
@@ -86,6 +90,7 @@ class MultipartCLIPTextEncode:
         negative: str,
         lora_tag_list: str,
         model: Any | None = None,
+        enable_break: bool | None = None,
     ):
         self.loader = {}
 
@@ -110,8 +115,12 @@ class MultipartCLIPTextEncode:
                     print(f"Lora Loaded: {lora_name}: {strength_model}")
 
         # Encode prompts
-        r_positive = encode(self.encoder, self.concat, r_clip, positive)
-        r_negative = encode(self.encoder, self.concat, r_clip, negative)
+        if enable_break is None or enable_break:
+            r_positive = encode(self.encoder, self.concat, r_clip, positive)
+            r_negative = encode(self.encoder, self.concat, r_clip, negative)
+        else:
+            r_positive = self.encoder.encode(r_clip, positive.strip())[0]
+            r_negative = self.encoder.encode(r_clip, negative.strip())[0]
 
         return (r_model, r_clip, r_positive, r_negative)
 
@@ -178,6 +187,48 @@ class CheckPointLoaderSimpleFromString:
 
     def load(self, ckpt_name: str):
         return self.loader.load_checkpoint(ckpt_name)
+
+
+class CheckPointLoaderFromString:
+    RETURN_TYPES = ("MODEL", "CLIP", "VAE")
+    OUTPUT_TOOLTIPS = ("MODEL", "CLIP", "VAE")
+    FUNCTION = "load"
+    CATEGORY = "loaders"
+    DESCRIPTION = "Load checkpoint from string."
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "ckpt_name": ("STRING",),
+                "clip_name": ("STRING",),
+                "vae_name": ("STRING",),
+                "stop_at_clip_layer": (
+                    "INT",
+                    {"default": 0, "min": -24, "max": 0, "step": 1},
+                ),
+            }
+        }
+
+    def __init__(self):
+        self.ckpt_loader: Any = CheckpointLoaderSimple()
+        self.clip_loader: Any = CLIPLoader()
+        self.vae_loader: Any = VAELoader()
+        self.clip_set: Any = CLIPSetLastLayer()
+
+    def load(
+        self,
+        ckpt_name: str,
+        clip_name: str | None = None,
+        vae_name: str | None = None,
+        stop_at_clip_layer: int | None = None,
+    ):
+        ckpt = self.ckpt_loader.load_checkpoint(ckpt_name)
+        clip = self.clip_loader.load_clip(clip_name)[0] if clip_name else ckpt[1]
+        vae = self.vae_loader.load_vae(vae_name)[0] if vae_name else ckpt[2]
+        if stop_at_clip_layer is not None and stop_at_clip_layer < 0:
+            clip = self.clip_set.set_last_layer(clip, stop_at_clip_layer)[0]
+        return (ckpt[0], clip, vae)
 
 
 # WAN 2.2用に使いたいだけなので取り敢えず2個キャッシュしておく
@@ -282,6 +333,82 @@ class KSamplerFromJsonInfo:
             float(info["cfg"]),
             info["sampler"],
             info["scheduler"],
+            positive,
+            negative,
+            latent_image,
+            denoise=denoise,
+        )
+
+
+class KSamplerFromString:
+    RETURN_TYPES = ("LATENT",)
+    OUTPUT_TOOLTIPS = ("LATENT",)
+    FUNCTION = "sample"
+    CATEGORY = "sampling"
+    DESCRIPTION = "KSampler from string."
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "model": ("MODEL",),
+                "positive": ("CONDITIONING", {"tooltip": "Positive."}),
+                "negative": ("CONDITIONING", {"tooltip": "Negative."}),
+                "latent_image": ("LATENT",),
+                "denoise": (
+                    "FLOAT",
+                    {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.01},
+                ),
+                "steps": (
+                    "INT",
+                    {"default": 20, "min": 1, "max": 10000},
+                ),
+                "cfg": (
+                    "FLOAT",
+                    {"default": 1.0, "min": 0.0, "max": 100.0, "step": 0.1},
+                ),
+                "sampler": (
+                    "STRING",
+                    {"tooltip": "sampler name."},
+                ),
+                "scheduler": (
+                    "STRING",
+                    {"tooltip": "scheduler name."},
+                ),
+                "seed": (
+                    "INT",
+                    {
+                        "default": 0,
+                        "min": 0,
+                        "max": 0xFFFFFFFFFFFFFFFF,
+                    },
+                ),
+            },
+        }
+
+    def __init__(self):
+        self.sampler: Any = KSampler()
+
+    def sample(
+        self,
+        model: Any,
+        positive: str,
+        negative: str,
+        latent_image: Any,
+        denoise: float,
+        steps: int,
+        cfg: float,
+        sampler: str,
+        scheduler: str,
+        seed: int,
+    ):
+        return self.sampler.sample(
+            model,
+            seed,
+            steps,
+            cfg,
+            sampler,
+            scheduler,
             positive,
             negative,
             latent_image,

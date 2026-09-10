@@ -1,55 +1,9 @@
 {
   "id": "72d8440a-46f6-4473-a4b4-244695d3a285",
   "revision": 0,
-  "last_node_id": 170,
-  "last_link_id": 470,
+  "last_node_id": 179,
+  "last_link_id": 504,
   "nodes": [
-    {
-      "id": 10,
-      "type": "CLIPSetLastLayer",
-      "pos": [
-        1369,
-        77
-      ],
-      "size": [
-        316.9873962402344,
-        58
-      ],
-      "flags": {},
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 455
-        },
-        {
-          "name": "stop_at_clip_layer",
-          "type": "INT",
-          "widget": {
-            "name": "stop_at_clip_layer"
-          },
-          "link": 458
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "slot_index": 0,
-          "links": [
-            369
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "CLIPSetLastLayer"
-      },
-      "widgets_values": [
-        -2
-      ]
-    },
     {
       "id": 9,
       "type": "SaveImage",
@@ -62,7 +16,7 @@
         508.27252197265625
       ],
       "flags": {},
-      "order": 19,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -89,7 +43,7 @@
         106
       ],
       "flags": {},
-      "order": 13,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -98,7 +52,7 @@
           "widget": {
             "name": "width"
           },
-          "link": 435
+          "link": 489
         },
         {
           "name": "height",
@@ -106,7 +60,7 @@
           "widget": {
             "name": "height"
           },
-          "link": 437
+          "link": 490
         }
       ],
       "outputs": [
@@ -115,7 +69,7 @@
           "type": "LATENT",
           "slot_index": 0,
           "links": [
-            448
+            498
           ]
         }
       ],
@@ -129,18 +83,114 @@
       ]
     },
     {
+      "id": 129,
+      "type": "StringViewer",
+      "pos": [
+        571.0111694335938,
+        429.0114440917969
+      ],
+      "size": [
+        438.7670593261719,
+        506.2227478027344
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 464
+        }
+      ],
+      "outputs": [],
+      "title": "Summary",
+      "properties": {
+        "Node name for S&R": "StringViewer"
+      },
+      "widgets_values": [
+        ""
+      ]
+    },
+    {
+      "id": 79,
+      "type": "PromptLoader",
+      "pos": [
+        11,
+        76
+      ],
+      "size": [
+        282.09063720703125,
+        58
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "PROMPT_FILE",
+          "type": "PROMPT_FILE",
+          "slot_index": 0,
+          "links": [
+            466
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PromptLoader"
+      },
+      "widgets_values": [
+        "prompt.sample.toml"
+      ]
+    },
+    {
+      "id": 170,
+      "type": "PrimitiveInt",
+      "pos": [
+        798.2925451172199,
+        244.4619281379364
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            469,
+            499
+          ]
+        }
+      ],
+      "title": "Seed",
+      "properties": {
+        "Node name for S&R": "PrimitiveInt"
+      },
+      "widgets_values": [
+        0,
+        "randomize"
+      ]
+    },
+    {
       "id": 120,
       "type": "MultipleLoraTagLoader",
       "pos": [
-        1371,
-        188
+        1357.4739087289322,
+        80.66427453086675
       ],
       "size": [
         317.40374755859375,
         515.6679077148438
       ],
       "flags": {},
-      "order": 0,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -180,20 +230,20 @@
       ]
     },
     {
-      "id": 162,
-      "type": "CheckPointLoaderSimpleFromString",
+      "id": 171,
+      "type": "CheckPointLoaderFromString",
       "pos": [
-        1045.3348388671875,
-        84.75480651855469
+        1043.9330624849679,
+        79.55355923488389
       ],
       "size": [
-        301.28289794921875,
-        98
+        295.05234375,
+        170
       ],
       "flags": {
         "collapsed": false
       },
-      "order": 14,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -202,7 +252,31 @@
           "widget": {
             "name": "ckpt_name"
           },
-          "link": 450
+          "link": 486
+        },
+        {
+          "name": "clip_name",
+          "type": "STRING",
+          "widget": {
+            "name": "clip_name"
+          },
+          "link": 487
+        },
+        {
+          "name": "vae_name",
+          "type": "STRING",
+          "widget": {
+            "name": "vae_name"
+          },
+          "link": 488
+        },
+        {
+          "name": "stop_at_clip_layer",
+          "type": "INT",
+          "widget": {
+            "name": "stop_at_clip_layer"
+          },
+          "link": 491
         }
       ],
       "outputs": [
@@ -210,199 +284,32 @@
           "name": "MODEL",
           "type": "MODEL",
           "links": [
-            454
+            483
           ]
         },
         {
           "name": "CLIP",
           "type": "CLIP",
           "links": [
-            455
+            482
           ]
         },
         {
           "name": "VAE",
           "type": "VAE",
           "links": [
-            456
+            473
           ]
         }
       ],
       "properties": {
-        "Node name for S&R": "CheckPointLoaderSimpleFromString"
-      },
-      "widgets_values": [
-        ""
-      ]
-    },
-    {
-      "id": 125,
-      "type": "MultipartCLIPTextEncode",
-      "pos": [
-        1047.4599609375,
-        428.81982421875
-      ],
-      "size": [
-        247.50003051757812,
-        256
-      ],
-      "flags": {},
-      "order": 16,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 369
-        },
-        {
-          "name": "model",
-          "shape": 7,
-          "type": "MODEL",
-          "link": 454
-        },
-        {
-          "name": "lora_tag_list",
-          "type": "STRING",
-          "widget": {
-            "name": "lora_tag_list"
-          },
-          "link": 442
-        },
-        {
-          "name": "positive",
-          "type": "STRING",
-          "widget": {
-            "name": "positive"
-          },
-          "link": 443
-        },
-        {
-          "name": "negative",
-          "type": "STRING",
-          "widget": {
-            "name": "negative"
-          },
-          "link": 441
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "slot_index": 0,
-          "links": [
-            453
-          ]
-        },
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "links": null
-        },
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "slot_index": 2,
-          "links": [
-            446
-          ]
-        },
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "slot_index": 3,
-          "links": [
-            447
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "MultipartCLIPTextEncode"
+        "Node name for S&R": "CheckPointLoaderFromString"
       },
       "widgets_values": [
         "",
         "",
-        ""
-      ]
-    },
-    {
-      "id": 161,
-      "type": "JsonExtractInt",
-      "pos": [
-        1057.6336669921875,
-        820.2947998046875
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 11,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 457
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            458
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractInt"
-      },
-      "widgets_values": [
         "",
-        "clip",
-        -2
-      ]
-    },
-    {
-      "id": 119,
-      "type": "PrimitiveNode",
-      "pos": [
-        304,
-        77
-      ],
-      "size": [
-        474.4100036621094,
-        264.3800048828125
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "widget": {
-            "name": "text_to"
-          },
-          "slot_index": 0,
-          "links": [
-            333
-          ]
-        }
-      ],
-      "properties": {
-        "Run widget replace on values": false
-      },
-      "widgets_values": [
-        "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??"
+        -1
       ]
     },
     {
@@ -413,8 +320,8 @@
         178
       ],
       "size": [
-        279.8544921875,
-        290
+        280.9133627548525,
+        236
       ],
       "flags": {
         "collapsed": false
@@ -479,11 +386,7 @@
           "name": "STRING",
           "type": "STRING",
           "links": [
-            434,
-            436,
-            444,
-            451,
-            457
+            485
           ]
         }
       ],
@@ -497,41 +400,144 @@
       ]
     },
     {
-      "id": 129,
-      "type": "StringViewer",
+      "id": 119,
+      "type": "PrimitiveNode",
       "pos": [
-        571.0111694335938,
-        429.0114440917969
+        304,
+        77
       ],
       "size": [
-        438.7670593261719,
-        506.2227478027344
+        474.4100036621094,
+        264.3800048828125
       ],
       "flags": {},
-      "order": 12,
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "widget": {
+            "name": "text_to"
+          },
+          "slot_index": 0,
+          "links": [
+            333
+          ]
+        }
+      ],
+      "properties": {
+        "Run widget replace on values": false
+      },
+      "widgets_values": [
+        "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??"
+      ]
+    },
+    {
+      "id": 179,
+      "type": "KSamplerFromString",
+      "pos": [
+        1043.6443115200793,
+        292.03908743302077
+      ],
+      "size": [
+        270,
+        262
+      ],
+      "flags": {},
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
-          "name": "text",
+          "name": "model",
+          "type": "MODEL",
+          "link": 495
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 496
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 497
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 498
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": 504
+        },
+        {
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": 503
+        },
+        {
+          "name": "sampler",
           "type": "STRING",
-          "link": 464
+          "widget": {
+            "name": "sampler"
+          },
+          "link": 501
+        },
+        {
+          "name": "scheduler",
+          "type": "STRING",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": 502
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 499
         }
       ],
-      "outputs": [],
-      "title": "Summary",
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            500
+          ]
+        }
+      ],
       "properties": {
-        "Node name for S&R": "StringViewer"
+        "Node name for S&R": "KSamplerFromString"
       },
       "widgets_values": [
-        ""
+        1,
+        20,
+        1,
+        "",
+        "",
+        0,
+        "randomize"
       ]
     },
     {
       "id": 168,
       "type": "StringConcat",
       "pos": [
-        1059.9351806640625,
-        919.4276123046875
+        1358.356606321681,
+        649.5610020193916
       ],
       "size": [
         400,
@@ -579,98 +585,11 @@
       ]
     },
     {
-      "id": 8,
-      "type": "VAEDecode",
-      "pos": [
-        1057.2908935546875,
-        729.8313598632812
-      ],
-      "size": [
-        197.3822021484375,
-        46
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 18,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 449
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 456
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "slot_index": 0,
-          "links": [
-            9
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 160,
-      "type": "JsonExtractString",
-      "pos": [
-        1054.5750732421875,
-        775.3834228515625
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 451
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            450
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractString"
-      },
-      "widgets_values": [
-        "",
-        "model",
-        "illustrious_v10.safetensors"
-      ]
-    },
-    {
       "id": 118,
       "type": "StringConcat",
       "pos": [
-        1230.5355224609375,
-        819.9425048828125
+        1359.0882749027855,
+        692.5501310643117
       ],
       "size": [
         210,
@@ -679,7 +598,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 4,
+      "order": 5,
       "mode": 0,
       "inputs": [
         {
@@ -719,198 +638,11 @@
       ]
     },
     {
-      "id": 157,
-      "type": "JsonExtractInt",
-      "pos": [
-        1231.224609375,
-        867.9013061523438
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 434
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            435
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractInt"
-      },
-      "widgets_values": [
-        "",
-        "width",
-        832
-      ]
-    },
-    {
-      "id": 158,
-      "type": "JsonExtractInt",
-      "pos": [
-        1233.4984130859375,
-        918.1646118164062
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 436
-        }
-      ],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            437
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractInt"
-      },
-      "widgets_values": [
-        "",
-        "height",
-        1216
-      ]
-    },
-    {
-      "id": 79,
-      "type": "PromptLoader",
-      "pos": [
-        11,
-        76
-      ],
-      "size": [
-        282.09063720703125,
-        58
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "PROMPT_FILE",
-          "type": "PROMPT_FILE",
-          "slot_index": 0,
-          "links": [
-            466
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "PromptLoader"
-      },
-      "widgets_values": [
-        "prompt.sample.toml"
-      ]
-    },
-    {
-      "id": 159,
-      "type": "KSamplerFromJsonInfo",
-      "pos": [
-        1044.1053466796875,
-        224.97433471679688
-      ],
-      "size": [
-        270,
-        162
-      ],
-      "flags": {},
-      "order": 17,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 453
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 446
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 447
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 448
-        },
-        {
-          "name": "seed",
-          "shape": 7,
-          "type": "INT",
-          "link": 470
-        },
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 444
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            449
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSamplerFromJsonInfo"
-      },
-      "widgets_values": [
-        1,
-        ""
-      ]
-    },
-    {
       "id": 167,
       "type": "StringConcatInt",
       "pos": [
-        1058.9306825637923,
-        865.6423391993532
+        1512.1430257564614,
+        650.2216819711152
       ],
       "size": [
         400,
@@ -919,7 +651,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [
         {
@@ -950,37 +682,276 @@
       ]
     },
     {
-      "id": 170,
-      "type": "PrimitiveInt",
+      "id": 177,
+      "type": "6ad4a7ff-ad44-4901-bb1d-59f8739c016f",
       "pos": [
-        798.2925451172199,
-        244.4619281379364
+        1359.8841699216691,
+        730.9159677173232
       ],
       "size": [
         210,
-        82
+        258
       ],
-      "flags": {},
-      "order": 3,
+      "flags": {
+        "collapsed": true
+      },
+      "order": 8,
       "mode": 0,
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 485
+        }
+      ],
       "outputs": [
         {
+          "label": "model",
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            486
+          ]
+        },
+        {
+          "label": "clip_model",
+          "name": "STRING_1",
+          "type": "STRING",
+          "links": [
+            487
+          ]
+        },
+        {
+          "label": "vae_model",
+          "name": "STRING_2",
+          "type": "STRING",
+          "links": [
+            488
+          ]
+        },
+        {
+          "label": "width",
           "name": "INT",
           "type": "INT",
           "links": [
-            469,
-            470
+            489
+          ]
+        },
+        {
+          "label": "height",
+          "name": "INT_1",
+          "type": "INT",
+          "links": [
+            490
+          ]
+        },
+        {
+          "label": "clip",
+          "name": "INT_2",
+          "type": "INT",
+          "links": [
+            491
+          ]
+        },
+        {
+          "label": "enable_break",
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [
+            494
+          ]
+        },
+        {
+          "label": "sampler",
+          "name": "STRING_3",
+          "type": "STRING",
+          "links": [
+            501
+          ]
+        },
+        {
+          "label": "scheduler",
+          "name": "STRING_4",
+          "type": "STRING",
+          "links": [
+            502
+          ]
+        },
+        {
+          "label": "cfg",
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            503
+          ]
+        },
+        {
+          "label": "steps",
+          "name": "INT_3",
+          "type": "INT",
+          "links": [
+            504
           ]
         }
       ],
-      "title": "Seed",
       "properties": {
-        "Node name for S&R": "PrimitiveInt"
+        "proxyWidgets": [
+          [
+            "-1",
+            "json_text"
+          ]
+        ]
       },
       "widgets_values": [
-        0,
-        "randomize"
+        ""
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        1519.066856789724,
+        731.3827985642016
+      ],
+      "size": [
+        197.3822021484375,
+        46
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 500
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 473
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            9
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 125,
+      "type": "MultipartCLIPTextEncode",
+      "pos": [
+        1048.0729488343611,
+        595.4878311627205
+      ],
+      "size": [
+        247.50003051757812,
+        280
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 482
+        },
+        {
+          "name": "model",
+          "shape": 7,
+          "type": "MODEL",
+          "link": 483
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 442
+        },
+        {
+          "name": "positive",
+          "type": "STRING",
+          "widget": {
+            "name": "positive"
+          },
+          "link": 443
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "widget": {
+            "name": "negative"
+          },
+          "link": 441
+        },
+        {
+          "name": "enable_break",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enable_break"
+          },
+          "link": 494
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "slot_index": 0,
+          "links": [
+            495
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": null
+        },
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 2,
+          "links": [
+            496
+          ]
+        },
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 3,
+          "links": [
+            497
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MultipartCLIPTextEncode"
+      },
+      "widgets_values": [
+        "",
+        "",
+        "",
+        false
       ]
     }
   ],
@@ -1010,52 +981,12 @@
       "STRING"
     ],
     [
-      369,
-      10,
-      0,
-      125,
-      0,
-      "CLIP"
-    ],
-    [
       377,
       118,
       0,
       126,
       1,
       "STRING"
-    ],
-    [
-      434,
-      126,
-      5,
-      157,
-      0,
-      "STRING"
-    ],
-    [
-      435,
-      157,
-      0,
-      5,
-      0,
-      "INT"
-    ],
-    [
-      436,
-      126,
-      5,
-      158,
-      0,
-      "STRING"
-    ],
-    [
-      437,
-      158,
-      0,
-      5,
-      1,
-      "INT"
     ],
     [
       441,
@@ -1080,110 +1011,6 @@
       125,
       3,
       "STRING"
-    ],
-    [
-      444,
-      126,
-      5,
-      159,
-      5,
-      "STRING"
-    ],
-    [
-      446,
-      125,
-      2,
-      159,
-      1,
-      "CONDITIONING"
-    ],
-    [
-      447,
-      125,
-      3,
-      159,
-      2,
-      "CONDITIONING"
-    ],
-    [
-      448,
-      5,
-      0,
-      159,
-      3,
-      "LATENT"
-    ],
-    [
-      449,
-      159,
-      0,
-      8,
-      0,
-      "LATENT"
-    ],
-    [
-      450,
-      160,
-      0,
-      162,
-      0,
-      "STRING"
-    ],
-    [
-      451,
-      126,
-      5,
-      160,
-      0,
-      "STRING"
-    ],
-    [
-      453,
-      125,
-      0,
-      159,
-      0,
-      "MODEL"
-    ],
-    [
-      454,
-      162,
-      0,
-      125,
-      1,
-      "MODEL"
-    ],
-    [
-      455,
-      162,
-      1,
-      10,
-      0,
-      "CLIP"
-    ],
-    [
-      456,
-      162,
-      2,
-      8,
-      1,
-      "VAE"
-    ],
-    [
-      457,
-      126,
-      5,
-      161,
-      0,
-      "STRING"
-    ],
-    [
-      458,
-      161,
-      0,
-      10,
-      1,
-      "INT"
     ],
     [
       462,
@@ -1226,10 +1053,170 @@
       "INT"
     ],
     [
-      470,
+      473,
+      171,
+      2,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      482,
+      171,
+      1,
+      125,
+      0,
+      "CLIP"
+    ],
+    [
+      483,
+      171,
+      0,
+      125,
+      1,
+      "MODEL"
+    ],
+    [
+      485,
+      126,
+      5,
+      177,
+      0,
+      "STRING"
+    ],
+    [
+      486,
+      177,
+      0,
+      171,
+      0,
+      "STRING"
+    ],
+    [
+      487,
+      177,
+      1,
+      171,
+      1,
+      "STRING"
+    ],
+    [
+      488,
+      177,
+      2,
+      171,
+      2,
+      "STRING"
+    ],
+    [
+      489,
+      177,
+      3,
+      5,
+      0,
+      "INT"
+    ],
+    [
+      490,
+      177,
+      4,
+      5,
+      1,
+      "INT"
+    ],
+    [
+      491,
+      177,
+      5,
+      171,
+      3,
+      "INT"
+    ],
+    [
+      494,
+      177,
+      6,
+      125,
+      5,
+      "BOOLEAN"
+    ],
+    [
+      495,
+      125,
+      0,
+      179,
+      0,
+      "MODEL"
+    ],
+    [
+      496,
+      125,
+      2,
+      179,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      497,
+      125,
+      3,
+      179,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      498,
+      5,
+      0,
+      179,
+      3,
+      "LATENT"
+    ],
+    [
+      499,
       170,
       0,
-      159,
+      179,
+      8,
+      "INT"
+    ],
+    [
+      500,
+      179,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      501,
+      177,
+      7,
+      179,
+      6,
+      "STRING"
+    ],
+    [
+      502,
+      177,
+      8,
+      179,
+      7,
+      "STRING"
+    ],
+    [
+      503,
+      177,
+      9,
+      179,
+      5,
+      "FLOAT"
+    ],
+    [
+      504,
+      177,
+      10,
+      179,
       4,
       "INT"
     ]
@@ -1281,13 +1268,915 @@
       }
     }
   ],
+  "definitions": {
+    "subgraphs": [
+      {
+        "id": "6ad4a7ff-ad44-4901-bb1d-59f8739c016f",
+        "version": 1,
+        "state": {
+          "lastGroupId": 3,
+          "lastNodeId": 181,
+          "lastLinkId": 494,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "JsonExtract",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            1041.0271612833449,
+            795.0850924746358,
+            120,
+            60
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1612.5734591442133,
+            745.0850924746358,
+            120,
+            260
+          ]
+        },
+        "inputs": [
+          {
+            "id": "4144200c-1fd3-43fb-b211-d8783943d3fe",
+            "name": "json_text",
+            "type": "STRING",
+            "linkIds": [
+              451,
+              475,
+              477,
+              434,
+              436,
+              480,
+              485,
+              487,
+              489,
+              491,
+              493
+            ],
+            "localized_name": "json_text",
+            "pos": [
+              1141.0271612833449,
+              815.0850924746358
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "fd50b4ea-8022-4599-8ba9-702b18785a91",
+            "name": "STRING",
+            "type": "STRING",
+            "linkIds": [
+              471
+            ],
+            "localized_name": "文字列",
+            "label": "model",
+            "pos": [
+              1632.5734591442133,
+              765.0850924746358
+            ]
+          },
+          {
+            "id": "c2b81973-0e32-4d21-b2ad-49b480ffe657",
+            "name": "STRING_1",
+            "type": "STRING",
+            "linkIds": [
+              476
+            ],
+            "localized_name": "文字列_1",
+            "label": "clip_model",
+            "pos": [
+              1632.5734591442133,
+              785.0850924746358
+            ]
+          },
+          {
+            "id": "d062fb58-32b6-4a89-8fe7-e23d4d767998",
+            "name": "STRING_2",
+            "type": "STRING",
+            "linkIds": [
+              478
+            ],
+            "localized_name": "文字列_2",
+            "label": "vae_model",
+            "pos": [
+              1632.5734591442133,
+              805.0850924746358
+            ]
+          },
+          {
+            "id": "f0258b35-2af5-4d04-bf04-f3072a6743fd",
+            "name": "INT",
+            "type": "INT",
+            "linkIds": [
+              435
+            ],
+            "localized_name": "整数",
+            "label": "width",
+            "pos": [
+              1632.5734591442133,
+              825.0850924746358
+            ]
+          },
+          {
+            "id": "037fe1a6-d992-405b-9814-42d3184181c1",
+            "name": "INT_1",
+            "type": "INT",
+            "linkIds": [
+              437
+            ],
+            "localized_name": "整数_1",
+            "label": "height",
+            "pos": [
+              1632.5734591442133,
+              845.0850924746358
+            ]
+          },
+          {
+            "id": "bccefa69-7769-4020-bc7d-f87e68c26800",
+            "name": "INT_2",
+            "type": "INT",
+            "linkIds": [
+              481
+            ],
+            "localized_name": "整数_2",
+            "label": "clip",
+            "pos": [
+              1632.5734591442133,
+              865.0850924746358
+            ]
+          },
+          {
+            "id": "da5ba280-6f13-41bf-b0f1-ee45964f5347",
+            "name": "BOOLEAN",
+            "type": "BOOLEAN",
+            "linkIds": [
+              486
+            ],
+            "label": "enable_break",
+            "pos": [
+              1632.5734591442133,
+              885.0850924746358
+            ]
+          },
+          {
+            "id": "1116cec9-d84b-461f-ac8d-8104e9661a92",
+            "name": "STRING_3",
+            "type": "STRING",
+            "linkIds": [
+              488
+            ],
+            "label": "sampler",
+            "pos": [
+              1632.5734591442133,
+              905.0850924746358
+            ]
+          },
+          {
+            "id": "f1c184ad-2dd0-43bc-a01f-883feef85ca5",
+            "name": "STRING_4",
+            "type": "STRING",
+            "linkIds": [
+              490
+            ],
+            "label": "scheduler",
+            "pos": [
+              1632.5734591442133,
+              925.0850924746358
+            ]
+          },
+          {
+            "id": "3855c856-de7c-4b59-ab3b-88119f270902",
+            "name": "FLOAT",
+            "type": "FLOAT",
+            "linkIds": [
+              492
+            ],
+            "label": "cfg",
+            "pos": [
+              1632.5734591442133,
+              945.0850924746358
+            ]
+          },
+          {
+            "id": "efcf6e22-b3c1-4d70-bb89-e158fa749c37",
+            "name": "INT_3",
+            "type": "INT",
+            "linkIds": [
+              494
+            ],
+            "label": "steps",
+            "pos": [
+              1632.5734591442133,
+              965.0850924746358
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 173,
+            "type": "JsonExtractString",
+            "pos": [
+              1218.894226276388,
+              774.3267248454384
+            ],
+            "size": [
+              270,
+              107.97242594088664
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 475
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  476
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "clip_model",
+              ""
+            ]
+          },
+          {
+            "id": 174,
+            "type": "JsonExtractString",
+            "pos": [
+              1220.516892991183,
+              816.6227943695643
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 477
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  478
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "vae_model",
+              ""
+            ]
+          },
+          {
+            "id": 157,
+            "type": "JsonExtractInt",
+            "pos": [
+              1219.0001809320972,
+              861.1602251162269
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 434
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  435
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractInt"
+            },
+            "widgets_values": [
+              "",
+              "width",
+              832
+            ]
+          },
+          {
+            "id": 176,
+            "type": "JsonExtractInt",
+            "pos": [
+              1217.6077481873108,
+              949.3307100905645
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 480
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  481
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractInt"
+            },
+            "widgets_values": [
+              "",
+              "clip",
+              0
+            ]
+          },
+          {
+            "id": 177,
+            "type": "JsonExtractBoolean",
+            "pos": [
+              1218.2407315584153,
+              993.5106099757776
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 485
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "ブール",
+                "name": "BOOLEAN",
+                "type": "BOOLEAN",
+                "links": [
+                  486
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractBoolean"
+            },
+            "widgets_values": [
+              "",
+              "enable_break",
+              true
+            ]
+          },
+          {
+            "id": 160,
+            "type": "JsonExtractString",
+            "pos": [
+              1220.3696859697159,
+              732.0523278539262
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 451
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  471
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "model",
+              "illustrious_v10.safetensors"
+            ]
+          },
+          {
+            "id": 178,
+            "type": "JsonExtractString",
+            "pos": [
+              1217.8846399896365,
+              1038.9303840441962
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 8,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 487
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  488
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "sampler",
+              "euler_ancestral"
+            ]
+          },
+          {
+            "id": 179,
+            "type": "JsonExtractString",
+            "pos": [
+              1220.0023811243411,
+              1083.4029478730008
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 9,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 489
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  490
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "scheduler",
+              "karras"
+            ]
+          },
+          {
+            "id": 180,
+            "type": "JsonExtractFloat",
+            "pos": [
+              1220.002381124341,
+              1125.7577705671026
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 10,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 491
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "浮動小数点",
+                "name": "FLOAT",
+                "type": "FLOAT",
+                "links": [
+                  492
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractFloat"
+            },
+            "widgets_values": [
+              "",
+              "cfg",
+              5
+            ]
+          },
+          {
+            "id": 158,
+            "type": "JsonExtractInt",
+            "pos": [
+              1218.444051596927,
+              900.7931134143779
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 436
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  437
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractInt"
+            },
+            "widgets_values": [
+              "",
+              "height",
+              1216
+            ]
+          },
+          {
+            "id": 181,
+            "type": "JsonExtractInt",
+            "pos": [
+              1218.9435105569905,
+              1168.112593261203
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 0,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 493
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  494
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractInt"
+            },
+            "widgets_values": [
+              "",
+              "steps",
+              20
+            ]
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 451,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 160,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 475,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 173,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 477,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 174,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 434,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 157,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 436,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 158,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 480,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 176,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 471,
+            "origin_id": 160,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 476,
+            "origin_id": 173,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 478,
+            "origin_id": 174,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 2,
+            "type": "STRING"
+          },
+          {
+            "id": 435,
+            "origin_id": 157,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 3,
+            "type": "INT"
+          },
+          {
+            "id": 437,
+            "origin_id": 158,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 4,
+            "type": "INT"
+          },
+          {
+            "id": 481,
+            "origin_id": 176,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 5,
+            "type": "INT"
+          },
+          {
+            "id": 485,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 177,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 486,
+            "origin_id": 177,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 6,
+            "type": "BOOLEAN"
+          },
+          {
+            "id": 487,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 178,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 488,
+            "origin_id": 178,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 7,
+            "type": "STRING"
+          },
+          {
+            "id": 489,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 179,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 490,
+            "origin_id": 179,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 8,
+            "type": "STRING"
+          },
+          {
+            "id": 491,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 180,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 492,
+            "origin_id": 180,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 9,
+            "type": "FLOAT"
+          },
+          {
+            "id": 493,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 181,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 494,
+            "origin_id": 181,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 10,
+            "type": "INT"
+          }
+        ],
+        "extra": {
+          "workflowRendererVersion": "LG"
+        }
+      }
+    ]
+  },
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.8764341286307056,
+      "scale": 0.7095435684647303,
       "offset": [
-        115.63809020780978,
-        25.952005160480706
+        489.4356725146199,
+        168.66666666666663
       ]
     },
     "frontendVersion": "1.37.11",
