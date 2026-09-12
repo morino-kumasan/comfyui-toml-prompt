@@ -1,8 +1,8 @@
 {
   "id": "72d8440a-46f6-4473-a4b4-244695d3a285",
   "revision": 0,
-  "last_node_id": 179,
-  "last_link_id": 504,
+  "last_node_id": 180,
+  "last_link_id": 506,
   "nodes": [
     {
       "id": 9,
@@ -145,40 +145,6 @@
       ]
     },
     {
-      "id": 170,
-      "type": "PrimitiveInt",
-      "pos": [
-        798.2925451172199,
-        244.4619281379364
-      ],
-      "size": [
-        210,
-        82
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            469,
-            499
-          ]
-        }
-      ],
-      "title": "Seed",
-      "properties": {
-        "Node name for S&R": "PrimitiveInt"
-      },
-      "widgets_values": [
-        0,
-        "randomize"
-      ]
-    },
-    {
       "id": 120,
       "type": "MultipleLoraTagLoader",
       "pos": [
@@ -190,7 +156,7 @@
         515.6679077148438
       ],
       "flags": {},
-      "order": 2,
+      "order": 1,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -411,7 +377,7 @@
         264.3800048828125
       ],
       "flags": {},
-      "order": 3,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -507,7 +473,7 @@
           "widget": {
             "name": "seed"
           },
-          "link": 499
+          "link": 506
         }
       ],
       "outputs": [
@@ -598,7 +564,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 5,
+      "order": 4,
       "mode": 0,
       "inputs": [
         {
@@ -638,50 +604,6 @@
       ]
     },
     {
-      "id": 167,
-      "type": "StringConcatInt",
-      "pos": [
-        1512.1430257564614,
-        650.2216819711152
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 4,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_from",
-          "type": "INT",
-          "widget": {
-            "name": "text_from"
-          },
-          "link": 469
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            463
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "StringConcatInt"
-      },
-      "widgets_values": [
-        0,
-        "seed: ",
-        ""
-      ]
-    },
-    {
       "id": 177,
       "type": "6ad4a7ff-ad44-4901-bb1d-59f8739c016f",
       "pos": [
@@ -690,7 +612,7 @@
       ],
       "size": [
         210,
-        258
+        234
       ],
       "flags": {
         "collapsed": true
@@ -953,6 +875,83 @@
         "",
         false
       ]
+    },
+    {
+      "id": 180,
+      "type": "SeedGenerator",
+      "pos": [
+        798.3510639232699,
+        241.18189287393318
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            505,
+            506
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SeedGenerator"
+      },
+      "widgets_values": [
+        0,
+        "randomize"
+      ]
+    },
+    {
+      "id": 167,
+      "type": "StringConcatInt",
+      "pos": [
+        1512.1430257564614,
+        650.2216819711152
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text_from",
+          "type": "INT",
+          "widget": {
+            "name": "text_from"
+          },
+          "link": 505
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            463
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "StringConcatInt"
+      },
+      "widgets_values": [
+        0,
+        "seed: ",
+        ""
+      ]
     }
   ],
   "links": [
@@ -1043,14 +1042,6 @@
       126,
       0,
       "PROMPT_FILE"
-    ],
-    [
-      469,
-      170,
-      0,
-      167,
-      0,
-      "INT"
     ],
     [
       473,
@@ -1173,14 +1164,6 @@
       "LATENT"
     ],
     [
-      499,
-      170,
-      0,
-      179,
-      8,
-      "INT"
-    ],
-    [
       500,
       179,
       0,
@@ -1218,6 +1201,22 @@
       10,
       179,
       4,
+      "INT"
+    ],
+    [
+      505,
+      180,
+      0,
+      167,
+      0,
+      "INT"
+    ],
+    [
+      506,
+      180,
+      0,
+      179,
+      8,
       "INT"
     ]
   ],
@@ -1492,7 +1491,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 4,
+            "order": 3,
             "mode": 0,
             "inputs": [
               {
@@ -1538,7 +1537,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 5,
+            "order": 4,
             "mode": 0,
             "inputs": [
               {
@@ -1584,7 +1583,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 1,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1630,7 +1629,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 6,
+            "order": 5,
             "mode": 0,
             "inputs": [
               {
@@ -1676,7 +1675,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 7,
+            "order": 6,
             "mode": 0,
             "inputs": [
               {
@@ -1722,7 +1721,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 3,
+            "order": 2,
             "mode": 0,
             "inputs": [
               {
@@ -1768,7 +1767,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 8,
+            "order": 7,
             "mode": 0,
             "inputs": [
               {
@@ -1814,7 +1813,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 9,
+            "order": 8,
             "mode": 0,
             "inputs": [
               {
@@ -1860,7 +1859,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 10,
+            "order": 9,
             "mode": 0,
             "inputs": [
               {
@@ -1906,7 +1905,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 2,
+            "order": 1,
             "mode": 0,
             "inputs": [
               {
@@ -1952,7 +1951,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 0,
+            "order": 10,
             "mode": 0,
             "inputs": [
               {
@@ -2173,10 +2172,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7095435684647303,
+      "scale": 0.6010422698320788,
       "offset": [
-        489.4356725146199,
-        168.66666666666663
+        294.8333333333332,
+        170.71339113680153
       ]
     },
     "frontendVersion": "1.37.11",

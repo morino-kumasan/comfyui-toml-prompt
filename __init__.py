@@ -21,6 +21,7 @@ from .toml_prompt.util import (
     StringConcatInt,
     DropFirstImage,
     FlipImage,
+    SeedGenerator,
 )
 from .toml_prompt.wrapper import (
     MultipartCLIPTextEncode,
@@ -59,6 +60,7 @@ NODE_CLASS_MAPPINGS: dict[str, Any] = {
     "UNETLoaderFromString": UNETLoaderFromString,
     "DropFirstImage": DropFirstImage,
     "FlipImage": FlipImage,
+    "SeedGenerator": SeedGenerator,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -88,6 +90,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "UNETLoaderFromString": "UNETLoaderFromString",
     "DropFirstImage": "DropFirstImage",
     "FlipImage": "FlipImage",
+    "SeedGenerator": "SeedGenerator",
 }
 
 WEB_DIRECTORY = "./web"
