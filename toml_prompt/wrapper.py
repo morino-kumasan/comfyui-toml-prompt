@@ -119,8 +119,12 @@ class MultipartCLIPTextEncode:
             r_positive = encode(self.encoder, self.concat, r_clip, positive)
             r_negative = encode(self.encoder, self.concat, r_clip, negative)
         else:
-            r_positive = self.encoder.encode(r_clip, positive.strip())[0]
-            r_negative = self.encoder.encode(r_clip, negative.strip())[0]
+            r_positive = self.encoder.encode(
+                r_clip, re.sub(r"[\s,]+BREAK[\s,]+", ", ", positive.strip())
+            )[0]
+            r_negative = self.encoder.encode(
+                r_clip, re.sub(r"[\s,]+BREAK[\s,]+", ", ", negative.strip())
+            )[0]
 
         return (r_model, r_clip, r_positive, r_negative)
 

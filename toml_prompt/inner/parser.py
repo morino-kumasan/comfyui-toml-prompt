@@ -178,16 +178,11 @@ class PromptTagParser(HTMLParser):
             if data.strip():
                 self.negative += [data]
         elif tag == "tag" or tag == "var":
-            for key in re.split(r"[,\r\n]", data):
+            for key in re.split(r"[,\r\n\s]", data):
                 key = key.strip()
-                post_keys: list[str] = []
                 keys = build_search_keys(key)
                 simple_join = tag == "var"
-                self.feed_prompt(keys, post_keys, simple_join)
-                while post_keys:
-                    keys = post_keys
-                    post_keys = []
-                    self.feed_prompt(keys, post_keys, simple_join)
+                self.feed_prompt(keys, simple_join)
         else:
             assert (
                 data.strip() == "" or data.strip() == ","
@@ -218,21 +213,13 @@ class PromptTagParser(HTMLParser):
         for lora_name_key in [lora_name, lora_name.split("/")[-1]]:
             if lora_name_key in lora_dict:
                 keys = [["<lora>", lora_name_key]]
-                post_keys: list[str] = []
-                self.feed_prompt(keys, post_keys)
-                while post_keys:
-                    keys = post_keys
-                    post_keys = []
-                    self.feed_prompt(keys, post_keys)
+                self.feed_prompt(keys)
 
     def feed_prompt(
         self,
         keys: list[str] | list[list[str]],
-        post_keys: list[str] | None = None,
         simple_join: bool = False,
     ):
-        if post_keys is None:
-            post_keys = []
         prompt = ",".join(
             [
                 v
@@ -243,7 +230,6 @@ class PromptTagParser(HTMLParser):
                     exclude_keys=self.loaded_keys,
                     exports=self.exports,
                     root_dir=self.root_dir,
-                    post_keys=post_keys,
                 )
                 if v.strip()
             ]

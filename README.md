@@ -21,10 +21,9 @@ See sample workflows.
 _t is prompt.
 _k is available keys for random choice.
 _w is weight for random choice with _k.
-_e is chance(0.0~1.0) for all choice with _k.
+_r is chance(0.0~1.0) for all choice with _k.
 _export is string to export to output.
-_f is called by toml_key_name().
-_post is post prompt key.
+_post is prompt after child prompt.
 
 ```
 # key _t is prompt
@@ -50,12 +49,6 @@ color=["red", "blue", "blonde"]
 _t = "1boy, muscular, $::color hair, formal suit"
 # $color is replaced with dark, light or dark blue
 
-# "base().test" equals "base._f.test"
-[base._f]
-_t = "base() is called"
-
-test="test1"
-
 # "random_weight.?" to select a or b or c
 [random_weight]
 _k = ["a", "b", "c"]
@@ -74,19 +67,13 @@ a = "80%"
 b = "30%"
 c = "30%"
 
-# "post._post" equels "post._post.*.??"
+# "post._post" after "post.before"
+# output: "main prompt, child prompt, post prompt"
 [post]
 _t = "main prompt"
-_post = ["post_prompt.*", "::post_prompt2.?"]
-[post.post_prompt]
-_when = "base.boy"
-_r = [0.1, 0.1, 1.0]
-all1 = "10%"
-all2 = "10%"
-[post_prompt2]
-_w = [0.5, 0.5]
-one1 = "one1 or one2"
-one2 = "one1 or one2"
+_post = "post prompt"
+[post.a]
+_t = "child prompt"
 
 [_exports]
 key = "value"

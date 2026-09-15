@@ -19,6 +19,7 @@ def load_summary_header(s: str):
 
 
 def normalize_prompt(s: str):
+    s = re.sub(r"[\r\n]+", " ", s)
     s = re.sub(r"\s+", " ", s)
     s = re.sub(r",[\s,]+", ", ", s)
     s = re.sub(r"\s+,\s+", ", ", s)

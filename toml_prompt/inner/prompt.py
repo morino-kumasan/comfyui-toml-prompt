@@ -286,17 +286,6 @@ def export_values(
                 exports[k] = v
 
 
-def get_post_keys(post_keys: list[str], prefix: str):
-    def conv(k: str):
-        k = k[2:] if k.startswith("::") else prefix + "." + k
-        if k.endswith(".*") or k.endswith(".?"):
-            return k + "$"
-        else:
-            return k
-
-    return [conv(key) for key in post_keys]
-
-
 def collect_prompt(
     rand: Random,
     prompt_dict: PromptDict,
@@ -307,7 +296,6 @@ def collect_prompt(
     parent_dict: PromptDict | None = None,
     exports: dict[str, str] = {},
     root_dir: str | None = None,
-    post_keys: list[str] | None = None,
 ) -> list[str]:
     if exclude_keys is None:
         exclude_keys = []
@@ -319,14 +307,13 @@ def collect_prompt(
         root_dir = ""
     if init_prefix is None:
         init_prefix = []
-    if post_keys is None:
-        post_keys = []
 
     if isinstance(keys, str):
         keys = build_search_keys(keys)
 
     init_parent_dict = parent_dict
     r: list[str] = []
+    post_prompt: list[str] = []
     for key in keys:
         d = prompt_dict
         parent_dict = init_parent_dict
@@ -356,7 +343,6 @@ def collect_prompt(
                     parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
-                    post_keys=post_keys,
                 )
                 break
             elif key in ["*", "*$"]:
@@ -379,7 +365,6 @@ def collect_prompt(
                     parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
-                    post_keys=post_keys,
                 )
                 break
             elif key == "**":
@@ -397,12 +382,8 @@ def collect_prompt(
                     parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
-                    post_keys=post_keys,
                 )
                 break
-            elif key.endswith("()"):
-                key_parts = ["_f"] + key_parts
-                key = key[:-2]
 
             if key != "??":
                 if not isinstance(d, dict) or key not in d:
@@ -416,18 +397,13 @@ def collect_prompt(
                 if isinstance(d, dict):
                     # _postを処理
                     key = ".".join(prefix)
-                    if "_post" in d and f"{key}._post" not in exclude_keys:
-                        order = cast(PromptDict, d).get("_post_order", "last")
-                        if order == "last":
-                            post_keys += get_post_keys(cast(list[str], d["_post"]), key)
-                        else:
-                            order = int(cast(str | int, order))
-                            for k in get_post_keys(cast(list[str], d["_post"]), key):
-                                post_keys.insert(order, k)
+                    if (
+                        "_post" in d
+                        and isinstance(d["_post"], str)
+                        and f"{key}._post" not in exclude_keys
+                    ):
+                        post_prompt = [d["_post"]] + post_prompt
                         exclude_keys += [f"{key}._post"]
-                    # _random_countを処理
-                    if "_random_count" in d:
-                        rand.set_count(int(cast(int, d["_random_count"])))
         else:
             # breakされてないならプロンプトを追加
             prefix_str = ".".join(prefix)
@@ -448,4 +424,5 @@ def collect_prompt(
                 else:
                     exclude_keys += [prefix_str]
                     print(f"Load Prompt: {prefix_str}")
-    return r
+
+    return r + post_prompt
