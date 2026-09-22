@@ -80,7 +80,7 @@ class PromptTagParser(HTMLParser):
             r"<\s*" + MINIMAX_TAGS_REGEX + r"\s+[0-9]+\s*>",
             replace_h3,
             data,
-            flags=re.MULTILINE,
+            flags=re.MULTILINE | re.IGNORECASE,
         )
         return HTMLParser.feed(self, data)
 
