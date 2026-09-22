@@ -1,4 +1,4 @@
-from typing import Self, Any, Callable, cast, TypeVar
+from typing import Self, Any, Callable, cast, TypeVar, Final
 import os
 import re
 import shlex
@@ -17,6 +17,9 @@ from .util import Random
 
 type AttrType = dict[str, str | None]
 T = TypeVar("T")
+
+MINIMAX_TAGS: Final[list[str]] = ["picture", "audio", "video", "subject"]
+MINIMAX_TAGS_REGEX: Final[str] = "(" + "|".join(MINIMAX_TAGS) + ")"
 
 
 class PromptTagParser(HTMLParser):
@@ -55,7 +58,8 @@ class PromptTagParser(HTMLParser):
         self.before_simple_join = False
 
     def feed(self, data: str):
-        def replace(m: re.Match[str]) -> str:
+        # <lora>を<?lora>に変換
+        def replace_lora(m: re.Match[str]) -> str:
             if m.group(5) is not None:
                 return f'<?{m.group(1)} "{m.group(2)}" "{m.group(3)}" "{m.group(5)}">'
             else:
@@ -63,7 +67,18 @@ class PromptTagParser(HTMLParser):
 
         data = re.sub(
             r"<(lora[_a-z]*):([^:>]+):([0-9\-.]+)(:([0-9\-.]+))?>",
-            replace,
+            replace_lora,
+            data,
+            flags=re.MULTILINE,
+        )
+
+        # <picture>等を<picture />に変換
+        def replace_h3(m: re.Match[str]) -> str:
+            return rf"\lt{m.group(0)[1:-1]}\rt"
+
+        data = re.sub(
+            r"<\s*" + MINIMAX_TAGS_REGEX + r"\s+[0-9]+\s*>",
+            replace_h3,
             data,
             flags=re.MULTILINE,
         )
