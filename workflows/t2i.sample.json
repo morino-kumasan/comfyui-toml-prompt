@@ -1,8 +1,8 @@
 {
   "id": "72d8440a-46f6-4473-a4b4-244695d3a285",
   "revision": 0,
-  "last_node_id": 180,
-  "last_link_id": 506,
+  "last_node_id": 202,
+  "last_link_id": 554,
   "nodes": [
     {
       "id": 9,
@@ -25,11 +25,20 @@
           "link": 9
         }
       ],
-      "outputs": [],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
       "properties": {},
       "widgets_values": [
         "%date:yyyyMMdd%/%date:yyyyMMdd_hhmmss%"
-      ]
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "%date:yyyyMMdd%/%date:yyyyMMdd_hhmmss%"
+      }
     },
     {
       "id": 5,
@@ -52,7 +61,7 @@
           "widget": {
             "name": "width"
           },
-          "link": 489
+          "link": 548
         },
         {
           "name": "height",
@@ -60,7 +69,7 @@
           "widget": {
             "name": "height"
           },
-          "link": 490
+          "link": 549
         }
       ],
       "outputs": [
@@ -80,7 +89,12 @@
         832,
         1216,
         1
-      ]
+      ],
+      "widgets_values_named": {
+        "width": 832,
+        "height": 1216,
+        "batch_size": 1
+      }
     },
     {
       "id": 129,
@@ -109,8 +123,19 @@
         "Node name for S&R": "StringViewer"
       },
       "widgets_values": [
-        ""
-      ]
+        [
+          [
+            ""
+          ]
+        ]
+      ],
+      "widgets_values_named": {
+        "output_text": [
+          [
+            ""
+          ]
+        ]
+      }
     },
     {
       "id": 79,
@@ -142,7 +167,10 @@
       },
       "widgets_values": [
         "prompt.sample.toml"
-      ]
+      ],
+      "widgets_values_named": {
+        "file": "prompt.sample.toml"
+      }
     },
     {
       "id": 120,
@@ -193,7 +221,29 @@
         0,
         "[none]",
         0
-      ]
+      ],
+      "widgets_values_named": {
+        "lora_name_0": "[none]",
+        "strength_0": 0,
+        "lora_name_1": "[none]",
+        "strength_1": 0,
+        "lora_name_2": "[none]",
+        "strength_2": 0,
+        "lora_name_3": "[none]",
+        "strength_3": 0,
+        "lora_name_4": "[none]",
+        "strength_4": 0,
+        "lora_name_5": "[none]",
+        "strength_5": 0,
+        "lora_name_6": "[none]",
+        "strength_6": 0,
+        "lora_name_7": "[none]",
+        "strength_7": 0,
+        "lora_name_8": "[none]",
+        "strength_8": 0,
+        "lora_name_9": "[none]",
+        "strength_9": 0
+      }
     },
     {
       "id": 171,
@@ -218,7 +268,7 @@
           "widget": {
             "name": "ckpt_name"
           },
-          "link": 486
+          "link": 544
         },
         {
           "name": "clip_name",
@@ -226,7 +276,7 @@
           "widget": {
             "name": "clip_name"
           },
-          "link": 487
+          "link": 545
         },
         {
           "name": "vae_name",
@@ -234,7 +284,7 @@
           "widget": {
             "name": "vae_name"
           },
-          "link": 488
+          "link": 546
         },
         {
           "name": "stop_at_clip_layer",
@@ -242,7 +292,7 @@
           "widget": {
             "name": "stop_at_clip_layer"
           },
-          "link": 491
+          "link": 547
         }
       ],
       "outputs": [
@@ -276,7 +326,13 @@
         "",
         "",
         -1
-      ]
+      ],
+      "widgets_values_named": {
+        "ckpt_name": "",
+        "clip_name": "",
+        "vae_name": "",
+        "stop_at_clip_layer": -1
+      }
     },
     {
       "id": 126,
@@ -352,7 +408,7 @@
           "name": "STRING",
           "type": "STRING",
           "links": [
-            485
+            543
           ]
         }
       ],
@@ -363,7 +419,12 @@
         "",
         958570523456296,
         "randomize"
-      ]
+      ],
+      "widgets_values_named": {
+        "key_name_list": "",
+        "seed": 958570523456296,
+        "control_after_generate": "randomize"
+      }
     },
     {
       "id": 119,
@@ -398,7 +459,10 @@
       },
       "widgets_values": [
         "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??"
-      ]
+      ],
+      "widgets_values_named": {
+        "value": "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??"
+      }
     },
     {
       "id": 179,
@@ -441,7 +505,7 @@
           "widget": {
             "name": "steps"
           },
-          "link": 504
+          "link": 554
         },
         {
           "name": "cfg",
@@ -449,7 +513,7 @@
           "widget": {
             "name": "cfg"
           },
-          "link": 503
+          "link": 553
         },
         {
           "name": "sampler",
@@ -457,7 +521,7 @@
           "widget": {
             "name": "sampler"
           },
-          "link": 501
+          "link": 551
         },
         {
           "name": "scheduler",
@@ -465,7 +529,7 @@
           "widget": {
             "name": "scheduler"
           },
-          "link": 502
+          "link": 552
         },
         {
           "name": "seed",
@@ -496,7 +560,16 @@
         "",
         0,
         "randomize"
-      ]
+      ],
+      "widgets_values_named": {
+        "denoise": 1,
+        "steps": 20,
+        "cfg": 1,
+        "sampler": "",
+        "scheduler": "",
+        "seed": 0,
+        "control_after_generate": "randomize"
+      }
     },
     {
       "id": 168,
@@ -548,7 +621,12 @@
         "",
         "",
         "\n"
-      ]
+      ],
+      "widgets_values_named": {
+        "text_from": "",
+        "text_to": "",
+        "sep": "\n"
+      }
     },
     {
       "id": 118,
@@ -601,135 +679,12 @@
         "",
         "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
         "\n"
-      ]
-    },
-    {
-      "id": 177,
-      "type": "6ad4a7ff-ad44-4901-bb1d-59f8739c016f",
-      "pos": [
-        1359.8841699216691,
-        730.9159677173232
       ],
-      "size": [
-        210,
-        234
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 485
-        }
-      ],
-      "outputs": [
-        {
-          "label": "model",
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            486
-          ]
-        },
-        {
-          "label": "clip_model",
-          "name": "STRING_1",
-          "type": "STRING",
-          "links": [
-            487
-          ]
-        },
-        {
-          "label": "vae_model",
-          "name": "STRING_2",
-          "type": "STRING",
-          "links": [
-            488
-          ]
-        },
-        {
-          "label": "width",
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            489
-          ]
-        },
-        {
-          "label": "height",
-          "name": "INT_1",
-          "type": "INT",
-          "links": [
-            490
-          ]
-        },
-        {
-          "label": "clip",
-          "name": "INT_2",
-          "type": "INT",
-          "links": [
-            491
-          ]
-        },
-        {
-          "label": "enable_break",
-          "name": "BOOLEAN",
-          "type": "BOOLEAN",
-          "links": [
-            494
-          ]
-        },
-        {
-          "label": "sampler",
-          "name": "STRING_3",
-          "type": "STRING",
-          "links": [
-            501
-          ]
-        },
-        {
-          "label": "scheduler",
-          "name": "STRING_4",
-          "type": "STRING",
-          "links": [
-            502
-          ]
-        },
-        {
-          "label": "cfg",
-          "name": "FLOAT",
-          "type": "FLOAT",
-          "links": [
-            503
-          ]
-        },
-        {
-          "label": "steps",
-          "name": "INT_3",
-          "type": "INT",
-          "links": [
-            504
-          ]
-        }
-      ],
-      "properties": {
-        "proxyWidgets": [
-          [
-            "-1",
-            "json_text"
-          ]
-        ]
-      },
-      "widgets_values": [
-        ""
-      ]
+      "widgets_values_named": {
+        "text_from": "",
+        "text_to": "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
+        "sep": "\n"
+      }
     },
     {
       "id": 8,
@@ -771,8 +726,7 @@
       ],
       "properties": {
         "Node name for S&R": "VAEDecode"
-      },
-      "widgets_values": []
+      }
     },
     {
       "id": 125,
@@ -832,7 +786,7 @@
           "widget": {
             "name": "enable_break"
           },
-          "link": 494
+          "link": 550
         }
       ],
       "outputs": [
@@ -874,7 +828,13 @@
         "",
         "",
         false
-      ]
+      ],
+      "widgets_values_named": {
+        "lora_tag_list": "",
+        "positive": "",
+        "negative": "",
+        "enable_break": false
+      }
     },
     {
       "id": 180,
@@ -907,7 +867,11 @@
       "widgets_values": [
         0,
         "randomize"
-      ]
+      ],
+      "widgets_values_named": {
+        "seed": 0,
+        "control_after_generate": "randomize"
+      }
     },
     {
       "id": 167,
@@ -951,7 +915,149 @@
         0,
         "seed: ",
         ""
-      ]
+      ],
+      "widgets_values_named": {
+        "text_from": 0,
+        "text_to": "seed: ",
+        "sep": ""
+      }
+    },
+    {
+      "id": 202,
+      "type": "5ec9f171-66f2-4a37-a78c-debd28921f3a",
+      "pos": [
+        1362.9900795914646,
+        796.3354788049364
+      ],
+      "size": [
+        210,
+        288
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 543
+        }
+      ],
+      "outputs": [
+        {
+          "label": "model",
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            544
+          ]
+        },
+        {
+          "label": "clip_model",
+          "name": "STRING_1",
+          "type": "STRING",
+          "links": [
+            545
+          ]
+        },
+        {
+          "label": "vae_model",
+          "name": "STRING_2",
+          "type": "STRING",
+          "links": [
+            546
+          ]
+        },
+        {
+          "label": "width",
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            548
+          ]
+        },
+        {
+          "label": "height",
+          "name": "INT_1",
+          "type": "INT",
+          "links": [
+            549
+          ]
+        },
+        {
+          "label": "clip",
+          "name": "INT_2",
+          "type": "INT",
+          "links": [
+            547
+          ]
+        },
+        {
+          "label": "enable_break",
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [
+            550
+          ]
+        },
+        {
+          "label": "sampler",
+          "name": "STRING_3",
+          "type": "STRING",
+          "links": [
+            551
+          ]
+        },
+        {
+          "label": "scheduler",
+          "name": "STRING_4",
+          "type": "STRING",
+          "links": [
+            552
+          ]
+        },
+        {
+          "label": "cfg",
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            553
+          ]
+        },
+        {
+          "label": "steps",
+          "name": "INT_3",
+          "type": "INT",
+          "links": [
+            554
+          ]
+        }
+      ],
+      "properties": {
+        "proxyWidgetErrorQuarantine": [
+          {
+            "originalEntry": [
+              "-1",
+              "json_text"
+            ],
+            "reason": "missingSourceNode",
+            "hostValue": "",
+            "attemptedAtVersion": 1
+          }
+        ],
+        "previewExposures": []
+      },
+      "widgets_values": [
+        ""
+      ],
+      "widgets_values_named": {
+        "json_text": ""
+      }
     }
   ],
   "links": [
@@ -1068,70 +1174,6 @@
       "MODEL"
     ],
     [
-      485,
-      126,
-      5,
-      177,
-      0,
-      "STRING"
-    ],
-    [
-      486,
-      177,
-      0,
-      171,
-      0,
-      "STRING"
-    ],
-    [
-      487,
-      177,
-      1,
-      171,
-      1,
-      "STRING"
-    ],
-    [
-      488,
-      177,
-      2,
-      171,
-      2,
-      "STRING"
-    ],
-    [
-      489,
-      177,
-      3,
-      5,
-      0,
-      "INT"
-    ],
-    [
-      490,
-      177,
-      4,
-      5,
-      1,
-      "INT"
-    ],
-    [
-      491,
-      177,
-      5,
-      171,
-      3,
-      "INT"
-    ],
-    [
-      494,
-      177,
-      6,
-      125,
-      5,
-      "BOOLEAN"
-    ],
-    [
       495,
       125,
       0,
@@ -1172,38 +1214,6 @@
       "LATENT"
     ],
     [
-      501,
-      177,
-      7,
-      179,
-      6,
-      "STRING"
-    ],
-    [
-      502,
-      177,
-      8,
-      179,
-      7,
-      "STRING"
-    ],
-    [
-      503,
-      177,
-      9,
-      179,
-      5,
-      "FLOAT"
-    ],
-    [
-      504,
-      177,
-      10,
-      179,
-      4,
-      "INT"
-    ],
-    [
       505,
       180,
       0,
@@ -1218,6 +1228,102 @@
       179,
       8,
       "INT"
+    ],
+    [
+      543,
+      126,
+      5,
+      202,
+      0,
+      "STRING"
+    ],
+    [
+      544,
+      202,
+      0,
+      171,
+      0,
+      "STRING"
+    ],
+    [
+      545,
+      202,
+      1,
+      171,
+      1,
+      "STRING"
+    ],
+    [
+      546,
+      202,
+      2,
+      171,
+      2,
+      "STRING"
+    ],
+    [
+      547,
+      202,
+      5,
+      171,
+      3,
+      "INT"
+    ],
+    [
+      548,
+      202,
+      3,
+      5,
+      0,
+      "INT"
+    ],
+    [
+      549,
+      202,
+      4,
+      5,
+      1,
+      "INT"
+    ],
+    [
+      550,
+      202,
+      6,
+      125,
+      5,
+      "BOOLEAN"
+    ],
+    [
+      551,
+      202,
+      7,
+      179,
+      6,
+      "STRING"
+    ],
+    [
+      552,
+      202,
+      8,
+      179,
+      7,
+      "STRING"
+    ],
+    [
+      553,
+      202,
+      9,
+      179,
+      5,
+      "FLOAT"
+    ],
+    [
+      554,
+      202,
+      10,
+      179,
+      4,
+      "INT"
     ]
   ],
   "groups": [
@@ -1231,7 +1337,6 @@
         588
       ],
       "color": "#3f789e",
-      "font_size": 24,
       "flags": {
         "pinned": true
       }
@@ -1246,7 +1351,6 @@
         944
       ],
       "color": "#3f789e",
-      "font_size": 24,
       "flags": {
         "pinned": true
       }
@@ -1261,7 +1365,6 @@
         346
       ],
       "color": "#3f789e",
-      "font_size": 24,
       "flags": {
         "pinned": true
       }
@@ -1270,12 +1373,12 @@
   "definitions": {
     "subgraphs": [
       {
-        "id": "6ad4a7ff-ad44-4901-bb1d-59f8739c016f",
+        "id": "5ec9f171-66f2-4a37-a78c-debd28921f3a",
         "version": 1,
         "state": {
           "lastGroupId": 3,
-          "lastNodeId": 181,
-          "lastLinkId": 494,
+          "lastNodeId": 202,
+          "lastLinkId": 554,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -1286,8 +1389,8 @@
           "bounding": [
             1041.0271612833449,
             795.0850924746358,
-            120,
-            60
+            128,
+            68
           ]
         },
         "outputNode": {
@@ -1295,8 +1398,8 @@
           "bounding": [
             1612.5734591442133,
             745.0850924746358,
-            120,
-            260
+            128,
+            268
           ]
         },
         "inputs": [
@@ -1305,22 +1408,22 @@
             "name": "json_text",
             "type": "STRING",
             "linkIds": [
-              451,
-              475,
-              477,
-              434,
-              436,
-              480,
-              485,
-              487,
-              489,
-              491,
-              493
+              520,
+              521,
+              522,
+              523,
+              524,
+              525,
+              530,
+              532,
+              534,
+              537,
+              541
             ],
             "localized_name": "json_text",
             "pos": [
-              1141.0271612833449,
-              815.0850924746358
+              1145.0271612833449,
+              819.0850924746358
             ]
           }
         ],
@@ -1330,13 +1433,13 @@
             "name": "STRING",
             "type": "STRING",
             "linkIds": [
-              471
+              515
             ],
             "localized_name": "文字列",
             "label": "model",
             "pos": [
-              1632.5734591442133,
-              765.0850924746358
+              1636.5734591442133,
+              769.0850924746358
             ]
           },
           {
@@ -1344,13 +1447,13 @@
             "name": "STRING_1",
             "type": "STRING",
             "linkIds": [
-              476
+              516
             ],
             "localized_name": "文字列_1",
             "label": "clip_model",
             "pos": [
-              1632.5734591442133,
-              785.0850924746358
+              1636.5734591442133,
+              789.0850924746358
             ]
           },
           {
@@ -1358,13 +1461,13 @@
             "name": "STRING_2",
             "type": "STRING",
             "linkIds": [
-              478
+              517
             ],
             "localized_name": "文字列_2",
             "label": "vae_model",
             "pos": [
-              1632.5734591442133,
-              805.0850924746358
+              1636.5734591442133,
+              809.0850924746358
             ]
           },
           {
@@ -1372,13 +1475,13 @@
             "name": "INT",
             "type": "INT",
             "linkIds": [
-              435
+              527
             ],
             "localized_name": "整数",
             "label": "width",
             "pos": [
-              1632.5734591442133,
-              825.0850924746358
+              1636.5734591442133,
+              829.0850924746358
             ]
           },
           {
@@ -1386,13 +1489,13 @@
             "name": "INT_1",
             "type": "INT",
             "linkIds": [
-              437
+              529
             ],
             "localized_name": "整数_1",
             "label": "height",
             "pos": [
-              1632.5734591442133,
-              845.0850924746358
+              1636.5734591442133,
+              849.0850924746358
             ]
           },
           {
@@ -1400,13 +1503,13 @@
             "name": "INT_2",
             "type": "INT",
             "linkIds": [
-              481
+              533
             ],
             "localized_name": "整数_2",
             "label": "clip",
             "pos": [
-              1632.5734591442133,
-              865.0850924746358
+              1636.5734591442133,
+              869.0850924746358
             ]
           },
           {
@@ -1414,12 +1517,12 @@
             "name": "BOOLEAN",
             "type": "BOOLEAN",
             "linkIds": [
-              486
+              536
             ],
             "label": "enable_break",
             "pos": [
-              1632.5734591442133,
-              885.0850924746358
+              1636.5734591442133,
+              889.0850924746358
             ]
           },
           {
@@ -1427,12 +1530,12 @@
             "name": "STRING_3",
             "type": "STRING",
             "linkIds": [
-              488
+              518
             ],
             "label": "sampler",
             "pos": [
-              1632.5734591442133,
-              905.0850924746358
+              1636.5734591442133,
+              909.0850924746358
             ]
           },
           {
@@ -1440,12 +1543,12 @@
             "name": "STRING_4",
             "type": "STRING",
             "linkIds": [
-              490
+              519
             ],
             "label": "scheduler",
             "pos": [
-              1632.5734591442133,
-              925.0850924746358
+              1636.5734591442133,
+              929.0850924746358
             ]
           },
           {
@@ -1453,12 +1556,12 @@
             "name": "FLOAT",
             "type": "FLOAT",
             "linkIds": [
-              492
+              539
             ],
             "label": "cfg",
             "pos": [
-              1632.5734591442133,
-              945.0850924746358
+              1636.5734591442133,
+              949.0850924746358
             ]
           },
           {
@@ -1466,22 +1569,22 @@
             "name": "INT_3",
             "type": "INT",
             "linkIds": [
-              494
+              542
             ],
             "label": "steps",
             "pos": [
-              1632.5734591442133,
-              965.0850924746358
+              1636.5734591442133,
+              969.0850924746358
             ]
           }
         ],
         "widgets": [],
         "nodes": [
           {
-            "id": 173,
+            "id": 185,
             "type": "JsonExtractString",
             "pos": [
-              1218.894226276388,
+              1217.8286306684452,
               774.3267248454384
             ],
             "size": [
@@ -1491,247 +1594,17 @@
             "flags": {
               "collapsed": true
             },
-            "order": 3,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 475
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "links": [
-                  476
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "JsonExtractString"
-            },
-            "widgets_values": [
-              "",
-              "clip_model",
-              ""
-            ]
-          },
-          {
-            "id": 174,
-            "type": "JsonExtractString",
-            "pos": [
-              1220.516892991183,
-              816.6227943695643
-            ],
-            "size": [
-              270,
-              106
-            ],
-            "flags": {
-              "collapsed": true
-            },
-            "order": 4,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 477
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "links": [
-                  478
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "JsonExtractString"
-            },
-            "widgets_values": [
-              "",
-              "vae_model",
-              ""
-            ]
-          },
-          {
-            "id": 157,
-            "type": "JsonExtractInt",
-            "pos": [
-              1219.0001809320972,
-              861.1602251162269
-            ],
-            "size": [
-              270,
-              106
-            ],
-            "flags": {
-              "collapsed": true
-            },
             "order": 0,
             "mode": 0,
             "inputs": [
               {
-                "localized_name": "json_text",
-                "name": "json_text",
+                "localized_name": "json_string",
+                "name": "json_string",
                 "type": "STRING",
                 "widget": {
-                  "name": "json_text"
+                  "name": "json_string"
                 },
-                "link": 434
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "整数",
-                "name": "INT",
-                "type": "INT",
-                "links": [
-                  435
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "JsonExtractInt"
-            },
-            "widgets_values": [
-              "",
-              "width",
-              832
-            ]
-          },
-          {
-            "id": 176,
-            "type": "JsonExtractInt",
-            "pos": [
-              1217.6077481873108,
-              949.3307100905645
-            ],
-            "size": [
-              270,
-              106
-            ],
-            "flags": {
-              "collapsed": true
-            },
-            "order": 5,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 480
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "整数",
-                "name": "INT",
-                "type": "INT",
-                "links": [
-                  481
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "JsonExtractInt"
-            },
-            "widgets_values": [
-              "",
-              "clip",
-              0
-            ]
-          },
-          {
-            "id": 177,
-            "type": "JsonExtractBoolean",
-            "pos": [
-              1218.2407315584153,
-              993.5106099757776
-            ],
-            "size": [
-              270,
-              106
-            ],
-            "flags": {
-              "collapsed": true
-            },
-            "order": 6,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 485
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "ブール",
-                "name": "BOOLEAN",
-                "type": "BOOLEAN",
-                "links": [
-                  486
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "JsonExtractBoolean"
-            },
-            "widgets_values": [
-              "",
-              "enable_break",
-              true
-            ]
-          },
-          {
-            "id": 160,
-            "type": "JsonExtractString",
-            "pos": [
-              1220.3696859697159,
-              732.0523278539262
-            ],
-            "size": [
-              270,
-              106
-            ],
-            "flags": {
-              "collapsed": true
-            },
-            "order": 2,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 451
+                "link": 521
               }
             ],
             "outputs": [
@@ -1740,7 +1613,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  471
+                  516
                 ]
               }
             ],
@@ -1749,154 +1622,19 @@
             },
             "widgets_values": [
               "",
-              "model",
-              "illustrious_v10.safetensors"
-            ]
+              "clip_model"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "clip_model"
+            }
           },
           {
-            "id": 178,
+            "id": 186,
             "type": "JsonExtractString",
             "pos": [
-              1217.8846399896365,
-              1038.9303840441962
-            ],
-            "size": [
-              270,
-              106
-            ],
-            "flags": {
-              "collapsed": true
-            },
-            "order": 7,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 487
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "links": [
-                  488
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "JsonExtractString"
-            },
-            "widgets_values": [
-              "",
-              "sampler",
-              "euler_ancestral"
-            ]
-          },
-          {
-            "id": 179,
-            "type": "JsonExtractString",
-            "pos": [
-              1220.0023811243411,
-              1083.4029478730008
-            ],
-            "size": [
-              270,
-              106
-            ],
-            "flags": {
-              "collapsed": true
-            },
-            "order": 8,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 489
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "links": [
-                  490
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "JsonExtractString"
-            },
-            "widgets_values": [
-              "",
-              "scheduler",
-              "karras"
-            ]
-          },
-          {
-            "id": 180,
-            "type": "JsonExtractFloat",
-            "pos": [
-              1220.002381124341,
-              1125.7577705671026
-            ],
-            "size": [
-              270,
-              106
-            ],
-            "flags": {
-              "collapsed": true
-            },
-            "order": 9,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 491
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "浮動小数点",
-                "name": "FLOAT",
-                "type": "FLOAT",
-                "links": [
-                  492
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "JsonExtractFloat"
-            },
-            "widgets_values": [
-              "",
-              "cfg",
-              5
-            ]
-          },
-          {
-            "id": 158,
-            "type": "JsonExtractInt",
-            "pos": [
-              1218.444051596927,
-              900.7931134143779
+              1220.516892991183,
+              816.0431367957061
             ],
             "size": [
               270,
@@ -1909,40 +1647,43 @@
             "mode": 0,
             "inputs": [
               {
-                "localized_name": "json_text",
-                "name": "json_text",
+                "localized_name": "json_string",
+                "name": "json_string",
                 "type": "STRING",
                 "widget": {
-                  "name": "json_text"
+                  "name": "json_string"
                 },
-                "link": 436
+                "link": 522
               }
             ],
             "outputs": [
               {
-                "localized_name": "整数",
-                "name": "INT",
-                "type": "INT",
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
                 "links": [
-                  437
+                  517
                 ]
               }
             ],
             "properties": {
-              "Node name for S&R": "JsonExtractInt"
+              "Node name for S&R": "JsonExtractString"
             },
             "widgets_values": [
               "",
-              "height",
-              1216
-            ]
+              "vae_model"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "vae_model"
+            }
           },
           {
-            "id": 181,
-            "type": "JsonExtractInt",
+            "id": 187,
+            "type": "JsonExtractString",
             "pos": [
-              1218.9435105569905,
-              1168.112593261203
+              1220.3696859697159,
+              731.472670280068
             ],
             "size": [
               270,
@@ -1951,17 +1692,213 @@
             "flags": {
               "collapsed": true
             },
-            "order": 10,
+            "order": 2,
             "mode": 0,
             "inputs": [
               {
-                "localized_name": "json_text",
-                "name": "json_text",
+                "localized_name": "json_string",
+                "name": "json_string",
                 "type": "STRING",
                 "widget": {
-                  "name": "json_text"
+                  "name": "json_string"
                 },
-                "link": 493
+                "link": 520
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  515
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "model"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "model"
+            }
+          },
+          {
+            "id": 188,
+            "type": "JsonExtractString",
+            "pos": [
+              1217.8846399896365,
+              1038.9303840441962
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 523
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  518
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "sampler"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "sampler"
+            }
+          },
+          {
+            "id": 189,
+            "type": "JsonExtractString",
+            "pos": [
+              1220.0023811243411,
+              1083.4029478730008
+            ],
+            "size": [
+              270,
+              106
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 524
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  519
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "scheduler"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "scheduler"
+            }
+          },
+          {
+            "id": 190,
+            "type": "JsonExtractString",
+            "pos": [
+              1222.7654463660074,
+              858.0959411715489
+            ],
+            "size": [
+              210,
+              112
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 525
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  526
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "width"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "width"
+            }
+          },
+          {
+            "id": 191,
+            "type": "StringToInt",
+            "pos": [
+              1437.0078044577726,
+              858.0430225196359
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "text",
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 526
               }
             ],
             "outputs": [
@@ -1970,193 +1907,734 @@
                 "name": "INT",
                 "type": "INT",
                 "links": [
-                  494
+                  527
                 ]
               }
             ],
             "properties": {
-              "Node name for S&R": "JsonExtractInt"
+              "Node name for S&R": "StringToInt"
             },
             "widgets_values": [
               "",
-              "steps",
+              832
+            ],
+            "widgets_values_named": {
+              "text": "",
+              "default_value": 832
+            }
+          },
+          {
+            "id": 192,
+            "type": "JsonExtractString",
+            "pos": [
+              1221.2570997359855,
+              897.8453538188721
+            ],
+            "size": [
+              210,
+              112
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 530
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  528
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "height"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "height"
+            }
+          },
+          {
+            "id": 193,
+            "type": "StringToInt",
+            "pos": [
+              1439.0567672062764,
+              897.7924351669593
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 8,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "text",
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 528
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  529
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "StringToInt"
+            },
+            "widgets_values": [
+              "",
+              1215
+            ],
+            "widgets_values_named": {
+              "text": "",
+              "default_value": 1215
+            }
+          },
+          {
+            "id": 194,
+            "type": "JsonExtractString",
+            "pos": [
+              1221.9685616116933,
+              941.2445282367804
+            ],
+            "size": [
+              210,
+              112
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 9,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 532
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  531
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "clip"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "clip"
+            }
+          },
+          {
+            "id": 195,
+            "type": "StringToInt",
+            "pos": [
+              1439.7682290819816,
+              939.0572239577547
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 10,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "text",
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 531
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  533
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "StringToInt"
+            },
+            "widgets_values": [
+              "",
+              0
+            ],
+            "widgets_values_named": {
+              "text": "",
+              "default_value": 0
+            }
+          },
+          {
+            "id": 196,
+            "type": "JsonExtractString",
+            "pos": [
+              1223.3914853630993,
+              984.6437026546889
+            ],
+            "size": [
+              210,
+              112
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 11,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 534
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  535
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "enable_break"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "enable_break"
+            }
+          },
+          {
+            "id": 197,
+            "type": "StringToBoolean",
+            "pos": [
+              1440.5651138362894,
+              986.106160146248
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 12,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "text",
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 535
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "ブール",
+                "name": "BOOLEAN",
+                "type": "BOOLEAN",
+                "links": [
+                  536
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "StringToBoolean"
+            },
+            "widgets_values": [
+              "",
+              true
+            ],
+            "widgets_values_named": {
+              "text": "",
+              "default_value": true
+            }
+          },
+          {
+            "id": 198,
+            "type": "JsonExtractString",
+            "pos": [
+              1220.4664249329471,
+              1122.7068402813022
+            ],
+            "size": [
+              210,
+              112
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 13,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 537
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  538
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "cfg"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "cfg"
+            }
+          },
+          {
+            "id": 199,
+            "type": "StringToFloat",
+            "pos": [
+              1452.659965723242,
+              1122.706840281304
+            ],
+            "size": [
+              270,
+              82.71146187570343
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 14,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "text",
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 538
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "浮動小数点",
+                "name": "FLOAT",
+                "type": "FLOAT",
+                "links": [
+                  539
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "StringToFloat"
+            },
+            "widgets_values": [
+              "",
+              5
+            ],
+            "widgets_values_named": {
+              "text": "",
+              "default_value": 5
+            }
+          },
+          {
+            "id": 200,
+            "type": "JsonExtractString",
+            "pos": [
+              1226.948794741617,
+              1169.6767089894902
+            ],
+            "size": [
+              210,
+              112
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 15,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 541
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  540
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "steps"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "steps"
+            }
+          },
+          {
+            "id": 201,
+            "type": "StringToInt",
+            "pos": [
+              1438.3453053305743,
+              1169.6237903375747
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {
+              "collapsed": true
+            },
+            "order": 16,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "text",
+                "name": "text",
+                "type": "STRING",
+                "widget": {
+                  "name": "text"
+                },
+                "link": 540
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  542
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "StringToInt"
+            },
+            "widgets_values": [
+              "",
               20
-            ]
+            ],
+            "widgets_values_named": {
+              "text": "",
+              "default_value": 20
+            }
           }
         ],
         "groups": [],
         "links": [
           {
-            "id": 451,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 160,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 475,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 173,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 477,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 174,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 434,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 157,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 436,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 158,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 480,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 176,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 471,
-            "origin_id": 160,
+            "id": 515,
+            "origin_id": 187,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 0,
             "type": "STRING"
           },
           {
-            "id": 476,
-            "origin_id": 173,
+            "id": 516,
+            "origin_id": 185,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 1,
             "type": "STRING"
           },
           {
-            "id": 478,
-            "origin_id": 174,
+            "id": 517,
+            "origin_id": 186,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 2,
             "type": "STRING"
           },
           {
-            "id": 435,
-            "origin_id": 157,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 3,
-            "type": "INT"
-          },
-          {
-            "id": 437,
-            "origin_id": 158,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 4,
-            "type": "INT"
-          },
-          {
-            "id": 481,
-            "origin_id": 176,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 5,
-            "type": "INT"
-          },
-          {
-            "id": 485,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 177,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 486,
-            "origin_id": 177,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 6,
-            "type": "BOOLEAN"
-          },
-          {
-            "id": 487,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 178,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 488,
-            "origin_id": 178,
+            "id": 518,
+            "origin_id": 188,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 7,
             "type": "STRING"
           },
           {
-            "id": 489,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 179,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 490,
-            "origin_id": 179,
+            "id": 519,
+            "origin_id": 189,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 8,
             "type": "STRING"
           },
           {
-            "id": 491,
+            "id": 520,
             "origin_id": -10,
             "origin_slot": 0,
-            "target_id": 180,
+            "target_id": 187,
             "target_slot": 0,
             "type": "STRING"
           },
           {
-            "id": 492,
-            "origin_id": 180,
+            "id": 521,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 185,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 522,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 186,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 523,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 188,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 524,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 189,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 525,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 190,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 526,
+            "origin_id": 190,
+            "origin_slot": 0,
+            "target_id": 191,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 527,
+            "origin_id": 191,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 3,
+            "type": "INT"
+          },
+          {
+            "id": 528,
+            "origin_id": 192,
+            "origin_slot": 0,
+            "target_id": 193,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 529,
+            "origin_id": 193,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 4,
+            "type": "INT"
+          },
+          {
+            "id": 530,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 192,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 531,
+            "origin_id": 194,
+            "origin_slot": 0,
+            "target_id": 195,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 532,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 194,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 533,
+            "origin_id": 195,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 5,
+            "type": "INT"
+          },
+          {
+            "id": 534,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 196,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 535,
+            "origin_id": 196,
+            "origin_slot": 0,
+            "target_id": 197,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 536,
+            "origin_id": 197,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 6,
+            "type": "BOOLEAN"
+          },
+          {
+            "id": 537,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 198,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 538,
+            "origin_id": 198,
+            "origin_slot": 0,
+            "target_id": 199,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 539,
+            "origin_id": 199,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 9,
             "type": "FLOAT"
           },
           {
-            "id": 493,
-            "origin_id": -10,
+            "id": 540,
+            "origin_id": 200,
             "origin_slot": 0,
-            "target_id": 181,
+            "target_id": 201,
             "target_slot": 0,
             "type": "STRING"
           },
           {
-            "id": 494,
-            "origin_id": 181,
+            "id": 541,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 200,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 542,
+            "origin_id": 201,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 10,
@@ -2172,13 +2650,13 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.6010422698320788,
+      "scale": 0.7095435684647303,
       "offset": [
-        294.8333333333332,
-        170.71339113680153
+        489.43567251461985,
+        168.66666666666663
       ]
     },
-    "frontendVersion": "1.37.11",
+    "frontendVersion": "1.53.6",
     "workflowRendererVersion": "LG"
   },
   "version": 0.4

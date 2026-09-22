@@ -88,123 +88,80 @@ class StringPicker:
         return ("",)
 
 
-class JsonExtractString:
-    RETURN_TYPES = ("STRING",)
-    OUTPUT_TOOLTIPS = ("STRING.",)
-    FUNCTION = "extract"
-    CATEGORY = "utils"
-    DESCRIPTION = "Extract string from json text."
-
-    @classmethod
-    def INPUT_TYPES(cls) -> InputTypesFuncResult:
-        return {
-            "required": {
-                "json_text": ("STRING",),
-                "path": ("STRING", {"tooltip": "period separated path to json value"}),
-                "default": ("STRING",),
-            },
-        }
-
-    def __init__(self):
-        pass
-
-    def extract(self, json_text: str, path: str, default: str):
-        r = json.loads(json_text)
-        for key in path.split("."):
-            if key not in r:
-                return (default,)
-            r = r[key]
-        return (str(r),)
-
-
-class JsonExtractInt:
+class StringToInt:
     RETURN_TYPES = ("INT",)
     OUTPUT_TOOLTIPS = ("INT.",)
-    FUNCTION = "extract"
+    FUNCTION = "parse_value"
     CATEGORY = "utils"
-    DESCRIPTION = "Extract integer from json text."
+    DESCRIPTION = "string to int."
 
     @classmethod
     def INPUT_TYPES(cls) -> InputTypesFuncResult:
         return {
             "required": {
-                "json_text": ("STRING",),
-                "path": ("STRING", {"tooltip": "period separated path to json value"}),
-                "default": ("INT", {"min": -sys.maxsize, "max": sys.maxsize}),
+                "text": ("STRING",),
+                "default_value": ("INT", {"min": -sys.maxsize, "max": sys.maxsize}),
             },
         }
 
     def __init__(self):
         pass
 
-    def extract(self, json_text: str, path: str, default: int):
-        r = json.loads(json_text)
-        for key in path.split("."):
-            if key not in r:
-                return (default,)
-            r = r[key]
-        return (int(r),)
+    def parse_value(self, text: str, default_value: int):
+        if text == "":
+            return (default_value,)
+        return (int(text),)
 
 
-class JsonExtractFloat:
+class StringToFloat:
     RETURN_TYPES = ("FLOAT",)
     OUTPUT_TOOLTIPS = ("FLOAT.",)
-    FUNCTION = "extract"
+    FUNCTION = "parse_value"
     CATEGORY = "utils"
-    DESCRIPTION = "Extract float from json text."
+    DESCRIPTION = "string to float."
 
     @classmethod
     def INPUT_TYPES(cls) -> InputTypesFuncResult:
         return {
             "required": {
-                "json_text": ("STRING",),
-                "path": ("STRING", {"tooltip": "period separated path to json value"}),
-                "default": ("FLOAT", {"min": -sys.maxsize, "max": sys.maxsize}),
+                "text": ("STRING",),
+                "default_value": ("FLOAT", {"min": -sys.maxsize, "max": sys.maxsize}),
             },
         }
 
     def __init__(self):
         pass
 
-    def extract(self, json_text: str, path: str, default: float):
-        r = json.loads(json_text)
-        for key in path.split("."):
-            if key not in r:
-                return (default,)
-            r = r[key]
-        return (float(r),)
+    def parse_value(self, text: str, default_value: float):
+        if text == "":
+            return (default_value,)
+        return (float(text),)
 
 
-class JsonExtractBoolean:
+class StringToBoolean:
     RETURN_TYPES = ("BOOLEAN",)
     OUTPUT_TOOLTIPS = ("BOOLEAN.",)
-    FUNCTION = "extract"
+    FUNCTION = "parse_value"
     CATEGORY = "utils"
-    DESCRIPTION = "Extract boolean from json text."
+    DESCRIPTION = "string to boolean."
 
     @classmethod
     def INPUT_TYPES(cls) -> InputTypesFuncResult:
         return {
             "required": {
-                "json_text": ("STRING",),
-                "path": ("STRING", {"tooltip": "period separated path to json value"}),
-                "default": ("BOOLEAN",),
+                "text": ("STRING",),
+                "default_value": ("BOOLEAN",),
             },
         }
 
     def __init__(self):
         pass
 
-    def extract(self, json_text: str, path: str, default: bool):
-        r = json.loads(json_text)
-        for key in path.split("."):
-            if key not in r:
-                return (default,)
-            r = r[key]
-        if isinstance(r, str):
-            return (r == "True" or r == "true",)
-        else:
-            return (not not r,)
+    def parse_value(self, text: str, default_value: bool):
+        if text == "":
+            return (default_value,)
+        r = text.lower()
+        return (r == "true" or r == "ok",)
 
 
 class LatentSelector:
