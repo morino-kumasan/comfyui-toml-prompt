@@ -28,6 +28,7 @@ def normalize_prompt(s: str):
     s = re.sub(r",[\s,]+", ", ", s)
     s = re.sub(r"\s+,\s+", ", ", s)
     s = re.sub(r"\.,", ".", s)
+    s = re.sub(r"(,|\.)\s*([a-zA-Z_]+:)", "\\1\n\n\\2", s)
     return s[1:] if s.startswith(",") else s
 
 
