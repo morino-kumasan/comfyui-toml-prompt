@@ -402,7 +402,13 @@ def collect_prompt(
                         and isinstance(d["_post"], str)
                         and f"{key}._post" not in exclude_keys
                     ):
-                        post_prompt = [d["_post"]] + post_prompt
+                        prompt = select_dynamic_prompt(
+                            rand,
+                            remove_comment_out(
+                                expand_prompt_var(rand, d["_post"], prefix)
+                            ),
+                        )
+                        post_prompt = [prompt] + post_prompt
                         exclude_keys += [f"{key}._post"]
         else:
             # breakされてないならプロンプトを追加
