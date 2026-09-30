@@ -381,6 +381,8 @@ def collect_prompt(
             prefix_str = ".".join(prefix)
             is_term = isinstance(d, (str, list)) or len(get_keys_all(cast(Any, d))) == 0
             _ = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
+            # ファイル読み込みの場合は上書きされてるのでparent_dictから取り直す
+            d = parent_dict[prefix[-1]]
             if prefix_str not in exclude_keys or is_term:
                 if isinstance(d, list):
                     d = rand.choices(cast(list[Any], d), weights=None)[0]
