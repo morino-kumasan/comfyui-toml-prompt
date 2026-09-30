@@ -38,7 +38,7 @@ color=["dark", "light", "dark blue"]
 [base.girl]
 _t="""1girl, perfect anatomy, 
 beautiful face, (detailed skin), (detailed face), (beautiful detailed eyes),  
-shiny hair, $color hair"""
+shiny hair, $base.girl.color hair"""
 # $color is replaced with red, blue or blonde.
 
 twintails = "twintails, <lora:twintails.safetensors:1>"
@@ -46,7 +46,7 @@ ponytails = "ponytails"
 color=["red", "blue", "blonde"]
 
 [base.boy]
-_t = "1boy, muscular, $::color hair, formal suit"
+_t = "1boy, muscular, $color hair, formal suit"
 # $color is replaced with dark, light or dark blue
 
 # "random_weight.?" to select a or b or c

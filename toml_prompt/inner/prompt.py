@@ -40,38 +40,6 @@ def select_dynamic_prompt(rand: Random, s: str) -> str:
     )
 
 
-def expand_prompt_var(
-    rand: Random,
-    d: PromptDict | list[str] | str | int | float | bool,
-    prefix: list[str],
-) -> str:
-    if isinstance(d, dict):
-        value = d.get("_t", "")
-    elif isinstance(d, list):
-        value = rand.choices(d)[0]
-    else:
-        value = str(d)
-
-    def to_tag(m: re.Match[str]) -> str:
-        var_name = m.group(1)
-        var_type = "var" if var_name[0] == "$" else "tag"
-        var_name = var_name[1:]
-        if var_name.startswith("::"):
-            r = ".".join([var_name[2:]])
-        else:
-            r = ".".join(prefix + [var_name])
-        return f"<{var_type}>{r}</{var_type}>"
-
-    while re.search(r"([$%]:*[a-zA-Z_.*?]+)", cast(str, value)):
-        value = re.sub(
-            r"([$%]:*[a-zA-Z_.*?]+)",
-            to_tag,
-            cast(str, value),
-            flags=re.MULTILINE,
-        )
-    return cast(str, value)
-
-
 def load_prompt_var(
     d: PromptDict, keys: list[str], root_dir: str
 ) -> tuple[PromptDict, list[str] | str]:
@@ -404,9 +372,7 @@ def collect_prompt(
                     ):
                         prompt = select_dynamic_prompt(
                             rand,
-                            remove_comment_out(
-                                expand_prompt_var(rand, d["_post"], prefix)
-                            ),
+                            remove_comment_out(d["_post"]),
                         )
                         post_prompt = [prompt] + post_prompt
                         exclude_keys += [f"{key}._post"]
@@ -414,14 +380,15 @@ def collect_prompt(
             # breakされてないならプロンプトを追加
             prefix_str = ".".join(prefix)
             is_term = isinstance(d, (str, list)) or len(get_keys_all(cast(Any, d))) == 0
-            is_dict = isinstance(d, dict)
-            _, d = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
+            _ = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
             if prefix_str not in exclude_keys or is_term:
+                if isinstance(d, list):
+                    d = rand.choices(cast(list[Any], d), weights=None)[0]
+                elif isinstance(d, dict):
+                    d = cast(str, d.get("_t", ""))
                 prompt = select_dynamic_prompt(
                     rand,
-                    remove_comment_out(
-                        expand_prompt_var(rand, d, prefix if is_dict else prefix[:-1])
-                    ),
+                    remove_comment_out(cast(str, d)),
                 )
                 if prompt:
                     r += [prompt]

@@ -59,12 +59,6 @@ class PromptTagParser(HTMLParser):
 
     def feed(self, data: str):
         # <lora>を<?lora>に変換
-        def replace_lora(m: re.Match[str]) -> str:
-            if m.group(5) is not None:
-                return f'<?{m.group(1)} "{m.group(2)}" "{m.group(3)}" "{m.group(5)}">'
-            else:
-                return f'<?{m.group(1)} "{m.group(2)}" "{m.group(3)}">'
-
         data = re.sub(
             r"<(lora[_a-z]*):([^:>]+):([0-9\-.]+)(:([0-9\-.]+))?>",
             replace_lora,
@@ -72,15 +66,20 @@ class PromptTagParser(HTMLParser):
             flags=re.MULTILINE,
         )
 
-        # <picture>等を<picture />に変換
-        def replace_h3(m: re.Match[str]) -> str:
-            return rf"\lt{m.group(0)[1:-1]}\rt"
-
+        # minimax h3用に<Picture>等の<>をエスケープ
         data = re.sub(
             r"<\s*" + MINIMAX_TAGS_REGEX + r"\s+[0-9]+\s*>",
             replace_h3,
             data,
             flags=re.MULTILINE | re.IGNORECASE,
+        )
+
+        # 変数を変換
+        data = re.sub(
+            r"([$%])([a-zA-Z_.*?]+)",
+            replace_var,
+            data,
+            flags=re.MULTILINE,
         )
         return HTMLParser.feed(self, data)
 
@@ -377,3 +376,23 @@ def remove_route(d: PromptDict, keys: list[str]):
             cast(list[str], d["_k"]).remove(elem)
             if "_w" in d:
                 cast(list[float], d["_w"]).pop(i)
+
+
+def replace_lora(m: re.Match[str]) -> str:
+    if m.group(5) is not None:
+        return f'<?{m.group(1)} "{m.group(2)}" "{m.group(3)}" "{m.group(5)}">'
+    else:
+        return f'<?{m.group(1)} "{m.group(2)}" "{m.group(3)}">'
+
+
+def replace_h3(m: re.Match[str]) -> str:
+    return rf"\lt{m.group(0)[1:-1]}\rt"
+
+
+def replace_var(m: re.Match[str]) -> str:
+    var_type = m.group(1)
+    var_name = m.group(2)
+    if var_type == "$":
+        return f"<var>{var_name}</var>"
+    else:
+        return f"<tag>{var_name}</tag>"
