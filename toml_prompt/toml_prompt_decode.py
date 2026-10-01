@@ -19,16 +19,18 @@ def load_summary_header(s: str):
 
 
 def normalize_prompt(s: str):
-    s = s.replace(r"\lt", "<")
-    s = s.replace(r"\rt", ">")
-    s = re.sub(r":\s*,", ": ", s)
-    s = re.sub(r"\]\s*,", "] ", s)
     s = re.sub(r"[\r\n]+", " ", s)
     s = re.sub(r"\s+", " ", s)
-    s = re.sub(r",[\s,]+", ", ", s)
-    s = re.sub(r"\s+,\s+", ", ", s)
-    s = re.sub(r"\.,", ".", s)
-    s = re.sub(r"(,|\.)\s*([a-zA-Z_]+:)", "\\1\n\n\\2", s)
+    s = re.sub(r",[\s,.]+", ", ", s)
+    s = re.sub(r"\.[\s,.]+", ". ", s)
+    s = re.sub(r"\s*,\s*", ", ", s)
+    s = re.sub(r"\s*\.\s*,", ". ", s)
+    s = re.sub(r"\\\\[\s,.]*", "", s)
+    s = re.sub(r"\\n[\s,.]*", "\n", s)
+    s = s.replace(r"\t", "\t")
+    s = s.replace(r"\lt", "<")
+    s = s.replace(r"\rt", ">")
+    s = s.replace(r"\\", "")
     return s[1:] if s.startswith(",") else s
 
 
