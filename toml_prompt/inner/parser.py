@@ -41,6 +41,7 @@ class PromptTagParser(HTMLParser):
             self.root_dir = os.path.dirname(prompt.path)
             self.exports: dict[str, str] = {}
             self.random = Random(seed=seed)
+            self.set_value: list[str] | None = None
         elif other is not None:
             self.positive = other.positive
             self.negative = other.negative
@@ -51,6 +52,7 @@ class PromptTagParser(HTMLParser):
             self.root_dir = other.root_dir
             self.exports = other.exports
             self.random = other.random
+            self.set_value = other.set_value
         self.tag: list[tuple[str, dict[str, str | None]]] = []
         self.cond: list[bool] = []
         self.random_key: list[str] = []
@@ -76,7 +78,13 @@ class PromptTagParser(HTMLParser):
 
         # 変数を変換
         data = re.sub(
-            r"([$%])([a-zA-Z_.*?]+)",
+            r"([$%])\{?([a-zA-Z0-9_.*?]+)\}",
+            replace_var,
+            data,
+            flags=re.MULTILINE,
+        )
+        data = re.sub(
+            r"([$%])([a-zA-Z0-9_.*?]+)",
             replace_var,
             data,
             flags=re.MULTILINE,
@@ -158,17 +166,30 @@ class PromptTagParser(HTMLParser):
             self.tag_case(dict_attrs)
         elif tag == "random":
             self.tag_random(dict_attrs)
+        elif tag in ["set", "add"]:
+            assert self.set_value is None, "Cannot nest <set>, <add>"
+            self.set_value = []
 
         self.tag += [(tag, dict_attrs)]
         return HTMLParser.handle_starttag(self, tag, attrs)
 
     def handle_endtag(self, tag: str):
         assert self.tag[-1][0] == tag, f"{tag} != {self.tag}[-1][0]"
-        self.tag.pop(-1)
+        _, args = self.tag.pop(-1)
         if tag in ["case", "when", "else", "random"]:
             _cond = self.cond.pop(-1)
         if tag == "random":
             self.random_key.pop(-1)
+        if tag == "set":
+            key = args["key"]
+            if key is not None and self.set_value:
+                self.pi_set([key, ",".join(self.set_value)])
+            self.set_value = None
+        if tag == "add":
+            key = args["key"]
+            if key is not None and self.set_value:
+                self.pi_add([key, ",".join(self.set_value)])
+            self.set_value = None
         return HTMLParser.handle_endtag(self, tag)
 
     def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]):
@@ -184,11 +205,18 @@ class PromptTagParser(HTMLParser):
         if tag == "raw" or tag == "when" or tag == "else":
             if data.strip():
                 if (self.simple_join or self.before_simple_join) and self.positive:
-                    self.positive[-1] += data
+                    if self.set_value is None:
+                        self.positive[-1] += data
+                    else:
+                        self.set_value[-1] += data
                     self.before_simple_join = False
                 else:
-                    self.positive += [data]
+                    if self.set_value is None:
+                        self.positive += [data]
+                    else:
+                        self.set_value += [data]
         elif tag == "neg":
+            assert self.set_value is None, "Cannot nest <set>, <add>, <neg>"
             if data.strip():
                 self.negative += [data]
         elif tag == "tag" or tag == "var":
@@ -197,6 +225,9 @@ class PromptTagParser(HTMLParser):
                 keys = build_search_keys(key)
                 simple_join = tag == "var"
                 self.feed_prompt(keys, simple_join)
+        elif tag in ["set", "add"]:
+            assert self.set_value is not None, f"<{tag}> not started."
+            self.set_value += [data]
         else:
             assert (
                 data.strip() == "" or data.strip() == ","
@@ -275,6 +306,20 @@ class PromptTagParser(HTMLParser):
         d[keys[-1]] = [args[1]]
         print("Set:", args[0], "=", args[1])
 
+    def pi_add(self, args: list[str]):
+        d = self.prompt_dict
+        keys = args[0].strip().split(".")
+        d, _ = load_prompt_var(d, keys, self.root_dir)
+        val = d[keys[-1]]
+        if isinstance(val, list):
+            if len(cast(list[str], val)) == 1:
+                d[keys[-1]] = val[0] + [args[1]]
+            else:
+                d[keys[-1]] = [args[1]]
+        elif isinstance(val, str):
+            d[keys[-1]] = val + args[1]
+        print("Add:", args[0], "=", args[1])
+
     def pi_grep(self, args: list[str]):
         d = self.prompt_dict
         keys = args[0].strip().split(".")
@@ -321,6 +366,7 @@ class PromptTagParser(HTMLParser):
         "lora_low": pi_lora_low,
         "lora_l": pi_lora_low,
         "set": pi_set,
+        "add": pi_add,
         "random_count": pi_random_count,
     }
 
