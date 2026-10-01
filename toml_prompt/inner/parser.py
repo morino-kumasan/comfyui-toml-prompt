@@ -438,7 +438,13 @@ def replace_h3(m: re.Match[str]) -> str:
 def replace_var(m: re.Match[str]) -> str:
     var_type = m.group(1)
     var_name = m.group(2)
-    if var_type == "$":
-        return f"<var>{var_name}</var>"
+    if var_name[-1] == ".":
+        var_name = var_name[:-1]
+        dot = "."
     else:
-        return f"<tag>{var_name}</tag>"
+        dot = ""
+
+    if var_type == "$":
+        return f"<var>{var_name}</var>{dot}"
+    else:
+        return f"<tag>{var_name}</tag>{dot}"

@@ -31,7 +31,7 @@ def normalize_prompt(s: str):
     s = s.replace(r"\lt", "<")
     s = s.replace(r"\rt", ">")
     s = s.replace(r"\\", "")
-    return s[1:] if s.startswith(",") else s
+    return (s[1:] if s.startswith(",") else s).strip()
 
 
 class PromptDecode:
