@@ -18,9 +18,6 @@ from .util import Random
 type AttrType = dict[str, str | None]
 T = TypeVar("T")
 
-MINIMAX_TAGS: Final[list[str]] = ["picture", "audio", "video", "subject"]
-MINIMAX_TAGS_REGEX: Final[str] = "(" + "|".join(MINIMAX_TAGS) + ")"
-
 
 class PromptTagParser(HTMLParser):
     def __init__(
@@ -68,13 +65,9 @@ class PromptTagParser(HTMLParser):
             flags=re.MULTILINE,
         )
 
-        # minimax h3用に<Picture>等の<>をエスケープ
-        data = re.sub(
-            r"<\s*" + MINIMAX_TAGS_REGEX + r"\s+[0-9]+\s*>",
-            replace_h3,
-            data,
-            flags=re.MULTILINE | re.IGNORECASE,
-        )
+        # <>のエスケープ
+        data = data.replace(r"\<", r"\lt")
+        data = data.replace(r"\>", r"\rt")
 
         # 変数を変換
         data = re.sub(
