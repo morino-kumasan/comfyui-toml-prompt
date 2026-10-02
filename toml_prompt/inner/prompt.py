@@ -47,6 +47,8 @@ def load_prompt_var(
         d = cast(PromptDict, d[key])
     var_name = keys[-1]
 
+    assert var_name in d, f"Variable not found: {".".join(keys)}"
+
     if isinstance(d[var_name], dict) and "_load_from_file" in d[var_name]:
         with open(
             os.path.join(
