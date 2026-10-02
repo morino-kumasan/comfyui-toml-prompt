@@ -74,6 +74,21 @@ def load_prompt_var(
         return (d, str(d[var_name]))
 
 
+def check_when(target: PromptDict, loaded_keys: list[str]):
+    return (
+        ("_when" not in target or target["_when"] in loaded_keys)
+        and ("_when_not" not in target or target["_when_not"] not in loaded_keys)
+        and (
+            "_when_any" not in target
+            or any([(key in loaded_keys) for key in target["_when_any"]])
+        )
+        and (
+            "_when_not_any" not in target
+            or any([(key not in loaded_keys) for key in target["_when_not_any"]])
+        )
+    )
+
+
 def get_keys_all(
     d: PromptDict,
     rand: Random | None = None,
@@ -85,9 +100,11 @@ def get_keys_all(
         if not isinstance(d[key], dict):
             return True
         target = cast(PromptDict, d[key])
-        return ("_when" not in target or target["_when"] in loaded_keys) and (
-            "_when_not" not in target or target["_when_not"] not in loaded_keys
-        )
+        # _elseがある場合は条件を満たさなくてもキーが選択される
+        if "_else" in target:
+            return True
+        # キー読み込み条件
+        return check_when(target, loaded_keys)
 
     if "_k" in d:
         keys = [(i, str(k)) for i, k in enumerate(d["_k"]) if k in d and when(k)]
@@ -363,8 +380,12 @@ def collect_prompt(
                 d = cast(Any, d[key])
                 prefix += [key]
 
-                export_values(d, exports, ".".join(prefix), exclude_keys)
-                if isinstance(d, dict):
+                if isinstance(d, dict) and check_when(
+                    cast(PromptDict, d), exclude_keys
+                ):
+                    export_values(
+                        cast(PromptDict, d), exports, ".".join(prefix), exclude_keys
+                    )
                     # _postを処理
                     key = ".".join(prefix)
                     if (
@@ -389,7 +410,10 @@ def collect_prompt(
                 if isinstance(d, list):
                     d = rand.choices(cast(list[Any], d), weights=None)[0]
                 elif isinstance(d, dict):
-                    d = cast(str, d.get("_t", ""))
+                    if check_when(cast(PromptDict, d), exclude_keys):
+                        d = cast(str, d.get("_t", ""))
+                    else:
+                        d = cast(str, d.get("_else", ""))
                 prompt = select_dynamic_prompt(
                     rand,
                     remove_comment_out(cast(str, d)),
