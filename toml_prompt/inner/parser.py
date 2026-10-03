@@ -306,7 +306,7 @@ class PromptTagParser(HTMLParser):
         val = d[keys[-1]]
         if isinstance(val, list):
             if len(cast(list[str], val)) == 1:
-                d[keys[-1]] = val[0] + [args[1]]
+                d[keys[-1]] = [val[0] + args[1]]
             else:
                 d[keys[-1]] = [args[1]]
         elif isinstance(val, str):
