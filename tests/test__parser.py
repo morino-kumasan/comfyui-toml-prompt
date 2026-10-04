@@ -344,6 +344,28 @@ class TestParser(unittest.TestCase):
             ["a.b.c"],
         )
         assert t == "this is a pen."
+        # 改行してもOK
+        _, t, _ = parse_prompt(
+            {
+                "a": "<?set var 'this\nis\na\npen.'>",
+                "b": "$var",
+                "var": "",
+            },
+            ["a", "b"],
+        )
+        assert t == "this is a pen."
+        # <?set>が展開される前に参照
+        _, t, _ = parse_prompt(
+            {
+                "a": {
+                    "_t": "<?set var 'this\nis\na\npen.'>",
+                    "b": "$var",
+                },
+                "var": "",
+            },
+            ["a"],
+        )
+        assert t == ""
 
     def test__tag(self):
         _, t, _ = parse_prompt(
