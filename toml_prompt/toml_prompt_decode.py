@@ -18,22 +18,6 @@ def load_summary_header(s: str):
     return r
 
 
-def normalize_prompt(s: str):
-    s = re.sub(r"[\r\n]+", " ", s)
-    s = re.sub(r"\s+", " ", s)
-    s = re.sub(r",[\s,.]+", ", ", s)
-    s = re.sub(r"\.[\s,.]+", ". ", s)
-    s = re.sub(r"\s*,\s*", ", ", s)
-    s = re.sub(r"\s*\.\s*,", ". ", s)
-    s = re.sub(r"\\\\[\s,.]*", "", s)
-    s = re.sub(r"\\n[\s,.]*", "\n", s)
-    s = s.replace(r"\t", "\t")
-    s = s.replace(r"\lt", "<")
-    s = s.replace(r"\rt", ">")
-    s = s.replace(r"\\", "")
-    return (s[1:] if s.startswith(",") else s).strip()
-
-
 class PromptDecode:
     RETURN_TYPES = ("STRING", "STRING", "STRING", "INT", "STRING", "STRING")
     OUTPUT_TOOLTIPS = (
@@ -95,12 +79,7 @@ class PromptDecode:
 
         # Decode
         parser.feed(key_name_list)
-        positive = normalize_prompt(
-            ", ".join([v.strip() for v in parser.positive if v.strip()])
-        )
-        negative = normalize_prompt(
-            ", ".join([v.strip() for v in parser.negative if v.strip()])
-        )
+        positive, negative = parser.get_prompt()
 
         lora_list = "\n".join(parser.loras)
         if parser.loras_low:

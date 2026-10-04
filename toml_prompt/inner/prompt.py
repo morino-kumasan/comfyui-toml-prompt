@@ -5,6 +5,7 @@ import re
 import functools
 import tomllib
 import yaml
+import json
 
 from .util import Random
 
@@ -12,17 +13,28 @@ type PromptDict = dict[str, Any | list[Any] | PromptDict]
 
 
 class PromptFile:
-    def __init__(self, path: str):
-        with open(path, "r", encoding="utf-8") as f:
-            self.text = f.read()
-        self.path = path
-        self.file_type = os.path.splitext(path)[1]
+    def __init__(
+        self,
+        path: str | None,
+        json_data: dict[Any, Any] | None = None,
+    ):
+        if path is None:
+            self.text = json.dumps(json_data) or "{}"
+            self.path = ""
+            self.file_type = ".json"
+        else:
+            with open(path, "r", encoding="utf-8") as f:
+                self.text = f.read()
+            self.path = path
+            self.file_type = os.path.splitext(path)[1]
 
     def load(self) -> PromptDict:
         if self.file_type in [".toml", ".txt"]:
             return cast(PromptDict, tomllib.loads(self.text))
         elif self.file_type in [".yaml", ".yml"]:
             return yaml.safe_load(self.text)
+        elif self.file_type in [".json"]:
+            return json.loads(self.text)
         else:
             raise Exception(f"Unknown file type: {self.file_type}")
 
@@ -32,12 +44,16 @@ def remove_comment_out(s: str) -> str:
 
 
 def select_dynamic_prompt(rand: Random, s: str) -> str:
-    return re.sub(
-        r"{([^}]+)}",
-        lambda m: rand.choices(m.group(1).split("|"), weights=None)[0],
-        s,
-        flags=re.MULTILINE,
-    )
+    pat = r"{([^{}]+)}"
+    r = s
+    while re.search(pat, r, flags=re.MULTILINE):
+        r = re.sub(
+            pat,
+            lambda m: rand.choices(m.group(1).split("|"), weights=None)[0],
+            r,
+            flags=re.MULTILINE,
+        )
+    return r
 
 
 def load_prompt_var(
@@ -166,7 +182,11 @@ def get_keys_all_recursive(
         elif len(get_keys_all(cast(PromptDict, v))) == 0:
             if "_t" in v:
                 r_long += [".".join(prefix + [k])]
-        else:
+        elif (
+            loaded_keys is None
+            or "_else" in v
+            or check_when(cast(PromptDict, v), loaded_keys=loaded_keys)
+        ):
             if "_t" in v:
                 r_short += [".".join(prefix + [k])]
             l, s = get_keys_all_recursive(
@@ -380,8 +400,10 @@ def collect_prompt(
                 d = cast(Any, d[key])
                 prefix += [key]
 
-                if isinstance(d, dict) and check_when(
-                    cast(PromptDict, d), exclude_keys
+                if (
+                    isinstance(d, dict)
+                    and check_when(cast(PromptDict, d), exclude_keys)
+                    and check_when(parent_dict, exclude_keys)
                 ):
                     export_values(
                         cast(PromptDict, d), exports, ".".join(prefix), exclude_keys
@@ -406,7 +428,9 @@ def collect_prompt(
             _ = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
             # ファイル読み込みの場合は上書きされてるのでparent_dictから取り直す
             d = parent_dict[prefix[-1]]
-            if prefix_str not in exclude_keys or is_term:
+            if (prefix_str not in exclude_keys or is_term) and (
+                check_when(parent_dict, exclude_keys)
+            ):
                 if isinstance(d, list):
                     d = rand.choices(cast(list[Any], d), weights=None)[0]
                 elif isinstance(d, dict):
