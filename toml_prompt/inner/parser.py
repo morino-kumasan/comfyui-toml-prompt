@@ -25,7 +25,6 @@ class PromptTagParser(HTMLParser):
         prompt: PromptFile | None = None,
         other: Self | None = None,
         seed: int | None = None,
-        simple_join: bool = False,
     ):
         HTMLParser.__init__(self)
         if prompt is not None:
@@ -40,8 +39,8 @@ class PromptTagParser(HTMLParser):
             self.random = Random(seed=seed)
             self.set_value: list[str] | None = None
         elif other is not None:
-            self.positive = other.positive
-            self.negative = other.negative
+            self.positive: list[str] = []
+            self.negative: list[str] = []
             self.loras = other.loras
             self.loras_low = other.loras_low
             self.loaded_keys = other.loaded_keys
@@ -53,8 +52,6 @@ class PromptTagParser(HTMLParser):
         self.tag: list[tuple[str, dict[str, str | None]]] = []
         self.cond: list[bool] = []
         self.random_key: list[str] = []
-        self.simple_join = simple_join
-        self.before_simple_join = False
 
     def get_prompt(self):
         positive = normalize_prompt(
@@ -93,14 +90,27 @@ class PromptTagParser(HTMLParser):
         )
         return HTMLParser.feed(self, data)
 
-    def feed_new_obj(self, prompt: str, simple_join: bool):
-        parser = PromptTagParser(other=self, simple_join=simple_join)
+    def feed_new_obj(self, prompt: str, is_var: bool):
+        parser = PromptTagParser(other=self)
         parser.feed(f"<raw>{prompt}</raw>")
         assert (
             len(parser.tag) == 0
             and len(parser.cond) == 0
             and len(parser.random_key) == 0
         ), f"Tag not closed. {prompt}"
+
+        def convert_as_var(target: PromptTagParser):
+            if is_var:
+                if target.positive:
+                    target.positive[-1] += r"\\"
+                if target.negative:
+                    target.negative[-1] += r"\\"
+
+        convert_as_var(self)
+        convert_as_var(parser)
+
+        self.positive += parser.positive
+        self.negative += parser.negative
 
     def tag_case(self, attrs: AttrType):
         self.cond += [len(self.cond) == 0 or self.cond[-1] == True]
@@ -208,17 +218,10 @@ class PromptTagParser(HTMLParser):
         tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
         if tag == "raw" or tag == "when" or tag == "else":
             if data.strip():
-                if (self.simple_join or self.before_simple_join) and self.positive:
-                    if self.set_value is None:
-                        self.positive[-1] += data
-                    else:
-                        self.set_value[-1] += data
-                    self.before_simple_join = False
+                if self.set_value is None:
+                    self.positive += [data]
                 else:
-                    if self.set_value is None:
-                        self.positive += [data]
-                    else:
-                        self.set_value += [data]
+                    self.set_value += [data]
         elif tag == "neg":
             assert self.set_value is None, "Cannot nest <set>, <add>, <neg>"
             if data.strip():
@@ -227,8 +230,7 @@ class PromptTagParser(HTMLParser):
             for key in re.split(r"[,\r\n\s]", data):
                 key = key.strip()
                 keys = build_search_keys(key)
-                simple_join = tag == "var"
-                self.feed_prompt(keys, simple_join)
+                self.feed_prompt(keys, is_var=tag == "var")
         elif tag in ["set", "add"]:
             assert self.set_value is not None, f"<{tag}> not started."
             self.set_value += [data]
@@ -267,7 +269,7 @@ class PromptTagParser(HTMLParser):
     def feed_prompt(
         self,
         keys: list[str] | list[list[str]],
-        simple_join: bool = False,
+        is_var: bool = False,
     ):
         prompt = ",".join(
             [
@@ -284,8 +286,7 @@ class PromptTagParser(HTMLParser):
             ]
         )
         if prompt:
-            self.feed_new_obj(prompt, simple_join=simple_join)
-            self.before_simple_join = simple_join
+            self.feed_new_obj(prompt, is_var)
 
     def pi_lora(self, args: list[str]):
         self.load_lora_tag(
@@ -455,17 +456,29 @@ def replace_var(m: re.Match[str]) -> str:
 
 
 def normalize_prompt(s: str):
+    print(s)
+    # 改行 -> スペース
     s = re.sub(r"[\r\n]+", " ", s)
-    s = re.sub(r"\s+", " ", s)
+    # \\で後続の,を無視
+    s = re.sub(r"\\\\\s*,+", "", s)
+    # 連続した","や"."を削除
     s = re.sub(r",[\s,]+", ", ", s)
-    s = re.sub(r",[\s]+\.+", ". ", s)
+    s = re.sub(r",[\s]*\.+", ". ", s)
     s = re.sub(r"\.[\s,]+", ". ", s)
-    s = re.sub(r"\s*,\s*", ", ", s)
     s = re.sub(r"\s*\.\s*,", ". ", s)
-    s = re.sub(r"\\\\[\s,.]*", "", s)
+    # ","や"."の周りのスペース整理
+    s = re.sub(r"\s*,\s*", ", ", s)
+    s = re.sub(r"\s*\.", ".", s)
+    # 連続したスペースを削除
+    s = re.sub(r"\s+", " ", s)
+    # カッコの始まりと終わりのスペース削除
+    s = re.sub(r"([(\[])\s+", "\\1", s)
+    s = re.sub(r"\s+([)\]])", "\\1", s)
+    # エスケープ変換
     s = re.sub(r"\\n[\s,.]*", "\n", s)
     s = s.replace(r"\t", "\t")
     s = s.replace(r"\lt", "<")
     s = s.replace(r"\rt", ">")
     s = s.replace(r"\\", "")
+    print(s)
     return (s[1:] if s.startswith(",") else s).strip()

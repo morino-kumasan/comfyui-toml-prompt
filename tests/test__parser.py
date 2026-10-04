@@ -335,15 +335,29 @@ class TestParser(unittest.TestCase):
         assert t == "this is a pen."
         _, t, _ = parse_prompt(
             {
-                "a": {
-                    "_t": "<set key=var>this is</set>",
-                    "b": {"_t": "<add key=var> a pen.</add>", "c": {"_t": "$var"}},
-                },
-                "var": "pen",
+                "a": "this is $var pen.",
+                "var": "a",
             },
-            ["a.b.c"],
+            ["a"],
         )
         assert t == "this is a pen."
+        # カッコ
+        _, t, _ = parse_prompt(
+            {
+                "a": "this is ($var) pen.",
+                "var": "a",
+            },
+            ["a"],
+        )
+        assert t == "this is (a) pen."
+        _, t, _ = parse_prompt(
+            {
+                "a": "this is [$var] pen.",
+                "var": "a",
+            },
+            ["a"],
+        )
+        assert t == "this is [a] pen."
         # 改行してもOK
         _, t, _ = parse_prompt(
             {
@@ -366,6 +380,30 @@ class TestParser(unittest.TestCase):
             ["a"],
         )
         assert t == ""
+        # 途中も無視しない
+        _, t, _ = parse_prompt(
+            {
+                "a": "this is a $var.v1.",
+                "var": {
+                    "_t": "gold",
+                    "v1": "pen",
+                },
+            },
+            ["a"],
+        )
+        assert t == "this is a gold, pen."
+        # 変数に追加
+        _, t, _ = parse_prompt(
+            {
+                "a": {
+                    "_t": "<set key=var>this is</set>",
+                    "b": {"_t": "<add key=var> a pen.</add>", "c": {"_t": "$var"}},
+                },
+                "var": "pen",
+            },
+            ["a.b.c"],
+        )
+        assert t == "this is a pen."
 
     def test__tag(self):
         _, t, _ = parse_prompt(
@@ -376,6 +414,40 @@ class TestParser(unittest.TestCase):
             ["a"],
         )
         assert t == "this is a, pen."
+        # 途中も無視しない
+        _, t, _ = parse_prompt(
+            {
+                "a": "this is a %var.v1.",
+                "var": {
+                    "_t": "hoge",
+                    "v1": "pen",
+                },
+            },
+            ["a"],
+        )
+        assert t == "this is a, hoge, pen."
+
+    def test__newline(self):
+        _, t, _ = parse_prompt(
+            {"a": r"this is \na pen."},
+            ["a"],
+        )
+        print(t)
+        assert t == "this is \na pen."
+
+    def test__when_tag(self):
+        _, t, _ = parse_prompt(
+            {"a": r"this is a pen \\ <when key=a>, it is gold</when>."},
+            ["a"],
+        )
+        print(t)
+        assert t == "this is a pen, it is gold."
+        _, t, _ = parse_prompt(
+            {"a": r"this is a pen \\ <when key=zzz>, it is gold</when>."},
+            ["a"],
+        )
+        print(t)
+        assert t == "this is a pen."
 
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):

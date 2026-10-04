@@ -299,15 +299,12 @@ def collect_prompt(
     keys: str | list[str] | list[list[str]],
     exclude_keys: list[str] | None = None,
     init_prefix: list[str] | None = None,
-    root_dict: PromptDict | None = None,
     parent_dict: PromptDict | None = None,
     exports: dict[str, str] = {},
     root_dir: str | None = None,
 ) -> list[str]:
     if exclude_keys is None:
         exclude_keys = []
-    if root_dict is None:
-        root_dict = prompt_dict
     if parent_dict is None:
         parent_dict = prompt_dict
     if root_dir is None:
@@ -346,7 +343,6 @@ def collect_prompt(
                     pick_keys,
                     exclude_keys,
                     prefix,
-                    root_dict=root_dict,
                     parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
@@ -368,7 +364,6 @@ def collect_prompt(
                     pick_keys,
                     exclude_keys,
                     prefix,
-                    root_dict=root_dict,
                     parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
@@ -385,7 +380,6 @@ def collect_prompt(
                     pick_keys[1] + pick_keys[0],
                     exclude_keys,
                     prefix,
-                    root_dict=root_dict,
                     parent_dict=parent_dict,
                     exports=exports,
                     root_dir=root_dir,
