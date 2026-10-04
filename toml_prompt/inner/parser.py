@@ -183,11 +183,13 @@ class PromptTagParser(HTMLParser):
         if tag == "random":
             self.random_key.pop(-1)
         if tag == "set":
+            assert "key" in args, f"<set>: key argument not found."
             key = args["key"]
             if key is not None and self.set_value:
                 self.pi_set([key, ",".join(self.set_value)])
             self.set_value = None
         if tag == "add":
+            assert "key" in args, f"<set>: key argument not found."
             key = args["key"]
             if key is not None and self.set_value:
                 self.pi_add([key, ",".join(self.set_value)])
