@@ -77,13 +77,7 @@ class PromptTagParser(HTMLParser):
 
         # 変数を変換
         data = re.sub(
-            r"([$%])\{?([a-zA-Z0-9_.*?]+)\}",
-            replace_var,
-            data,
-            flags=re.MULTILINE,
-        )
-        data = re.sub(
-            r"([$%])([a-zA-Z0-9_.*?]+)",
+            r"([$%])(\{([a-zA-Z0-9_.*?]+)\}|([a-zA-Z0-9_.*?]+))",
             replace_var,
             data,
             flags=re.MULTILINE,
@@ -442,7 +436,7 @@ def replace_h3(m: re.Match[str]) -> str:
 
 def replace_var(m: re.Match[str]) -> str:
     var_type = m.group(1)
-    var_name = m.group(2)
+    var_name = m.group(3) or m.group(2)
     if var_name[-1] == ".":
         var_name = var_name[:-1]
         dot = "."
@@ -456,7 +450,6 @@ def replace_var(m: re.Match[str]) -> str:
 
 
 def normalize_prompt(s: str):
-    print(s)
     # 改行 -> スペース
     s = re.sub(r"[\r\n]+", " ", s)
     # \\で後続の,を無視
@@ -480,5 +473,4 @@ def normalize_prompt(s: str):
     s = s.replace(r"\lt", "<")
     s = s.replace(r"\rt", ">")
     s = s.replace(r"\\", "")
-    print(s)
     return (s[1:] if s.startswith(",") else s).strip()

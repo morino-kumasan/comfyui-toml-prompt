@@ -80,6 +80,16 @@ class TestParser(unittest.TestCase):
             ["a.*"],
         )
         assert t == "c, d" and parser.exports.get("key", "") == "value3"
+        # whenが一致してないので無視
+        parser, t, _ = parse_prompt(
+            {
+                "a": {
+                    "b": {"_t": "b", "_when": "zzz", "_exports": {"key": "value1"}},
+                }
+            },
+            ["a.*"],
+        )
+        assert t == "" and parser.exports.get("key", "") == ""
 
     def test__post(self):
         _, t, _ = parse_prompt(
@@ -289,6 +299,22 @@ class TestParser(unittest.TestCase):
         assert t == "a, else"
         _, t, _ = parse_prompt(d, ["a.**"])
         assert t == "a, else"
+        # _when, _else, _post
+        d: dict[Any, Any] = {
+            "a": {
+                "_t": "a",
+                "b": {"_t": "b", "_when": "c", "_else": "else", "_post": "post"},
+            },
+            "c": "c",
+        }
+        _, t, _ = parse_prompt(d, ["c", "a.??"])
+        assert t == "c, a, b, post"
+        _, t, _ = parse_prompt(d, ["a.??"])
+        assert t == "a, else, post"
+        _, t, _ = parse_prompt(d, ["c", "a.**"])
+        assert t == "c, a, b, post"
+        _, t, _ = parse_prompt(d, ["a.**"])
+        assert t == "a, else, post"
 
     def test__when_else_exports(self):
         d: dict[Any, Any] = {
@@ -320,14 +346,30 @@ class TestParser(unittest.TestCase):
             }
         }
         parser, t, _ = parse_prompt(d, ["a.??"])
-        assert t == "a, else" and parser.exports.get("key", "") == ""
+        assert t == "a, else" and parser.exports.get("key", "") == "value2"
         parser, t, _ = parse_prompt(d, ["a.**"])
-        assert t == "a, else" and parser.exports.get("key", "") == ""
+        assert t == "a, else" and parser.exports.get("key", "") == "value2"
 
     def test__variable(self):
         _, t, _ = parse_prompt(
             {
+                "a": "$var",
+                "var": "pen",
+            },
+            ["a"],
+        )
+        assert t == "pen"
+        _, t, _ = parse_prompt(
+            {
                 "a": "this is a $var.",
+                "var": "pen",
+            },
+            ["a"],
+        )
+        assert t == "this is a pen."
+        _, t, _ = parse_prompt(
+            {
+                "a": "this is a ${var}.",
                 "var": "pen",
             },
             ["a"],

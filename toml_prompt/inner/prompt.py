@@ -44,12 +44,16 @@ def remove_comment_out(s: str) -> str:
 
 
 def select_dynamic_prompt(rand: Random, s: str) -> str:
-    pat = r"{([^{}]+)}"
+    pat = r"(^|[^$]){([^{}|]*(\|([^{}|])*)*)}"
     r = s
+
+    def conv(m: re.Match[str]):
+        return m.group(1) + rand.choices(m.group(2).split("|"), weights=None)[0]
+
     while re.search(pat, r, flags=re.MULTILINE):
         r = re.sub(
             pat,
-            lambda m: rand.choices(m.group(1).split("|"), weights=None)[0],
+            conv,
             r,
             flags=re.MULTILINE,
         )

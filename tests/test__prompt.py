@@ -42,6 +42,7 @@ d
         assert r.strip() == "a"
         r = select_dynamic_prompt(self.random, "{|}")
         assert r == ""
+        # 改行
         r = select_dynamic_prompt(
             self.random,
             """{
@@ -51,9 +52,15 @@ a
 }""",
         )
         assert r.strip() == "a"
+        # 1択
+        r = select_dynamic_prompt(self.random, "{abc}")
+        assert r == "abc"
         # ネスト
         r = select_dynamic_prompt(self.random, "{a|{a|a}}")
         assert r == "a"
+        # 変数はそのまま
+        r = select_dynamic_prompt(self.random, "${var}")
+        assert r == "${var}"
 
     def test__get_keys_all(self):
         d: dict[str, Any] = {"a": {"b": {}, "c": {}}}
