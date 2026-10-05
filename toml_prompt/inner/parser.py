@@ -124,17 +124,14 @@ class PromptTagParser(HTMLParser):
     def tag_when(self, attrs: AttrType):
         self.cond += [
             (len(self.cond) == 0 or self.cond[-1] == True)
-            and attrs["key"] in self.loaded_keys
+            and self.check_when_tag(attrs)
         ]
-        if self.cond[-1]:
-            print("When:", attrs["key"])
 
     def tag_case_when(self, attrs: AttrType):
         if self.cond[-1] == True:
-            if attrs["key"] in self.loaded_keys:
+            if self.check_when_tag(attrs):
                 self.cond[-1] = False
                 self.cond += [True]
-                print("Case:", attrs["key"])
             else:
                 self.cond += [False]
         else:
@@ -377,6 +374,32 @@ class PromptTagParser(HTMLParser):
         args = shlex.split(data)
         self.PI_FUNCS[args[0]](self, args[1:])
         return HTMLParser.handle_pi(self, data)
+
+    def check_when_tag(self, attrs: AttrType) -> bool:
+        return (
+            ("key" in attrs and attrs["key"] in self.loaded_keys)
+            or ("key_not" in attrs and attrs["key_not"] not in self.loaded_keys)
+            or (
+                "key_empty" in attrs
+                and get_variable(attrs["key_empty"], self.prompt_dict, self.root_dir)
+                == ""
+            )
+            or (
+                "key_not_empty" in attrs
+                and get_variable(
+                    attrs["key_not_empty"], self.prompt_dict, self.root_dir
+                )
+                != ""
+            )
+        )
+
+
+def get_variable(key: str | None, prompt_dict: PromptDict, root_dir: str):
+    if not key:
+        return ""
+    keys = key.strip().split(".")
+    d, _ = load_prompt_var(prompt_dict, keys, root_dir)
+    return d[keys[-1]]
 
 
 def fix_route(d: PromptDict, keys: list[str]):

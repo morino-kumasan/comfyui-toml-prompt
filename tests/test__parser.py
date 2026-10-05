@@ -278,6 +278,23 @@ class TestParser(unittest.TestCase):
         assert t == "c, a, b"
         _, t, _ = parse_prompt(d, ["c", "a.**"])
         assert t == "c, a, b"
+        # _when_not
+        d: dict[Any, Any] = {
+            "a": {"_t": "a", "b": {"_t": "b", "_when_not": "c", "_else": "else"}},
+            "c": "c",
+        }
+        _, t, _ = parse_prompt(d, ["a.??"])
+        assert t == "a, b"
+        _, t, _ = parse_prompt(d, ["a.**"])
+        assert t == "a, b"
+        d: dict[Any, Any] = {
+            "a": {"_t": "a", "b": {"_t": "b", "_when_not": "c", "_else": "else"}},
+            "c": "c",
+        }
+        _, t, _ = parse_prompt(d, ["c", "a.??"])
+        assert t == "c, a, else"
+        _, t, _ = parse_prompt(d, ["c", "a.**"])
+        assert t == "c, a, else"
         # _whenの子要素
         d: dict[Any, Any] = {
             "a": {
@@ -478,18 +495,62 @@ class TestParser(unittest.TestCase):
         assert t == "this is \na pen."
 
     def test__when_tag(self):
+        # key
         _, t, _ = parse_prompt(
             {"a": r"this is a pen \\ <when key=a>, it is gold</when>."},
             ["a"],
         )
-        print(t)
         assert t == "this is a pen, it is gold."
         _, t, _ = parse_prompt(
             {"a": r"this is a pen \\ <when key=zzz>, it is gold</when>."},
             ["a"],
         )
-        print(t)
         assert t == "this is a pen."
+        # key_not
+        _, t, _ = parse_prompt(
+            {"a": r"this is a pen \\ <when key_not=zzz>, it is gold</when>."},
+            ["a"],
+        )
+        assert t == "this is a pen, it is gold."
+        _, t, _ = parse_prompt(
+            {"a": r"this is a pen \\ <when key_not=a>, it is gold</when>."},
+            ["a"],
+        )
+        assert t == "this is a pen."
+        # key_empty
+        _, t, _ = parse_prompt(
+            {
+                "a": r"this is a pen \\ <when key_empty=b>, it is gold</when>.",
+                "b": "",
+            },
+            ["a"],
+        )
+        assert t == "this is a pen, it is gold."
+        _, t, _ = parse_prompt(
+            {
+                "a": r"this is a pen \\ <when key_empty=b>, it is gold</when>.",
+                "b": "b",
+            },
+            ["a"],
+        )
+        assert t == "this is a pen."
+        # key_not_empty
+        _, t, _ = parse_prompt(
+            {
+                "a": r"this is a pen \\ <when key_not_empty=b>, it is gold</when>.",
+                "b": "",
+            },
+            ["a"],
+        )
+        assert t == "this is a pen."
+        _, t, _ = parse_prompt(
+            {
+                "a": r"this is a pen \\ <when key_not_empty=b>, it is gold</when>.",
+                "b": "b",
+            },
+            ["a"],
+        )
+        assert t == "this is a pen, it is gold."
 
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):
