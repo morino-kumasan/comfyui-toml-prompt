@@ -400,8 +400,10 @@ def collect_prompt(
 
                 if (
                     isinstance(d, dict)
-                    and check_when(cast(PromptDict, d), exclude_keys)
-                    and check_when(parent_dict, exclude_keys)
+                    and ("_else" in d or check_when(cast(PromptDict, d), exclude_keys))
+                    and (
+                        "_else" in parent_dict or check_when(parent_dict, exclude_keys)
+                    )
                 ):
                     export_values(
                         cast(PromptDict, d), exports, ".".join(prefix), exclude_keys
