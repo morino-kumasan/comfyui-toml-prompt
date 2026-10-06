@@ -463,6 +463,16 @@ class TestParser(unittest.TestCase):
             ["a.b.c"],
         )
         assert t == "this is a pen."
+        # +で連結
+        _, t, _ = parse_prompt(
+            {
+                "a": "this is ${var+col} pen.",
+                "var": "a",
+                "col": "gold",
+            },
+            ["a"],
+        )
+        assert t == "this is a, gold pen."
 
     def test__tag(self):
         _, t, _ = parse_prompt(
@@ -551,6 +561,18 @@ class TestParser(unittest.TestCase):
             ["a"],
         )
         assert t == "this is a pen, it is gold."
+
+    def test__variable_in_set_tag(self):
+        _, t, _ = parse_prompt(
+            {
+                "a": "<set key=var2>this is a ${var} pen.</set>",
+                "b": "${var2}",
+                "var": "gold",
+                "var2": "",
+            },
+            ["a", "b"],
+        )
+        assert t == "this is a gold pen."
 
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):

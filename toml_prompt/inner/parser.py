@@ -77,7 +77,7 @@ class PromptTagParser(HTMLParser):
 
         # 変数を変換
         data = re.sub(
-            r"([$%])(\{([a-zA-Z0-9_.*?]+)\}|([a-zA-Z0-9_.*?]+))",
+            r"([$%])(\{([a-zA-Z0-9_+.*?]+)\}|([a-zA-Z0-9_+.*?]+))",
             replace_var,
             data,
             flags=re.MULTILINE,
@@ -93,15 +93,15 @@ class PromptTagParser(HTMLParser):
             and len(parser.random_key) == 0
         ), f"Tag not closed. {prompt}"
 
-        def convert_as_var(target: PromptTagParser):
-            if is_var:
-                if target.positive:
-                    target.positive[-1] += r"\\"
-                if target.negative:
-                    target.negative[-1] += r"\\"
+        def prepare_to_add_var(target: PromptTagParser):
+            if target.positive:
+                target.positive[-1] += r"\\"
+            if target.negative:
+                target.negative[-1] += r"\\"
 
-        convert_as_var(self)
-        convert_as_var(parser)
+        if is_var:
+            prepare_to_add_var(self)
+            prepare_to_add_var(parser)
 
         self.positive += parser.positive
         self.negative += parser.negative
@@ -212,7 +212,9 @@ class PromptTagParser(HTMLParser):
                 if self.set_value is None:
                     self.positive += [data]
                 else:
-                    self.set_value += [data]
+                    if self.set_value:
+                        self.set_value[-1] += r"\\"
+                    self.set_value += [data + r"\\"]
         elif tag == "neg":
             assert self.set_value is None, "Cannot nest <set>, <add>, <neg>"
             if data.strip():
