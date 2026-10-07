@@ -3,6 +3,7 @@ from typing import Any
 import unittest
 from toml_prompt.inner.util import Random
 from toml_prompt.inner.prompt import (
+    Context,
     get_keys_all,
     get_keys_all_recursive,
     get_keys_random,
@@ -68,12 +69,12 @@ a
         assert r == [(0, "a")]
 
     def test__get_keys_all_recursive_when_else(self):
-        loaded_keys: list[str] = []
+        context = Context("")
         d: dict[str, Any] = {"a": {"b": {"_t": "b", "_when": "b"}}}
-        r, _ = get_keys_all_recursive(d, loaded_keys=loaded_keys)
+        r, _ = get_keys_all_recursive(d, context=context)
         assert r == []
         d: dict[str, Any] = {"a": {"b": {"_t": "b", "_when": "b", "_else": "else"}}}
-        r, _ = get_keys_all_recursive(d, loaded_keys=loaded_keys)
+        r, _ = get_keys_all_recursive(d, context=context)
         assert r == ["a.b"]
 
     def test__get_keys_all_recursive(self):
@@ -134,7 +135,7 @@ a
                 },
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a.b.c"))
+        r = collect_prompt(self.random, d, build_search_keys("a.b.c"), Context(""))
         assert r == ["a", "c"]
 
     def test__search_random(self):
@@ -149,7 +150,7 @@ a
                 "d": "d",
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a.?.c"))
+        r = collect_prompt(self.random, d, build_search_keys("a.?.c"), Context(""))
         print(build_search_keys("a.?.c"), r)
         assert r == ["a", "c"]
 
@@ -164,7 +165,7 @@ a
                 },
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a.??"))
+        r = collect_prompt(self.random, d, build_search_keys("a.??"), Context(""))
         assert r == ["a", "c"]
 
     def test__search_all(self):
@@ -184,7 +185,7 @@ a
                 },
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a.*.c"))
+        r = collect_prompt(self.random, d, build_search_keys("a.*.c"), Context(""))
         assert r == ["a", "d", "c", "C"]
 
     def test__search_all_recursive(self):
@@ -202,7 +203,7 @@ a
                 },
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a.**"))
+        r = collect_prompt(self.random, d, build_search_keys("a.**"), Context(""))
         assert r == ["a", "d", "c", "C"]
 
     def test__search_exclude(self):
@@ -214,7 +215,7 @@ a
                 },
             }
         }
-        r = collect_prompt(self.random, d, build_search_keys("a+a.?.c"))
+        r = collect_prompt(self.random, d, build_search_keys("a+a.?.c"), Context(""))
         assert r == ["a", "c", "c"]
 
     def test__search_post(self):
@@ -230,11 +231,7 @@ a
                 },
             },
         }
-        r = collect_prompt(
-            self.random,
-            d,
-            build_search_keys("a.b.c"),
-        )
+        r = collect_prompt(self.random, d, build_search_keys("a.b.c"), Context(""))
         print(build_search_keys("a.??"), r)
         assert r == ["a", "c", "post_c", "post_a"]
 

@@ -66,7 +66,7 @@ class TestParser(unittest.TestCase):
             },
             ["a.?"],
         )
-        assert t == "c" and parser.exports.get("key", "") == "value2"
+        assert t == "c" and parser.context.exports.get("key", "") == "value2"
         # 上書き確認
         parser, t, _ = parse_prompt(
             {
@@ -79,7 +79,7 @@ class TestParser(unittest.TestCase):
             },
             ["a.*"],
         )
-        assert t == "c, d" and parser.exports.get("key", "") == "value3"
+        assert t == "c, d" and parser.context.exports.get("key", "") == "value3"
         # whenが一致してないので無視
         parser, t, _ = parse_prompt(
             {
@@ -89,7 +89,7 @@ class TestParser(unittest.TestCase):
             },
             ["a.*"],
         )
-        assert t == "" and parser.exports.get("key", "") == ""
+        assert t == "" and parser.context.exports.get("key", "") == ""
 
     def test__post(self):
         _, t, _ = parse_prompt(
@@ -332,6 +332,32 @@ class TestParser(unittest.TestCase):
         assert t == "c, a, b, post"
         _, t, _ = parse_prompt(d, ["a.**"])
         assert t == "a, else, post"
+        # ネストした_when, _else, _post
+        d: dict[Any, Any] = {
+            "a": {
+                "_when": "d",
+                "b": {
+                    "_when": "e",
+                    "c": {
+                        "_when": "f",
+                        "_t": "c",
+                        "_else": "else",
+                        "_post": "post",
+                    },
+                },
+            },
+            "d": "d",
+            "e": "e",
+            "f": "f",
+        }
+        _, t, _ = parse_prompt(d, ["a.**"])
+        assert t == ""
+        _, t, _ = parse_prompt(d, ["d", "a.**"])
+        assert t == "d"
+        _, t, _ = parse_prompt(d, ["d", "e", "a.**"])
+        assert t == "d, e, else, post"
+        _, t, _ = parse_prompt(d, ["d", "e", "f", "a.**"])
+        assert t == "d, e, f, c, post"
 
     def test__when_else_exports(self):
         d: dict[Any, Any] = {
@@ -347,9 +373,9 @@ class TestParser(unittest.TestCase):
             }
         }
         parser, t, _ = parse_prompt(d, ["a.??"])
-        assert t == "a, b, c" and parser.exports.get("key", "") == "value2"
+        assert t == "a, b, c" and parser.context.exports.get("key", "") == "value2"
         parser, t, _ = parse_prompt(d, ["a.**"])
-        assert t == "a, b, c" and parser.exports.get("key", "") == "value2"
+        assert t == "a, b, c" and parser.context.exports.get("key", "") == "value2"
         d: dict[Any, Any] = {
             "a": {
                 "_t": "a",
@@ -363,9 +389,9 @@ class TestParser(unittest.TestCase):
             }
         }
         parser, t, _ = parse_prompt(d, ["a.??"])
-        assert t == "a, else" and parser.exports.get("key", "") == "value2"
+        assert t == "a, else" and parser.context.exports.get("key", "") == "value2"
         parser, t, _ = parse_prompt(d, ["a.**"])
-        assert t == "a, else" and parser.exports.get("key", "") == "value2"
+        assert t == "a, else" and parser.context.exports.get("key", "") == "value2"
 
     def test__variable(self):
         _, t, _ = parse_prompt(
@@ -573,6 +599,26 @@ class TestParser(unittest.TestCase):
             ["a", "b"],
         )
         assert t == "this is a gold pen."
+
+    def test__lora_tag(self):
+        parser, t, _ = parse_prompt(
+            {
+                "a": "<lora:test.safetensors:1.0>",
+                "b": "<lora:d/test2.safetensors:2.0>",
+                "c": "<lora:d/test3.safetensors:3.0>",
+                "<lora>": {
+                    "test.safetensors": "test",
+                    "test2.safetensors": "test2",
+                    "d/test3.safetensors": "test3",
+                },
+            },
+            ["a", "b", "c"],
+        )
+        assert len(parser.loras) == 3
+        assert parser.loras[0] == "<lora:test.safetensors:1.0>"
+        assert parser.loras[1] == "<lora:d/test2.safetensors:2.0>"
+        assert parser.loras[2] == "<lora:d/test3.safetensors:3.0>"
+        assert t == "test, test2, test3"
 
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):

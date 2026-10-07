@@ -70,8 +70,8 @@ class PromptDecode:
 
     def load_prompt(self, seed: int, toml: PromptFile, key_name_list: str):
         parser = PromptTagParser(prompt=toml, seed=seed)
-        parser.exports = {"prompt_seed": f"{seed}"}
-        export_values(parser.prompt_dict, parser.exports, ".", [])
+        parser.context.exports = {"prompt_seed": f"{seed}"}
+        export_values(parser.prompt_dict, ".", parser.context)
 
         key_name_list = select_dynamic_prompt(
             parser.random, remove_comment_out(key_name_list)
@@ -85,7 +85,9 @@ class PromptDecode:
         if parser.loras_low:
             lora_list += "\n--\n"
             lora_list += "\n".join(parser.loras_low)
-        exports = "\n".join(["{}: {}".format(k, v) for k, v in parser.exports.items()])
+        exports = "\n".join(
+            ["{}: {}".format(k, v) for k, v in parser.context.exports.items()]
+        )
         summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
         exports = json.dumps(load_summary_header(exports))
         return (positive, negative, lora_list, seed, summary, exports)

@@ -7,6 +7,7 @@ from html.parser import HTMLParser
 from .prompt import (
     PromptFile,
     PromptDict,
+    Context,
     build_search_keys,
     collect_prompt,
     load_prompt_var,
@@ -28,27 +29,23 @@ class PromptTagParser(HTMLParser):
     ):
         HTMLParser.__init__(self)
         if prompt is not None:
-            self.positive: list[str] = []
-            self.negative: list[str] = []
+            self.prompt_dict = prompt.load()
+            self.context = Context(os.path.dirname(prompt.path))
+            self.random = Random(seed=seed)
             self.loras: list[str] = []
             self.loras_low: list[str] = []
-            self.loaded_keys: list[str] = []
-            self.prompt_dict = prompt.load()
-            self.root_dir = os.path.dirname(prompt.path)
-            self.exports: dict[str, str] = {}
-            self.random = Random(seed=seed)
             self.set_value: list[str] | None = None
-        elif other is not None:
-            self.positive: list[str] = []
-            self.negative: list[str] = []
+        else:
+            assert other is not None
+            self.prompt_dict = other.prompt_dict
+            self.context = other.context
+            self.random = other.random
             self.loras = other.loras
             self.loras_low = other.loras_low
-            self.loaded_keys = other.loaded_keys
-            self.prompt_dict = other.prompt_dict
-            self.root_dir = other.root_dir
-            self.exports = other.exports
-            self.random = other.random
             self.set_value = other.set_value
+        # 内部状態
+        self.positive: list[str] = []
+        self.negative: list[str] = []
         self.tag: list[tuple[str, dict[str, str | None]]] = []
         self.cond: list[bool] = []
         self.random_key: list[str] = []
@@ -247,14 +244,16 @@ class PromptTagParser(HTMLParser):
         if low:
             if lora_tag not in self.loras_low:
                 self.loras_low += [lora_tag]
-                self.loaded_keys += [lora_name]
+                self.context.loaded_keys += [lora_name]
         else:
             if lora_tag not in self.loras:
                 self.loras += [lora_tag]
-                self.loaded_keys += [lora_name]
+                self.context.loaded_keys += [lora_name]
 
         lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
-        for lora_name_key in [lora_name, lora_name.split("/")[-1]]:
+        for lora_name_key in (
+            [lora_name, lora_name.split("/")[-1]] if "/" in lora_name else [lora_name]
+        ):
             if lora_name_key in lora_dict:
                 keys = [["<lora>", lora_name_key]]
                 self.feed_prompt(keys)
@@ -268,12 +267,7 @@ class PromptTagParser(HTMLParser):
             [
                 v
                 for v in collect_prompt(
-                    self.random,
-                    self.prompt_dict,
-                    keys,
-                    exclude_keys=self.loaded_keys,
-                    exports=self.exports,
-                    root_dir=self.root_dir,
+                    self.random, self.prompt_dict, keys, self.context
                 )
                 if v.strip()
             ]
@@ -300,14 +294,14 @@ class PromptTagParser(HTMLParser):
     def pi_set(self, args: list[str]):
         d = self.prompt_dict
         keys = args[0].strip().split(".")
-        d, _ = load_prompt_var(d, keys, self.root_dir)
+        d, _ = load_prompt_var(d, keys, self.context)
         d[keys[-1]] = [args[1]]
         print("Set:", args[0], "=", args[1])
 
     def pi_add(self, args: list[str]):
         d = self.prompt_dict
         keys = args[0].strip().split(".")
-        d, _ = load_prompt_var(d, keys, self.root_dir)
+        d, _ = load_prompt_var(d, keys, self.context)
         val = d[keys[-1]]
         if isinstance(val, list):
             if len(cast(list[str], val)) == 1:
@@ -321,7 +315,7 @@ class PromptTagParser(HTMLParser):
     def pi_grep(self, args: list[str]):
         d = self.prompt_dict
         keys = args[0].strip().split(".")
-        d, values = load_prompt_var(d, keys, self.root_dir)
+        d, values = load_prompt_var(d, keys, self.context)
         d[keys[-1]] = [
             k
             for k in (values if isinstance(values, list) else [values])
@@ -348,7 +342,7 @@ class PromptTagParser(HTMLParser):
             remove_route(d, keys)
 
     def pi_export(self, args: list[str]):
-        self.exports[args[0]] = args[1]
+        self.context.exports[args[0]] = args[1]
         print("Export:", args[0], "=", args[1])
 
     def pi_random_count(self, args: list[str]):
@@ -379,28 +373,26 @@ class PromptTagParser(HTMLParser):
 
     def check_when_tag(self, attrs: AttrType) -> bool:
         return (
-            ("key" in attrs and attrs["key"] in self.loaded_keys)
-            or ("key_not" in attrs and attrs["key_not"] not in self.loaded_keys)
+            ("key" in attrs and attrs["key"] in self.context.loaded_keys)
+            or ("key_not" in attrs and attrs["key_not"] not in self.context.loaded_keys)
             or (
                 "key_empty" in attrs
-                and get_variable(attrs["key_empty"], self.prompt_dict, self.root_dir)
+                and get_variable(attrs["key_empty"], self.prompt_dict, self.context)
                 == ""
             )
             or (
                 "key_not_empty" in attrs
-                and get_variable(
-                    attrs["key_not_empty"], self.prompt_dict, self.root_dir
-                )
+                and get_variable(attrs["key_not_empty"], self.prompt_dict, self.context)
                 != ""
             )
         )
 
 
-def get_variable(key: str | None, prompt_dict: PromptDict, root_dir: str):
+def get_variable(key: str | None, prompt_dict: PromptDict, context: Context):
     if not key:
         return ""
     keys = key.strip().split(".")
-    d, _ = load_prompt_var(prompt_dict, keys, root_dir)
+    d, _ = load_prompt_var(prompt_dict, keys, context)
     return d[keys[-1]]
 
 

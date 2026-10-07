@@ -39,6 +39,16 @@ class PromptFile:
             raise Exception(f"Unknown file type: {self.file_type}")
 
 
+class Context:
+    def __init__(
+        self,
+        root_dir: str,
+    ):
+        self.loaded_keys: list[str] = []
+        self.exports: dict[str, str] = {}
+        self.root_dir = root_dir
+
+
 def remove_comment_out(s: str) -> str:
     return re.sub(r"((//|#).+$|/\*[\s\S]*?\*/)", "", s, flags=re.MULTILINE)
 
@@ -61,7 +71,7 @@ def select_dynamic_prompt(rand: Random, s: str) -> str:
 
 
 def load_prompt_var(
-    d: PromptDict, keys: list[str], root_dir: str
+    d: PromptDict, keys: list[str], context: Context
 ) -> tuple[PromptDict, list[str] | str]:
     for key in keys[:-1]:
         d = cast(PromptDict, d[key])
@@ -72,7 +82,7 @@ def load_prompt_var(
     if isinstance(d[var_name], dict) and "_load_from_file" in d[var_name]:
         with open(
             os.path.join(
-                root_dir,
+                context.root_dir,
                 cast(dict[str, Any], d[var_name])["_load_from_file"],
             ),
             "r",
@@ -94,17 +104,21 @@ def load_prompt_var(
         return (d, str(d[var_name]))
 
 
-def check_when(target: PromptDict, loaded_keys: list[str]):
+def check_when(target: PromptDict, context: Context):
     return (
-        ("_when" not in target or target["_when"] in loaded_keys)
-        and ("_when_not" not in target or target["_when_not"] not in loaded_keys)
+        ("_when" not in target or target["_when"] in context.loaded_keys)
+        and (
+            "_when_not" not in target or target["_when_not"] not in context.loaded_keys
+        )
         and (
             "_when_any" not in target
-            or any([(key in loaded_keys) for key in target["_when_any"]])
+            or any([(key in context.loaded_keys) for key in target["_when_any"]])
         )
         and (
             "_when_not_any" not in target
-            or any([(key not in loaded_keys) for key in target["_when_not_any"]])
+            or any(
+                [(key not in context.loaded_keys) for key in target["_when_not_any"]]
+            )
         )
     )
 
@@ -112,11 +126,9 @@ def check_when(target: PromptDict, loaded_keys: list[str]):
 def get_keys_all(
     d: PromptDict,
     rand: Random | None = None,
-    loaded_keys: list[str] | None = None,
+    context: Context = Context(""),
 ) -> list[tuple[int, str]]:
     def when(key: str):
-        if loaded_keys is None:
-            return True
         if not isinstance(d[key], dict):
             return True
         target = cast(PromptDict, d[key])
@@ -124,7 +136,7 @@ def get_keys_all(
         if "_else" in target:
             return True
         # キー読み込み条件
-        return check_when(target, loaded_keys)
+        return check_when(target, context)
 
     if "_k" in d:
         keys = [(i, str(k)) for i, k in enumerate(d["_k"]) if k in d and when(k)]
@@ -159,11 +171,11 @@ def get_keys_term(
     d: PromptDict,
     term: bool,
     rand: Random | None = None,
-    loaded_keys: list[str] | None = None,
+    context: Context = Context(""),
 ):
     return [
         (i, k)
-        for i, k in get_keys_all(d, rand=rand, loaded_keys=loaded_keys)
+        for i, k in get_keys_all(d, rand=rand, context=context)
         if (isinstance(d[k], str) or len(get_keys_all(cast(PromptDict, d[k]))) == 0)
         == term
     ]
@@ -173,31 +185,27 @@ def get_keys_all_recursive(
     d: PromptDict,
     prefix: list[str] | None = None,
     rand: Random | None = None,
-    loaded_keys: list[str] | None = None,
+    context: Context = Context(""),
 ) -> tuple[list[str], list[str]]:
     if prefix is None:
         prefix = []
     r_long: list[str] = []
     r_short: list[str] = []
-    for _, k in get_keys_all(d, rand=rand, loaded_keys=loaded_keys):
+    for _, k in get_keys_all(d, rand=rand, context=context):
         v = d[k]
         if isinstance(v, str):
             r_long += [".".join(prefix + [k])]
         elif len(get_keys_all(cast(PromptDict, v))) == 0:
             if "_t" in v:
                 r_long += [".".join(prefix + [k])]
-        elif (
-            loaded_keys is None
-            or "_else" in v
-            or check_when(cast(PromptDict, v), loaded_keys=loaded_keys)
-        ):
+        elif "_else" in v or check_when(cast(PromptDict, v), context=context):
             if "_t" in v:
                 r_short += [".".join(prefix + [k])]
             l, s = get_keys_all_recursive(
                 cast(PromptDict, v),
                 prefix + [k],
                 rand=rand,
-                loaded_keys=loaded_keys,
+                context=context,
             )
             r_long += l
             r_short += s
@@ -208,9 +216,9 @@ def get_keys_random(
     rand: Random,
     d: PromptDict,
     branch_term: bool = False,
-    loaded_keys: list[str] | None = None,
+    context: Context = Context(""),
 ):
-    ikeys = get_keys_term(d, branch_term, loaded_keys=loaded_keys)
+    ikeys = get_keys_term(d, branch_term, context=context)
     indices = [i for i, _ in ikeys]
     if "_w" in d:
         try:
@@ -228,13 +236,13 @@ def get_keys_random(
 def get_keys_random_recursive(
     rand: Random,
     input_dict: PromptDict,
-    loaded_keys: list[str] | None = None,
+    context: Context = Context(""),
 ):
     r: list[str] = []
     prefix: list[str] = []
     d = input_dict
     while isinstance(d, dict):
-        ikeys = get_keys_all(d, loaded_keys=loaded_keys)
+        ikeys = get_keys_all(d, context=context)
         indices = [i for i, _ in ikeys]
         if len(ikeys) == 0:
             break
@@ -287,32 +295,24 @@ def exists_in_prompt_dict(prompt_dict: PromptDict, key: str):
     return True
 
 
-def export_values(
-    d: PromptDict, exports: dict[str, str], prefix: str, exclude_keys: list[str]
-):
+def export_values(d: PromptDict, prefix: str, context: Context):
     if "_exports" in d:
         for k, v in cast(dict[str, Any], d["_exports"]).items():
-            if exports.get(k, None) != v and prefix not in exclude_keys:
+            if context.exports.get(k, None) != v and prefix not in context.loaded_keys:
                 print("Export:", k, "=", v)
-                exports[k] = v
+                context.exports[k] = v
 
 
 def collect_prompt(
     rand: Random,
     prompt_dict: PromptDict,
     keys: str | list[str] | list[list[str]],
-    exclude_keys: list[str] | None = None,
+    context: Context,
     init_prefix: list[str] | None = None,
     parent_dict: PromptDict | None = None,
-    exports: dict[str, str] = {},
-    root_dir: str | None = None,
 ) -> list[str]:
-    if exclude_keys is None:
-        exclude_keys = []
     if parent_dict is None:
         parent_dict = prompt_dict
-    if root_dir is None:
-        root_dir = ""
     if init_prefix is None:
         init_prefix = []
 
@@ -334,22 +334,20 @@ def collect_prompt(
                     rand,
                     cast(Any, d),
                     key.endswith("$"),
-                    loaded_keys=exclude_keys,
+                    context=context,
                 )
             elif key == "??":
                 assert len(key_parts) == 0
                 pick_keys = get_keys_random_recursive(
-                    rand, cast(PromptDict, d), loaded_keys=exclude_keys
+                    rand, cast(PromptDict, d), context=context
                 )
                 r += collect_prompt(
                     rand,
                     cast(PromptDict, d),
                     pick_keys,
-                    exclude_keys,
+                    context,
                     prefix,
                     parent_dict=parent_dict,
-                    exports=exports,
-                    root_dir=root_dir,
                 )
                 break
             elif key in ["*", "*$"]:
@@ -357,7 +355,7 @@ def collect_prompt(
                     cast(PromptDict, d),
                     key.endswith("$"),
                     rand=rand,
-                    loaded_keys=exclude_keys,
+                    context=context,
                 )
                 pick_keys = [
                     ".".join([key] + key_parts) for _, key in pick_key_and_indices
@@ -366,27 +364,23 @@ def collect_prompt(
                     rand,
                     cast(PromptDict, d),
                     pick_keys,
-                    exclude_keys,
+                    context,
                     prefix,
                     parent_dict=parent_dict,
-                    exports=exports,
-                    root_dir=root_dir,
                 )
                 break
             elif key == "**":
                 assert len(key_parts) == 0
                 pick_keys = get_keys_all_recursive(
-                    cast(PromptDict, d), rand=rand, loaded_keys=exclude_keys
+                    cast(PromptDict, d), rand=rand, context=context
                 )
                 r += collect_prompt(
                     rand,
                     cast(PromptDict, d),
                     pick_keys[1] + pick_keys[0],
-                    exclude_keys,
+                    context,
                     prefix,
                     parent_dict=parent_dict,
-                    exports=exports,
-                    root_dir=root_dir,
                 )
                 break
 
@@ -400,41 +394,37 @@ def collect_prompt(
 
                 if (
                     isinstance(d, dict)
-                    and ("_else" in d or check_when(cast(PromptDict, d), exclude_keys))
-                    and (
-                        "_else" in parent_dict or check_when(parent_dict, exclude_keys)
-                    )
+                    and ("_else" in d or check_when(cast(PromptDict, d), context))
+                    and ("_else" in parent_dict or check_when(parent_dict, context))
                 ):
-                    export_values(
-                        cast(PromptDict, d), exports, ".".join(prefix), exclude_keys
-                    )
+                    export_values(cast(PromptDict, d), ".".join(prefix), context)
                     # _postを処理
                     key = ".".join(prefix)
                     if (
                         "_post" in d
                         and isinstance(d["_post"], str)
-                        and f"{key}._post" not in exclude_keys
+                        and f"{key}._post" not in context.loaded_keys
                     ):
                         prompt = select_dynamic_prompt(
                             rand,
                             remove_comment_out(d["_post"]),
                         )
                         post_prompt = [prompt] + post_prompt
-                        exclude_keys += [f"{key}._post"]
+                        context.loaded_keys += [f"{key}._post"]
         else:
             # breakされてないならプロンプトを追加
             prefix_str = ".".join(prefix)
             is_term = isinstance(d, (str, list)) or len(get_keys_all(cast(Any, d))) == 0
-            _ = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], root_dir)
+            _ = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], context)
             # ファイル読み込みの場合は上書きされてるのでparent_dictから取り直す
             d = parent_dict[prefix[-1]]
-            if (prefix_str not in exclude_keys or is_term) and (
-                check_when(parent_dict, exclude_keys)
+            if (prefix_str not in context.loaded_keys or is_term) and (
+                check_when(parent_dict, context)
             ):
                 if isinstance(d, list):
                     d = rand.choices(cast(list[Any], d), weights=None)[0]
                 elif isinstance(d, dict):
-                    if check_when(cast(PromptDict, d), exclude_keys):
+                    if check_when(cast(PromptDict, d), context):
                         d = cast(str, d.get("_t", ""))
                     else:
                         d = cast(str, d.get("_else", ""))
@@ -444,10 +434,10 @@ def collect_prompt(
                 )
                 if prompt:
                     r += [prompt]
-                if prefix_str in exclude_keys:
+                if prefix_str in context.loaded_keys:
                     print(f"Load Prompt (Duplicated): {prefix_str}")
                 else:
-                    exclude_keys += [prefix_str]
+                    context.loaded_keys += [prefix_str]
                     print(f"Load Prompt: {prefix_str}")
 
     return r + post_prompt
