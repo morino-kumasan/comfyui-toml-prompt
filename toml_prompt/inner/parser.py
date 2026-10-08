@@ -1,4 +1,4 @@
-from typing import Self, Any, Callable, cast, TypeVar
+from typing import Self, Any, Callable, cast, TypeVar, Final
 import os
 import re
 import shlex
@@ -19,6 +19,9 @@ from .util import Random
 type AttrType = dict[str, str | None]
 T = TypeVar("T")
 
+MINIMAX_TAGS: Final[list[str]] = ["picture", "audio", "video", "subject"]
+MINIMAX_TAGS_REGEX: Final[str] = "(" + "|".join(MINIMAX_TAGS) + ")"
+
 
 class PromptTagParser(HTMLParser):
     def __init__(
@@ -35,6 +38,7 @@ class PromptTagParser(HTMLParser):
             self.loras: list[str] = []
             self.loras_low: list[str] = []
             self.set_value: list[str] | None = None
+            self.h3_tags: dict[str, list[str]] = {}
         else:
             assert other is not None
             self.prompt_dict = other.prompt_dict
@@ -43,21 +47,13 @@ class PromptTagParser(HTMLParser):
             self.loras = other.loras
             self.loras_low = other.loras_low
             self.set_value = other.set_value
+            self.h3_tags = other.h3_tags
         # 内部状態
         self.positive: list[str] = []
         self.negative: list[str] = []
         self.tag: list[tuple[str, dict[str, str | None]]] = []
         self.cond: list[bool] = []
         self.random_key: list[str] = []
-
-    def get_prompt(self):
-        positive = normalize_prompt(
-            ", ".join([v.strip() for v in self.positive if v.strip()])
-        )
-        negative = normalize_prompt(
-            ", ".join([v.strip() for v in self.negative if v.strip()])
-        )
-        return (positive.strip(), negative.strip())
 
     def feed(self, data: str):
         # <lora>を<?lora>に変換
@@ -71,6 +67,14 @@ class PromptTagParser(HTMLParser):
         # <>のエスケープ
         data = data.replace(r"\<", r"\lt")
         data = data.replace(r"\>", r"\rt")
+
+        # minimax h3用タグを変換
+        data = re.sub(
+            r"<\s*" + MINIMAX_TAGS_REGEX + r"\s+([^\s>/]+)\s*>",
+            replace_h3,
+            data,
+            flags=re.MULTILINE | re.IGNORECASE,
+        )
 
         # 変数を変換
         data = re.sub(
@@ -192,6 +196,7 @@ class PromptTagParser(HTMLParser):
             if key is not None and self.set_value:
                 self.pi_add([key, ",".join(self.set_value)])
             self.set_value = None
+
         return HTMLParser.handle_endtag(self, tag)
 
     def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]):
@@ -224,6 +229,23 @@ class PromptTagParser(HTMLParser):
         elif tag in ["set", "add"]:
             assert self.set_value is not None, f"<{tag}> not started."
             self.set_value += [data]
+        elif tag in MINIMAX_TAGS:
+            try:
+                n = int(data)
+            except:
+                if data not in self.h3_tags.setdefault(tag, []):
+                    self.h3_tags[tag] += [data]
+                n = self.h3_tags[tag].index(data) + 1
+            # ,で区切らずに挿入
+            data = f"\\lt{tag[0].upper()}{tag[1:]} {n}\\rt"
+            if self.set_value is None:
+                if self.positive:
+                    self.positive[-1] += r"\\"
+                self.positive += [data + r"\\"]
+            else:
+                if self.set_value:
+                    self.set_value[-1] += r"\\"
+                self.set_value += [data + r"\\"]
         else:
             assert (
                 data.strip() == "" or data.strip() == ","
@@ -387,6 +409,11 @@ class PromptTagParser(HTMLParser):
             )
         )
 
+    def get_prompt(self):
+        positive = normalize_prompt(",".join([v for v in self.positive if v.strip()]))
+        negative = normalize_prompt(",".join([v for v in self.negative if v.strip()]))
+        return (positive.strip(), negative.strip())
+
 
 def get_variable(key: str | None, prompt_dict: PromptDict, context: Context):
     if not key:
@@ -448,7 +475,7 @@ def replace_lora(m: re.Match[str]) -> str:
 
 
 def replace_h3(m: re.Match[str]) -> str:
-    return rf"\lt{m.group(0)[1:-1]}\rt"
+    return rf"<{m.group(1)}>{m.group(2)}</{m.group(1)}>"
 
 
 def replace_var(m: re.Match[str]) -> str:
@@ -470,7 +497,8 @@ def normalize_prompt(s: str):
     # 改行 -> スペース
     s = re.sub(r"[\r\n]+", " ", s)
     # \\で後続の,を無視
-    s = re.sub(r"\\\\\s*,+", "", s)
+    s = re.sub(r"\\\\\s*,", "", s)
+    s = s.replace(r"\\", "")
     # 連続した","や"."を削除
     s = re.sub(r",[\s,]+", ", ", s)
     s = re.sub(r",[\s]*\.+", ". ", s)
@@ -489,5 +517,4 @@ def normalize_prompt(s: str):
     s = s.replace(r"\t", "\t")
     s = s.replace(r"\lt", "<")
     s = s.replace(r"\rt", ">")
-    s = s.replace(r"\\", "")
     return (s[1:] if s.startswith(",") else s).strip()

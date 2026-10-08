@@ -620,6 +620,20 @@ class TestParser(unittest.TestCase):
         assert parser.loras[2] == "<lora:d/test3.safetensors:3.0>"
         assert t == "test, test2, test3"
 
+    def test__h3_tag(self):
+        _, t, _ = parse_prompt(
+            {
+                "a": "<Subject man1>: The man shown in <Picture man1>.",
+                "b": "<Subject man2>: The man shown in <Picture 2>.",
+                "c": "<Subject man1> and <Subject man2>'s child is fighting.",
+            },
+            ["a", "b", "c"],
+        )
+        assert (
+            t
+            == "<Subject 1>: The man shown in <Picture 1>. <Subject 2>: The man shown in <Picture 2>. <Subject 1> and <Subject 2>'s child is fighting."
+        )
+
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):
     parser = PromptTagParser(prompt=PromptFile(path=None, json_data=data))
