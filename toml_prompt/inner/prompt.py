@@ -96,7 +96,7 @@ def load_prompt_var(
                 d[var_name] = r
             elif ext == "json":
                 d[var_name] = json.loads(f.read())
-            elif ext == "yaml":
+            elif ext in ["yaml", "yml"]:
                 d[var_name] = yaml.safe_load(f.read())
             elif ext == "toml":
                 d[var_name] = tomllib.loads(f.read())
