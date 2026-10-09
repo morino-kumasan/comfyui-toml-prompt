@@ -31,7 +31,8 @@ class TestParser(unittest.TestCase):
     # key.?のテスト
     def test__random_pick(self):
         _, t, _ = parse_prompt(
-            {"a": {"_w": [0.0, 1.0, 0.0], "b": "b", "c": "c", "d": "d"}}, ["a.?"]
+            {"a": {"_w": [0.0, 1.0, 0.0], "b": "b", "c": "c", "d": "d"}},
+            ["a.?"],
         )
         assert t == "c"
         # _kによるキー一覧の指定あり
@@ -40,6 +41,18 @@ class TestParser(unittest.TestCase):
             ["a.?"],
         )
         assert t == "d"
+        # 途中をランダム
+        _, t, _ = parse_prompt(
+            {
+                "a": {
+                    "b": {"_t": "b", "e": "e"},
+                    "c": {"_t": "c", "e": "e"},
+                    "d": {"_t": "d", "e": "e"},
+                }
+            },
+            ["a.?.e"],
+        )
+        assert t.endswith(", e") and len(t) == 4
 
     # key.*のテスト
     def test__random_each(self):
