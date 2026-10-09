@@ -263,22 +263,40 @@ class PromptTagParser(HTMLParser):
                 lora_name, strength_model, strength_clip
             )
 
-        if low:
-            if lora_tag not in self.loras_low:
-                self.loras_low += [lora_tag]
+        def add_lora(target: list[str]):
+            if lora_tag in target:
+                return
+            i = next(
+                (
+                    i
+                    for i, v in enumerate(target)
+                    if v.startswith(f"<lora:{lora_name}:")
+                ),
+                None,
+            )
+            if i is None:
+                target += [lora_tag]
                 self.context.loaded_keys += [lora_name]
-        else:
-            if lora_tag not in self.loras:
-                self.loras += [lora_tag]
-                self.context.loaded_keys += [lora_name]
+                return True
+            else:
+                target[i] = lora_tag
+                return False
 
-        lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
-        for lora_name_key in (
-            [lora_name, lora_name.split("/")[-1]] if "/" in lora_name else [lora_name]
-        ):
-            if lora_name_key in lora_dict:
-                keys = [["<lora>", lora_name_key]]
-                self.feed_prompt(keys)
+        if low:
+            is_add = add_lora(self.loras_low)
+        else:
+            is_add = add_lora(self.loras)
+
+        if is_add:
+            lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
+            for lora_name_key in (
+                [lora_name, lora_name.split("/")[-1]]
+                if "/" in lora_name
+                else [lora_name]
+            ):
+                if lora_name_key in lora_dict:
+                    keys = [["<lora>", lora_name_key]]
+                    self.feed_prompt(keys)
 
     def feed_prompt(
         self,

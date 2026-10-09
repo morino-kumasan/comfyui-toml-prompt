@@ -620,6 +620,24 @@ class TestParser(unittest.TestCase):
         assert parser.loras[2] == "<lora:d/test3.safetensors:3.0>"
         assert t == "test, test2, test3"
 
+    def test__lora_tag_overwrite(self):
+        parser, t, _ = parse_prompt(
+            {
+                "a": "<lora:d/test.safetensors:1.0>",
+                "b": "<lora:d/test.safetensors:2.0>",
+                "c": "<lora:test2.safetensors:3.0>",
+                "<lora>": {
+                    "d/test.safetensors": "test",
+                    "test2.safetensors": "test2",
+                },
+            },
+            ["a", "b", "c"],
+        )
+        assert len(parser.loras) == 2
+        assert parser.loras[0] == "<lora:d/test.safetensors:2.0>"
+        assert parser.loras[1] == "<lora:test2.safetensors:3.0>"
+        assert t == "test, test2"
+
     def test__h3_tag(self):
         _, t, _ = parse_prompt(
             {
