@@ -22,6 +22,7 @@ from .toml_prompt.util import (
     DropFirstImage,
     FlipImage,
     SeedGenerator,
+    NoneToEmptyImage,
 )
 from .toml_prompt.wrapper import (
     MultipartCLIPTextEncode,
@@ -61,6 +62,7 @@ NODE_CLASS_MAPPINGS: dict[str, Any] = {
     "DropFirstImage": DropFirstImage,
     "FlipImage": FlipImage,
     "SeedGenerator": SeedGenerator,
+    "NoneToEmptyImage": NoneToEmptyImage,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -91,6 +93,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "DropFirstImage": "DropFirstImage",
     "FlipImage": "FlipImage",
     "SeedGenerator": "SeedGenerator",
+    "NoneToEmptyImage": "NoneToEmptyImage",
 }
 
 WEB_DIRECTORY = "./web"

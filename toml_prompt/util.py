@@ -7,6 +7,7 @@ try:
     import torch  # pyright: ignore
     import numpy as np  # pyright: ignore
     import folder_paths  # pyright: ignore
+    import comfy  # type: ignore
     from PIL import Image  # pyright: ignore
 except ImportError:
     pass
@@ -352,6 +353,35 @@ class FlipImage:
 
     def flip(self, images: Any) -> tuple[Any]:
         return (torch.flip(images, [1]),)  # type: ignore
+
+
+class NoneToEmptyImage:
+    RETURN_TYPES = ("IMAGE",)
+    OUTPUT_TOOLTIPS = ("IMAGE.",)
+    FUNCTION = "convert"
+    CATEGORY = "utils"
+    DESCRIPTION = "Convert None into image."
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "image": ("IMAGE",),
+            }
+        }
+
+    def convert(self, image: Any) -> tuple[Any]:
+        if image is None:
+            dtype = comfy.model_management.intermediate_dtype()  # type: ignore
+            device = comfy.model_management.intermediate_device()  # type: ignore
+            r = torch.full([1, 64, 64, 1], 0, device=device, dtype=dtype)  # type: ignore
+            g = torch.full([1, 64, 64, 1], 0, device=device, dtype=dtype)  # type: ignore
+            b = torch.full([1, 64, 64, 1], 0, device=device, dtype=dtype)  # type: ignore
+            return (torch.cat((r, g, b), dim=-1),)  # type: ignore
+        return (image,)  # type: ignore
 
 
 # Primitiveだとうまくいかない場合用
