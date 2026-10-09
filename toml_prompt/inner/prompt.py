@@ -79,21 +79,27 @@ def load_prompt_var(
 
     assert var_name in d, f"Variable not found: {".".join(keys)}"
 
-    if isinstance(d[var_name], dict) and "_load_from_file" in d[var_name]:
+    if isinstance(d[var_name], dict) and "!include" in d[var_name]:
+        path = cast(dict[str, Any], d[var_name])["!include"]
+        ext = path.split(".")[-1]
         with open(
-            os.path.join(
-                context.root_dir,
-                cast(dict[str, Any], d[var_name])["_load_from_file"],
-            ),
+            os.path.join(context.root_dir, path),
             "r",
             encoding="utf-8",
         ) as f:
-            r: list[str] = []
-            for line in f.readlines():
-                line = line.strip()
-                if not line.startswith("#") and not line.startswith("//"):
-                    r += [line]
-            d[var_name] = r
+            if ext == "txt":
+                r: list[str] = []
+                for line in f.readlines():
+                    line = line.strip()
+                    if not line.startswith("#") and not line.startswith("//"):
+                        r += [line]
+                d[var_name] = r
+            elif ext == "json":
+                d[var_name] = json.loads(f.read())
+            elif ext == "yaml":
+                d[var_name] = yaml.safe_load(f.read())
+            elif ext == "toml":
+                d[var_name] = tomllib.loads(f.read())
         return (d, cast(list[str], d[var_name]))
 
     if isinstance(d[var_name], list):

@@ -1,6 +1,7 @@
 from typing import Any
 
 import unittest
+import pathlib
 from toml_prompt.inner.util import Random
 from toml_prompt.inner.prompt import PromptFile
 from toml_prompt.inner.parser import PromptTagParser
@@ -683,6 +684,22 @@ class TestParser(unittest.TestCase):
         assert parser.images[1] is None
         assert parser.images[2] is None
         assert t == "The man shown in <Picture 2>. The man shown in <Picture 1>."
+
+    def test__include(self):
+        _, t, _ = parse_prompt(
+            {
+                "a": {"!include": f"{pathlib.Path(__file__).parent}/a.yaml"},
+            },
+            ["a.key"],
+        )
+        assert t == "val"
+        _, t, _ = parse_prompt(
+            {
+                "a": {"!include": f"{pathlib.Path(__file__).parent}/a.txt"},
+            },
+            ["<?grep a 2>", "a"],
+        )
+        assert t == "line2"
 
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):
