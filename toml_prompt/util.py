@@ -5,10 +5,18 @@ import sys, os, json
 
 try:
     import torch  # pyright: ignore
+    import numpy as np  # pyright: ignore
     import folder_paths  # pyright: ignore
     from PIL import Image  # pyright: ignore
 except ImportError:
     pass
+
+
+def load_image(path: str):  # type: ignore
+    with Image.open(path) as img:  # type: ignore
+        img = img.convert("RGB")  # type: ignore
+        img = np.array(img).astype(np.float32) / 255.0  # type: ignore
+    return torch.from_numpy(img).unsqueeze(0)  # type: ignore
 
 
 class StringPicker:

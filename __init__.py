@@ -2,6 +2,7 @@ from typing import Any
 
 from .toml_prompt.toml_prompt_decode import (
     PromptDecode,
+    PromptDecodeV2,
     SummaryReader,
     SplitLoraList,
 )
@@ -35,6 +36,7 @@ from .toml_prompt.wrapper import (
 NODE_CLASS_MAPPINGS: dict[str, Any] = {
     "PromptDecode": PromptDecode,
     "TomlPromptDecode": PromptDecode,
+    "PromptDecodeV2": PromptDecodeV2,
     "MultipartCLIPTextEncode": MultipartCLIPTextEncode,
     "MultipleLoraTagLoader": MultipleLoraTagLoader,
     "PromptLoader": PromptLoader,
@@ -64,6 +66,7 @@ NODE_CLASS_MAPPINGS: dict[str, Any] = {
 NODE_DISPLAY_NAME_MAPPINGS = {
     "PromptDecode": "PromptDecode",
     "TomlPromptDecode": "PromptDecode",
+    "PromptDecodeV2": "PromptDecodeV2",
     "MultipartCLIPTextEncode": "MultipartCLIPTextEncode",
     "MultipleLoraTagLoader": "MultipleLoraTagLoader",
     "PromptLoader": "PromptLoader",

@@ -79,8 +79,8 @@ class MultipartCLIPTextEncode:
         }
 
     def __init__(self):
-        self.encoder: Any = CLIPTextEncode()
-        self.concat: Any = ConditioningConcat()
+        self.encoder: Any = CLIPTextEncode()  # type: ignore
+        self.concat: Any = ConditioningConcat()  # type: ignore
         self.loader: dict[str, Any] = {}
 
     def load_prompt(
@@ -108,7 +108,7 @@ class MultipartCLIPTextEncode:
                 strength_clip = float(m.group(4)) if m.group(4) else strength_model
                 if lora_name not in self.loader:
                     if r_model is not None:
-                        self.loader[lora_name] = LoraLoader()
+                        self.loader[lora_name] = LoraLoader()  # type: ignore
                         r_model, r_clip = self.loader[lora_name].load_lora(
                             r_model, r_clip, lora_name, strength_model, strength_clip
                         )
@@ -162,7 +162,7 @@ class LoadLoraFromLoraList:
                 lora_name = m.group(1)
                 strength_model = float(m.group(2))
                 if lora_name not in self.loader:
-                    self.loader[lora_name] = LoraLoaderModelOnly()
+                    self.loader[lora_name] = LoraLoaderModelOnly()  # type: ignore
                     r_model = self.loader[lora_name].load_lora_model_only(
                         r_model, lora_name, strength_model
                     )[0]
@@ -187,7 +187,7 @@ class CheckPointLoaderSimpleFromString:
         }
 
     def __init__(self):
-        self.loader: Any = CheckpointLoaderSimple()
+        self.loader: Any = CheckpointLoaderSimple()  # type: ignore
 
     def load(self, ckpt_name: str):
         return self.loader.load_checkpoint(ckpt_name)
@@ -215,10 +215,10 @@ class CheckPointLoaderFromString:
         }
 
     def __init__(self):
-        self.ckpt_loader: Any = CheckpointLoaderSimple()
-        self.clip_loader: Any = CLIPLoader()
-        self.vae_loader: Any = VAELoader()
-        self.clip_set: Any = CLIPSetLastLayer()
+        self.ckpt_loader: Any = CheckpointLoaderSimple()  # type: ignore
+        self.clip_loader: Any = CLIPLoader()  # type: ignore
+        self.vae_loader: Any = VAELoader()  # type: ignore
+        self.clip_set: Any = CLIPSetLastLayer()  # type: ignore
 
     def load(
         self,
@@ -258,22 +258,22 @@ class UNETLoaderFromString:
     def __init__(self):
         pass
 
-    def load(self, unet_name: str):
+    def load(self, unet_name: str):  # type: ignore
         if unet_name in _UNET_CACHE:
             _UNET_CACHE.move_to_end(unet_name, True)
             return (_UNET_CACHE[unet_name],)
         else:
             model_options = {}
-            unet_path = folder_paths.get_full_path_or_raise(
+            unet_path = folder_paths.get_full_path_or_raise(  # type: ignore
                 "diffusion_models", unet_name
             )
-            model = comfy.sd.load_diffusion_model(
+            model = comfy.sd.load_diffusion_model(  # type: ignore
                 unet_path, model_options=model_options
             )
             if len(_UNET_CACHE) >= MAX_UNET_CACHE:
                 _UNET_CACHE.popitem(False)
             _UNET_CACHE[unet_name] = model
-            return (model,)
+            return (model,)  # type: ignore
 
 
 class KSamplerFromJsonInfo:
@@ -316,7 +316,7 @@ class KSamplerFromJsonInfo:
         }
 
     def __init__(self):
-        self.sampler: Any = KSampler()
+        self.sampler: Any = KSampler()  # type: ignore
 
     def sample(
         self,
@@ -391,7 +391,7 @@ class KSamplerFromString:
         }
 
     def __init__(self):
-        self.sampler: Any = KSampler()
+        self.sampler: Any = KSampler()  # type: ignore
 
     def sample(
         self,

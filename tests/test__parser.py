@@ -651,6 +651,38 @@ class TestParser(unittest.TestCase):
             t
             == "<Subject 1>: The man shown in <Picture 1>. <Subject 2>: The man shown in <Picture 2>. <Subject 1> and <Subject 2>'s child is fighting."
         )
+        # setで指定
+        _, t, _ = parse_prompt(
+            {
+                "a": "<?set v '<Subject man1\\> is fighting.'>",
+                "b": "[Shot 1] ${v}",
+                "v": "",
+            },
+            ["a", "b"],
+        )
+        print(t)
+        assert t == "[Shot 1] <Subject 1> is fighting."
+
+    def test__h3_tag_set_image(self):
+        d: dict[str, Any] = {
+            "a": "The man shown in <Picture man1>.",
+            "b": "The man shown in <Picture man2>.",
+            "c": "<load type=picture key=man2>${dir}/a.jpg</load>",
+            "d": "dir is ${dir}.",
+            "dir": "path/to",
+        }
+        parser, t, _ = parse_prompt(d, ["d"])
+        assert t == "dir is path/to."
+        parser, t, _ = parse_prompt(d, ["a", "b", "c"])
+        assert parser.images[0] is None
+        assert parser.images[1] == "path/to/a.jpg"
+        assert parser.images[2] is None
+        assert t == "The man shown in <Picture 1>. The man shown in <Picture 2>."
+        parser, t, _ = parse_prompt(d, ["c", "a", "b"])
+        assert parser.images[0] == "path/to/a.jpg"
+        assert parser.images[1] is None
+        assert parser.images[2] is None
+        assert t == "The man shown in <Picture 2>. The man shown in <Picture 1>."
 
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):

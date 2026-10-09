@@ -9,6 +9,7 @@ from .inner.prompt import (
     remove_comment_out,
 )
 from .inner.parser import PromptTagParser
+from .util import load_image
 
 
 def load_summary_header(s: str):
@@ -16,6 +17,20 @@ def load_summary_header(s: str):
     for k, v in re.findall(r"^([^:]+): (.+)$", s, flags=re.MULTILINE):
         r[k] = v
     return r
+
+
+def parse_prompt(toml: PromptFile, key_name_list: str, prompt_seed: int):
+    parser = PromptTagParser(prompt=toml, seed=prompt_seed)
+    parser.context.exports = {"prompt_seed": f"{prompt_seed}"}
+    export_values(parser.prompt_dict, ".", parser.context)
+
+    key_name_list = select_dynamic_prompt(
+        parser.random, remove_comment_out(key_name_list)
+    )
+
+    # Decode
+    parser.feed(key_name_list)
+    return parser
 
 
 class PromptDecode:
@@ -69,28 +84,100 @@ class PromptDecode:
         pass
 
     def load_prompt(self, seed: int, toml: PromptFile, key_name_list: str):
-        parser = PromptTagParser(prompt=toml, seed=seed)
-        parser.context.exports = {"prompt_seed": f"{seed}"}
-        export_values(parser.prompt_dict, ".", parser.context)
-
-        key_name_list = select_dynamic_prompt(
-            parser.random, remove_comment_out(key_name_list)
-        )
-
-        # Decode
-        parser.feed(key_name_list)
+        parser = parse_prompt(toml, key_name_list, seed)
         positive, negative = parser.get_prompt()
-
-        lora_list = "\n".join(parser.loras)
-        if parser.loras_low:
-            lora_list += "\n--\n"
-            lora_list += "\n".join(parser.loras_low)
-        exports = "\n".join(
-            ["{}: {}".format(k, v) for k, v in parser.context.exports.items()]
-        )
+        lora_list = parser.get_lora_list()
+        exports = parser.get_exports()
         summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
         exports = json.dumps(load_summary_header(exports))
         return (positive, negative, lora_list, seed, summary, exports)
+
+
+class PromptDecodeV2:
+    RETURN_TYPES = (
+        "STRING",
+        "STRING",
+        "STRING",
+        "INT",
+        "STRING",
+        "STRING",
+        "IMAGE",
+        "IMAGE",
+        "IMAGE",
+    )
+    OUTPUT_TOOLTIPS = (
+        "Positive prompt",
+        "Negative prompt",
+        "Loaded LoRA name list",
+        "Random seed",
+        "Summary",
+        "Exports",
+        "Output Image1",
+        "Output Image2",
+        "Output Image3",
+    )
+    FUNCTION = "load_prompt"
+    CATEGORY = "utils"
+    DESCRIPTION = "Load prompt."
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "key_name_list": (
+                    "STRING",
+                    {
+                        "multiline": True,
+                        "dynamicPrompts": True,
+                        "tooltip": "Select Key Name",
+                    },
+                ),
+                "seed": (
+                    "INT",
+                    {
+                        "default": 0,
+                        "min": 0,
+                        "max": 0xFFFFFFFFFFFFFFFF,
+                        "tooltip": "Random seed.",
+                    },
+                ),
+                "toml": (
+                    "PROMPT_FILE",
+                    {
+                        "multiline": True,
+                        "dynamicPrompts": True,
+                        "defaultInput": True,
+                        "tooltip": "TOML format prompt.",
+                    },
+                ),
+            }
+        }
+
+    def __init__(self):
+        pass
+
+    def load_prompt(self, seed: int, toml: PromptFile, key_name_list: str):
+        parser = parse_prompt(toml, key_name_list, seed)
+        positive, negative = parser.get_prompt()
+        lora_list = parser.get_lora_list()
+        exports = parser.get_exports()
+        summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
+        exports = json.dumps(load_summary_header(exports))
+        images = [None, None, None]
+        for i, path in enumerate(parser.images):
+            if path is not None:
+                images[i] = load_image(path)
+        return (
+            positive,
+            negative,
+            lora_list,
+            seed,
+            summary,
+            exports,
+            images[0],
+            images[1],
+            images[2],
+        )
 
 
 class SummaryReader:

@@ -39,6 +39,7 @@ class PromptTagParser(HTMLParser):
             self.loras_low: list[str] = []
             self.set_value: list[str] | None = None
             self.h3_tags: dict[str, list[str]] = {}
+            self.images: list[str | None] = [None, None, None]
         else:
             assert other is not None
             self.prompt_dict = other.prompt_dict
@@ -48,9 +49,10 @@ class PromptTagParser(HTMLParser):
             self.loras_low = other.loras_low
             self.set_value = other.set_value
             self.h3_tags = other.h3_tags
-        # 内部状態
+            self.images = other.images
         self.positive: list[str] = []
         self.negative: list[str] = []
+        # 内部状態
         self.tag: list[tuple[str, dict[str, str | None]]] = []
         self.cond: list[bool] = []
         self.random_key: list[str] = []
@@ -170,8 +172,8 @@ class PromptTagParser(HTMLParser):
             self.tag_case(dict_attrs)
         elif tag == "random":
             self.tag_random(dict_attrs)
-        elif tag in ["set", "add"]:
-            assert self.set_value is None, "Cannot nest <set>, <add>"
+        elif tag in ["set", "add", "load"]:
+            assert self.set_value is None, "Cannot nest <set>, <add>, <load>"
             self.set_value = []
 
         self.tag += [(tag, dict_attrs)]
@@ -195,6 +197,15 @@ class PromptTagParser(HTMLParser):
             key = args["key"]
             if key is not None and self.set_value:
                 self.pi_add([key, ",".join(self.set_value)])
+            self.set_value = None
+        if tag == "load":
+            assert (
+                "key" in args and "type" in args
+            ), f"<load>: key or type argument not found."
+            key = args["key"]
+            load_type = args["type"]
+            if key is not None and load_type is not None and self.set_value:
+                self.pi_load([load_type, key, ",".join(self.set_value)])
             self.set_value = None
 
         return HTMLParser.handle_endtag(self, tag)
@@ -226,16 +237,11 @@ class PromptTagParser(HTMLParser):
                 key = key.strip()
                 keys = build_search_keys(key)
                 self.feed_prompt(keys, is_var=tag == "var")
-        elif tag in ["set", "add"]:
+        elif tag in ["set", "add", "load"]:
             assert self.set_value is not None, f"<{tag}> not started."
             self.set_value += [data]
         elif tag in MINIMAX_TAGS:
-            try:
-                n = int(data)
-            except:
-                if data not in self.h3_tags.setdefault(tag, []):
-                    self.h3_tags[tag] += [data]
-                n = self.h3_tags[tag].index(data) + 1
+            n = self.convert_h3_tag_alias_to_index(tag, data)
             # ,で区切らずに挿入
             data = f"\\lt{tag[0].upper()}{tag[1:]} {n}\\rt"
             if self.set_value is None:
@@ -251,6 +257,15 @@ class PromptTagParser(HTMLParser):
                 data.strip() == "" or data.strip() == ","
             ), f"Unknown Data: {data} in {tag}"
         return HTMLParser.handle_data(self, data)
+
+    def convert_h3_tag_alias_to_index(self, tag: str, alias: str):
+        try:
+            n = int(alias)
+        except:
+            if alias not in self.h3_tags.setdefault(tag, []):
+                self.h3_tags[tag] += [alias]
+            n = self.h3_tags[tag].index(alias) + 1
+        return n
 
     def load_lora_tag(
         self, lora_name: str, strength_model: str, strength_clip: str | None, low: bool
@@ -333,60 +348,80 @@ class PromptTagParser(HTMLParser):
 
     def pi_set(self, args: list[str]):
         d = self.prompt_dict
-        keys = args[0].strip().split(".")
+        keys = args[0].replace("\\rt", ">").strip().split(".")
+        val = args[1].replace("\\rt", ">")
+
         d, _ = load_prompt_var(d, keys, self.context)
-        d[keys[-1]] = [args[1]]
+        d[keys[-1]] = [val]
         print("Set:", args[0], "=", args[1])
 
     def pi_add(self, args: list[str]):
         d = self.prompt_dict
-        keys = args[0].strip().split(".")
+        keys = args[0].replace("\\rt", ">").strip().split(".")
+        val = args[1].replace("\\rt", ">")
+
         d, _ = load_prompt_var(d, keys, self.context)
-        val = d[keys[-1]]
-        if isinstance(val, list):
-            if len(cast(list[str], val)) == 1:
-                d[keys[-1]] = [val[0] + args[1]]
+        target = d[keys[-1]]
+        if isinstance(target, list):
+            if len(cast(list[str], target)) == 1:
+                d[keys[-1]] = [target[0] + val]
             else:
-                d[keys[-1]] = [args[1]]
-        elif isinstance(val, str):
-            d[keys[-1]] = val + args[1]
-        print("Add:", args[0], "=", args[1])
+                d[keys[-1]] = [val]
+        elif isinstance(target, str):
+            d[keys[-1]] = target + val
+        print("Add:", args[0], "=", val)
 
     def pi_grep(self, args: list[str]):
         d = self.prompt_dict
-        keys = args[0].strip().split(".")
+        keys = args[0].replace("\\rt", ">").strip().split(".")
+        val = args[1].replace("\\rt", ">")
+
         d, values = load_prompt_var(d, keys, self.context)
         d[keys[-1]] = [
-            k
-            for k in (values if isinstance(values, list) else [values])
-            if args[1] in k
+            k for k in (values if isinstance(values, list) else [values]) if val in k
         ]
         print("Grep:", cast(list[Any], d[keys[-1]]))
 
     def pi_route(self, args: list[str]):
         d = self.prompt_dict
-        for key in args[1].strip().split("."):
+        for key in args[1].replace("\\rt", ">").strip().split("."):
             d = cast(PromptDict, d[key])
+        val = args[2].replace("\\rt", ">")
 
         if args[0] == "fix":
-            fix_route(d, args[2:])
+            fix_route(d, [v.replace("\\rt", ">") for v in args[2:]])
         elif args[0] == "find":
             keys = get_keys_all_recursive(d)
             all_keys = keys[0] + keys[1]
-            keys = [k for k in all_keys if args[2] in k]
+            keys = [k for k in all_keys if val in k]
             fix_route(d, keys)
         elif args[0] == "remove":
             keys = get_keys_all_recursive(d)
             all_keys = keys[0] + keys[1]
-            keys = [k for k in all_keys if args[2] in k]
+            keys = [k for k in all_keys if val in k]
             remove_route(d, keys)
 
     def pi_export(self, args: list[str]):
-        self.context.exports[args[0]] = args[1]
-        print("Export:", args[0], "=", args[1])
+        key = args[0].replace("\\rt", ">")
+        val = args[1].replace("\\rt", ">")
+        self.context.exports[key] = val
+        print("Export:", key, "=", val)
 
     def pi_random_count(self, args: list[str]):
         self.random.set_count(int(args[0]))
+
+    def pi_load(self, args: list[str]):
+        load_type = args[0].replace("\\rt", ">")
+        key = args[1].replace("\\rt", ">")
+        val = args[2].replace("\\rt", ">")
+        # 変数読み込み後対応
+        val = re.sub(r"\\\\\s*,", "", val).replace(r"\\", "")
+
+        n = self.convert_h3_tag_alias_to_index(load_type, key)
+        if load_type == "picture":
+            self.images[n - 1] = val
+        else:
+            raise Exception(f"load type '{load_type}' is not valid.")
 
     PI_FUNCS: dict[str, Callable[[Self, list[str]], None]] = {
         "export": pi_export,
@@ -400,6 +435,7 @@ class PromptTagParser(HTMLParser):
         "set": pi_set,
         "add": pi_add,
         "random_count": pi_random_count,
+        "load": pi_load,
     }
 
     def handle_pi(self, data: str):
@@ -431,6 +467,18 @@ class PromptTagParser(HTMLParser):
         positive = normalize_prompt(",".join([v for v in self.positive if v.strip()]))
         negative = normalize_prompt(",".join([v for v in self.negative if v.strip()]))
         return (positive.strip(), negative.strip())
+
+    def get_lora_list(self):
+        lora_list = "\n".join(self.loras)
+        if self.loras_low:
+            lora_list += "\n--\n"
+            lora_list += "\n".join(self.loras_low)
+        return lora_list
+
+    def get_exports(self):
+        return "\n".join(
+            ["{}: {}".format(k, v) for k, v in self.context.exports.items()]
+        )
 
 
 def get_variable(key: str | None, prompt_dict: PromptDict, context: Context):
