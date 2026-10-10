@@ -71,10 +71,10 @@ a
     def test__get_keys_all_recursive_when_else(self):
         context = Context("")
         d: dict[str, Any] = {"a": {"b": {"_t": "b", "_when": "b"}}}
-        r, _ = get_keys_all_recursive(d, context=context)
+        r = get_keys_all_recursive(d, context=context)
         assert r == []
         d: dict[str, Any] = {"a": {"b": {"_t": "b", "_when": "b", "_else": "else"}}}
-        r, _ = get_keys_all_recursive(d, context=context)
+        r = get_keys_all_recursive(d, context=context)
         assert r == ["a.b"]
 
     def test__get_keys_all_recursive(self):
@@ -86,10 +86,8 @@ a
                 "_t": "",
             }
         }
-        r1, r2 = get_keys_all_recursive(d)
-        print(r1, r2)
-        assert r1 == ["a.b", "a.c"]
-        assert r2 == ["a"]
+        r = get_keys_all_recursive(d)
+        assert r == ["a", "a.b", "a.c"]
 
     def test__get_keys_random(self):
         d: dict[str, Any] = {"a": {"b": {}, "c": {}}}
@@ -204,7 +202,7 @@ a
             }
         }
         r = collect_prompt(self.random, d, build_search_keys("a.**"), Context(""))
-        assert r == ["a", "d", "c", "C"]
+        assert r == ["a", "c", "d", "C"]
 
     def test__search_exclude(self):
         d: dict[str, Any] = {

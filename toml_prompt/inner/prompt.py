@@ -200,30 +200,27 @@ def get_keys_all_recursive(
     prefix: list[str] | None = None,
     rand: Random | None = None,
     context: Context = Context(""),
-) -> tuple[list[str], list[str]]:
+) -> list[str]:
     if prefix is None:
         prefix = []
-    r_long: list[str] = []
-    r_short: list[str] = []
+    r: list[str] = []
     for _, k in get_keys_all(d, rand=rand, context=context):
         v = d[k]
         if isinstance(v, str):
-            r_long += [".".join(prefix + [k])]
+            r += [".".join(prefix + [k])]
         elif len(get_keys_all(cast(PromptDict, v))) == 0:
             if "_t" in v:
-                r_long += [".".join(prefix + [k])]
+                r += [".".join(prefix + [k])]
         elif "_else" in v or check_when(cast(PromptDict, v), context=context):
             if "_t" in v:
-                r_short += [".".join(prefix + [k])]
-            l, s = get_keys_all_recursive(
+                r += [".".join(prefix + [k])]
+            r += get_keys_all_recursive(
                 cast(PromptDict, v),
                 prefix + [k],
                 rand=rand,
                 context=context,
             )
-            r_long += l
-            r_short += s
-    return (r_long, r_short)
+    return r
 
 
 def get_keys_random(
@@ -388,10 +385,11 @@ def collect_prompt(
                 pick_keys = get_keys_all_recursive(
                     cast(PromptDict, d), rand=rand, context=context
                 )
+                print(pick_keys)
                 r += collect_prompt(
                     rand,
                     cast(PromptDict, d),
-                    pick_keys[1] + pick_keys[0],
+                    pick_keys,
                     context,
                     prefix,
                     parent_dict=parent_dict,

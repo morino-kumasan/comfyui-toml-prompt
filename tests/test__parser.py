@@ -66,6 +66,26 @@ class TestParser(unittest.TestCase):
             ["a.*"],
         )
         assert t == "d"
+        # depthに違いのあるdictの**の動作
+        _, t, _ = parse_prompt(
+            {
+                "a": {
+                    "_t": "a",
+                    "b": "b",
+                    "c": {
+                        "_t": "c",
+                    },
+                    "d": {
+                        "_t": "d",
+                        "e": {"_t": "e"},
+                        "f": {"_t": "f", "_when": "a"},
+                    },
+                    "g": "g",
+                },
+            },
+            ["a.**"],
+        )
+        assert t == "a, b, c, d, e, f, g"
 
     # _exportsのテスト
     def test__export(self):

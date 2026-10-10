@@ -312,6 +312,10 @@ class PromptTagParser(HTMLParser):
             ):
                 if lora_name_key in lora_dict:
                     keys = [["<lora>", lora_name_key]]
+                    d = self.prompt_dict
+                    for key in keys[0]:
+                        process_include(d, key, self.context)
+                        d = cast(PromptDict, d[key])
                     self.feed_prompt(keys)
 
     def feed_prompt(
@@ -395,13 +399,11 @@ class PromptTagParser(HTMLParser):
             fix_route(d, [v.replace("\\rt", ">") for v in args[2:]], self.context)
         elif args[0] == "find":
             keys = get_keys_all_recursive(d)
-            all_keys = keys[0] + keys[1]
-            keys = [k for k in all_keys if val in k]
+            keys = [k for k in keys if val in k]
             fix_route(d, keys, self.context)
         elif args[0] == "remove":
             keys = get_keys_all_recursive(d)
-            all_keys = keys[0] + keys[1]
-            keys = [k for k in all_keys if val in k]
+            keys = [k for k in keys if val in k]
             remove_route(d, keys, self.context)
 
     def pi_export(self, args: list[str]):
