@@ -10,5 +10,5 @@ fi
 
 (
     cd tests
-    PYTHONPATH=.. pytest
+    PYTHONPATH=.. python -m pytest
 )

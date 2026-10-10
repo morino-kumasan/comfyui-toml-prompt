@@ -70,15 +70,9 @@ def select_dynamic_prompt(rand: Random, s: str) -> str:
     return r
 
 
-def load_prompt_var(
-    d: PromptDict, keys: list[str], context: Context
-) -> tuple[PromptDict, list[str] | str]:
-    for key in keys[:-1]:
-        d = cast(PromptDict, d[key])
-    var_name = keys[-1]
-
-    assert var_name in d, f"Variable not found: {".".join(keys)}"
-
+def process_include(d: PromptDict, var_name: str, context: Context):
+    if var_name not in d:
+        return
     if isinstance(d[var_name], dict) and "!include" in d[var_name]:
         path = cast(dict[str, Any], d[var_name])["!include"]
         ext = path.split(".")[-1]
@@ -100,7 +94,19 @@ def load_prompt_var(
                 d[var_name] = yaml.safe_load(f.read())
             elif ext == "toml":
                 d[var_name] = tomllib.loads(f.read())
-        return (d, cast(list[str], d[var_name]))
+        print(f"File loaded: {path}")
+
+
+def load_prompt_var(
+    d: PromptDict, keys: list[str], context: Context
+) -> tuple[PromptDict, list[str] | str]:
+    for key in keys[:-1]:
+        process_include(d, key, context)
+        d = cast(PromptDict, d[key])
+    var_name = keys[-1]
+
+    assert var_name in d, f"Variable not found: {".".join(keys)}"
+    process_include(d, var_name, context)
 
     if isinstance(d[var_name], list):
         return (d, [str(v) for v in cast(list[Any], d[var_name])])
@@ -149,7 +155,9 @@ def get_keys_all(
     else:
         keys = [
             (i, k)
-            for i, k in enumerate([k for k in d.keys() if not k.startswith("_")])
+            for i, k in enumerate(
+                [k for k in d.keys() if not k.startswith(("_", "!", "<"))]
+            )
             if when(k)
         ]
 
@@ -393,6 +401,9 @@ def collect_prompt(
             if key != "??":
                 if not isinstance(d, dict) or key not in d:
                     break
+
+                # !includeの処理
+                process_include(d, key, context)
 
                 parent_dict = cast(PromptDict, d)
                 d = cast(Any, d[key])

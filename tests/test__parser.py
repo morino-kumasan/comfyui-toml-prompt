@@ -699,13 +699,30 @@ class TestParser(unittest.TestCase):
         assert t == "The man shown in <Picture 2>. The man shown in <Picture 1>."
 
     def test__include(self):
+        d: dict[str, Any] = {
+            "a": {"!include": f"{pathlib.Path(__file__).parent}/a.yaml"},
+            "b": {
+                "p1": {
+                    "_t": "${b.p1.list}",
+                    "list": ["<?set a._key v1>", "<?set a._key v2>"],
+                },
+                "p2": {
+                    "_t": "${b.p2.list}",
+                    "list": ["<?set a._key v1>", "<?set a._key v2>"],
+                },
+            },
+        }
+        _, t, _ = parse_prompt(d, ["b.??", "a._key"])  # ファイル読み込みじゃない部版
+        assert t in ["v1", "v2"]
+        _, t, _ = parse_prompt(d, ["a.??", "a._key"])
+        assert t in ["v1", "v2"]
         _, t, _ = parse_prompt(
             {
                 "a": {"!include": f"{pathlib.Path(__file__).parent}/a.yaml"},
             },
-            ["a.key"],
+            ["<?route fix a p1>", "a.??", "a._key"],
         )
-        assert t == "val"
+        assert t in ["v1", "v2"]
         _, t, _ = parse_prompt(
             {
                 "a": {"!include": f"{pathlib.Path(__file__).parent}/a.txt"},

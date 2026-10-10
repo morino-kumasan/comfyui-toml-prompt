@@ -1,1 +1,11 @@
-key: val
+_key: val
+p1:
+  _t: "${a.p1.list}"
+  list:
+    - <?set a._key v1>
+    - <?set a._key v2>
+p2:
+  _t: "${a.p2.list}"
+  list:
+    - <?set a._key v1>
+    - <?set a._key v2>

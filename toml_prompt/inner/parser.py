@@ -10,6 +10,7 @@ from .prompt import (
     Context,
     build_search_keys,
     collect_prompt,
+    process_include,
     load_prompt_var,
     get_keys_all,
     get_keys_all_recursive,
@@ -385,21 +386,23 @@ class PromptTagParser(HTMLParser):
     def pi_route(self, args: list[str]):
         d = self.prompt_dict
         for key in args[1].replace("\\rt", ">").strip().split("."):
+            process_include(d, key, self.context)
             d = cast(PromptDict, d[key])
         val = args[2].replace("\\rt", ">")
+        process_include(d, val, self.context)
 
         if args[0] == "fix":
-            fix_route(d, [v.replace("\\rt", ">") for v in args[2:]])
+            fix_route(d, [v.replace("\\rt", ">") for v in args[2:]], self.context)
         elif args[0] == "find":
             keys = get_keys_all_recursive(d)
             all_keys = keys[0] + keys[1]
             keys = [k for k in all_keys if val in k]
-            fix_route(d, keys)
+            fix_route(d, keys, self.context)
         elif args[0] == "remove":
             keys = get_keys_all_recursive(d)
             all_keys = keys[0] + keys[1]
             keys = [k for k in all_keys if val in k]
-            remove_route(d, keys)
+            remove_route(d, keys, self.context)
 
     def pi_export(self, args: list[str]):
         key = args[0].replace("\\rt", ">")
@@ -489,11 +492,12 @@ def get_variable(key: str | None, prompt_dict: PromptDict, context: Context):
     return d[keys[-1]]
 
 
-def fix_route(d: PromptDict, keys: list[str]):
+def fix_route(d: PromptDict, keys: list[str], context: Context):
     start = d
     for key in keys:
         d = start
         for elem in key.split("."):
+            process_include(d, elem, context)
             if not d.get("_fix", False):
                 d["_k"] = []
                 d["_w"] = []
@@ -514,12 +518,13 @@ def fix_route(d: PromptDict, keys: list[str]):
             d = cast(PromptDict, d[elem])
 
 
-def remove_route(d: PromptDict, keys: list[str]):
+def remove_route(d: PromptDict, keys: list[str], context: Context):
     start = d
     for key in keys:
         d = start
         l = key.split(".")
         for elem in l[:-1]:
+            process_include(d, elem, context)
             d = cast(PromptDict, d[elem])
         elem = l[-1]
 
