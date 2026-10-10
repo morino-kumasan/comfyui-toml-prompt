@@ -730,6 +730,19 @@ class TestParser(unittest.TestCase):
             ["<?grep a 2>", "a"],
         )
         assert t == "line2"
+        # <lora>を!include
+        parser, t, _ = parse_prompt(
+            {
+                "a": "<lora:a.safetensors:1.0>",
+                "b": "<lora:b.safetensors:1.0>",
+                "<lora>": {"!include": f"{pathlib.Path(__file__).parent}/lora.yaml"},
+            },
+            ["a", "b"],
+        )
+        assert len(parser.loras) == 2
+        assert parser.loras[0] == "<lora:a.safetensors:1.0>"
+        assert parser.loras[1] == "<lora:b.safetensors:1.0>"
+        assert t == "a, b"
 
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):
