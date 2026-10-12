@@ -308,6 +308,7 @@ class PromptTagParser(HTMLParser):
             is_add = add_lora(self.loras)
 
         if is_add:
+            process_include(self.prompt_dict, "<lora>", self.context)
             lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
             for lora_name_key in (
                 [lora_name, lora_name.split("/")[-1]]
