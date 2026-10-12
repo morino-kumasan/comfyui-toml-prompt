@@ -22,6 +22,8 @@ T = TypeVar("T")
 
 MINIMAX_TAGS: Final[list[str]] = ["picture", "audio", "video", "subject"]
 MINIMAX_TAGS_REGEX: Final[str] = "(" + "|".join(MINIMAX_TAGS) + ")"
+LINE_CONTINUATION: Final[str] = r"\\ "
+LINE_CONTINUATION_REMOVE_REGEX: Final[str] = r"\\\\\s*,"
 
 
 class PromptTagParser(HTMLParser):
@@ -99,9 +101,9 @@ class PromptTagParser(HTMLParser):
 
         def prepare_to_add_var(target: PromptTagParser):
             if target.positive:
-                target.positive[-1] += r"\\"
+                target.positive[-1] += LINE_CONTINUATION
             if target.negative:
-                target.negative[-1] += r"\\"
+                target.negative[-1] += LINE_CONTINUATION
 
         if is_var:
             prepare_to_add_var(self)
@@ -221,14 +223,16 @@ class PromptTagParser(HTMLParser):
             return HTMLParser.handle_data(self, data)
 
         tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
-        if tag == "raw" or tag == "when" or tag == "else":
+        if tag == "raw" or tag == "when" or tag == "else" or tag == "d":
             if data.strip():
+                if tag == "d":
+                    data = f"\\ltd\\rt{data}\\lt/d\\rt"
                 if self.set_value is None:
                     self.positive += [data]
                 else:
                     if self.set_value:
-                        self.set_value[-1] += r"\\"
-                    self.set_value += [data + r"\\"]
+                        self.set_value[-1] += LINE_CONTINUATION
+                    self.set_value += [data + LINE_CONTINUATION]
         elif tag == "neg":
             assert self.set_value is None, "Cannot nest <set>, <add>, <neg>"
             if data.strip():
@@ -247,12 +251,12 @@ class PromptTagParser(HTMLParser):
             data = f"\\lt{tag[0].upper()}{tag[1:]} {n}\\rt"
             if self.set_value is None:
                 if self.positive:
-                    self.positive[-1] += r"\\"
-                self.positive += [data + r"\\"]
+                    self.positive[-1] += LINE_CONTINUATION
+                self.positive += [data + LINE_CONTINUATION]
             else:
                 if self.set_value:
-                    self.set_value[-1] += r"\\"
-                self.set_value += [data + r"\\"]
+                    self.set_value[-1] += LINE_CONTINUATION
+                self.set_value += [data + LINE_CONTINUATION]
         else:
             assert (
                 data.strip() == "" or data.strip() == ","
@@ -420,7 +424,9 @@ class PromptTagParser(HTMLParser):
         key = args[1].replace("\\rt", ">")
         val = args[2].replace("\\rt", ">")
         # 変数読み込み後対応
-        val = re.sub(r"\\\\\s*,", "", val).replace(r"\\", "")
+        val = re.sub(LINE_CONTINUATION_REMOVE_REGEX, "", val).replace(
+            LINE_CONTINUATION.strip(), ""
+        )
 
         n = self.convert_h3_tag_alias_to_index(load_type, key)
         if load_type == "picture":
@@ -570,8 +576,8 @@ def normalize_prompt(s: str):
     # 改行 -> スペース
     s = re.sub(r"[\r\n]+", " ", s)
     # \\で後続の,を無視
-    s = re.sub(r"\\\\\s*,", "", s)
-    s = s.replace(r"\\", "")
+    s = re.sub(LINE_CONTINUATION_REMOVE_REGEX, "", s)
+    s = s.replace(LINE_CONTINUATION.strip(), "")
     # 連続した","や"."を削除
     s = re.sub(r",[\s,]+", ", ", s)
     s = re.sub(r",[\s]*\.+", ". ", s)

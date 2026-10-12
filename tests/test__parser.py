@@ -4,7 +4,7 @@ import unittest
 import pathlib
 from toml_prompt.inner.util import Random
 from toml_prompt.inner.prompt import PromptFile
-from toml_prompt.inner.parser import PromptTagParser
+from toml_prompt.inner.parser import PromptTagParser, LINE_CONTINUATION
 
 
 class TestParser(unittest.TestCase):
@@ -567,30 +567,38 @@ class TestParser(unittest.TestCase):
     def test__when_tag(self):
         # key
         _, t, _ = parse_prompt(
-            {"a": r"this is a pen \\ <when key=a>, it is gold</when>."},
+            {
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key=a>, it is gold</when>."
+            },
             ["a"],
         )
         assert t == "this is a pen, it is gold."
         _, t, _ = parse_prompt(
-            {"a": r"this is a pen \\ <when key=zzz>, it is gold</when>."},
+            {
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key=zzz>, it is gold</when>."
+            },
             ["a"],
         )
         assert t == "this is a pen."
         # key_not
         _, t, _ = parse_prompt(
-            {"a": r"this is a pen \\ <when key_not=zzz>, it is gold</when>."},
+            {
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_not=zzz>, it is gold</when>."
+            },
             ["a"],
         )
         assert t == "this is a pen, it is gold."
         _, t, _ = parse_prompt(
-            {"a": r"this is a pen \\ <when key_not=a>, it is gold</when>."},
+            {
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_not=a>, it is gold</when>."
+            },
             ["a"],
         )
         assert t == "this is a pen."
         # key_empty
         _, t, _ = parse_prompt(
             {
-                "a": r"this is a pen \\ <when key_empty=b>, it is gold</when>.",
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_empty=b>, it is gold</when>.",
                 "b": "",
             },
             ["a"],
@@ -598,7 +606,7 @@ class TestParser(unittest.TestCase):
         assert t == "this is a pen, it is gold."
         _, t, _ = parse_prompt(
             {
-                "a": r"this is a pen \\ <when key_empty=b>, it is gold</when>.",
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_empty=b>, it is gold</when>.",
                 "b": "b",
             },
             ["a"],
@@ -607,7 +615,7 @@ class TestParser(unittest.TestCase):
         # key_not_empty
         _, t, _ = parse_prompt(
             {
-                "a": r"this is a pen \\ <when key_not_empty=b>, it is gold</when>.",
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_not_empty=b>, it is gold</when>.",
                 "b": "",
             },
             ["a"],
@@ -615,7 +623,7 @@ class TestParser(unittest.TestCase):
         assert t == "this is a pen."
         _, t, _ = parse_prompt(
             {
-                "a": r"this is a pen \\ <when key_not_empty=b>, it is gold</when>.",
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_not_empty=b>, it is gold</when>.",
                 "b": "b",
             },
             ["a"],
@@ -696,6 +704,17 @@ class TestParser(unittest.TestCase):
         )
         print(t)
         assert t == "[Shot 1] <Subject 1> is fighting."
+        # set tagで指定
+        _, t, _ = parse_prompt(
+            {
+                "a": "<set key=v><Picture man1></set>",
+                "b": "The man is shown in ${v}.",
+                "v": "",
+            },
+            ["a", "b"],
+        )
+        print(t)
+        assert t == "The man is shown in <Picture 1>."
 
     def test__h3_tag_set_image(self):
         d: dict[str, Any] = {
