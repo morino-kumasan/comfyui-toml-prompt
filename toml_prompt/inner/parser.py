@@ -399,7 +399,6 @@ class PromptTagParser(HTMLParser):
             d = cast(PromptDict, d[key])
             process_include(d, self.context)
         val = args[2].replace("\\rt", ">")
-        process_include(cast(PromptDict, d[val]), self.context)
 
         if args[0] == "fix":
             fix_route(d, [v.replace("\\rt", ">") for v in args[2:]], self.context)

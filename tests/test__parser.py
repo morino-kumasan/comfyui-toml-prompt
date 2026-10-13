@@ -754,10 +754,18 @@ class TestParser(unittest.TestCase):
         }
         _, t, _ = parse_prompt(d, ["b.??", "a._key"])  # ファイル読み込み部分への<?set>
         assert t in ["v1", "v2"]
-        _, t, _ = parse_prompt(d, ["a.??", "a._key"])  # a.??でaにファイル読み込み
+        # c.??でc.a._tの読み込みを確認
+        _, t, _ = parse_prompt(d, ["a.??", "a._key"])
         assert t in ["v1", "v2"]
-        _, t, _ = parse_prompt(d, ["c.??"])  # c.??でc.a._tの読み込みを確認
+        _, t, _ = parse_prompt(
+            {
+                "c": {"a": {"!include": f"{pathlib.Path(__file__).parent}/c.yaml"}},
+            },
+            ["c.??"],
+        )
         assert t == "c, hoge"
+
+    def test__include_route(self):
         _, t, _ = parse_prompt(
             {
                 "a": {"!include": f"{pathlib.Path(__file__).parent}/a.yaml"},
@@ -765,6 +773,15 @@ class TestParser(unittest.TestCase):
             ["<?route fix a p1>", "a.??", "a._key"],
         )
         assert t in ["v1", "v2"]
+        d: dict[str, Any] = {
+            "a": {"b": {"!include": f"{pathlib.Path(__file__).parent}/a_b.yaml"}},
+        }
+        _, t, _ = parse_prompt(d, ["<?route fix a b.p1>", "a.??", "a.b._key"])
+        assert t in ["v1", "v2"]
+        _, t, _ = parse_prompt(d, ["<?route fix a.b p1>", "a.??", "a.b._key"])
+        assert t in ["v1", "v2"]
+
+    def test__include_grep(self):
         _, t, _ = parse_prompt(
             {
                 "a": {"!include": f"{pathlib.Path(__file__).parent}/a.txt"},
@@ -772,7 +789,15 @@ class TestParser(unittest.TestCase):
             ["<?grep a.value 2>", "a.value"],
         )
         assert t == "line2"
-        # <lora>を!include
+        _, t, _ = parse_prompt(
+            {
+                "a": {"b": {"!include": f"{pathlib.Path(__file__).parent}/a.txt"}},
+            },
+            ["<?grep a.b.value 2>", "a.b.value"],
+        )
+        assert t == "line2"
+
+    def test__include_lora(self):
         parser, t, _ = parse_prompt(
             {
                 "a": "<lora:a.safetensors:1.0>",
