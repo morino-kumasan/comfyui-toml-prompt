@@ -70,30 +70,29 @@ def select_dynamic_prompt(rand: Random, s: str) -> str:
     return r
 
 
-def process_include(d: PromptDict, var_name: str, context: Context):
-    if var_name not in d:
-        return
-    if isinstance(d[var_name], dict) and "!include" in d[var_name]:
-        path = cast(dict[str, Any], d[var_name])["!include"]
+def process_include(d: PromptDict, context: Context):
+    if d and "!include" in d:
+        path = cast(dict[str, Any], d)["!include"]
         ext = path.split(".")[-1]
         with open(
             os.path.join(context.root_dir, path),
             "r",
             encoding="utf-8",
         ) as f:
+            d.clear()
             if ext == "txt":
                 r: list[str] = []
                 for line in f.readlines():
                     line = line.strip()
                     if not line.startswith("#") and not line.startswith("//"):
                         r += [line]
-                d[var_name] = r
+                d.update(cast(list[Any], {"value": r}))
             elif ext == "json":
-                d[var_name] = json.loads(f.read())
+                d.update(json.loads(f.read()))
             elif ext in ["yaml", "yml"]:
-                d[var_name] = yaml.safe_load(f.read())
+                d.update(yaml.safe_load(f.read()))
             elif ext == "toml":
-                d[var_name] = tomllib.loads(f.read())
+                d.update(tomllib.loads(f.read()))
         print(f"File loaded: {path}")
 
 
@@ -101,12 +100,12 @@ def load_prompt_var(
     d: PromptDict, keys: list[str], context: Context
 ) -> tuple[PromptDict, list[str] | str]:
     for key in keys[:-1]:
-        process_include(d, key, context)
         d = cast(PromptDict, d[key])
+        process_include(d, context)
     var_name = keys[-1]
 
     assert var_name in d, f"Variable not found: {".".join(keys)}"
-    process_include(d, var_name, context)
+    process_include(cast(PromptDict, d[var_name]), context)
 
     if isinstance(d[var_name], list):
         return (d, [str(v) for v in cast(list[Any], d[var_name])])
@@ -149,6 +148,8 @@ def get_keys_all(
             return True
         # キー読み込み条件
         return check_when(target, context)
+
+    process_include(d, context)
 
     if "_k" in d:
         keys = [(i, str(k)) for i, k in enumerate(d["_k"]) if k in d and when(k)]
@@ -400,12 +401,12 @@ def collect_prompt(
                 if not isinstance(d, dict) or key not in d:
                     break
 
-                # !includeの処理
-                process_include(d, key, context)
-
                 parent_dict = cast(PromptDict, d)
                 d = cast(Any, d[key])
                 prefix += [key]
+
+                # !includeの処理
+                process_include(d, context)
 
                 if (
                     isinstance(d, dict)

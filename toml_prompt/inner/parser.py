@@ -308,8 +308,8 @@ class PromptTagParser(HTMLParser):
             is_add = add_lora(self.loras)
 
         if is_add:
-            process_include(self.prompt_dict, "<lora>", self.context)
             lora_dict = cast(PromptDict, self.prompt_dict.get("<lora>", {}))
+            process_include(lora_dict, self.context)
             for lora_name_key in (
                 [lora_name, lora_name.split("/")[-1]]
                 if "/" in lora_name
@@ -319,7 +319,7 @@ class PromptTagParser(HTMLParser):
                     keys = [["<lora>", lora_name_key]]
                     d = self.prompt_dict
                     for key in keys[0]:
-                        process_include(d, key, self.context)
+                        process_include(cast(PromptDict, d[key]), self.context)
                         d = cast(PromptDict, d[key])
                     self.feed_prompt(keys)
 
@@ -394,11 +394,12 @@ class PromptTagParser(HTMLParser):
 
     def pi_route(self, args: list[str]):
         d = self.prompt_dict
+        process_include(d, self.context)
         for key in args[1].replace("\\rt", ">").strip().split("."):
-            process_include(d, key, self.context)
             d = cast(PromptDict, d[key])
+            process_include(d, self.context)
         val = args[2].replace("\\rt", ">")
-        process_include(d, val, self.context)
+        process_include(cast(PromptDict, d[val]), self.context)
 
         if args[0] == "fix":
             fix_route(d, [v.replace("\\rt", ">") for v in args[2:]], self.context)
@@ -506,7 +507,7 @@ def fix_route(d: PromptDict, keys: list[str], context: Context):
     for key in keys:
         d = start
         for elem in key.split("."):
-            process_include(d, elem, context)
+            process_include(cast(PromptDict, d[elem]), context)
             if not d.get("_fix", False):
                 d["_k"] = []
                 d["_w"] = []
@@ -533,8 +534,8 @@ def remove_route(d: PromptDict, keys: list[str], context: Context):
         d = start
         l = key.split(".")
         for elem in l[:-1]:
-            process_include(d, elem, context)
             d = cast(PromptDict, d[elem])
+            process_include(d, context)
         elem = l[-1]
 
         if "_k" not in d:

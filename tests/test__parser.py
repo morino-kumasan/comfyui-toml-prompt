@@ -750,10 +750,13 @@ class TestParser(unittest.TestCase):
                     "list": ["<?set a._key v1>", "<?set a._key v2>"],
                 },
             },
+            "c": {"a": {"!include": f"{pathlib.Path(__file__).parent}/a.yaml"}},
         }
-        _, t, _ = parse_prompt(d, ["b.??", "a._key"])  # ファイル読み込みじゃない部版
+        _, t, _ = parse_prompt(d, ["b.??", "a._key"])  # ファイル読み込みじゃない版
         assert t in ["v1", "v2"]
         _, t, _ = parse_prompt(d, ["a.??", "a._key"])
+        assert t in ["v1", "v2"]
+        _, t, _ = parse_prompt(d, ["c.??", "a._key"])  # 1段下
         assert t in ["v1", "v2"]
         _, t, _ = parse_prompt(
             {
@@ -766,7 +769,7 @@ class TestParser(unittest.TestCase):
             {
                 "a": {"!include": f"{pathlib.Path(__file__).parent}/a.txt"},
             },
-            ["<?grep a 2>", "a"],
+            ["<?grep a.value 2>", "a.value"],
         )
         assert t == "line2"
         # <lora>を!include
