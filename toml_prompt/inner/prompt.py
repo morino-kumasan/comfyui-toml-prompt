@@ -71,7 +71,7 @@ def select_dynamic_prompt(rand: Random, s: str) -> str:
 
 
 def process_include(d: PromptDict, context: Context):
-    if d and "!include" in d:
+    if "!include" in d:
         path = cast(dict[str, Any], d)["!include"]
         ext = path.split(".")[-1]
         with open(
@@ -210,9 +210,11 @@ def get_keys_all_recursive(
         if isinstance(v, str):
             r += [".".join(prefix + [k])]
         elif len(get_keys_all(cast(PromptDict, v))) == 0:
+            process_include(cast(PromptDict, v), context)
             if "_t" in v:
                 r += [".".join(prefix + [k])]
         elif "_else" in v or check_when(cast(PromptDict, v), context=context):
+            process_include(cast(PromptDict, v), context)
             if "_t" in v:
                 r += [".".join(prefix + [k])]
             r += get_keys_all_recursive(
@@ -267,6 +269,7 @@ def get_keys_random_recursive(
         i = rand.choices(indices, weights=weights)[0]
         key = ikeys[indices.index(i)][1]
         d = d[key]
+        process_include(d, context)
         if isinstance(d, str) or "_t" in d:
             r += [".".join(prefix + [key])]
         prefix += [key]
