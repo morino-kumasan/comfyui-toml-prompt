@@ -393,6 +393,23 @@ class TestParser(unittest.TestCase):
         _, t, _ = parse_prompt(d, ["d", "e", "f", "a.**"])
         assert t == "d, e, f, c, post"
 
+    def test__when_nest(self):
+        d: dict[Any, Any] = {
+            "f1": "",
+            "f2": "",
+            "a": {
+                "b": {
+                    "_when": "f1",
+                    "c": {
+                        "_when": "f2",
+                        "_t": "c",
+                    },
+                },
+            },
+        }
+        _, t, _ = parse_prompt(d, ["f1", "f2", "a.**"])
+        assert t == "c"
+
     def test__when_else_exports(self):
         d: dict[Any, Any] = {
             "a": {

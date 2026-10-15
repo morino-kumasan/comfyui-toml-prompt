@@ -209,7 +209,7 @@ def get_keys_all_recursive(
         v = d[k]
         if isinstance(v, str):
             r += [".".join(prefix + [k])]
-        elif len(get_keys_all(cast(PromptDict, v))) == 0:
+        elif len(get_keys_all(cast(PromptDict, v), rand=rand, context=context)) == 0:
             process_include(cast(PromptDict, v), context)
             if "_t" in v:
                 r += [".".join(prefix + [k])]
