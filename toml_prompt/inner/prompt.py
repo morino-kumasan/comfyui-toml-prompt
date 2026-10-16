@@ -389,7 +389,6 @@ def collect_prompt(
                 pick_keys = get_keys_all_recursive(
                     cast(PromptDict, d), rand=rand, context=context
                 )
-                print(pick_keys)
                 r += collect_prompt(
                     rand,
                     cast(PromptDict, d),
@@ -433,7 +432,10 @@ def collect_prompt(
         else:
             # breakされてないならプロンプトを追加
             prefix_str = ".".join(prefix)
-            is_term = isinstance(d, (str, list)) or len(get_keys_all(cast(Any, d))) == 0
+            is_term = (
+                isinstance(d, (str, list))
+                or len(get_keys_all(cast(Any, d), rand=rand, context=context)) == 0
+            )
             _ = load_prompt_var(prompt_dict, prefix[len(init_prefix) :], context)
             # ファイル読み込みの場合は上書きされてるのでparent_dictから取り直す
             d = parent_dict[prefix[-1]]
@@ -451,12 +453,14 @@ def collect_prompt(
                     rand,
                     remove_comment_out(cast(str, d)),
                 )
-                if prompt:
-                    r += [prompt]
                 if prefix_str in context.loaded_keys:
-                    print(f"Load Prompt (Duplicated): {prefix_str}")
+                    if prompt and is_term:
+                        r += [prompt]
+                        print(f"Load Prompt (Duplicated): {prefix_str}")
                 else:
+                    if prompt:
+                        r += [prompt]
+                        print(f"Load Prompt: {prefix_str}")
                     context.loaded_keys += [prefix_str]
-                    print(f"Load Prompt: {prefix_str}")
 
     return r + post_prompt

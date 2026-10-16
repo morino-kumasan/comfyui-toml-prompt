@@ -28,6 +28,25 @@ class TestParser(unittest.TestCase):
         )
         assert t == "a" and n == "negative"
 
+    # loaded_keysのテスト
+    def test__loaded_keys(self):
+        d: dict[Any, Any] = {
+            "a": {
+                "_t": "a",
+                "b": {"_t": "b"},
+            }
+        }
+        _, t, _ = parse_prompt(d, ["a.b", "a.b"])
+        assert t == "a, b, b"
+        _, t, _ = parse_prompt(d, ["a.?", "a.?"])
+        assert t == "a, b, b"
+        _, t, _ = parse_prompt(d, ["a.??", "a.??"])
+        assert t == "a, b, b"
+        _, t, _ = parse_prompt(d, ["a.*", "a.*"])
+        assert t == "a, b, b"
+        _, t, _ = parse_prompt(d, ["a.**", "a.**"])
+        assert t == "a, b, b"
+
     # key.?のテスト
     def test__random_pick(self):
         _, t, _ = parse_prompt(
@@ -53,6 +72,19 @@ class TestParser(unittest.TestCase):
             ["a.?.e"],
         )
         assert t.endswith(", e") and len(t) == 4
+        # recursive
+        _, t, _ = parse_prompt(
+            {
+                "a": {
+                    "_t": "a\n%{a.??}",
+                    "b": {
+                        "_t": "b",
+                    },
+                }
+            },
+            ["a.??"],
+        )
+        assert t == "a, b, b"
 
     # key.*のテスト
     def test__random_each(self):
@@ -161,6 +193,20 @@ class TestParser(unittest.TestCase):
         assert t == "a, b, c"
         _, t, _ = parse_prompt(d, ["a.**"])
         assert t == "a, b, c"
+        # recursive
+        _, t, _ = parse_prompt(
+            {
+                "a": {
+                    "_t": "a\n%{a.??}",
+                    "b": {
+                        "_when": "a",
+                        "_t": "b",
+                    },
+                }
+            },
+            ["a.??"],
+        )
+        assert t == "a, b, b"
 
     def test__when_not(self):
         d: dict[Any, Any] = {"a": {"_t": "a", "b": {"_t": "b", "_when_not": "a"}}}
