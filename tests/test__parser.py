@@ -85,6 +85,12 @@ class TestParser(unittest.TestCase):
             ["a.??"],
         )
         assert t == "a, b, b"
+        # listも含める
+        _, t, _ = parse_prompt(
+            {"a": {"b": ["b1", "b2"]}},
+            ["a.??"],
+        )
+        assert t in ["b1", "b2"]
 
     # key.*のテスト
     def test__random_each(self):
@@ -118,6 +124,25 @@ class TestParser(unittest.TestCase):
             ["a.**"],
         )
         assert t == "a, b, c, d, e, f, g"
+        # recursive
+        _, t, _ = parse_prompt(
+            {
+                "a": {
+                    "_t": "a\n%{a.**}",
+                    "b": {
+                        "_t": "b",
+                    },
+                }
+            },
+            ["a.**"],
+        )
+        assert t == "a, b, b"
+        # listも含める
+        _, t, _ = parse_prompt(
+            {"a": {"b": ["b1", "b2"]}},
+            ["a.**"],
+        )
+        assert t in ["b1", "b2"]
 
     # _exportsのテスト
     def test__export(self):

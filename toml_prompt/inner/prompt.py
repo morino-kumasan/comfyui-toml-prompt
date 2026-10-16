@@ -191,7 +191,10 @@ def get_keys_term(
     return [
         (i, k)
         for i, k in get_keys_all(d, rand=rand, context=context)
-        if (isinstance(d[k], str) or len(get_keys_all(cast(PromptDict, d[k]))) == 0)
+        if (
+            isinstance(d[k], (str, list))
+            or len(get_keys_all(cast(PromptDict, d[k]))) == 0
+        )
         == term
     ]
 
@@ -207,7 +210,7 @@ def get_keys_all_recursive(
     r: list[str] = []
     for _, k in get_keys_all(d, rand=rand, context=context):
         v = d[k]
-        if isinstance(v, str):
+        if isinstance(v, (str, list)):
             r += [".".join(prefix + [k])]
         elif len(get_keys_all(cast(PromptDict, v), rand=rand, context=context)) == 0:
             process_include(cast(PromptDict, v), context)
@@ -270,7 +273,7 @@ def get_keys_random_recursive(
         key = ikeys[indices.index(i)][1]
         d = d[key]
         process_include(d, context)
-        if isinstance(d, str) or "_t" in d:
+        if isinstance(d, (str, list)) or "_t" in d:
             r += [".".join(prefix + [key])]
         prefix += [key]
     return r
