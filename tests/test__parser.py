@@ -683,6 +683,36 @@ class TestParser(unittest.TestCase):
             ["a"],
         )
         assert t == "this is a pen."
+        # key_any
+        _, t, _ = parse_prompt(
+            {
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_any=a key_any=zzz>, it is gold</when>."
+            },
+            ["a"],
+        )
+        assert t == "this is a pen, it is gold."
+        _, t, _ = parse_prompt(
+            {
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_any=zzz>, it is gold</when>."
+            },
+            ["a"],
+        )
+        assert t == "this is a pen."
+        # key_not_any
+        _, t, _ = parse_prompt(
+            {
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_not_any=zzz key_not_any=a>, it is gold</when>."
+            },
+            ["a"],
+        )
+        assert t == "this is a pen, it is gold."
+        _, t, _ = parse_prompt(
+            {
+                "a": rf"this is a pen {LINE_CONTINUATION} <when key_not_any=a>, it is gold</when>."
+            },
+            ["a"],
+        )
+        assert t == "this is a pen."
         # key_empty
         _, t, _ = parse_prompt(
             {

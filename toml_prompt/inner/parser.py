@@ -17,7 +17,7 @@ from .prompt import (
 )
 from .util import Random
 
-type AttrType = dict[str, str | None]
+type AttrType = dict[str, str | list[str] | None]
 T = TypeVar("T")
 
 MINIMAX_TAGS: Final[list[str]] = ["picture", "audio", "video", "subject"]
@@ -56,7 +56,7 @@ class PromptTagParser(HTMLParser):
         self.positive: list[str] = []
         self.negative: list[str] = []
         # 内部状態
-        self.tag: list[tuple[str, dict[str, str | None]]] = []
+        self.tag: list[tuple[str, AttrType]] = []
         self.cond: list[bool] = []
         self.random_key: list[str] = []
 
@@ -119,7 +119,7 @@ class PromptTagParser(HTMLParser):
         if len(self.cond) == 0 or self.cond[-1] == True:
             self.cond += [True]
             choices = [k for k in attrs.keys()]
-            weights = [float(v) for v in attrs.values() if v is not None]
+            weights = [float(cast(str, v)) for v in attrs.values() if v is not None]
             key = self.random.choices(choices, weights)[0]
             print(f"Random: {key} in {choices}")
             self.random_key += [key]
@@ -160,7 +160,7 @@ class PromptTagParser(HTMLParser):
             print("Else")
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
-        dict_attrs = dict(attrs)
+        dict_attrs = attr_list_to_dict(attrs)
         parent_tag = self.tag[-1][0] if len(self.tag) > 0 else "tag"
         if tag == "when":
             if parent_tag == "case":
@@ -192,13 +192,15 @@ class PromptTagParser(HTMLParser):
         if tag == "set":
             assert "key" in args, f"<set>: key argument not found."
             key = args["key"]
-            if key is not None and self.set_value:
+            assert isinstance(key, str) and key is not None
+            if self.set_value:
                 self.pi_set([key, ",".join(self.set_value)])
             self.set_value = None
         if tag == "add":
             assert "key" in args, f"<set>: key argument not found."
             key = args["key"]
-            if key is not None and self.set_value:
+            assert isinstance(key, str) and key is not None
+            if self.set_value:
                 self.pi_add([key, ",".join(self.set_value)])
             self.set_value = None
         if tag == "load":
@@ -206,8 +208,10 @@ class PromptTagParser(HTMLParser):
                 "key" in args and "type" in args
             ), f"<load>: key or type argument not found."
             key = args["key"]
+            assert isinstance(key, str) and key is not None
             load_type = args["type"]
-            if key is not None and load_type is not None and self.set_value:
+            assert isinstance(load_type, str) and load_type is not None
+            if self.set_value:
                 self.pi_load([load_type, key, ",".join(self.set_value)])
             self.set_value = None
 
@@ -460,16 +464,43 @@ class PromptTagParser(HTMLParser):
         return HTMLParser.handle_pi(self, data)
 
     def check_when_tag(self, attrs: AttrType) -> bool:
+        if "key_any" in attrs and isinstance(attrs["key_any"], str):
+            attrs["key_any"] = [attrs["key_any"]]
+        if "key_not_any" in attrs and isinstance(attrs["key_not_any"], str):
+            attrs["key_not_any"] = [attrs["key_not_any"]]
+        assert "key" not in attrs or isinstance(attrs["key"], str)
+        assert "key_not" not in attrs or isinstance(attrs["key_not"], str)
+        assert "key_any" not in attrs or isinstance(attrs["key_any"], list)
+        assert "key_not_any" not in attrs or isinstance(attrs["key_not_any"], list)
+        assert "key_empty" not in attrs or isinstance(attrs["key_empty"], str)
+        assert "key_not_empty" not in attrs or isinstance(attrs["key_not_empty"], str)
         return (
             ("key" in attrs and attrs["key"] in self.context.loaded_keys)
             or ("key_not" in attrs and attrs["key_not"] not in self.context.loaded_keys)
             or (
+                "key_any" in attrs
+                and isinstance(attrs["key_any"], list)
+                and any([(key in self.context.loaded_keys) for key in attrs["key_any"]])
+            )
+            or (
+                "key_not_any" in attrs
+                and isinstance(attrs["key_not_any"], list)
+                and any(
+                    [
+                        (key not in self.context.loaded_keys)
+                        for key in attrs["key_not_any"]
+                    ]
+                )
+            )
+            or (
                 "key_empty" in attrs
+                and isinstance(attrs["key_empty"], str)
                 and get_variable(attrs["key_empty"], self.prompt_dict, self.context)
                 == ""
             )
             or (
                 "key_not_empty" in attrs
+                and isinstance(attrs["key_not_empty"], str)
                 and get_variable(attrs["key_not_empty"], self.prompt_dict, self.context)
                 != ""
             )
@@ -571,6 +602,22 @@ def replace_var(m: re.Match[str]) -> str:
         return f"<var>{var_name}</var>{dot}"
     else:
         return f"<tag>{var_name}</tag>{dot}"
+
+
+def attr_list_to_dict(attrs: list[tuple[str, str | None]]) -> AttrType:
+    r: AttrType = {}
+    for k, v in attrs:
+        if v is None:
+            continue
+        if k in r:
+            if isinstance(r[k], list):
+                value = cast(list[str], r[k])
+                value += [v]
+            else:
+                r[k] = [cast(str, r[k])] + [v]
+        else:
+            r[k] = v
+    return r
 
 
 def normalize_prompt(s: str):
