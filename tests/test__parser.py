@@ -188,6 +188,20 @@ class TestParser(unittest.TestCase):
             ["a"],
         )
         assert t == "a, post"
+        _, t, _ = parse_prompt(
+            {
+                "a": {
+                    "_t": "a",
+                    "_post": "post",
+                    "b": {
+                        "_t": "b",
+                        "_post": "post2",
+                    },
+                }
+            },
+            ["a.??"],
+        )
+        assert t == "a, b, post2, post"
 
     def test__when(self):
         d: dict[Any, Any] = {"a": {"_t": "a", "b": {"_t": "b", "_when": "a"}}}
