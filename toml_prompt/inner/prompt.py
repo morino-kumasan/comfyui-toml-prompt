@@ -432,6 +432,7 @@ def collect_prompt(
                         )
                         post_prompt = [prompt] + post_prompt
                         context.loaded_keys += [f"{key}._post"]
+                        print(f"Load Prompt: {key}._post")
         else:
             # breakされてないならプロンプトを追加
             prefix_str = ".".join(prefix)

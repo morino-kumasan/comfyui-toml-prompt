@@ -399,7 +399,7 @@ class PromptTagParser(HTMLParser):
 
         d, _ = load_prompt_var(d, keys, self.context)
         d[keys[-1]] = [val]
-        print("Set:", args[0], "=", args[1])
+        # print("Set:", args[0], "=", args[1])
 
     def pi_add(self, args: list[str]):
         d = self.prompt_dict
@@ -415,7 +415,7 @@ class PromptTagParser(HTMLParser):
                 d[keys[-1]] = [val]
         elif isinstance(target, str):
             d[keys[-1]] = target + val
-        print("Add:", args[0], "=", val)
+        # print("Add:", args[0], "=", val)
 
     def pi_grep(self, args: list[str]):
         d = self.prompt_dict
