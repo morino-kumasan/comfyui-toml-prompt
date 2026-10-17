@@ -9,7 +9,6 @@ from .inner.prompt import (
     remove_comment_out,
 )
 from .inner.parser import PromptTagParser
-from .util import load_image
 
 
 def load_summary_header(s: str):
@@ -101,9 +100,7 @@ class PromptDecodeV2:
         "INT",
         "STRING",
         "STRING",
-        "IMAGE",
-        "IMAGE",
-        "IMAGE",
+        "LOAD_REFERENCES",
     )
     OUTPUT_TOOLTIPS = (
         "Positive prompt",
@@ -112,9 +109,7 @@ class PromptDecodeV2:
         "Random seed",
         "Summary",
         "Exports",
-        "Output Image1",
-        "Output Image2",
-        "Output Image3",
+        "References",
     )
     FUNCTION = "load_prompt"
     CATEGORY = "utils"
@@ -161,12 +156,14 @@ class PromptDecodeV2:
         positive, negative = parser.get_prompt()
         lora_list = parser.get_lora_list()
         exports = parser.get_exports()
-        summary = f"{exports}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
+        references = parser.references.get_summary()
+        references_summary = (
+            f"\n\n---- Reference ----\n{"\n".join([f"{k}: {v}" for k, v in references.items()])}"
+            if references
+            else ""
+        )
+        summary = f"{exports}{references_summary}\n\n---- Positive ----\n{positive}\n\n---- Negative ----\n{negative}\n\n---- LoRA ----\n{lora_list}"
         exports = json.dumps(load_summary_header(exports))
-        images = [None, None, None]
-        for i, path in enumerate(parser.images):
-            if path is not None:
-                images[i] = load_image(path)
         return (
             positive,
             negative,
@@ -174,9 +171,7 @@ class PromptDecodeV2:
             seed,
             summary,
             exports,
-            images[0],
-            images[1],
-            images[2],
+            parser.references,
         )
 
 

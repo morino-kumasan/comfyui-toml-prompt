@@ -845,14 +845,16 @@ class TestParser(unittest.TestCase):
         parser, t, _ = parse_prompt(d, ["d"])
         assert t == "dir is path/to."
         parser, t, _ = parse_prompt(d, ["a", "b", "c"])
-        assert parser.images[0] is None
-        assert parser.images[1] == "path/to/a.jpg"
-        assert parser.images[2] is None
+        references = parser.references.get_summary()
+        assert len(references) == 1
+        assert "<Picture 2>" in references
+        assert references["<Picture 2>"] == "path/to/a.jpg"
         assert t == "The man shown in <Picture 1>. The man shown in <Picture 2>."
         parser, t, _ = parse_prompt(d, ["c", "a", "b"])
-        assert parser.images[0] == "path/to/a.jpg"
-        assert parser.images[1] is None
-        assert parser.images[2] is None
+        references = parser.references.get_summary()
+        assert len(references) == 1
+        assert "<Picture 1>" in references
+        assert references["<Picture 1>"] == "path/to/a.jpg"
         assert t == "The man shown in <Picture 2>. The man shown in <Picture 1>."
 
     def test__include(self):

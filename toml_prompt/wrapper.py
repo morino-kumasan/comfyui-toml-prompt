@@ -1,14 +1,27 @@
 from typing import Any
 from collections import OrderedDict
 from . import InputTypesFuncResult
+from .inner.parser import References
 
 import re, json
 
 try:
     from nodes import LoraLoader, LoraLoaderModelOnly, CLIPTextEncode, ConditioningConcat, CheckpointLoaderSimple, VAELoader, CLIPLoader, CLIPSetLastLayer, KSampler  # type: ignore
+    from comfy_extras.nodes_audio import load as load_audio  # type: ignore
+    from comfy_api.latest import InputImpl  # type: ignore
+    from PIL import Image  # pyright: ignore
+    import torch  # pyright: ignore
+    import numpy as np  # pyright: ignore
     import comfy.sd, folder_paths  # type: ignore
 except ImportError:
     pass
+
+
+def load_image(path: str):  # type: ignore
+    with Image.open(path) as img:  # type: ignore
+        img = img.convert("RGB")  # type: ignore
+        img = np.array(img).astype(np.float32) / 255.0  # type: ignore
+    return torch.from_numpy(img).unsqueeze(0)  # type: ignore
 
 
 def encode(encoder: Any, concat: Any, clip: Any, text: str):
@@ -418,3 +431,84 @@ class KSamplerFromString:
             latent_image,
             denoise=denoise,
         )
+
+
+class LoadImageReference:
+    RETURN_TYPES = ("IMAGE",)
+    OUTPUT_TOOLTIPS = ("IMAGE.",)
+    FUNCTION = "load"
+    CATEGORY = "utils"
+    DESCRIPTION = "Load image reference."
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "references": ("LOAD_REFERENCES",),
+                "n": ("INT", {"default": 1, "min": 1, "max": 10}),
+            }
+        }
+
+    def load(self, references: References, n: int) -> tuple[Any]:
+        ref = references.get("picture", n)
+        if ref is None:
+            return (None,)
+        return (load_image(ref),)  # type: ignore
+
+
+class LoadAudioReference:
+    RETURN_TYPES = ("AUDIO",)
+    OUTPUT_TOOLTIPS = ("AUDIO.",)
+    FUNCTION = "load"
+    CATEGORY = "utils"
+    DESCRIPTION = "Load audio reference."
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "references": ("LOAD_REFERENCES",),
+                "n": ("INT", {"default": 1, "min": 1, "max": 10}),
+            }
+        }
+
+    def load(self, references: References, n: int) -> tuple[Any]:
+        ref = references.get("audio", n)
+        if ref is None:
+            return (None,)
+        waveform, sample_rate = load_audio(ref)  # type: ignore
+        audio = {"waveform": waveform.unsqueeze(0), "sample_rate": sample_rate}  # type: ignore
+        return (audio,)  # type: ignore
+
+
+class LoadVideoReference:
+    RETURN_TYPES = ("VIDEO",)
+    OUTPUT_TOOLTIPS = ("VIDEO.",)
+    FUNCTION = "load"
+    CATEGORY = "utils"
+    DESCRIPTION = "Load video reference."
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def INPUT_TYPES(cls) -> InputTypesFuncResult:
+        return {
+            "required": {
+                "references": ("LOAD_REFERENCES",),
+                "n": ("INT", {"default": 1, "min": 1, "max": 10}),
+            }
+        }
+
+    def load(self, references: References, n: int) -> tuple[Any]:
+        ref = references.get("video", n)
+        if ref is None:
+            return (None,)
+        video = InputImpl.VideoFromFile(ref)  # type: ignore
+        return (video,)  # type: ignore

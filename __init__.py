@@ -32,6 +32,9 @@ from .toml_prompt.wrapper import (
     KSamplerFromString,
     LoadLoraFromLoraList,
     UNETLoaderFromString,
+    LoadImageReference,
+    LoadAudioReference,
+    LoadVideoReference,
 )
 
 NODE_CLASS_MAPPINGS: dict[str, Any] = {
@@ -63,6 +66,9 @@ NODE_CLASS_MAPPINGS: dict[str, Any] = {
     "FlipImage": FlipImage,
     "SeedGenerator": SeedGenerator,
     "NoneToEmptyImage": NoneToEmptyImage,
+    "LoadImageReference": LoadImageReference,
+    "LoadAudioReference": LoadAudioReference,
+    "LoadVideoReference": LoadVideoReference,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -94,6 +100,9 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "FlipImage": "FlipImage",
     "SeedGenerator": "SeedGenerator",
     "NoneToEmptyImage": "NoneToEmptyImage",
+    "LoadImageReference": "LoadImageReference",
+    "LoadAudioReference": "LoadAudioReference",
+    "LoadVideoReference": "LoadVideoReference",
 }
 
 WEB_DIRECTORY = "./web"

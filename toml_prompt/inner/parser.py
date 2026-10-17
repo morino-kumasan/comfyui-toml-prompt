@@ -26,6 +26,38 @@ LINE_CONTINUATION: Final[str] = r"\\ "
 LINE_CONTINUATION_REMOVE_REGEX: Final[str] = r"\\\\\s*,"
 
 
+class References:
+    def __init__(self):
+        self.load_targets: dict[str, list[str | None]] = {}
+
+    def add(self, load_type: str, n: int, path: str):
+        assert load_type in [
+            "picture",
+            "audio",
+            "video",
+        ], f"Invalid load type={load_type}"
+        self.load_targets.setdefault(load_type, []).extend(
+            [None] * (n - len(self.load_targets[load_type]))
+        )
+        self.load_targets[load_type][n - 1] = path
+
+    def get_summary(self):
+        r: dict[str, str] = {}
+        for load_type, paths in self.load_targets.items():
+            tag = load_type[0].upper() + load_type[1:]
+            for i, path in enumerate(paths):
+                if path is not None:
+                    r[f"<{tag} {i + 1}>"] = path
+        return r
+
+    def get(self, load_type: str, n: int):
+        if load_type not in self.load_targets:
+            return None
+        if len(self.load_targets[load_type]) < n:
+            return None
+        return self.load_targets[load_type][n - 1]
+
+
 class PromptTagParser(HTMLParser):
     def __init__(
         self,
@@ -42,7 +74,7 @@ class PromptTagParser(HTMLParser):
             self.loras_low: list[str] = []
             self.set_value: list[str] | None = None
             self.h3_tags: dict[str, list[str]] = {}
-            self.images: list[str | None] = [None, None, None]
+            self.references = References()
         else:
             assert other is not None
             self.prompt_dict = other.prompt_dict
@@ -52,7 +84,7 @@ class PromptTagParser(HTMLParser):
             self.loras_low = other.loras_low
             self.set_value = other.set_value
             self.h3_tags = other.h3_tags
-            self.images = other.images
+            self.references = other.references
         self.positive: list[str] = []
         self.negative: list[str] = []
         # 内部状態
@@ -434,10 +466,7 @@ class PromptTagParser(HTMLParser):
         )
 
         n = self.convert_h3_tag_alias_to_index(load_type, key)
-        if load_type == "picture":
-            self.images[n - 1] = val
-        else:
-            raise Exception(f"load type '{load_type}' is not valid.")
+        self.references.add(load_type, n, val)
 
     PI_FUNCS: dict[str, Callable[[Self, list[str]], None]] = {
         "export": pi_export,
