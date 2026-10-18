@@ -7,6 +7,7 @@ try:
     import torch  # pyright: ignore
     import folder_paths  # pyright: ignore
     import comfy  # type: ignore
+    from PIL import Image  # pyright: ignore
 except ImportError:
     pass
 
