@@ -188,6 +188,75 @@ class LatentSelector:
         return (primary or secondary,)
 
 
+class ImageSelector:
+    RETURN_TYPES = ("IMAGE",)
+    OUTPUT_TOOLTIPS = ("IMAGE not disabled.",)
+    FUNCTION = "select"
+    CATEGORY = "utils"
+    DESCRIPTION = "Image Selector."
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "optional": {
+                "primary": ("IMAGE",),
+                "secondary": ("IMAGE",),
+            },
+        }
+
+    def __init__(self):
+        pass
+
+    def select(self, primary: Any = None, secondary: Any = None):
+        return (primary or secondary,)
+
+
+class VideoSelector:
+    RETURN_TYPES = ("VIDEO",)
+    OUTPUT_TOOLTIPS = ("VIDEO not disabled.",)
+    FUNCTION = "select"
+    CATEGORY = "utils"
+    DESCRIPTION = "Video Selector."
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "optional": {
+                "primary": ("VIDEO",),
+                "secondary": ("VIDEO",),
+            },
+        }
+
+    def __init__(self):
+        pass
+
+    def select(self, primary: Any = None, secondary: Any = None):
+        return (primary or secondary,)
+
+
+class AudioSelector:
+    RETURN_TYPES = ("AUDIO",)
+    OUTPUT_TOOLTIPS = ("AUDIO not disabled.",)
+    FUNCTION = "select"
+    CATEGORY = "utils"
+    DESCRIPTION = "Audio Selector."
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "optional": {
+                "primary": ("AUDIO",),
+                "secondary": ("AUDIO",),
+            },
+        }
+
+    def __init__(self):
+        pass
+
+    def select(self, primary: Any = None, secondary: Any = None):
+        return (primary or secondary,)
+
+
 class StringSelector:
     RETURN_TYPES = ("STRING",)
     OUTPUT_TOOLTIPS = ("STRING not disabled.",)
@@ -345,35 +414,6 @@ class FlipImage:
 
     def flip(self, images: Any) -> tuple[Any]:
         return (torch.flip(images, [1]),)  # type: ignore
-
-
-class NoneToEmptyImage:
-    RETURN_TYPES = ("IMAGE",)
-    OUTPUT_TOOLTIPS = ("IMAGE.",)
-    FUNCTION = "convert"
-    CATEGORY = "utils"
-    DESCRIPTION = "Convert None into image."
-
-    def __init__(self):
-        pass
-
-    @classmethod
-    def INPUT_TYPES(cls) -> InputTypesFuncResult:
-        return {
-            "required": {
-                "image": ("IMAGE",),
-            }
-        }
-
-    def convert(self, image: Any) -> tuple[Any]:
-        if image is None:
-            dtype = comfy.model_management.intermediate_dtype()  # type: ignore
-            device = comfy.model_management.intermediate_device()  # type: ignore
-            r = torch.full([1, 64, 64, 1], 0, device=device, dtype=dtype)  # type: ignore
-            g = torch.full([1, 64, 64, 1], 0, device=device, dtype=dtype)  # type: ignore
-            b = torch.full([1, 64, 64, 1], 0, device=device, dtype=dtype)  # type: ignore
-            return (torch.cat((r, g, b), dim=-1),)  # type: ignore
-        return (image,)  # type: ignore
 
 
 # Primitiveだとうまくいかない場合用

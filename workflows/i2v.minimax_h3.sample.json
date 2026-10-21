@@ -1,19 +1,19 @@
 {
   "id": "26086b4d-92d2-4eff-9cb4-2be2d6b3f317",
   "revision": 0,
-  "last_node_id": 224,
-  "last_link_id": 585,
+  "last_node_id": 253,
+  "last_link_id": 657,
   "nodes": [
     {
       "id": 1,
       "type": "PromptLoader",
       "pos": [
-        513.0997359919135,
-        141.56926991594452
+        127.34353759751812,
+        140.0798637445376
       ],
       "size": [
-        267.45541428976503,
-        59.272292855117456
+        210,
+        81.97202864066878
       ],
       "flags": {},
       "order": 0,
@@ -24,7 +24,7 @@
           "name": "PROMPT_FILE",
           "type": "PROMPT_FILE",
           "links": [
-            4
+            589
           ]
         }
       ],
@@ -32,10 +32,10 @@
         "Node name for S&R": "PromptLoader"
       },
       "widgets_values": [
-        "wan.yaml"
+        "minimax_h3.yaml"
       ],
       "widgets_values_named": {
-        "file": "wan.yaml"
+        "file": "minimax_h3.yaml"
       }
     },
     {
@@ -47,10 +47,10 @@
       ],
       "size": [
         400,
-        424
+        604
       ],
       "flags": {},
-      "order": 11,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -75,10 +75,52 @@
           "name": "ref_images.ref_image_0",
           "shape": 7,
           "type": "IMAGE",
-          "link": 7
+          "link": 621
         },
         {
           "name": "ref_images.ref_image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 622
+        },
+        {
+          "name": "ref_images.ref_image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 623
+        },
+        {
+          "name": "ref_images.ref_image_3",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "ref_images.ref_image_4",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "ref_images.ref_image_5",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "ref_images.ref_image_6",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "ref_images.ref_image_7",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "ref_images.ref_image_8",
           "shape": 7,
           "type": "IMAGE",
           "link": null
@@ -88,11 +130,35 @@
           "name": "ref_videos.ref_video_0",
           "shape": 7,
           "type": "IMAGE",
+          "link": 624
+        },
+        {
+          "name": "ref_videos.ref_video_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "ref_videos.ref_video_2",
+          "shape": 7,
+          "type": "IMAGE",
           "link": null
         },
         {
           "label": "ref_video_audio_0",
           "name": "ref_video_audios.ref_video_audio_0",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 625
+        },
+        {
+          "name": "ref_video_audios.ref_video_audio_1",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        },
+        {
+          "name": "ref_video_audios.ref_video_audio_2",
           "shape": 7,
           "type": "AUDIO",
           "link": null
@@ -102,7 +168,7 @@
           "name": "ref_audios.ref_audio_0",
           "shape": 7,
           "type": "AUDIO",
-          "link": null
+          "link": 626
         },
         {
           "name": "ref_audios.ref_audio_1",
@@ -122,7 +188,7 @@
           "widget": {
             "name": "prompt"
           },
-          "link": 556
+          "link": 592
         },
         {
           "name": "width",
@@ -147,18 +213,6 @@
             "name": "length"
           },
           "link": 555
-        },
-        {
-          "name": "ref_video_audios.ref_video_audio_1",
-          "shape": 7,
-          "type": "AUDIO",
-          "link": null
-        },
-        {
-          "name": "ref_video_audios.ref_video_audio_2",
-          "shape": 7,
-          "type": "AUDIO",
-          "link": null
         }
       ],
       "outputs": [
@@ -289,16 +343,16 @@
       "id": 6,
       "type": "LoadImage",
       "pos": [
-        127.26055610334573,
-        135.7806869451875
+        -421.7345586772493,
+        139.05738052228273
       ],
       "size": [
-        367.2821044921875,
-        521.1101684570312
+        502.8180660902183,
+        518.1313561142174
       ],
       "flags": {},
       "order": 3,
-      "mode": 0,
+      "mode": 4,
       "inputs": [],
       "outputs": [
         {
@@ -306,8 +360,7 @@
           "type": "IMAGE",
           "slot_index": 0,
           "links": [
-            3,
-            7
+            607
           ]
         },
         {
@@ -333,21 +386,21 @@
       "id": 7,
       "type": "PreviewImage",
       "pos": [
-        514.5519303369438,
-        412.2084676107313
+        573.4222406322191,
+        141.70728639371845
       ],
       "size": [
-        263.192325999363,
-        245.74183114731818
+        205.82275638094018,
+        245.72539173046204
       ],
       "flags": {},
-      "order": 8,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 3
+          "link": 627
         }
       ],
       "outputs": [
@@ -362,81 +415,6 @@
       }
     },
     {
-      "id": 9,
-      "type": "TomlPromptDecode",
-      "pos": [
-        802.9996964922746,
-        130.75476296829174
-      ],
-      "size": [
-        438.1300048828125,
-        523.9749145507812
-      ],
-      "flags": {},
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "toml",
-          "type": "PROMPT_FILE",
-          "link": 4
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            556
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": []
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            571
-          ]
-        },
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": []
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            5
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            552
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "TomlPromptDecode"
-      },
-      "widgets_values": [
-        "minimax_h3",
-        0,
-        "randomize"
-      ],
-      "widgets_values_named": {
-        "key_name_list": "minimax_h3",
-        "seed": 0,
-        "control_after_generate": "randomize"
-      }
-    },
-    {
       "id": 11,
       "type": "StringViewer",
       "pos": [
@@ -448,13 +426,13 @@
         502.4708251953125
       ],
       "flags": {},
-      "order": 9,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
           "name": "text",
           "type": "STRING",
-          "link": 5
+          "link": 591
         }
       ],
       "outputs": [],
@@ -483,7 +461,25 @@
                                           [
                                             [
                                               [
-                                                ""
+                                                [
+                                                  [
+                                                    [
+                                                      [
+                                                        [
+                                                          [
+                                                            [
+                                                              [
+                                                                [
+                                                                  ""
+                                                                ]
+                                                              ]
+                                                            ]
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
                                               ]
                                             ]
                                           ]
@@ -526,7 +522,25 @@
                                           [
                                             [
                                               [
-                                                ""
+                                                [
+                                                  [
+                                                    [
+                                                      [
+                                                        [
+                                                          [
+                                                            [
+                                                              [
+                                                                [
+                                                                  ""
+                                                                ]
+                                                              ]
+                                                            ]
+                                                          ]
+                                                        ]
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
                                               ]
                                             ]
                                           ]
@@ -610,7 +624,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 10,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -619,7 +633,7 @@
           "widget": {
             "name": "json_string"
           },
-          "link": 552
+          "link": 590
         }
       ],
       "outputs": [
@@ -678,12 +692,12 @@
       "id": 211,
       "type": "RandomNoise",
       "pos": [
-        514.6574023115747,
-        239.6605740098543
+        347.5362044251917,
+        139.87036052559003
       ],
       "size": [
-        265.29900181742414,
-        135.25121588034415
+        210,
+        82
       ],
       "flags": {},
       "order": 5,
@@ -724,7 +738,7 @@
         60
       ],
       "flags": {},
-      "order": 15,
+      "order": 21,
       "mode": 0,
       "inputs": [
         {
@@ -757,8 +771,8 @@
       "id": 213,
       "type": "KSamplerSelect",
       "pos": [
-        1283.792172994862,
-        679.8649483186665
+        1295.9836876802829,
+        792.6364591588086
       ],
       "size": [
         370,
@@ -793,21 +807,21 @@
       "id": 214,
       "type": "BasicScheduler",
       "pos": [
-        1285.0197502188596,
-        793.6420305629896
+        1292.6394468972476,
+        910.9853594101645
       ],
       "size": [
         370,
         130
       ],
       "flags": {},
-      "order": 14,
+      "order": 19,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
-          "link": 574
+          "link": 642
         },
         {
           "name": "steps",
@@ -847,15 +861,15 @@
       "id": 215,
       "type": "SamplerCustomAdvanced",
       "pos": [
-        1707.995849517126,
-        681.2581884088601
+        1691.2325168246725,
+        900.7054527464323
       ],
       "size": [
         230,
         140
       ],
       "flags": {},
-      "order": 16,
+      "order": 22,
       "mode": 0,
       "inputs": [
         {
@@ -909,8 +923,8 @@
       "id": 216,
       "type": "VAEDecode",
       "pos": [
-        1981.4823759222568,
-        683.6424239446276
+        1972.3387399081912,
+        820.7969641556112
       ],
       "size": [
         230,
@@ -919,7 +933,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 17,
+      "order": 23,
       "mode": 0,
       "inputs": [
         {
@@ -952,8 +966,8 @@
       "id": 217,
       "type": "VAEDecodeAudio",
       "pos": [
-        1984.7678421865583,
-        787.6081445534863
+        1972.5763275011375,
+        920.1908667574372
       ],
       "size": [
         230,
@@ -962,7 +976,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 18,
+      "order": 24,
       "mode": 0,
       "inputs": [
         {
@@ -995,8 +1009,8 @@
       "id": 219,
       "type": "UNETLoaderFromString",
       "pos": [
-        1288.424005508241,
-        975.4410272715047
+        1292.9958235152737,
+        1086.6885987759692
       ],
       "size": [
         270,
@@ -1005,7 +1019,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 12,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
@@ -1022,8 +1036,7 @@
           "name": "MODEL",
           "type": "MODEL",
           "links": [
-            569,
-            574
+            641
           ]
         }
       ],
@@ -1051,13 +1064,13 @@
       "flags": {
         "collapsed": false
       },
-      "order": 13,
+      "order": 20,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
-          "link": 569
+          "link": 643
         },
         {
           "name": "lora_tag_list",
@@ -1065,7 +1078,7 @@
           "widget": {
             "name": "lora_tag_list"
           },
-          "link": 571
+          "link": 593
         }
       ],
       "outputs": [
@@ -1091,15 +1104,15 @@
       "id": 223,
       "type": "CreateVideo",
       "pos": [
-        1989.185204490843,
-        890.3431050047199
+        1970.8979324627119,
+        1021.401887872993
       ],
       "size": [
         270,
         150
       ],
       "flags": {},
-      "order": 19,
+      "order": 25,
       "mode": 0,
       "inputs": [
         {
@@ -1153,7 +1166,7 @@
         491.5508086628147
       ],
       "flags": {},
-      "order": 20,
+      "order": 26,
       "mode": 0,
       "inputs": [
         {
@@ -1182,41 +1195,403 @@
         "format.codec": "auto",
         "codec": "auto"
       }
+    },
+    {
+      "id": 228,
+      "type": "PromptDecodeV2",
+      "pos": [
+        128.52225452705576,
+        262.8413044154371
+      ],
+      "size": [
+        429.05606606381616,
+        394.9637942182512
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "toml",
+          "type": "PROMPT_FILE",
+          "link": 589
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            592
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            593
+          ]
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            591
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            590
+          ]
+        },
+        {
+          "name": "LOAD_REFERENCES",
+          "type": "LOAD_REFERENCES",
+          "links": [
+            606
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PromptDecodeV2"
+      },
+      "widgets_values": [
+        "minimax_h3.base",
+        0,
+        "randomize"
+      ],
+      "widgets_values_named": {
+        "key_name_list": "minimax_h3.base",
+        "seed": 0,
+        "control_after_generate": "randomize"
+      }
+    },
+    {
+      "id": 236,
+      "type": "f909a4e0-f0dc-44e1-bd3e-0af30ac554c0",
+      "pos": [
+        573.1671821683057,
+        491.44570637131136
+      ],
+      "size": [
+        272.203125,
+        166
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "references",
+          "type": "LOAD_REFERENCES",
+          "link": 606
+        },
+        {
+          "label": "ref_image_0_overwrite",
+          "name": "primary",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 607
+        },
+        {
+          "label": "overwrite_video_1",
+          "name": "primary_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 656
+        },
+        {
+          "label": "overwrite_video_audio_1",
+          "name": "primary_2",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 657
+        }
+      ],
+      "outputs": [
+        {
+          "label": "ref_image_0",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            621,
+            627
+          ]
+        },
+        {
+          "label": "ref_image_1",
+          "name": "IMAGE_1",
+          "type": "IMAGE",
+          "links": [
+            622
+          ]
+        },
+        {
+          "label": "ref_image_2",
+          "name": "IMAGE_2",
+          "type": "IMAGE",
+          "links": [
+            623
+          ]
+        },
+        {
+          "label": "ref_video_0",
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            624
+          ]
+        },
+        {
+          "label": "ref_video_audio_0",
+          "name": "audio",
+          "type": "AUDIO",
+          "links": [
+            625
+          ]
+        },
+        {
+          "label": "ref_audio_0",
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            626
+          ]
+        },
+        {
+          "label": "preview_image_1",
+          "name": "IMAGE_3",
+          "type": "IMAGE",
+          "links": [
+            639
+          ]
+        },
+        {
+          "label": "preview_image_2",
+          "name": "IMAGE_4",
+          "type": "IMAGE",
+          "links": [
+            640
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": []
+      }
+    },
+    {
+      "id": 243,
+      "type": "PreviewImage",
+      "pos": [
+        803.0585934654501,
+        140.49582921578715
+      ],
+      "size": [
+        205.82275638094018,
+        245.72539173046204
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 639
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 244,
+      "type": "PreviewImage",
+      "pos": [
+        1027.7877329037285,
+        140.88803641107503
+      ],
+      "size": [
+        205.82275638094018,
+        245.72539173046204
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 640
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 248,
+      "type": "MiniMaxH3SigmaShift",
+      "pos": [
+        1599.7969246208716,
+        1088.3330621205419
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 641
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            642,
+            643
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3SigmaShift"
+      },
+      "widgets_values": [
+        12,
+        3
+      ],
+      "widgets_values_named": {
+        "shift_video": 12,
+        "shift_audio": 3
+      }
+    },
+    {
+      "id": 250,
+      "type": "LoadVideo",
+      "pos": [
+        -420.92024498208986,
+        703.8514359689029
+      ],
+      "size": [
+        500.79449388233553,
+        405.09383012924945
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 4,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            648
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadVideo"
+      },
+      "widgets_values": [
+        "1.mp4",
+        "image"
+      ],
+      "widgets_values_named": {
+        "file": "1.mp4",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 251,
+      "type": "GetVideoComponents",
+      "pos": [
+        -141.71926159909998,
+        1151.2648881264606
+      ],
+      "size": [
+        221.9,
+        106
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 648
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            656
+          ]
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "links": [
+            657
+          ]
+        },
+        {
+          "name": "fps",
+          "type": "FLOAT",
+          "links": null
+        },
+        {
+          "name": "bit_depth",
+          "type": "COMBO",
+          "links": null
+        },
+        {
+          "name": "color_space",
+          "type": "COMBO",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "GetVideoComponents"
+      }
     }
   ],
   "links": [
-    [
-      3,
-      6,
-      0,
-      7,
-      0,
-      "IMAGE"
-    ],
-    [
-      4,
-      1,
-      0,
-      9,
-      0,
-      "PROMPT_FILE"
-    ],
-    [
-      5,
-      9,
-      4,
-      11,
-      0,
-      "STRING"
-    ],
-    [
-      552,
-      9,
-      5,
-      210,
-      0,
-      "STRING"
-    ],
     [
       558,
       212,
@@ -1290,34 +1665,10 @@
       "VAE"
     ],
     [
-      569,
-      219,
-      0,
-      220,
-      0,
-      "MODEL"
-    ],
-    [
-      571,
-      9,
-      2,
-      220,
-      1,
-      "STRING"
-    ],
-    [
       573,
       220,
       0,
       212,
-      0,
-      "MODEL"
-    ],
-    [
-      574,
-      219,
-      0,
-      214,
       0,
       "MODEL"
     ],
@@ -1346,6 +1697,102 @@
       "AUDIO"
     ],
     [
+      585,
+      3,
+      1,
+      215,
+      4,
+      "LATENT"
+    ],
+    [
+      589,
+      1,
+      0,
+      228,
+      0,
+      "PROMPT_FILE"
+    ],
+    [
+      590,
+      228,
+      5,
+      210,
+      0,
+      "STRING"
+    ],
+    [
+      591,
+      228,
+      4,
+      11,
+      0,
+      "STRING"
+    ],
+    [
+      593,
+      228,
+      2,
+      220,
+      1,
+      "STRING"
+    ],
+    [
+      627,
+      236,
+      0,
+      7,
+      0,
+      "IMAGE"
+    ],
+    [
+      639,
+      236,
+      6,
+      243,
+      0,
+      "IMAGE"
+    ],
+    [
+      640,
+      236,
+      7,
+      244,
+      0,
+      "IMAGE"
+    ],
+    [
+      641,
+      219,
+      0,
+      248,
+      0,
+      "MODEL"
+    ],
+    [
+      642,
+      248,
+      0,
+      214,
+      0,
+      "MODEL"
+    ],
+    [
+      643,
+      248,
+      0,
+      220,
+      0,
+      "MODEL"
+    ],
+    [
+      584,
+      223,
+      0,
+      224,
+      0,
+      "VIDEO"
+    ],
+    [
       6,
       12,
       0,
@@ -1370,27 +1817,59 @@
       "VAE"
     ],
     [
-      7,
-      6,
+      621,
+      236,
       0,
       3,
       3,
       "IMAGE"
     ],
     [
-      584,
-      223,
-      0,
-      224,
-      0,
-      "VIDEO"
+      622,
+      236,
+      1,
+      3,
+      4,
+      "IMAGE"
     ],
     [
-      556,
-      9,
+      623,
+      236,
+      2,
+      3,
+      5,
+      "IMAGE"
+    ],
+    [
+      624,
+      236,
+      3,
+      3,
+      12,
+      "IMAGE"
+    ],
+    [
+      625,
+      236,
+      4,
+      3,
+      15,
+      "AUDIO"
+    ],
+    [
+      626,
+      236,
+      5,
+      3,
+      18,
+      "AUDIO"
+    ],
+    [
+      592,
+      228,
       0,
       3,
-      10,
+      21,
       "STRING"
     ],
     [
@@ -1398,7 +1877,7 @@
       210,
       0,
       3,
-      11,
+      22,
       "INT"
     ],
     [
@@ -1406,7 +1885,7 @@
       210,
       1,
       3,
-      12,
+      23,
       "INT"
     ],
     [
@@ -1414,7 +1893,7 @@
       210,
       2,
       3,
-      13,
+      24,
       "INT"
     ],
     [
@@ -1426,12 +1905,44 @@
       "INT"
     ],
     [
-      585,
-      3,
+      648,
+      250,
+      0,
+      251,
+      0,
+      "VIDEO"
+    ],
+    [
+      606,
+      228,
+      6,
+      236,
+      0,
+      "LOAD_REFERENCES"
+    ],
+    [
+      607,
+      6,
+      0,
+      236,
       1,
-      215,
-      4,
-      "LATENT"
+      "IMAGE"
+    ],
+    [
+      656,
+      251,
+      0,
+      236,
+      2,
+      "IMAGE"
+    ],
+    [
+      657,
+      251,
+      1,
+      236,
+      3,
+      "AUDIO"
     ]
   ],
   "groups": [
@@ -1470,6 +1981,18 @@
       ],
       "color": "#3f789e",
       "flags": {}
+    },
+    {
+      "id": 7,
+      "title": "ManualReferences",
+      "bounding": [
+        -442.44837069587163,
+        62.346734489645605,
+        540.3657835297258,
+        1208.4571325220804
+      ],
+      "color": "#3f789e",
+      "flags": {}
     }
   ],
   "definitions": {
@@ -1478,9 +2001,9 @@
         "id": "072ed8aa-0e22-4ebf-a5d8-f16a4c38ad52",
         "version": 1,
         "state": {
-          "lastGroupId": 6,
-          "lastNodeId": 224,
-          "lastLinkId": 585,
+          "lastGroupId": 7,
+          "lastNodeId": 253,
+          "lastLinkId": 657,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -2153,16 +2676,886 @@
           }
         ],
         "extra": {}
+      },
+      {
+        "id": "f909a4e0-f0dc-44e1-bd3e-0af30ac554c0",
+        "version": 1,
+        "state": {
+          "lastGroupId": 7,
+          "lastNodeId": 253,
+          "lastLinkId": 657,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "References",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            386.13093523103043,
+            259.8426264602079,
+            182.77734375,
+            128
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1090.6677065536942,
+            219.8426264602079,
+            148.552734375,
+            208
+          ]
+        },
+        "inputs": [
+          {
+            "id": "d89bef79-b178-465a-879e-ee11f71690fa",
+            "name": "references",
+            "type": "LOAD_REFERENCES",
+            "linkIds": [
+              586,
+              587,
+              588,
+              594,
+              595
+            ],
+            "localized_name": "references",
+            "pos": [
+              544.9082789810304,
+              283.8426264602079
+            ]
+          },
+          {
+            "id": "88369bbb-45d7-4f4d-98fa-2f51f10bb2bb",
+            "name": "primary",
+            "type": "IMAGE",
+            "linkIds": [
+              596
+            ],
+            "localized_name": "primary",
+            "label": "ref_image_0_overwrite",
+            "shape": 7,
+            "pos": [
+              544.9082789810304,
+              303.8426264602079
+            ]
+          },
+          {
+            "id": "5d4e25c9-419f-4f7b-8a36-99cdc534f688",
+            "name": "primary_1",
+            "type": "IMAGE",
+            "linkIds": [
+              652
+            ],
+            "label": "overwrite_video_1",
+            "pos": [
+              544.9082789810304,
+              323.8426264602079
+            ]
+          },
+          {
+            "id": "7ae9055c-c301-40cb-9ed2-0a5318a5ce68",
+            "name": "primary_2",
+            "type": "AUDIO",
+            "linkIds": [
+              653
+            ],
+            "label": "overwrite_video_audio_1",
+            "pos": [
+              544.9082789810304,
+              343.8426264602079
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "5863cf7f-b13c-4ac3-94f2-208c4f3de723",
+            "name": "IMAGE",
+            "type": "IMAGE",
+            "linkIds": [
+              615
+            ],
+            "label": "ref_image_0",
+            "pos": [
+              1114.6677065536942,
+              243.8426264602079
+            ]
+          },
+          {
+            "id": "8a9729b4-fe4b-4cd0-b4b0-578e3d9c98b7",
+            "name": "IMAGE_1",
+            "type": "IMAGE",
+            "linkIds": [
+              616
+            ],
+            "label": "ref_image_1",
+            "pos": [
+              1114.6677065536942,
+              263.8426264602079
+            ]
+          },
+          {
+            "id": "f52dc9fe-93cf-4416-9552-a9055ca5774c",
+            "name": "IMAGE_2",
+            "type": "IMAGE",
+            "linkIds": [
+              617
+            ],
+            "label": "ref_image_2",
+            "pos": [
+              1114.6677065536942,
+              283.8426264602079
+            ]
+          },
+          {
+            "id": "a8ebd29c-156c-4c6e-8752-e5f4c471a550",
+            "name": "images",
+            "type": "IMAGE",
+            "linkIds": [
+              654
+            ],
+            "label": "ref_video_0",
+            "pos": [
+              1114.6677065536942,
+              303.8426264602079
+            ]
+          },
+          {
+            "id": "2e885e8c-02bf-4d4a-a6a2-5737dde92941",
+            "name": "audio",
+            "type": "AUDIO",
+            "linkIds": [
+              655
+            ],
+            "label": "ref_video_audio_0",
+            "pos": [
+              1114.6677065536942,
+              323.8426264602079
+            ]
+          },
+          {
+            "id": "d511522c-7073-4a46-94dd-d397aee932d3",
+            "name": "AUDIO",
+            "type": "AUDIO",
+            "linkIds": [
+              620
+            ],
+            "label": "ref_audio_0",
+            "pos": [
+              1114.6677065536942,
+              343.8426264602079
+            ]
+          },
+          {
+            "id": "bf17d523-c0ee-4f43-8d99-e375886d914a",
+            "name": "IMAGE_3",
+            "type": "IMAGE",
+            "linkIds": [
+              637
+            ],
+            "label": "preview_image_1",
+            "pos": [
+              1114.6677065536942,
+              363.8426264602079
+            ]
+          },
+          {
+            "id": "86df372a-b57b-44f6-9040-2fce42858858",
+            "name": "IMAGE_4",
+            "type": "IMAGE",
+            "linkIds": [
+              638
+            ],
+            "label": "preview_image_2",
+            "pos": [
+              1114.6677065536942,
+              383.8426264602079
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 226,
+            "type": "LoadImageReference",
+            "pos": [
+              574.1309352310304,
+              141.35625748307854
+            ],
+            "size": [
+              210,
+              58
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "references",
+                "name": "references",
+                "type": "LOAD_REFERENCES",
+                "link": 586
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  597
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "LoadImageReference"
+            },
+            "widgets_values": [
+              1
+            ],
+            "widgets_values_named": {
+              "n": 1
+            }
+          },
+          {
+            "id": 227,
+            "type": "LoadImageReference",
+            "pos": [
+              577.773542841464,
+              242.48159966718
+            ],
+            "size": [
+              210,
+              58
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "references",
+                "name": "references",
+                "type": "LOAD_REFERENCES",
+                "link": 587
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  616,
+                  633
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "LoadImageReference"
+            },
+            "widgets_values": [
+              2
+            ],
+            "widgets_values_named": {
+              "n": 2
+            }
+          },
+          {
+            "id": 229,
+            "type": "LoadImageReference",
+            "pos": [
+              579.6086443856993,
+              343.2721602595172
+            ],
+            "size": [
+              210,
+              58
+            ],
+            "flags": {},
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "references",
+                "name": "references",
+                "type": "LOAD_REFERENCES",
+                "link": 588
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  617,
+                  636
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "LoadImageReference"
+            },
+            "widgets_values": [
+              3
+            ],
+            "widgets_values_named": {
+              "n": 3
+            }
+          },
+          {
+            "id": 230,
+            "type": "LoadVideoReference",
+            "pos": [
+              576.1294224620933,
+              451.30415807434605
+            ],
+            "size": [
+              210,
+              78
+            ],
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "references",
+                "name": "references",
+                "type": "LOAD_REFERENCES",
+                "link": 594
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  650
+                ]
+              },
+              {
+                "localized_name": "オーディオ",
+                "name": "AUDIO",
+                "type": "AUDIO",
+                "links": [
+                  651
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "LoadVideoReference"
+            },
+            "widgets_values": [
+              1
+            ],
+            "widgets_values_named": {
+              "n": 1
+            }
+          },
+          {
+            "id": 231,
+            "type": "LoadAudioReference",
+            "pos": [
+              575.6406056789647,
+              574.2565599833572
+            ],
+            "size": [
+              210,
+              58
+            ],
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "references",
+                "name": "references",
+                "type": "LOAD_REFERENCES",
+                "link": 595
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "オーディオ",
+                "name": "AUDIO",
+                "type": "AUDIO",
+                "links": [
+                  620
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "LoadAudioReference"
+            },
+            "widgets_values": [
+              1
+            ],
+            "widgets_values_named": {
+              "n": 1
+            }
+          },
+          {
+            "id": 234,
+            "type": "ImageSelector",
+            "pos": [
+              811.862525089424,
+              141.13716833227616
+            ],
+            "size": [
+              140,
+              46
+            ],
+            "flags": {},
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "primary",
+                "name": "primary",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": 596
+              },
+              {
+                "localized_name": "secondary",
+                "name": "secondary",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": 597
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  615
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageSelector"
+            }
+          },
+          {
+            "id": 245,
+            "type": "EmptyImage",
+            "pos": [
+              808.6369659276743,
+              796.4217038538147
+            ],
+            "size": [
+              210,
+              130
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  634,
+                  635
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "EmptyImage"
+            },
+            "widgets_values": [
+              1,
+              1,
+              1,
+              0
+            ],
+            "widgets_values_named": {
+              "width": 1,
+              "height": 1,
+              "batch_size": 1,
+              "color": 0
+            }
+          },
+          {
+            "id": 246,
+            "type": "ImageSelector",
+            "pos": [
+              1043.4269659276742,
+              800.4217038538146
+            ],
+            "size": [
+              140,
+              46
+            ],
+            "flags": {},
+            "order": 8,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "primary",
+                "name": "primary",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": 633
+              },
+              {
+                "localized_name": "secondary",
+                "name": "secondary",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": 634
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  637
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageSelector"
+            }
+          },
+          {
+            "id": 247,
+            "type": "ImageSelector",
+            "pos": [
+              1045.6369659276743,
+              900.4217038538147
+            ],
+            "size": [
+              140,
+              46
+            ],
+            "flags": {},
+            "order": 9,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "primary",
+                "name": "primary",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": 636
+              },
+              {
+                "localized_name": "secondary",
+                "name": "secondary",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": 635
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  638
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageSelector"
+            }
+          },
+          {
+            "id": 252,
+            "type": "ImageSelector",
+            "pos": [
+              835.8912274304241,
+              456.57192116800405
+            ],
+            "size": [
+              140,
+              46
+            ],
+            "flags": {},
+            "order": 10,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "primary",
+                "name": "primary",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": 652
+              },
+              {
+                "localized_name": "secondary",
+                "name": "secondary",
+                "shape": 7,
+                "type": "IMAGE",
+                "link": 650
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  654
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageSelector"
+            }
+          },
+          {
+            "id": 253,
+            "type": "AudioSelector",
+            "pos": [
+              839.2982977429243,
+              550.0619211680033
+            ],
+            "size": [
+              165.005859375,
+              47.210000000000036
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "primary",
+                "name": "primary",
+                "shape": 7,
+                "type": "AUDIO",
+                "link": 653
+              },
+              {
+                "localized_name": "secondary",
+                "name": "secondary",
+                "shape": 7,
+                "type": "AUDIO",
+                "link": 651
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "オーディオ",
+                "name": "AUDIO",
+                "type": "AUDIO",
+                "links": [
+                  655
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "AudioSelector"
+            }
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 597,
+            "origin_id": 226,
+            "origin_slot": 0,
+            "target_id": 234,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 586,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 226,
+            "target_slot": 0,
+            "type": "LOAD_REFERENCES"
+          },
+          {
+            "id": 587,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 227,
+            "target_slot": 0,
+            "type": "LOAD_REFERENCES"
+          },
+          {
+            "id": 588,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 229,
+            "target_slot": 0,
+            "type": "LOAD_REFERENCES"
+          },
+          {
+            "id": 594,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 230,
+            "target_slot": 0,
+            "type": "LOAD_REFERENCES"
+          },
+          {
+            "id": 595,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 231,
+            "target_slot": 0,
+            "type": "LOAD_REFERENCES"
+          },
+          {
+            "id": 596,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 234,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 615,
+            "origin_id": 234,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 616,
+            "origin_id": 227,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 617,
+            "origin_id": 229,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 2,
+            "type": "IMAGE"
+          },
+          {
+            "id": 620,
+            "origin_id": 231,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 5,
+            "type": "AUDIO"
+          },
+          {
+            "id": 633,
+            "origin_id": 227,
+            "origin_slot": 0,
+            "target_id": 246,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 634,
+            "origin_id": 245,
+            "origin_slot": 0,
+            "target_id": 246,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 635,
+            "origin_id": 245,
+            "origin_slot": 0,
+            "target_id": 247,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 636,
+            "origin_id": 229,
+            "origin_slot": 0,
+            "target_id": 247,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 637,
+            "origin_id": 246,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 6,
+            "type": "IMAGE"
+          },
+          {
+            "id": 638,
+            "origin_id": 247,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 7,
+            "type": "IMAGE"
+          },
+          {
+            "id": 650,
+            "origin_id": 230,
+            "origin_slot": 0,
+            "target_id": 252,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 651,
+            "origin_id": 230,
+            "origin_slot": 1,
+            "target_id": 253,
+            "target_slot": 1,
+            "type": "AUDIO"
+          },
+          {
+            "id": 652,
+            "origin_id": -10,
+            "origin_slot": 2,
+            "target_id": 252,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 653,
+            "origin_id": -10,
+            "origin_slot": 3,
+            "target_id": 253,
+            "target_slot": 0,
+            "type": "AUDIO"
+          },
+          {
+            "id": 654,
+            "origin_id": 252,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 3,
+            "type": "IMAGE"
+          },
+          {
+            "id": 655,
+            "origin_id": 253,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 4,
+            "type": "AUDIO"
+          }
+        ],
+        "extra": {}
       }
     ]
   },
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.5548830781404999,
+      "scale": 0.37040446219783246,
       "offset": [
-        452.2622033598336,
-        156.70564716161334
+        934.0165433404284,
+        394.56335920615834
       ]
     },
     "frontendVersion": "1.53.6"

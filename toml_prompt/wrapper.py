@@ -488,8 +488,8 @@ class LoadAudioReference:
 
 
 class LoadVideoReference:
-    RETURN_TYPES = ("VIDEO",)
-    OUTPUT_TOOLTIPS = ("VIDEO.",)
+    RETURN_TYPES = ("IMAGE", "AUDIO")
+    OUTPUT_TOOLTIPS = ("VIDEO.", "AUDIO.")
     FUNCTION = "load"
     CATEGORY = "utils"
     DESCRIPTION = "Load video reference."
@@ -506,9 +506,10 @@ class LoadVideoReference:
             }
         }
 
-    def load(self, references: References, n: int) -> tuple[Any]:
+    def load(self, references: References, n: int) -> tuple[Any, Any]:
         ref = references.get("video", n)
         if ref is None:
-            return (None,)
+            return (None, None)
         video = InputImpl.VideoFromFile(ref)  # type: ignore
-        return (video,)  # type: ignore
+        components = video.get_components()  # type: ignore
+        return (components.images, components.audio)  # type: ignore
