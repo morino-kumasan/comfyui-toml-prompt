@@ -185,7 +185,9 @@ class LatentSelector:
         pass
 
     def select(self, primary: Any = None, secondary: Any = None):
-        return (primary or secondary,)
+        if primary is None:
+            return (secondary,)
+        return (primary,)
 
 
 class ImageSelector:
@@ -208,7 +210,9 @@ class ImageSelector:
         pass
 
     def select(self, primary: Any = None, secondary: Any = None):
-        return (primary or secondary,)
+        if primary is None:
+            return (secondary,)
+        return (primary,)
 
 
 class VideoSelector:
@@ -231,7 +235,9 @@ class VideoSelector:
         pass
 
     def select(self, primary: Any = None, secondary: Any = None):
-        return (primary or secondary,)
+        if primary is None:
+            return (secondary,)
+        return (primary,)
 
 
 class AudioSelector:
@@ -254,7 +260,9 @@ class AudioSelector:
         pass
 
     def select(self, primary: Any = None, secondary: Any = None):
-        return (primary or secondary,)
+        if primary is None:
+            return (secondary,)
+        return (primary,)
 
 
 class StringSelector:
@@ -277,7 +285,9 @@ class StringSelector:
         pass
 
     def select(self, primary: str | None = None, secondary: str | None = None):
-        return (primary or secondary,)
+        if primary is None:
+            return (secondary,)
+        return (primary,)
 
 
 class IntSelector:
@@ -306,7 +316,9 @@ class IntSelector:
         pass
 
     def select(self, primary: int | None = None, secondary: int | None = None):
-        return (primary or secondary,)
+        if primary is None:
+            return (secondary,)
+        return (primary,)
 
 
 class StringConcat:
