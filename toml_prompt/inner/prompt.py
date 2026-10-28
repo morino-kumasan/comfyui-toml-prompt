@@ -54,7 +54,7 @@ def remove_comment_out(s: str) -> str:
 
 
 def select_dynamic_prompt(rand: Random, s: str) -> str:
-    pat = r"(^|[^$]){([^{}|]*(\|([^{}|])*)*)}"
+    pat = r"(^|[^$%]){([^{}|]*(\|([^{}|])*)*)}"
     r = s
 
     def conv(m: re.Match[str]):

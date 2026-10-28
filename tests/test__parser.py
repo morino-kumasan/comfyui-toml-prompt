@@ -773,6 +773,38 @@ class TestParser(unittest.TestCase):
             ["a", "b"],
         )
         assert t == "this is a gold pen."
+        # **で実行
+        _, t, _ = parse_prompt(
+            {
+                "p": {
+                    "a": "<set key=var2>this is a ${var} pen.</set>",
+                    "b": "${var2}",
+                },
+                "a": "%{p.**}",
+                "var": "gold",
+                "var2": "",
+            },
+            ["a"],
+        )
+        assert t == "this is a gold pen."
+        # 更にwhenタグ内
+        _, t, _ = parse_prompt(
+            {
+                "p": {
+                    "a": "<when key=a><set key=var2>this is a ${var} pen.</set></when>",
+                    "b": "${var2}",
+                },
+                "p2": {
+                    "a": "${var2}",
+                },
+                "a": "%{p.**}, %{p2.**}",
+                "var": "gold",
+                "var2": "",
+            },
+            ["a"],
+        )
+        print(t)
+        assert t == "this is a gold pen. this is a gold pen."
 
     def test__lora_tag(self):
         parser, t, _ = parse_prompt(
@@ -944,6 +976,23 @@ class TestParser(unittest.TestCase):
         assert parser.loras[0] == "<lora:a.safetensors:1.0>"
         assert parser.loras[1] == "<lora:b.safetensors:1.0>"
         assert t == "a, b"
+
+    def test__rendom_count(self):
+        parser, t, _ = parse_prompt(
+            {
+                "a": {"_t": "a", "b": "b, %{var}, ${var}"},
+                "var": "",
+            },
+            ["a.b"],
+        )
+        assert t == "a, b," and parser.random.count == 0
+        parser, t, _ = parse_prompt(
+            {
+                "a": {"_t": "a", "b": "b"},
+            },
+            ["a.?"],
+        )
+        assert t == "a, b" and parser.random.count == 1
 
 
 def parse_prompt(data: dict[Any, Any], keys: list[str]):
