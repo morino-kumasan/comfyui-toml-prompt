@@ -1,8 +1,8 @@
 {
   "id": "72d8440a-46f6-4473-a4b4-244695d3a285",
   "revision": 0,
-  "last_node_id": 202,
-  "last_link_id": 554,
+  "last_node_id": 207,
+  "last_link_id": 593,
   "nodes": [
     {
       "id": 9,
@@ -16,13 +16,13 @@
         508.27252197265625
       ],
       "flags": {},
-      "order": 15,
+      "order": 5,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 9
+          "link": 564
         }
       ],
       "outputs": [
@@ -41,62 +41,6 @@
       }
     },
     {
-      "id": 5,
-      "type": "EmptyLatentImage",
-      "pos": [
-        800,
-        78
-      ],
-      "size": [
-        210,
-        106
-      ],
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "width",
-          "type": "INT",
-          "widget": {
-            "name": "width"
-          },
-          "link": 548
-        },
-        {
-          "name": "height",
-          "type": "INT",
-          "widget": {
-            "name": "height"
-          },
-          "link": 549
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "slot_index": 0,
-          "links": [
-            498
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "EmptyLatentImage"
-      },
-      "widgets_values": [
-        832,
-        1216,
-        1
-      ],
-      "widgets_values_named": {
-        "width": 832,
-        "height": 1216,
-        "batch_size": 1
-      }
-    },
-    {
       "id": 129,
       "type": "StringViewer",
       "pos": [
@@ -108,13 +52,13 @@
         506.2227478027344
       ],
       "flags": {},
-      "order": 9,
+      "order": 6,
       "mode": 0,
       "inputs": [
         {
           "name": "text",
           "type": "STRING",
-          "link": 464
+          "link": 565
         }
       ],
       "outputs": [],
@@ -125,14 +69,18 @@
       "widgets_values": [
         [
           [
-            ""
+            [
+              ""
+            ]
           ]
         ]
       ],
       "widgets_values_named": {
         "output_text": [
           [
-            ""
+            [
+              ""
+            ]
           ]
         ]
       }
@@ -141,8 +89,8 @@
       "id": 79,
       "type": "PromptLoader",
       "pos": [
-        11,
-        76
+        17.353223404115187,
+        80.23548226941007
       ],
       "size": [
         282.09063720703125,
@@ -158,7 +106,7 @@
           "type": "PROMPT_FILE",
           "slot_index": 0,
           "links": [
-            466
+            561
           ]
         }
       ],
@@ -173,15 +121,15 @@
       }
     },
     {
-      "id": 120,
-      "type": "MultipleLoraTagLoader",
+      "id": 203,
+      "type": "SeedNode",
       "pos": [
-        1357.4739087289322,
-        80.66427453086675
+        311.2301823953977,
+        79.83909597263101
       ],
       "size": [
-        317.40374755859375,
-        515.6679077148438
+        210,
+        82
       ],
       "flags": {},
       "order": 1,
@@ -189,253 +137,36 @@
       "inputs": [],
       "outputs": [
         {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 0,
-          "links": [
-            350
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "MultipleLoraTagLoader"
-      },
-      "widgets_values": [
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0
-      ],
-      "widgets_values_named": {
-        "lora_name_0": "[none]",
-        "strength_0": 0,
-        "lora_name_1": "[none]",
-        "strength_1": 0,
-        "lora_name_2": "[none]",
-        "strength_2": 0,
-        "lora_name_3": "[none]",
-        "strength_3": 0,
-        "lora_name_4": "[none]",
-        "strength_4": 0,
-        "lora_name_5": "[none]",
-        "strength_5": 0,
-        "lora_name_6": "[none]",
-        "strength_6": 0,
-        "lora_name_7": "[none]",
-        "strength_7": 0,
-        "lora_name_8": "[none]",
-        "strength_8": 0,
-        "lora_name_9": "[none]",
-        "strength_9": 0
-      }
-    },
-    {
-      "id": 171,
-      "type": "CheckPointLoaderFromString",
-      "pos": [
-        1043.9330624849679,
-        79.55355923488389
-      ],
-      "size": [
-        295.05234375,
-        170
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 11,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "ckpt_name",
-          "type": "STRING",
-          "widget": {
-            "name": "ckpt_name"
-          },
-          "link": 544
-        },
-        {
-          "name": "clip_name",
-          "type": "STRING",
-          "widget": {
-            "name": "clip_name"
-          },
-          "link": 545
-        },
-        {
-          "name": "vae_name",
-          "type": "STRING",
-          "widget": {
-            "name": "vae_name"
-          },
-          "link": 546
-        },
-        {
-          "name": "stop_at_clip_layer",
+          "name": "seed",
           "type": "INT",
-          "widget": {
-            "name": "stop_at_clip_layer"
-          },
-          "link": 547
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
           "links": [
-            483
-          ]
-        },
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "links": [
-            482
-          ]
-        },
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "links": [
-            473
+            563
           ]
         }
       ],
+      "title": "PromptSeed",
       "properties": {
-        "Node name for S&R": "CheckPointLoaderFromString"
+        "Node name for S&R": "SeedNode"
       },
       "widgets_values": [
-        "",
-        "",
-        "",
-        -1
-      ],
-      "widgets_values_named": {
-        "ckpt_name": "",
-        "clip_name": "",
-        "vae_name": "",
-        "stop_at_clip_layer": -1
-      }
-    },
-    {
-      "id": 126,
-      "type": "TomlPromptDecode",
-      "pos": [
-        13,
-        178
-      ],
-      "size": [
-        280.9133627548525,
-        236
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "toml",
-          "type": "PROMPT_FILE",
-          "link": 466
-        },
-        {
-          "name": "key_name_list",
-          "type": "STRING",
-          "widget": {
-            "name": "key_name_list"
-          },
-          "link": 377
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 0,
-          "links": [
-            443
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 1,
-          "links": [
-            441
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 2,
-          "links": [
-            442
-          ]
-        },
-        {
-          "name": "INT",
-          "type": "INT",
-          "slot_index": 3,
-          "links": []
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 4,
-          "links": [
-            462
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            543
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "TomlPromptDecode"
-      },
-      "widgets_values": [
-        "",
-        958570523456296,
+        0,
         "randomize"
       ],
       "widgets_values_named": {
-        "key_name_list": "",
-        "seed": 958570523456296,
-        "control_after_generate": "randomize"
+        "seed": 0,
+        "fixed": "randomize"
       }
     },
     {
-      "id": 119,
-      "type": "PrimitiveNode",
+      "id": 205,
+      "type": "SeedNode",
       "pos": [
-        304,
-        77
+        311.0112422620598,
+        206.5701930486417
       ],
       "size": [
-        474.4100036621094,
-        264.3800048828125
+        210,
+        82
       ],
       "flags": {},
       "order": 2,
@@ -443,19 +174,53 @@
       "inputs": [],
       "outputs": [
         {
-          "name": "STRING",
-          "type": "STRING",
-          "widget": {
-            "name": "text_to"
-          },
-          "slot_index": 0,
+          "name": "seed",
+          "type": "INT",
           "links": [
-            333
+            560
           ]
         }
       ],
+      "title": "Seed",
       "properties": {
-        "Run widget replace on values": false
+        "Node name for S&R": "SeedNode"
+      },
+      "widgets_values": [
+        0,
+        "randomize"
+      ],
+      "widgets_values_named": {
+        "seed": 0,
+        "fixed": "randomize"
+      }
+    },
+    {
+      "id": 206,
+      "type": "PrimitiveStringMultiline",
+      "pos": [
+        540.5469894117435,
+        79.21947858062593
+      ],
+      "size": [
+        462.4733634737985,
+        252.94352836762576
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            562
+          ]
+        }
+      ],
+      "title": "PromptKeys",
+      "properties": {
+        "Node name for S&R": "PrimitiveStringMultiline"
       },
       "widgets_values": [
         "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??"
@@ -465,865 +230,130 @@
       }
     },
     {
-      "id": 179,
-      "type": "KSamplerFromString",
+      "id": 207,
+      "type": "30dd4ed1-28db-4c76-a23f-55a1f0daa507",
       "pos": [
-        1043.6443115200793,
-        292.03908743302077
+        1054.1430979119766,
+        85.39651734193183
       ],
       "size": [
-        270,
-        262
+        244.10643274853805,
+        254.90865497076015
       ],
       "flags": {},
-      "order": 13,
+      "order": 4,
       "mode": 0,
       "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 495
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 496
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 497
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 498
-        },
-        {
-          "name": "steps",
-          "type": "INT",
-          "widget": {
-            "name": "steps"
-          },
-          "link": 554
-        },
-        {
-          "name": "cfg",
-          "type": "FLOAT",
-          "widget": {
-            "name": "cfg"
-          },
-          "link": 553
-        },
-        {
-          "name": "sampler",
-          "type": "STRING",
-          "widget": {
-            "name": "sampler"
-          },
-          "link": 551
-        },
-        {
-          "name": "scheduler",
-          "type": "STRING",
-          "widget": {
-            "name": "scheduler"
-          },
-          "link": 552
-        },
         {
           "name": "seed",
           "type": "INT",
           "widget": {
             "name": "seed"
           },
-          "link": 506
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "links": [
-            500
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "KSamplerFromString"
-      },
-      "widgets_values": [
-        1,
-        20,
-        1,
-        "",
-        "",
-        0,
-        "randomize"
-      ],
-      "widgets_values_named": {
-        "denoise": 1,
-        "steps": 20,
-        "cfg": 1,
-        "sampler": "",
-        "scheduler": "",
-        "seed": 0,
-        "control_after_generate": "randomize"
-      }
-    },
-    {
-      "id": 168,
-      "type": "StringConcat",
-      "pos": [
-        1358.356606321681,
-        649.5610020193916
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_from",
-          "type": "STRING",
-          "widget": {
-            "name": "text_from"
-          },
-          "link": 462
+          "link": 560
         },
         {
-          "name": "text_to",
-          "type": "STRING",
-          "widget": {
-            "name": "text_to"
-          },
-          "link": 463
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            464
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "StringConcat"
-      },
-      "widgets_values": [
-        "",
-        "",
-        "\n"
-      ],
-      "widgets_values_named": {
-        "text_from": "",
-        "text_to": "",
-        "sep": "\n"
-      }
-    },
-    {
-      "id": 118,
-      "type": "StringConcat",
-      "pos": [
-        1359.0882749027855,
-        692.5501310643117
-      ],
-      "size": [
-        210,
-        176
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 4,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_from",
-          "type": "STRING",
-          "widget": {
-            "name": "text_from"
-          },
-          "link": 350
+          "name": "toml",
+          "type": "PROMPT_FILE",
+          "link": 561
         },
         {
-          "name": "text_to",
+          "name": "key_name_list",
           "type": "STRING",
           "widget": {
-            "name": "text_to"
+            "name": "key_name_list"
           },
-          "link": 333
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "slot_index": 0,
-          "links": [
-            377
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "StringConcat"
-      },
-      "widgets_values": [
-        "",
-        "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
-        "\n"
-      ],
-      "widgets_values_named": {
-        "text_from": "",
-        "text_to": "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
-        "sep": "\n"
-      }
-    },
-    {
-      "id": 8,
-      "type": "VAEDecode",
-      "pos": [
-        1519.066856789724,
-        731.3827985642016
-      ],
-      "size": [
-        197.3822021484375,
-        46
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 14,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 500
+          "link": 562
         },
         {
-          "name": "vae",
-          "type": "VAE",
-          "link": 473
+          "name": "seed_1",
+          "type": "INT",
+          "widget": {
+            "name": "seed_1"
+          },
+          "link": 563
         }
       ],
       "outputs": [
         {
           "name": "IMAGE",
           "type": "IMAGE",
-          "slot_index": 0,
           "links": [
-            9
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 125,
-      "type": "MultipartCLIPTextEncode",
-      "pos": [
-        1048.0729488343611,
-        595.4878311627205
-      ],
-      "size": [
-        247.50003051757812,
-        280
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 12,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 482
-        },
-        {
-          "name": "model",
-          "shape": 7,
-          "type": "MODEL",
-          "link": 483
-        },
-        {
-          "name": "lora_tag_list",
-          "type": "STRING",
-          "widget": {
-            "name": "lora_tag_list"
-          },
-          "link": 442
-        },
-        {
-          "name": "positive",
-          "type": "STRING",
-          "widget": {
-            "name": "positive"
-          },
-          "link": 443
-        },
-        {
-          "name": "negative",
-          "type": "STRING",
-          "widget": {
-            "name": "negative"
-          },
-          "link": 441
-        },
-        {
-          "name": "enable_break",
-          "type": "BOOLEAN",
-          "widget": {
-            "name": "enable_break"
-          },
-          "link": 550
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "slot_index": 0,
-          "links": [
-            495
+            564
           ]
         },
-        {
-          "name": "CLIP",
-          "type": "CLIP",
-          "links": null
-        },
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "slot_index": 2,
-          "links": [
-            496
-          ]
-        },
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "slot_index": 3,
-          "links": [
-            497
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "MultipartCLIPTextEncode"
-      },
-      "widgets_values": [
-        "",
-        "",
-        "",
-        false
-      ],
-      "widgets_values_named": {
-        "lora_tag_list": "",
-        "positive": "",
-        "negative": "",
-        "enable_break": false
-      }
-    },
-    {
-      "id": 180,
-      "type": "SeedGenerator",
-      "pos": [
-        798.3510639232699,
-        241.18189287393318
-      ],
-      "size": [
-        210,
-        82
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            505,
-            506
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SeedGenerator"
-      },
-      "widgets_values": [
-        0,
-        "randomize"
-      ],
-      "widgets_values_named": {
-        "seed": 0,
-        "control_after_generate": "randomize"
-      }
-    },
-    {
-      "id": 167,
-      "type": "StringConcatInt",
-      "pos": [
-        1512.1430257564614,
-        650.2216819711152
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 5,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_from",
-          "type": "INT",
-          "widget": {
-            "name": "text_from"
-          },
-          "link": 505
-        }
-      ],
-      "outputs": [
         {
           "name": "STRING",
           "type": "STRING",
           "links": [
-            463
+            565
           ]
         }
       ],
+      "title": "text2img",
       "properties": {
-        "Node name for S&R": "StringConcatInt"
-      },
-      "widgets_values": [
-        0,
-        "seed: ",
-        ""
-      ],
-      "widgets_values_named": {
-        "text_from": 0,
-        "text_to": "seed: ",
-        "sep": ""
-      }
-    },
-    {
-      "id": 202,
-      "type": "5ec9f171-66f2-4a37-a78c-debd28921f3a",
-      "pos": [
-        1362.9900795914646,
-        796.3354788049364
-      ],
-      "size": [
-        210,
-        288
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "json_text",
-          "type": "STRING",
-          "widget": {
-            "name": "json_text"
-          },
-          "link": 543
-        }
-      ],
-      "outputs": [
-        {
-          "label": "model",
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            544
-          ]
-        },
-        {
-          "label": "clip_model",
-          "name": "STRING_1",
-          "type": "STRING",
-          "links": [
-            545
-          ]
-        },
-        {
-          "label": "vae_model",
-          "name": "STRING_2",
-          "type": "STRING",
-          "links": [
-            546
-          ]
-        },
-        {
-          "label": "width",
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            548
-          ]
-        },
-        {
-          "label": "height",
-          "name": "INT_1",
-          "type": "INT",
-          "links": [
-            549
-          ]
-        },
-        {
-          "label": "clip",
-          "name": "INT_2",
-          "type": "INT",
-          "links": [
-            547
-          ]
-        },
-        {
-          "label": "enable_break",
-          "name": "BOOLEAN",
-          "type": "BOOLEAN",
-          "links": [
-            550
-          ]
-        },
-        {
-          "label": "sampler",
-          "name": "STRING_3",
-          "type": "STRING",
-          "links": [
-            551
-          ]
-        },
-        {
-          "label": "scheduler",
-          "name": "STRING_4",
-          "type": "STRING",
-          "links": [
-            552
-          ]
-        },
-        {
-          "label": "cfg",
-          "name": "FLOAT",
-          "type": "FLOAT",
-          "links": [
-            553
-          ]
-        },
-        {
-          "label": "steps",
-          "name": "INT_3",
-          "type": "INT",
-          "links": [
-            554
-          ]
-        }
-      ],
-      "properties": {
-        "proxyWidgetErrorQuarantine": [
-          {
-            "originalEntry": [
-              "-1",
-              "json_text"
-            ],
-            "reason": "missingSourceNode",
-            "hostValue": "",
-            "attemptedAtVersion": 1
-          }
-        ],
         "previewExposures": []
       },
       "widgets_values": [
-        ""
+        0,
+        "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
+        958570523456296
       ],
       "widgets_values_named": {
-        "json_text": ""
+        "seed": 0,
+        "key_name_list": "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
+        "seed_1": 958570523456296
       }
     }
   ],
   "links": [
     [
-      9,
-      8,
+      560,
+      205,
+      0,
+      207,
+      0,
+      "INT"
+    ],
+    [
+      561,
+      79,
+      0,
+      207,
+      1,
+      "PROMPT_FILE"
+    ],
+    [
+      562,
+      206,
+      0,
+      207,
+      2,
+      "STRING"
+    ],
+    [
+      563,
+      203,
+      0,
+      207,
+      3,
+      "INT"
+    ],
+    [
+      564,
+      207,
       0,
       9,
       0,
       "IMAGE"
     ],
     [
-      333,
-      119,
-      0,
-      118,
+      565,
+      207,
       1,
-      "STRING"
-    ],
-    [
-      350,
-      120,
-      0,
-      118,
-      0,
-      "STRING"
-    ],
-    [
-      377,
-      118,
-      0,
-      126,
-      1,
-      "STRING"
-    ],
-    [
-      441,
-      126,
-      1,
-      125,
-      4,
-      "STRING"
-    ],
-    [
-      442,
-      126,
-      2,
-      125,
-      2,
-      "STRING"
-    ],
-    [
-      443,
-      126,
-      0,
-      125,
-      3,
-      "STRING"
-    ],
-    [
-      462,
-      126,
-      4,
-      168,
-      0,
-      "STRING"
-    ],
-    [
-      463,
-      167,
-      0,
-      168,
-      1,
-      "STRING"
-    ],
-    [
-      464,
-      168,
-      0,
       129,
       0,
       "STRING"
-    ],
-    [
-      466,
-      79,
-      0,
-      126,
-      0,
-      "PROMPT_FILE"
-    ],
-    [
-      473,
-      171,
-      2,
-      8,
-      1,
-      "VAE"
-    ],
-    [
-      482,
-      171,
-      1,
-      125,
-      0,
-      "CLIP"
-    ],
-    [
-      483,
-      171,
-      0,
-      125,
-      1,
-      "MODEL"
-    ],
-    [
-      495,
-      125,
-      0,
-      179,
-      0,
-      "MODEL"
-    ],
-    [
-      496,
-      125,
-      2,
-      179,
-      1,
-      "CONDITIONING"
-    ],
-    [
-      497,
-      125,
-      3,
-      179,
-      2,
-      "CONDITIONING"
-    ],
-    [
-      498,
-      5,
-      0,
-      179,
-      3,
-      "LATENT"
-    ],
-    [
-      500,
-      179,
-      0,
-      8,
-      0,
-      "LATENT"
-    ],
-    [
-      505,
-      180,
-      0,
-      167,
-      0,
-      "INT"
-    ],
-    [
-      506,
-      180,
-      0,
-      179,
-      8,
-      "INT"
-    ],
-    [
-      543,
-      126,
-      5,
-      202,
-      0,
-      "STRING"
-    ],
-    [
-      544,
-      202,
-      0,
-      171,
-      0,
-      "STRING"
-    ],
-    [
-      545,
-      202,
-      1,
-      171,
-      1,
-      "STRING"
-    ],
-    [
-      546,
-      202,
-      2,
-      171,
-      2,
-      "STRING"
-    ],
-    [
-      547,
-      202,
-      5,
-      171,
-      3,
-      "INT"
-    ],
-    [
-      548,
-      202,
-      3,
-      5,
-      0,
-      "INT"
-    ],
-    [
-      549,
-      202,
-      4,
-      5,
-      1,
-      "INT"
-    ],
-    [
-      550,
-      202,
-      6,
-      125,
-      5,
-      "BOOLEAN"
-    ],
-    [
-      551,
-      202,
-      7,
-      179,
-      6,
-      "STRING"
-    ],
-    [
-      552,
-      202,
-      8,
-      179,
-      7,
-      "STRING"
-    ],
-    [
-      553,
-      202,
-      9,
-      179,
-      5,
-      "FLOAT"
-    ],
-    [
-      554,
-      202,
-      10,
-      179,
-      4,
-      "INT"
     ]
   ],
   "groups": [
@@ -1347,17 +377,17 @@
       "bounding": [
         1027,
         2,
-        683,
+        300.95949929921244,
         944
       ],
-      "color": "#3f789e",
+      "color": "#A88",
       "flags": {
         "pinned": true
       }
     },
     {
       "id": 3,
-      "title": "toml2img",
+      "title": "Input",
       "bounding": [
         3,
         2,
@@ -1373,12 +403,1188 @@
   "definitions": {
     "subgraphs": [
       {
+        "id": "30dd4ed1-28db-4c76-a23f-55a1f0daa507",
+        "version": 1,
+        "state": {
+          "lastGroupId": 3,
+          "lastNodeId": 207,
+          "lastLinkId": 593,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "text2img",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            713.2940475217599,
+            58.38698517818915,
+            128,
+            128
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            2629.109877651612,
+            78.38698517818915,
+            128,
+            88
+          ]
+        },
+        "inputs": [
+          {
+            "id": "56c782fc-a9fe-40bd-a9b9-5f67fcaa6f3c",
+            "name": "seed",
+            "type": "INT",
+            "linkIds": [
+              557,
+              558
+            ],
+            "localized_name": "seed",
+            "pos": [
+              817.2940475217599,
+              82.38698517818915
+            ]
+          },
+          {
+            "id": "509809e4-2614-4038-87e6-0c8be884364a",
+            "name": "toml",
+            "type": "PROMPT_FILE",
+            "linkIds": [
+              466
+            ],
+            "localized_name": "toml",
+            "pos": [
+              817.2940475217599,
+              102.38698517818915
+            ]
+          },
+          {
+            "id": "aa63d2f0-a4d8-4343-9396-1ffd8a1d603d",
+            "name": "key_name_list",
+            "type": "STRING",
+            "linkIds": [
+              559
+            ],
+            "localized_name": "key_name_list",
+            "pos": [
+              817.2940475217599,
+              122.38698517818915
+            ]
+          },
+          {
+            "id": "d10ca1d3-d018-4875-93aa-d6a8e670dd97",
+            "name": "seed_1",
+            "type": "INT",
+            "linkIds": [
+              556
+            ],
+            "localized_name": "seed_1",
+            "pos": [
+              817.2940475217599,
+              142.38698517818915
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "c636158f-fdef-40f5-a567-027bf408b609",
+            "name": "IMAGE",
+            "type": "IMAGE",
+            "linkIds": [
+              9
+            ],
+            "localized_name": "画像",
+            "pos": [
+              2653.109877651612,
+              102.38698517818915
+            ]
+          },
+          {
+            "id": "5c25bd59-9196-47ac-9461-4dcebe5b2316",
+            "name": "STRING",
+            "type": "STRING",
+            "linkIds": [
+              464
+            ],
+            "localized_name": "文字列",
+            "pos": [
+              2653.109877651612,
+              122.38698517818915
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 8,
+            "type": "VAEDecode",
+            "pos": [
+              2371.7276755031744,
+              312.80385119578006
+            ],
+            "size": [
+              197.3822021484375,
+              46
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "サンプル",
+                "name": "samples",
+                "type": "LATENT",
+                "link": 500
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 473
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "slot_index": 0,
+                "links": [
+                  9
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "VAEDecode"
+            }
+          },
+          {
+            "id": 179,
+            "type": "KSamplerFromString",
+            "pos": [
+              2082.185188713059,
+              -43.90927514007844
+            ],
+            "size": [
+              270,
+              262
+            ],
+            "flags": {},
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "model",
+                "name": "model",
+                "type": "MODEL",
+                "link": 495
+              },
+              {
+                "localized_name": "positive",
+                "name": "positive",
+                "type": "CONDITIONING",
+                "link": 496
+              },
+              {
+                "localized_name": "negative",
+                "name": "negative",
+                "type": "CONDITIONING",
+                "link": 497
+              },
+              {
+                "localized_name": "latent_image",
+                "name": "latent_image",
+                "type": "LATENT",
+                "link": 498
+              },
+              {
+                "localized_name": "steps",
+                "name": "steps",
+                "type": "INT",
+                "widget": {
+                  "name": "steps"
+                },
+                "link": 554
+              },
+              {
+                "localized_name": "cfg",
+                "name": "cfg",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "cfg"
+                },
+                "link": 553
+              },
+              {
+                "localized_name": "sampler",
+                "name": "sampler",
+                "type": "STRING",
+                "widget": {
+                  "name": "sampler"
+                },
+                "link": 551
+              },
+              {
+                "localized_name": "scheduler",
+                "name": "scheduler",
+                "type": "STRING",
+                "widget": {
+                  "name": "scheduler"
+                },
+                "link": 552
+              },
+              {
+                "localized_name": "seed",
+                "name": "seed",
+                "type": "INT",
+                "widget": {
+                  "name": "seed"
+                },
+                "link": 557
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "潜在",
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  500
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "KSamplerFromString"
+            },
+            "widgets_values": [
+              1,
+              20,
+              1,
+              "",
+              "",
+              0,
+              "randomize"
+            ],
+            "widgets_values_named": {
+              "denoise": 1,
+              "steps": 20,
+              "cfg": 1,
+              "sampler": "",
+              "scheduler": "",
+              "seed": 0,
+              "control_after_generate": "randomize"
+            }
+          },
+          {
+            "id": 125,
+            "type": "MultipartCLIPTextEncode",
+            "pos": [
+              1812.0570424016082,
+              -348.2371629893256
+            ],
+            "size": [
+              247.50003051757812,
+              280
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "clip",
+                "name": "clip",
+                "type": "CLIP",
+                "link": 482
+              },
+              {
+                "localized_name": "model",
+                "name": "model",
+                "shape": 7,
+                "type": "MODEL",
+                "link": 483
+              },
+              {
+                "localized_name": "lora_tag_list",
+                "name": "lora_tag_list",
+                "type": "STRING",
+                "widget": {
+                  "name": "lora_tag_list"
+                },
+                "link": 442
+              },
+              {
+                "localized_name": "positive",
+                "name": "positive",
+                "type": "STRING",
+                "widget": {
+                  "name": "positive"
+                },
+                "link": 443
+              },
+              {
+                "localized_name": "negative",
+                "name": "negative",
+                "type": "STRING",
+                "widget": {
+                  "name": "negative"
+                },
+                "link": 441
+              },
+              {
+                "localized_name": "enable_break",
+                "name": "enable_break",
+                "type": "BOOLEAN",
+                "widget": {
+                  "name": "enable_break"
+                },
+                "link": 550
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "slot_index": 0,
+                "links": [
+                  495
+                ]
+              },
+              {
+                "localized_name": "CLIP",
+                "name": "CLIP",
+                "type": "CLIP",
+                "links": null
+              },
+              {
+                "localized_name": "条件付け",
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "slot_index": 2,
+                "links": [
+                  496
+                ]
+              },
+              {
+                "localized_name": "条件付け",
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "slot_index": 3,
+                "links": [
+                  497
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "MultipartCLIPTextEncode"
+            },
+            "widgets_values": [
+              "",
+              "",
+              "",
+              false
+            ],
+            "widgets_values_named": {
+              "lora_tag_list": "",
+              "positive": "",
+              "negative": "",
+              "enable_break": false
+            }
+          },
+          {
+            "id": 171,
+            "type": "CheckPointLoaderFromString",
+            "pos": [
+              1490.7273314908077,
+              -39.81895538499924
+            ],
+            "size": [
+              295.05234375,
+              170
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "ckpt_name",
+                "name": "ckpt_name",
+                "type": "STRING",
+                "widget": {
+                  "name": "ckpt_name"
+                },
+                "link": 544
+              },
+              {
+                "localized_name": "clip_name",
+                "name": "clip_name",
+                "type": "STRING",
+                "widget": {
+                  "name": "clip_name"
+                },
+                "link": 545
+              },
+              {
+                "localized_name": "vae_name",
+                "name": "vae_name",
+                "type": "STRING",
+                "widget": {
+                  "name": "vae_name"
+                },
+                "link": 546
+              },
+              {
+                "localized_name": "stop_at_clip_layer",
+                "name": "stop_at_clip_layer",
+                "type": "INT",
+                "widget": {
+                  "name": "stop_at_clip_layer"
+                },
+                "link": 547
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  483
+                ]
+              },
+              {
+                "localized_name": "CLIP",
+                "name": "CLIP",
+                "type": "CLIP",
+                "links": [
+                  482
+                ]
+              },
+              {
+                "localized_name": "VAE",
+                "name": "VAE",
+                "type": "VAE",
+                "links": [
+                  473
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "CheckPointLoaderFromString"
+            },
+            "widgets_values": [
+              "",
+              "",
+              "",
+              -1
+            ],
+            "widgets_values_named": {
+              "ckpt_name": "",
+              "clip_name": "",
+              "vae_name": "",
+              "stop_at_clip_layer": -1
+            }
+          },
+          {
+            "id": 5,
+            "type": "EmptyLatentImage",
+            "pos": [
+              1536.6989473684134,
+              197.37251461988396
+            ],
+            "size": [
+              210,
+              106
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "幅",
+                "name": "width",
+                "type": "INT",
+                "widget": {
+                  "name": "width"
+                },
+                "link": 548
+              },
+              {
+                "localized_name": "高さ",
+                "name": "height",
+                "type": "INT",
+                "widget": {
+                  "name": "height"
+                },
+                "link": 549
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "潜在",
+                "name": "LATENT",
+                "type": "LATENT",
+                "slot_index": 0,
+                "links": [
+                  498
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "EmptyLatentImage"
+            },
+            "widgets_values": [
+              832,
+              1216,
+              1
+            ],
+            "widgets_values_named": {
+              "width": 832,
+              "height": 1216,
+              "batch_size": 1
+            }
+          },
+          {
+            "id": 168,
+            "type": "StringConcat",
+            "pos": [
+              1504.0383908481112,
+              423.0111333457038
+            ],
+            "size": [
+              400,
+              200.00000000000017
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "text_from",
+                "name": "text_from",
+                "type": "STRING",
+                "widget": {
+                  "name": "text_from"
+                },
+                "link": 462
+              },
+              {
+                "localized_name": "text_to",
+                "name": "text_to",
+                "type": "STRING",
+                "widget": {
+                  "name": "text_to"
+                },
+                "link": 463
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  464
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "StringConcat"
+            },
+            "widgets_values": [
+              "",
+              "",
+              "\n"
+            ],
+            "widgets_values_named": {
+              "text_from": "",
+              "text_to": "",
+              "sep": "\n"
+            }
+          },
+          {
+            "id": 167,
+            "type": "StringConcatInt",
+            "pos": [
+              1184.9096656218435,
+              335.5147606482738
+            ],
+            "size": [
+              210,
+              166
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "text_from",
+                "name": "text_from",
+                "type": "INT",
+                "widget": {
+                  "name": "text_from"
+                },
+                "link": 558
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  463
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "StringConcatInt"
+            },
+            "widgets_values": [
+              0,
+              "seed: ",
+              ""
+            ],
+            "widgets_values_named": {
+              "text_from": 0,
+              "text_to": "seed: ",
+              "sep": ""
+            }
+          },
+          {
+            "id": 202,
+            "type": "5ec9f171-66f2-4a37-a78c-debd28921f3a",
+            "pos": [
+              1235.0909567844444,
+              -16.25028142898126
+            ],
+            "size": [
+              210,
+              288
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 8,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_text",
+                "name": "json_text",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_text"
+                },
+                "link": 543
+              }
+            ],
+            "outputs": [
+              {
+                "label": "model",
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  544
+                ]
+              },
+              {
+                "label": "clip_model",
+                "localized_name": "文字列_1",
+                "name": "STRING_1",
+                "type": "STRING",
+                "links": [
+                  545
+                ]
+              },
+              {
+                "label": "vae_model",
+                "localized_name": "文字列_2",
+                "name": "STRING_2",
+                "type": "STRING",
+                "links": [
+                  546
+                ]
+              },
+              {
+                "label": "width",
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": [
+                  548
+                ]
+              },
+              {
+                "label": "height",
+                "localized_name": "整数_1",
+                "name": "INT_1",
+                "type": "INT",
+                "links": [
+                  549
+                ]
+              },
+              {
+                "label": "clip",
+                "localized_name": "整数_2",
+                "name": "INT_2",
+                "type": "INT",
+                "links": [
+                  547
+                ]
+              },
+              {
+                "label": "enable_break",
+                "name": "BOOLEAN",
+                "type": "BOOLEAN",
+                "links": [
+                  550
+                ]
+              },
+              {
+                "label": "sampler",
+                "name": "STRING_3",
+                "type": "STRING",
+                "links": [
+                  551
+                ]
+              },
+              {
+                "label": "scheduler",
+                "name": "STRING_4",
+                "type": "STRING",
+                "links": [
+                  552
+                ]
+              },
+              {
+                "label": "cfg",
+                "name": "FLOAT",
+                "type": "FLOAT",
+                "links": [
+                  553
+                ]
+              },
+              {
+                "label": "steps",
+                "name": "INT_3",
+                "type": "INT",
+                "links": [
+                  554
+                ]
+              }
+            ],
+            "properties": {
+              "proxyWidgetErrorQuarantine": [
+                {
+                  "originalEntry": [
+                    "-1",
+                    "json_text"
+                  ],
+                  "reason": "missingSourceNode",
+                  "hostValue": "",
+                  "attemptedAtVersion": 1
+                }
+              ],
+              "previewExposures": []
+            },
+            "widgets_values": [
+              ""
+            ],
+            "widgets_values_named": {
+              "json_text": ""
+            }
+          },
+          {
+            "id": 126,
+            "type": "TomlPromptDecode",
+            "pos": [
+              901.2940475217599,
+              -79.04085525267253
+            ],
+            "size": [
+              280.9133627548525,
+              236
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "toml",
+                "name": "toml",
+                "type": "PROMPT_FILE",
+                "link": 466
+              },
+              {
+                "localized_name": "key_name_list",
+                "name": "key_name_list",
+                "type": "STRING",
+                "widget": {
+                  "name": "key_name_list"
+                },
+                "link": 559
+              },
+              {
+                "localized_name": "seed",
+                "name": "seed",
+                "type": "INT",
+                "widget": {
+                  "name": "seed"
+                },
+                "link": 556
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "slot_index": 0,
+                "links": [
+                  443
+                ]
+              },
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "slot_index": 1,
+                "links": [
+                  441
+                ]
+              },
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "slot_index": 2,
+                "links": [
+                  442
+                ]
+              },
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "slot_index": 3,
+                "links": []
+              },
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "slot_index": 4,
+                "links": [
+                  462
+                ]
+              },
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  543
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "TomlPromptDecode"
+            },
+            "widgets_values": [
+              "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
+              958570523456296,
+              "randomize"
+            ],
+            "widgets_values_named": {
+              "key_name_list": "negative, base.quality\ngirl.makeup+hair\npose.photo\nwhere.??",
+              "seed": 958570523456296,
+              "control_after_generate": "randomize"
+            }
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 500,
+            "origin_id": 179,
+            "origin_slot": 0,
+            "target_id": 8,
+            "target_slot": 0,
+            "type": "LATENT"
+          },
+          {
+            "id": 473,
+            "origin_id": 171,
+            "origin_slot": 2,
+            "target_id": 8,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 495,
+            "origin_id": 125,
+            "origin_slot": 0,
+            "target_id": 179,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 496,
+            "origin_id": 125,
+            "origin_slot": 2,
+            "target_id": 179,
+            "target_slot": 1,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 497,
+            "origin_id": 125,
+            "origin_slot": 3,
+            "target_id": 179,
+            "target_slot": 2,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 498,
+            "origin_id": 5,
+            "origin_slot": 0,
+            "target_id": 179,
+            "target_slot": 3,
+            "type": "LATENT"
+          },
+          {
+            "id": 554,
+            "origin_id": 202,
+            "origin_slot": 10,
+            "target_id": 179,
+            "target_slot": 4,
+            "type": "INT"
+          },
+          {
+            "id": 553,
+            "origin_id": 202,
+            "origin_slot": 9,
+            "target_id": 179,
+            "target_slot": 5,
+            "type": "FLOAT"
+          },
+          {
+            "id": 551,
+            "origin_id": 202,
+            "origin_slot": 7,
+            "target_id": 179,
+            "target_slot": 6,
+            "type": "STRING"
+          },
+          {
+            "id": 552,
+            "origin_id": 202,
+            "origin_slot": 8,
+            "target_id": 179,
+            "target_slot": 7,
+            "type": "STRING"
+          },
+          {
+            "id": 482,
+            "origin_id": 171,
+            "origin_slot": 1,
+            "target_id": 125,
+            "target_slot": 0,
+            "type": "CLIP"
+          },
+          {
+            "id": 483,
+            "origin_id": 171,
+            "origin_slot": 0,
+            "target_id": 125,
+            "target_slot": 1,
+            "type": "MODEL"
+          },
+          {
+            "id": 442,
+            "origin_id": 126,
+            "origin_slot": 2,
+            "target_id": 125,
+            "target_slot": 2,
+            "type": "STRING"
+          },
+          {
+            "id": 443,
+            "origin_id": 126,
+            "origin_slot": 0,
+            "target_id": 125,
+            "target_slot": 3,
+            "type": "STRING"
+          },
+          {
+            "id": 441,
+            "origin_id": 126,
+            "origin_slot": 1,
+            "target_id": 125,
+            "target_slot": 4,
+            "type": "STRING"
+          },
+          {
+            "id": 550,
+            "origin_id": 202,
+            "origin_slot": 6,
+            "target_id": 125,
+            "target_slot": 5,
+            "type": "BOOLEAN"
+          },
+          {
+            "id": 544,
+            "origin_id": 202,
+            "origin_slot": 0,
+            "target_id": 171,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 545,
+            "origin_id": 202,
+            "origin_slot": 1,
+            "target_id": 171,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 546,
+            "origin_id": 202,
+            "origin_slot": 2,
+            "target_id": 171,
+            "target_slot": 2,
+            "type": "STRING"
+          },
+          {
+            "id": 547,
+            "origin_id": 202,
+            "origin_slot": 5,
+            "target_id": 171,
+            "target_slot": 3,
+            "type": "INT"
+          },
+          {
+            "id": 548,
+            "origin_id": 202,
+            "origin_slot": 3,
+            "target_id": 5,
+            "target_slot": 0,
+            "type": "INT"
+          },
+          {
+            "id": 549,
+            "origin_id": 202,
+            "origin_slot": 4,
+            "target_id": 5,
+            "target_slot": 1,
+            "type": "INT"
+          },
+          {
+            "id": 462,
+            "origin_id": 126,
+            "origin_slot": 4,
+            "target_id": 168,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 463,
+            "origin_id": 167,
+            "origin_slot": 0,
+            "target_id": 168,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 543,
+            "origin_id": 126,
+            "origin_slot": 5,
+            "target_id": 202,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 557,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 179,
+            "target_slot": 8,
+            "type": "INT"
+          },
+          {
+            "id": 558,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 167,
+            "target_slot": 0,
+            "type": "INT"
+          },
+          {
+            "id": 466,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 126,
+            "target_slot": 0,
+            "type": "PROMPT_FILE"
+          },
+          {
+            "id": 559,
+            "origin_id": -10,
+            "origin_slot": 2,
+            "target_id": 126,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 556,
+            "origin_id": -10,
+            "origin_slot": 3,
+            "target_id": 126,
+            "target_slot": 2,
+            "type": "INT"
+          },
+          {
+            "id": 9,
+            "origin_id": 8,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 464,
+            "origin_id": 168,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "STRING"
+          }
+        ],
+        "extra": {}
+      },
+      {
         "id": "5ec9f171-66f2-4a37-a78c-debd28921f3a",
         "version": 1,
         "state": {
           "lastGroupId": 3,
-          "lastNodeId": 202,
-          "lastLinkId": 554,
+          "lastNodeId": 207,
+          "lastLinkId": 593,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -1418,7 +1624,18 @@
               532,
               534,
               537,
-              541
+              541,
+              566,
+              567,
+              568,
+              569,
+              570,
+              571,
+              572,
+              573,
+              574,
+              589,
+              590
             ],
             "localized_name": "json_text",
             "pos": [
@@ -1433,7 +1650,7 @@
             "name": "STRING",
             "type": "STRING",
             "linkIds": [
-              515
+              587
             ],
             "localized_name": "文字列",
             "label": "model",
@@ -1447,7 +1664,7 @@
             "name": "STRING_1",
             "type": "STRING",
             "linkIds": [
-              516
+              588
             ],
             "localized_name": "文字列_1",
             "label": "clip_model",
@@ -1461,7 +1678,7 @@
             "name": "STRING_2",
             "type": "STRING",
             "linkIds": [
-              517
+              591
             ],
             "localized_name": "文字列_2",
             "label": "vae_model",
@@ -1475,7 +1692,7 @@
             "name": "INT",
             "type": "INT",
             "linkIds": [
-              527
+              593
             ],
             "localized_name": "整数",
             "label": "width",
@@ -1489,7 +1706,7 @@
             "name": "INT_1",
             "type": "INT",
             "linkIds": [
-              529
+              592
             ],
             "localized_name": "整数_1",
             "label": "height",
@@ -1503,7 +1720,7 @@
             "name": "INT_2",
             "type": "INT",
             "linkIds": [
-              533
+              584
             ],
             "localized_name": "整数_2",
             "label": "clip",
@@ -1517,7 +1734,7 @@
             "name": "BOOLEAN",
             "type": "BOOLEAN",
             "linkIds": [
-              536
+              582
             ],
             "label": "enable_break",
             "pos": [
@@ -1530,7 +1747,7 @@
             "name": "STRING_3",
             "type": "STRING",
             "linkIds": [
-              518
+              580
             ],
             "label": "sampler",
             "pos": [
@@ -1543,7 +1760,7 @@
             "name": "STRING_4",
             "type": "STRING",
             "linkIds": [
-              519
+              579
             ],
             "label": "scheduler",
             "pos": [
@@ -1556,7 +1773,7 @@
             "name": "FLOAT",
             "type": "FLOAT",
             "linkIds": [
-              539
+              578
             ],
             "label": "cfg",
             "pos": [
@@ -1569,7 +1786,7 @@
             "name": "INT_3",
             "type": "INT",
             "linkIds": [
-              542
+              576
             ],
             "label": "steps",
             "pos": [
@@ -1584,8 +1801,8 @@
             "id": 185,
             "type": "JsonExtractString",
             "pos": [
-              1217.8286306684452,
-              774.3267248454384
+              1220.5581068696172,
+              771.5972486442664
             ],
             "size": [
               270,
@@ -1604,7 +1821,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 521
+                "link": 589
               }
             ],
             "outputs": [
@@ -1613,7 +1830,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  516
+                  588
                 ]
               }
             ],
@@ -1633,8 +1850,8 @@
             "id": 186,
             "type": "JsonExtractString",
             "pos": [
-              1220.516892991183,
-              816.0431367957061
+              1229.6151469950844,
+              806.9448827918035
             ],
             "size": [
               270,
@@ -1643,7 +1860,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 1,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1653,7 +1870,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 522
+                "link": 590
               }
             ],
             "outputs": [
@@ -1662,7 +1879,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  517
+                  591
                 ]
               }
             ],
@@ -1682,8 +1899,8 @@
             "id": 187,
             "type": "JsonExtractString",
             "pos": [
-              1220.3696859697159,
-              731.472670280068
+              1224.0089875712779,
+              729.6530194792869
             ],
             "size": [
               270,
@@ -1692,7 +1909,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 2,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1702,7 +1919,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 520
+                "link": 566
               }
             ],
             "outputs": [
@@ -1711,7 +1928,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  515
+                  587
                 ]
               }
             ],
@@ -1731,8 +1948,8 @@
             "id": 188,
             "type": "JsonExtractString",
             "pos": [
-              1217.8846399896365,
-              1038.9303840441962
+              1226.07306859315,
+              1036.2009078430256
             ],
             "size": [
               270,
@@ -1741,7 +1958,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 3,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1751,7 +1968,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 523
+                "link": 571
               }
             ],
             "outputs": [
@@ -1760,7 +1977,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  518
+                  580
                 ]
               }
             ],
@@ -1780,8 +1997,8 @@
             "id": 189,
             "type": "JsonExtractString",
             "pos": [
-              1220.0023811243411,
-              1083.4029478730008
+              1228.1908097278542,
+              1073.3948684687095
             ],
             "size": [
               270,
@@ -1790,7 +2007,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 4,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1800,7 +2017,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 524
+                "link": 572
               }
             ],
             "outputs": [
@@ -1809,7 +2026,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  519
+                  579
                 ]
               }
             ],
@@ -1829,8 +2046,8 @@
             "id": 190,
             "type": "JsonExtractString",
             "pos": [
-              1222.7654463660074,
-              858.0959411715489
+              1223.6752717663976,
+              857.1861157711586
             ],
             "size": [
               210,
@@ -1839,7 +2056,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 5,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1849,7 +2066,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 525
+                "link": 567
               }
             ],
             "outputs": [
@@ -1858,7 +2075,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  526
+                  586
                 ]
               }
             ],
@@ -1888,7 +2105,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 6,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1898,7 +2115,7 @@
                 "widget": {
                   "name": "text"
                 },
-                "link": 526
+                "link": 586
               }
             ],
             "outputs": [
@@ -1907,7 +2124,7 @@
                 "name": "INT",
                 "type": "INT",
                 "links": [
-                  527
+                  593
                 ]
               }
             ],
@@ -1937,7 +2154,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 7,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1947,7 +2164,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 530
+                "link": 568
               }
             ],
             "outputs": [
@@ -1956,7 +2173,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  528
+                  585
                 ]
               }
             ],
@@ -1986,7 +2203,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 8,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1996,7 +2213,7 @@
                 "widget": {
                   "name": "text"
                 },
-                "link": 528
+                "link": 585
               }
             ],
             "outputs": [
@@ -2005,7 +2222,7 @@
                 "name": "INT",
                 "type": "INT",
                 "links": [
-                  529
+                  592
                 ]
               }
             ],
@@ -2035,7 +2252,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 9,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2045,7 +2262,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 532
+                "link": 569
               }
             ],
             "outputs": [
@@ -2054,7 +2271,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  531
+                  583
                 ]
               }
             ],
@@ -2084,7 +2301,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 10,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2094,7 +2311,7 @@
                 "widget": {
                   "name": "text"
                 },
-                "link": 531
+                "link": 583
               }
             ],
             "outputs": [
@@ -2103,7 +2320,7 @@
                 "name": "INT",
                 "type": "INT",
                 "links": [
-                  533
+                  584
                 ]
               }
             ],
@@ -2124,7 +2341,7 @@
             "type": "JsonExtractString",
             "pos": [
               1223.3914853630993,
-              984.6437026546889
+              983.7338772542986
             ],
             "size": [
               210,
@@ -2133,7 +2350,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 11,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2143,7 +2360,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 534
+                "link": 570
               }
             ],
             "outputs": [
@@ -2152,7 +2369,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  535
+                  581
                 ]
               }
             ],
@@ -2182,7 +2399,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 12,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2192,7 +2409,7 @@
                 "widget": {
                   "name": "text"
                 },
-                "link": 535
+                "link": 581
               }
             ],
             "outputs": [
@@ -2201,7 +2418,7 @@
                 "name": "BOOLEAN",
                 "type": "BOOLEAN",
                 "links": [
-                  536
+                  582
                 ]
               }
             ],
@@ -2231,7 +2448,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 13,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2241,7 +2458,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 537
+                "link": 573
               }
             ],
             "outputs": [
@@ -2250,7 +2467,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  538
+                  577
                 ]
               }
             ],
@@ -2270,17 +2487,17 @@
             "id": 199,
             "type": "StringToFloat",
             "pos": [
-              1452.659965723242,
+              1454.4796165240225,
               1122.706840281304
             ],
             "size": [
-              270,
+              269.0901745996098,
               82.71146187570343
             ],
             "flags": {
               "collapsed": true
             },
-            "order": 14,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2290,7 +2507,7 @@
                 "widget": {
                   "name": "text"
                 },
-                "link": 538
+                "link": 577
               }
             ],
             "outputs": [
@@ -2299,7 +2516,7 @@
                 "name": "FLOAT",
                 "type": "FLOAT",
                 "links": [
-                  539
+                  578
                 ]
               }
             ],
@@ -2319,7 +2536,7 @@
             "id": 200,
             "type": "JsonExtractString",
             "pos": [
-              1226.948794741617,
+              1227.858620142007,
               1169.6767089894902
             ],
             "size": [
@@ -2329,7 +2546,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 15,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2339,7 +2556,7 @@
                 "widget": {
                   "name": "json_string"
                 },
-                "link": 541
+                "link": 574
               }
             ],
             "outputs": [
@@ -2348,7 +2565,7 @@
                 "name": "STRING",
                 "type": "STRING",
                 "links": [
-                  540
+                  575
                 ]
               }
             ],
@@ -2368,7 +2585,7 @@
             "id": 201,
             "type": "StringToInt",
             "pos": [
-              1438.3453053305743,
+              1439.2551307309645,
               1169.6237903375747
             ],
             "size": [
@@ -2378,7 +2595,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 16,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2388,7 +2605,7 @@
                 "widget": {
                   "name": "text"
                 },
-                "link": 540
+                "link": 575
               }
             ],
             "outputs": [
@@ -2397,7 +2614,7 @@
                 "name": "INT",
                 "type": "INT",
                 "links": [
-                  542
+                  576
                 ]
               }
             ],
@@ -2417,47 +2634,7 @@
         "groups": [],
         "links": [
           {
-            "id": 515,
-            "origin_id": 187,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 516,
-            "origin_id": 185,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 1,
-            "type": "STRING"
-          },
-          {
-            "id": 517,
-            "origin_id": 186,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 2,
-            "type": "STRING"
-          },
-          {
-            "id": 518,
-            "origin_id": 188,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 7,
-            "type": "STRING"
-          },
-          {
-            "id": 519,
-            "origin_id": 189,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 8,
-            "type": "STRING"
-          },
-          {
-            "id": 520,
+            "id": 566,
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 187,
@@ -2465,39 +2642,7 @@
             "type": "STRING"
           },
           {
-            "id": 521,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 185,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 522,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 186,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 523,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 188,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 524,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 189,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 525,
+            "id": 567,
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 190,
@@ -2505,39 +2650,7 @@
             "type": "STRING"
           },
           {
-            "id": 526,
-            "origin_id": 190,
-            "origin_slot": 0,
-            "target_id": 191,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 527,
-            "origin_id": 191,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 3,
-            "type": "INT"
-          },
-          {
-            "id": 528,
-            "origin_id": 192,
-            "origin_slot": 0,
-            "target_id": 193,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 529,
-            "origin_id": 193,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 4,
-            "type": "INT"
-          },
-          {
-            "id": 530,
+            "id": 568,
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 192,
@@ -2545,15 +2658,7 @@
             "type": "STRING"
           },
           {
-            "id": 531,
-            "origin_id": 194,
-            "origin_slot": 0,
-            "target_id": 195,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 532,
+            "id": 569,
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 194,
@@ -2561,15 +2666,7 @@
             "type": "STRING"
           },
           {
-            "id": 533,
-            "origin_id": 195,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 5,
-            "type": "INT"
-          },
-          {
-            "id": 534,
+            "id": 570,
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 196,
@@ -2577,23 +2674,23 @@
             "type": "STRING"
           },
           {
-            "id": 535,
-            "origin_id": 196,
+            "id": 571,
+            "origin_id": -10,
             "origin_slot": 0,
-            "target_id": 197,
+            "target_id": 188,
             "target_slot": 0,
             "type": "STRING"
           },
           {
-            "id": 536,
-            "origin_id": 197,
+            "id": 572,
+            "origin_id": -10,
             "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 6,
-            "type": "BOOLEAN"
+            "target_id": 189,
+            "target_slot": 0,
+            "type": "STRING"
           },
           {
-            "id": 537,
+            "id": 573,
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 198,
@@ -2601,31 +2698,7 @@
             "type": "STRING"
           },
           {
-            "id": 538,
-            "origin_id": 198,
-            "origin_slot": 0,
-            "target_id": 199,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 539,
-            "origin_id": 199,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 9,
-            "type": "FLOAT"
-          },
-          {
-            "id": 540,
-            "origin_id": 200,
-            "origin_slot": 0,
-            "target_id": 201,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 541,
+            "id": 574,
             "origin_id": -10,
             "origin_slot": 0,
             "target_id": 200,
@@ -2633,27 +2706,169 @@
             "type": "STRING"
           },
           {
-            "id": 542,
+            "id": 575,
+            "origin_id": 200,
+            "origin_slot": 0,
+            "target_id": 201,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 576,
             "origin_id": 201,
             "origin_slot": 0,
             "target_id": -20,
             "target_slot": 10,
             "type": "INT"
+          },
+          {
+            "id": 577,
+            "origin_id": 198,
+            "origin_slot": 0,
+            "target_id": 199,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 578,
+            "origin_id": 199,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 9,
+            "type": "FLOAT"
+          },
+          {
+            "id": 579,
+            "origin_id": 189,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 8,
+            "type": "STRING"
+          },
+          {
+            "id": 580,
+            "origin_id": 188,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 7,
+            "type": "STRING"
+          },
+          {
+            "id": 581,
+            "origin_id": 196,
+            "origin_slot": 0,
+            "target_id": 197,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 582,
+            "origin_id": 197,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 6,
+            "type": "BOOLEAN"
+          },
+          {
+            "id": 583,
+            "origin_id": 194,
+            "origin_slot": 0,
+            "target_id": 195,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 584,
+            "origin_id": 195,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 5,
+            "type": "INT"
+          },
+          {
+            "id": 585,
+            "origin_id": 192,
+            "origin_slot": 0,
+            "target_id": 193,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 586,
+            "origin_id": 190,
+            "origin_slot": 0,
+            "target_id": 191,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 587,
+            "origin_id": 187,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 588,
+            "origin_id": 185,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 589,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 185,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 590,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 186,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 591,
+            "origin_id": 186,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 2,
+            "type": "STRING"
+          },
+          {
+            "id": 592,
+            "origin_id": 193,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 4,
+            "type": "INT"
+          },
+          {
+            "id": 593,
+            "origin_id": 191,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 3,
+            "type": "INT"
           }
         ],
-        "extra": {
-          "workflowRendererVersion": "LG"
-        }
+        "extra": {}
       }
     ]
   },
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7095435684647303,
+      "scale": 0.612292531120332,
       "offset": [
-        489.43567251461985,
-        168.66666666666663
+        383.0386747468358,
+        168.6666666666666
       ]
     },
     "frontendVersion": "1.53.6",
