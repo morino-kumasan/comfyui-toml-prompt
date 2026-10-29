@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 229,
-  "last_link_id": 662,
+  "last_node_id": 234,
+  "last_link_id": 673,
   "nodes": [
     {
       "id": 130,
@@ -16,7 +16,7 @@
         605.852273895499
       ],
       "flags": {},
-      "order": 7,
+      "order": 6,
       "mode": 0,
       "inputs": [
         {
@@ -61,7 +61,7 @@
           "type": "IMAGE",
           "slot_index": 0,
           "links": [
-            632
+            672
           ]
         },
         {
@@ -92,10 +92,10 @@
       ],
       "size": [
         302.99720114411366,
-        378
+        398
       ],
       "flags": {},
-      "order": 6,
+      "order": 5,
       "mode": 0,
       "inputs": [
         {
@@ -151,11 +151,6 @@
           "link": 577
         },
         {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 633
-        },
-        {
           "name": "seed",
           "type": "INT",
           "widget": {
@@ -166,9 +161,6 @@
         {
           "name": "scale_by",
           "type": "FLOAT",
-          "widget": {
-            "name": "scale_by"
-          },
           "link": 619
         },
         {
@@ -203,6 +195,20 @@
             "name": "upscale_method_1"
           },
           "link": null
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 672
+        },
+        {
+          "label": "upscale_model",
+          "name": "model_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "model_name"
+          },
+          "link": null
         }
       ],
       "outputs": [
@@ -223,12 +229,12 @@
         "",
         "",
         0,
-        "nearest-exact",
-        1.5,
+        "bicubic",
         0.6,
         20,
         5,
-        "bicubic"
+        "bicubic",
+        "RealESRGAN_x4plus.safetensors"
       ],
       "widgets_values_named": {
         "width": 832,
@@ -236,12 +242,12 @@
         "sampler": "",
         "scheduler": "",
         "seed": 0,
-        "upscale_method": "nearest-exact",
-        "scale_by": 1.5,
+        "upscale_method": "bicubic",
         "denoise": 0.6,
         "steps": 20,
         "cfg": 5,
-        "upscale_method_1": "bicubic"
+        "upscale_method_1": "bicubic",
+        "model_name": "RealESRGAN_x4plus.safetensors"
       }
     },
     {
@@ -341,8 +347,7 @@
           "name": "VAE",
           "type": "VAE",
           "links": [
-            578,
-            631
+            578
           ]
         },
         {
@@ -476,48 +481,6 @@
       }
     },
     {
-      "id": 217,
-      "type": "VAEEncode",
-      "pos": [
-        1149.7358936624937,
-        -162.7562783411108
-      ],
-      "size": [
-        163.44325803185575,
-        46
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 5,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "pixels",
-          "type": "IMAGE",
-          "link": 632
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 631
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "slot_index": 0,
-          "links": [
-            633
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEEncode"
-      }
-    },
-    {
       "id": 222,
       "type": "PrimitiveStringMultiline",
       "pos": [
@@ -563,28 +526,12 @@
       "IMAGE"
     ],
     [
-      571,
-      204,
+      660,
+      222,
       0,
-      203,
-      9,
-      "INT"
-    ],
-    [
-      632,
-      138,
+      205,
       0,
-      217,
-      0,
-      "IMAGE"
-    ],
-    [
-      633,
-      217,
-      0,
-      203,
-      8,
-      "LATENT"
+      "STRING"
     ],
     [
       574,
@@ -603,35 +550,11 @@
       "INT"
     ],
     [
-      576,
-      205,
-      2,
-      203,
-      6,
-      "STRING"
-    ],
-    [
-      577,
-      205,
-      3,
-      203,
-      7,
-      "STRING"
-    ],
-    [
       578,
       205,
       4,
       203,
       2,
-      "VAE"
-    ],
-    [
-      631,
-      205,
-      4,
-      217,
-      1,
       "VAE"
     ],
     [
@@ -659,11 +582,35 @@
       "CONDITIONING"
     ],
     [
+      576,
+      205,
+      2,
+      203,
+      6,
+      "STRING"
+    ],
+    [
+      577,
+      205,
+      3,
+      203,
+      7,
+      "STRING"
+    ],
+    [
+      571,
+      204,
+      0,
+      203,
+      8,
+      "INT"
+    ],
+    [
       619,
       213,
       0,
       203,
-      10,
+      9,
       "FLOAT"
     ],
     [
@@ -671,7 +618,7 @@
       213,
       1,
       203,
-      11,
+      10,
       "FLOAT"
     ],
     [
@@ -679,7 +626,7 @@
       213,
       2,
       203,
-      12,
+      11,
       "INT"
     ],
     [
@@ -687,16 +634,16 @@
       213,
       3,
       203,
-      13,
+      12,
       "FLOAT"
     ],
     [
-      660,
-      222,
+      672,
+      138,
       0,
-      205,
-      0,
-      "STRING"
+      203,
+      14,
+      "IMAGE"
     ]
   ],
   "groups": [
@@ -750,8 +697,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 662,
+          "lastNodeId": 234,
+          "lastLinkId": 673,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -763,7 +710,7 @@
             1010.7918049949021,
             5.056536064354773,
             158.1328125,
-            368
+            388
           ]
         },
         "outputNode": {
@@ -807,7 +754,8 @@
             "name": "vae",
             "type": "VAE",
             "linkIds": [
-              470
+              470,
+              673
             ],
             "localized_name": "vae",
             "pos": [
@@ -881,19 +829,6 @@
             ]
           },
           {
-            "id": "ac914473-eb5c-419f-bf5f-cc3236b858db",
-            "name": "samples",
-            "type": "LATENT",
-            "linkIds": [
-              445
-            ],
-            "localized_name": "samples",
-            "pos": [
-              1144.9246174949021,
-              189.05653606435476
-            ]
-          },
-          {
             "id": "db3c8c35-b2e1-43e7-a631-ad3e1dea6392",
             "name": "seed",
             "type": "INT",
@@ -902,7 +837,7 @@
             ],
             "pos": [
               1144.9246174949021,
-              209.05653606435476
+              189.05653606435476
             ]
           },
           {
@@ -910,11 +845,11 @@
             "name": "upscale_method",
             "type": "COMBO",
             "linkIds": [
-              605
+              668
             ],
             "pos": [
               1144.9246174949021,
-              229.05653606435476
+              209.05653606435476
             ]
           },
           {
@@ -922,11 +857,11 @@
             "name": "scale_by",
             "type": "FLOAT",
             "linkIds": [
-              606
+              669
             ],
             "pos": [
               1144.9246174949021,
-              249.05653606435476
+              229.05653606435476
             ]
           },
           {
@@ -938,7 +873,7 @@
             ],
             "pos": [
               1144.9246174949021,
-              269.05653606435476
+              249.05653606435476
             ]
           },
           {
@@ -950,7 +885,7 @@
             ],
             "pos": [
               1144.9246174949021,
-              289.05653606435476
+              269.05653606435476
             ]
           },
           {
@@ -962,7 +897,7 @@
             ],
             "pos": [
               1144.9246174949021,
-              309.05653606435476
+              289.05653606435476
             ]
           },
           {
@@ -975,7 +910,32 @@
             "label": "downscale_method",
             "pos": [
               1144.9246174949021,
+              309.05653606435476
+            ]
+          },
+          {
+            "id": "64876dc1-7643-4aa8-962c-2e5201bddd17",
+            "name": "image",
+            "type": "IMAGE",
+            "linkIds": [
+              667
+            ],
+            "pos": [
+              1144.9246174949021,
               329.05653606435476
+            ]
+          },
+          {
+            "id": "5a2601fa-8681-4e69-a89d-eaed04053f04",
+            "name": "model_name",
+            "type": "COMBO",
+            "linkIds": [
+              671
+            ],
+            "label": "upscale_model",
+            "pos": [
+              1144.9246174949021,
+              349.05653606435476
             ]
           }
         ],
@@ -1008,7 +968,7 @@
               130
             ],
             "flags": {},
-            "order": 2,
+            "order": 1,
             "mode": 0,
             "inputs": [
               {
@@ -1086,7 +1046,7 @@
             "flags": {
               "collapsed": false
             },
-            "order": 1,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1129,7 +1089,7 @@
               262
             ],
             "flags": {},
-            "order": 3,
+            "order": 2,
             "mode": 0,
             "inputs": [
               {
@@ -1154,7 +1114,7 @@
                 "localized_name": "latent_image",
                 "name": "latent_image",
                 "type": "LATENT",
-                "link": 482
+                "link": 670
               },
               {
                 "localized_name": "denoise",
@@ -1244,25 +1204,25 @@
             }
           },
           {
-            "id": 136,
-            "type": "LatentUpscaleBy",
+            "id": 230,
+            "type": "ImageScaleBy",
             "pos": [
-              1198.7918049949021,
-              83.06684783092899
+              1529.497616904342,
+              471.30436643121834
             ],
             "size": [
-              315,
+              270,
               82
             ],
             "flags": {},
-            "order": 0,
+            "order": 3,
             "mode": 0,
             "inputs": [
               {
-                "localized_name": "samples",
-                "name": "samples",
-                "type": "LATENT",
-                "link": 445
+                "localized_name": "画像",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 663
               },
               {
                 "localized_name": "拡大方法",
@@ -1271,7 +1231,7 @@
                 "widget": {
                   "name": "upscale_method"
                 },
-                "link": 605
+                "link": 668
               },
               {
                 "localized_name": "スケールバイ",
@@ -1280,7 +1240,59 @@
                 "widget": {
                   "name": "scale_by"
                 },
-                "link": 606
+                "link": 664
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  665
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageScaleBy"
+            },
+            "widgets_values": [
+              "nearest-exact",
+              1
+            ],
+            "widgets_values_named": {
+              "upscale_method": "nearest-exact",
+              "scale_by": 1
+            }
+          },
+          {
+            "id": 231,
+            "type": "VAEEncode",
+            "pos": [
+              1831.385436291653,
+              436.9592348615839
+            ],
+            "size": [
+              163.44325803185575,
+              46
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "ピクセル",
+                "name": "pixels",
+                "type": "IMAGE",
+                "link": 665
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 673
               }
             ],
             "outputs": [
@@ -1290,20 +1302,160 @@
                 "type": "LATENT",
                 "slot_index": 0,
                 "links": [
-                  482
+                  670
                 ]
               }
             ],
             "properties": {
-              "Node name for S&R": "LatentUpscaleBy"
+              "Node name for S&R": "VAEEncode"
+            }
+          },
+          {
+            "id": 232,
+            "type": "ImageUpscaleWithModel",
+            "pos": [
+              1266.922322483883,
+              461.81171638601427
+            ],
+            "size": [
+              221.9,
+              46
+            ],
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "拡大モデル",
+                "name": "upscale_model",
+                "type": "UPSCALE_MODEL",
+                "link": 666
+              },
+              {
+                "localized_name": "画像",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 667
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  663
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageUpscaleWithModel"
+            }
+          },
+          {
+            "id": 233,
+            "type": "ComfyMathExpression",
+            "pos": [
+              1270.5952975967243,
+              586.1522477420099
+            ],
+            "size": [
+              210,
+              128
+            ],
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "a",
+                "name": "values.a",
+                "type": "FLOAT,INT,BOOLEAN",
+                "link": 669
+              },
+              {
+                "localized_name": "b",
+                "name": "values.b",
+                "shape": 7,
+                "type": "FLOAT,INT,BOOLEAN",
+                "link": null
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "浮動小数点",
+                "name": "FLOAT",
+                "type": "FLOAT",
+                "links": [
+                  664
+                ]
+              },
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": []
+              },
+              {
+                "localized_name": "BOOL",
+                "name": "BOOL",
+                "type": "BOOLEAN",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ComfyMathExpression"
             },
             "widgets_values": [
-              "nearest-exact",
-              1.5
+              "a * 0.25"
             ],
             "widgets_values_named": {
-              "upscale_method": "nearest-exact",
-              "scale_by": 1.5
+              "expression": "a * 0.25"
+            }
+          },
+          {
+            "id": 234,
+            "type": "UpscaleModelLoader",
+            "pos": [
+              1273.8992249464472,
+              339.5498996001028
+            ],
+            "size": [
+              210,
+              58
+            ],
+            "flags": {},
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "モデル名",
+                "name": "model_name",
+                "type": "COMBO",
+                "widget": {
+                  "name": "model_name"
+                },
+                "link": 671
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "アップスケールモデル",
+                "name": "UPSCALE_MODEL",
+                "type": "UPSCALE_MODEL",
+                "links": [
+                  666
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "UpscaleModelLoader"
+            },
+            "widgets_values": [
+              "RealESRGAN_x4plus.safetensors"
+            ],
+            "widgets_values_named": {
+              "model_name": "RealESRGAN_x4plus.safetensors"
             }
           }
         ],
@@ -1323,14 +1475,6 @@
             "origin_slot": 0,
             "target_id": 137,
             "target_slot": 0,
-            "type": "LATENT"
-          },
-          {
-            "id": 482,
-            "origin_id": 136,
-            "origin_slot": 0,
-            "target_id": 168,
-            "target_slot": 3,
             "type": "LATENT"
           },
           {
@@ -1398,14 +1542,6 @@
             "type": "STRING"
           },
           {
-            "id": 445,
-            "origin_id": -10,
-            "origin_slot": 8,
-            "target_id": 136,
-            "target_slot": 0,
-            "type": "LATENT"
-          },
-          {
             "id": 428,
             "origin_id": 155,
             "origin_slot": 0,
@@ -1414,33 +1550,65 @@
             "type": "IMAGE"
           },
           {
+            "id": 663,
+            "origin_id": 232,
+            "origin_slot": 0,
+            "target_id": 230,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 664,
+            "origin_id": 233,
+            "origin_slot": 0,
+            "target_id": 230,
+            "target_slot": 2,
+            "type": "FLOAT"
+          },
+          {
+            "id": 665,
+            "origin_id": 230,
+            "origin_slot": 0,
+            "target_id": 231,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 666,
+            "origin_id": 234,
+            "origin_slot": 0,
+            "target_id": 232,
+            "target_slot": 0,
+            "type": "UPSCALE_MODEL"
+          },
+          {
+            "id": 670,
+            "origin_id": 231,
+            "origin_slot": 0,
+            "target_id": 168,
+            "target_slot": 3,
+            "type": "LATENT"
+          },
+          {
             "id": 570,
             "origin_id": -10,
-            "origin_slot": 9,
+            "origin_slot": 8,
             "target_id": 168,
             "target_slot": 9,
             "type": "INT"
           },
           {
-            "id": 605,
+            "id": 668,
             "origin_id": -10,
-            "origin_slot": 10,
-            "target_id": 136,
+            "origin_slot": 9,
+            "target_id": 230,
             "target_slot": 1,
             "type": "COMBO"
           },
           {
-            "id": 606,
-            "origin_id": -10,
-            "origin_slot": 11,
-            "target_id": 136,
-            "target_slot": 2,
-            "type": "FLOAT"
-          },
-          {
             "id": 607,
             "origin_id": -10,
-            "origin_slot": 12,
+            "origin_slot": 11,
             "target_id": 168,
             "target_slot": 4,
             "type": "FLOAT"
@@ -1448,7 +1616,7 @@
           {
             "id": 608,
             "origin_id": -10,
-            "origin_slot": 13,
+            "origin_slot": 12,
             "target_id": 168,
             "target_slot": 5,
             "type": "INT"
@@ -1456,7 +1624,7 @@
           {
             "id": 609,
             "origin_id": -10,
-            "origin_slot": 14,
+            "origin_slot": 13,
             "target_id": 168,
             "target_slot": 6,
             "type": "FLOAT"
@@ -1464,10 +1632,42 @@
           {
             "id": 611,
             "origin_id": -10,
-            "origin_slot": 15,
+            "origin_slot": 14,
             "target_id": 155,
             "target_slot": 1,
             "type": "COMBO"
+          },
+          {
+            "id": 667,
+            "origin_id": -10,
+            "origin_slot": 15,
+            "target_id": 232,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 671,
+            "origin_id": -10,
+            "origin_slot": 16,
+            "target_id": 234,
+            "target_slot": 0,
+            "type": "COMBO"
+          },
+          {
+            "id": 669,
+            "origin_id": -10,
+            "origin_slot": 10,
+            "target_id": 233,
+            "target_slot": 0,
+            "type": "FLOAT,INT,BOOLEAN"
+          },
+          {
+            "id": 673,
+            "origin_id": -10,
+            "origin_slot": 2,
+            "target_id": 231,
+            "target_slot": 1,
+            "type": "VAE"
           }
         ],
         "extra": {}
@@ -1477,8 +1677,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 662,
+          "lastNodeId": 234,
+          "lastLinkId": 673,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -2214,8 +2414,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 662,
+          "lastNodeId": 234,
+          "lastLinkId": 673,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -3222,8 +3422,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 662,
+          "lastNodeId": 234,
+          "lastLinkId": 673,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -3620,9 +3820,9 @@
     "frontendVersion": "1.53.6",
     "workflowRendererVersion": "LG",
     "ds": {
-      "scale": 0.40608366003413693,
+      "scale": 0.47058233538898714,
       "offset": [
-        734.2412460166685,
+        1182.6866713603386,
         873.3287207923661
       ]
     }

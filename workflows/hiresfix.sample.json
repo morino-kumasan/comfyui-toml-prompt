@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 229,
-  "last_link_id": 659,
+  "last_node_id": 238,
+  "last_link_id": 683,
   "nodes": [
     {
       "id": 130,
@@ -16,7 +16,7 @@
         605.852273895499
       ],
       "flags": {},
-      "order": 12,
+      "order": 11,
       "mode": 0,
       "inputs": [
         {
@@ -62,7 +62,7 @@
           "slot_index": 0,
           "links": [
             630,
-            632
+            672
           ]
         },
         {
@@ -96,7 +96,7 @@
         603.8080080490663
       ],
       "flags": {},
-      "order": 10,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -122,7 +122,33 @@
                         [
                           [
                             [
-                              ""
+                              [
+                                [
+                                  [
+                                    [
+                                      [
+                                        [
+                                          [
+                                            [
+                                              [
+                                                [
+                                                  [
+                                                    [
+                                                      [
+                                                        ""
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -147,7 +173,33 @@
                         [
                           [
                             [
-                              ""
+                              [
+                                [
+                                  [
+                                    [
+                                      [
+                                        [
+                                          [
+                                            [
+                                              [
+                                                [
+                                                  [
+                                                    [
+                                                      [
+                                                        ""
+                                                      ]
+                                                    ]
+                                                  ]
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ]
+                                      ]
+                                    ]
+                                  ]
+                                ]
+                              ]
                             ]
                           ]
                         ]
@@ -170,10 +222,10 @@
       ],
       "size": [
         302.99720114411366,
-        378
+        398
       ],
       "flags": {},
-      "order": 11,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -229,11 +281,6 @@
           "link": 577
         },
         {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 633
-        },
-        {
           "name": "seed",
           "type": "INT",
           "widget": {
@@ -244,9 +291,6 @@
         {
           "name": "scale_by",
           "type": "FLOAT",
-          "widget": {
-            "name": "scale_by"
-          },
           "link": 619
         },
         {
@@ -281,6 +325,20 @@
             "name": "upscale_method_1"
           },
           "link": null
+        },
+        {
+          "name": "pixels",
+          "type": "IMAGE",
+          "link": 672
+        },
+        {
+          "label": "upscale_model",
+          "name": "model_name",
+          "type": "COMBO",
+          "widget": {
+            "name": "model_name"
+          },
+          "link": null
         }
       ],
       "outputs": [
@@ -301,12 +359,12 @@
         "",
         "",
         0,
-        "nearest-exact",
-        1.5,
+        "bicubic",
         0.6,
         20,
         5,
-        "bicubic"
+        "bicubic",
+        "RealESRGAN_x4plus.safetensors"
       ],
       "widgets_values_named": {
         "width": 832,
@@ -314,12 +372,12 @@
         "sampler": "",
         "scheduler": "",
         "seed": 0,
-        "upscale_method": "nearest-exact",
-        "scale_by": 1.5,
+        "upscale_method": "bicubic",
         "denoise": 0.6,
         "steps": 20,
         "cfg": 5,
-        "upscale_method_1": "bicubic"
+        "upscale_method_1": "bicubic",
+        "model_name": "RealESRGAN_x4plus.safetensors"
       }
     },
     {
@@ -367,10 +425,10 @@
       ],
       "size": [
         210,
-        336
+        228
       ],
       "flags": {},
-      "order": 7,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -379,25 +437,7 @@
           "widget": {
             "name": "summary"
           },
-          "link": 635
-        },
-        {
-          "label": "positive",
-          "name": "string_b",
-          "type": "STRING",
-          "widget": {
-            "name": "string_b"
-          },
-          "link": 646
-        },
-        {
-          "label": "negative",
-          "name": "string_b_1",
-          "type": "STRING",
-          "widget": {
-            "name": "string_b_1"
-          },
-          "link": 647
+          "link": 680
         }
       ],
       "outputs": [
@@ -437,8 +477,7 @@
           "name": "VAE",
           "type": "VAE",
           "links": [
-            578,
-            631
+            578
           ]
         },
         {
@@ -467,14 +506,10 @@
         "previewExposures": []
       },
       "widgets_values": [
-        "",
-        "",
         ""
       ],
       "widgets_values_named": {
-        "summary": "",
-        "string_b": "",
-        "string_b_1": ""
+        "summary": ""
       }
     },
     {
@@ -531,6 +566,7 @@
       ],
       "outputs": [
         {
+          "label": "scale_by",
           "name": "FLOAT",
           "type": "FLOAT",
           "links": [
@@ -538,6 +574,7 @@
           ]
         },
         {
+          "label": "denoise",
           "name": "FLOAT_1",
           "type": "FLOAT",
           "links": [
@@ -545,6 +582,7 @@
           ]
         },
         {
+          "label": "steps",
           "name": "INT",
           "type": "INT",
           "links": [
@@ -552,6 +590,7 @@
           ]
         },
         {
+          "label": "cfg",
           "name": "FLOAT_2",
           "type": "FLOAT",
           "links": [
@@ -603,7 +642,6 @@
           "name": "STRING",
           "type": "STRING",
           "links": [
-            635,
             657
           ]
         }
@@ -620,48 +658,6 @@
         "target_title": "Summary",
         "image_index": 0,
         "string_index": 0
-      }
-    },
-    {
-      "id": 217,
-      "type": "VAEEncode",
-      "pos": [
-        1149.7358936624937,
-        -162.7562783411108
-      ],
-      "size": [
-        163.44325803185575,
-        46
-      ],
-      "flags": {
-        "collapsed": false
-      },
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "pixels",
-          "type": "IMAGE",
-          "link": 632
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 631
-        }
-      ],
-      "outputs": [
-        {
-          "name": "LATENT",
-          "type": "LATENT",
-          "slot_index": 0,
-          "links": [
-            633
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEEncode"
       }
     },
     {
@@ -756,7 +752,6 @@
           "name": "STRING",
           "type": "STRING",
           "links": [
-            647,
             655
           ]
         }
@@ -792,7 +787,6 @@
           "name": "STRING",
           "type": "STRING",
           "links": [
-            646,
             656
           ]
         }
@@ -822,7 +816,7 @@
       "flags": {
         "collapsed": true
       },
-      "order": 8,
+      "order": 7,
       "mode": 0,
       "inputs": [
         {
@@ -863,11 +857,11 @@
           "name": "STRING",
           "type": "STRING",
           "links": [
-            659
+            659,
+            680
           ]
         }
       ],
-      "title": "BuildSummary",
       "properties": {
         "previewExposures": []
       },
@@ -895,164 +889,12 @@
       "IMAGE"
     ],
     [
-      571,
-      204,
-      0,
-      203,
-      9,
-      "INT"
-    ],
-    [
       630,
       138,
       0,
       216,
       0,
       "IMAGE"
-    ],
-    [
-      632,
-      138,
-      0,
-      217,
-      0,
-      "IMAGE"
-    ],
-    [
-      633,
-      217,
-      0,
-      203,
-      8,
-      "LATENT"
-    ],
-    [
-      574,
-      205,
-      0,
-      203,
-      0,
-      "INT"
-    ],
-    [
-      575,
-      205,
-      1,
-      203,
-      1,
-      "INT"
-    ],
-    [
-      576,
-      205,
-      2,
-      203,
-      6,
-      "STRING"
-    ],
-    [
-      577,
-      205,
-      3,
-      203,
-      7,
-      "STRING"
-    ],
-    [
-      578,
-      205,
-      4,
-      203,
-      2,
-      "VAE"
-    ],
-    [
-      631,
-      205,
-      4,
-      217,
-      1,
-      "VAE"
-    ],
-    [
-      580,
-      205,
-      5,
-      203,
-      3,
-      "MODEL"
-    ],
-    [
-      581,
-      205,
-      6,
-      203,
-      4,
-      "CONDITIONING"
-    ],
-    [
-      582,
-      205,
-      7,
-      203,
-      5,
-      "CONDITIONING"
-    ],
-    [
-      635,
-      216,
-      0,
-      205,
-      0,
-      "STRING"
-    ],
-    [
-      619,
-      213,
-      0,
-      203,
-      10,
-      "FLOAT"
-    ],
-    [
-      620,
-      213,
-      1,
-      203,
-      11,
-      "FLOAT"
-    ],
-    [
-      621,
-      213,
-      2,
-      203,
-      12,
-      "INT"
-    ],
-    [
-      622,
-      213,
-      3,
-      203,
-      13,
-      "FLOAT"
-    ],
-    [
-      646,
-      222,
-      0,
-      205,
-      1,
-      "STRING"
-    ],
-    [
-      647,
-      221,
-      0,
-      205,
-      2,
-      "STRING"
     ],
     [
       655,
@@ -1093,6 +935,126 @@
       159,
       0,
       "STRING"
+    ],
+    [
+      574,
+      205,
+      0,
+      203,
+      0,
+      "INT"
+    ],
+    [
+      575,
+      205,
+      1,
+      203,
+      1,
+      "INT"
+    ],
+    [
+      578,
+      205,
+      4,
+      203,
+      2,
+      "VAE"
+    ],
+    [
+      580,
+      205,
+      5,
+      203,
+      3,
+      "MODEL"
+    ],
+    [
+      581,
+      205,
+      6,
+      203,
+      4,
+      "CONDITIONING"
+    ],
+    [
+      582,
+      205,
+      7,
+      203,
+      5,
+      "CONDITIONING"
+    ],
+    [
+      576,
+      205,
+      2,
+      203,
+      6,
+      "STRING"
+    ],
+    [
+      577,
+      205,
+      3,
+      203,
+      7,
+      "STRING"
+    ],
+    [
+      571,
+      204,
+      0,
+      203,
+      8,
+      "INT"
+    ],
+    [
+      619,
+      213,
+      0,
+      203,
+      9,
+      "FLOAT"
+    ],
+    [
+      620,
+      213,
+      1,
+      203,
+      10,
+      "FLOAT"
+    ],
+    [
+      621,
+      213,
+      2,
+      203,
+      11,
+      "INT"
+    ],
+    [
+      622,
+      213,
+      3,
+      203,
+      12,
+      "FLOAT"
+    ],
+    [
+      672,
+      138,
+      0,
+      203,
+      14,
+      "IMAGE"
+    ],
+    [
+      680,
+      229,
+      0,
+      205,
+      0,
+      "STRING"
     ]
   ],
   "groups": [
@@ -1112,7 +1074,7 @@
     },
     {
       "id": 4,
-      "title": "Hires.fix",
+      "title": "Output",
       "bounding": [
         2.0279305245157495,
         103.35849418779114,
@@ -1126,7 +1088,7 @@
     },
     {
       "id": 5,
-      "title": "img2img with summary",
+      "title": "Input",
       "bounding": [
         1,
         -621,
@@ -1146,8 +1108,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 659,
+          "lastNodeId": 238,
+          "lastLinkId": 683,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -1159,7 +1121,7 @@
             1010.7918049949021,
             5.056536064354773,
             158.1328125,
-            368
+            388
           ]
         },
         "outputNode": {
@@ -1203,7 +1165,8 @@
             "name": "vae",
             "type": "VAE",
             "linkIds": [
-              470
+              470,
+              663
             ],
             "localized_name": "vae",
             "pos": [
@@ -1277,19 +1240,6 @@
             ]
           },
           {
-            "id": "ac914473-eb5c-419f-bf5f-cc3236b858db",
-            "name": "samples",
-            "type": "LATENT",
-            "linkIds": [
-              445
-            ],
-            "localized_name": "samples",
-            "pos": [
-              1144.9246174949021,
-              189.05653606435476
-            ]
-          },
-          {
             "id": "db3c8c35-b2e1-43e7-a631-ad3e1dea6392",
             "name": "seed",
             "type": "INT",
@@ -1298,7 +1248,7 @@
             ],
             "pos": [
               1144.9246174949021,
-              209.05653606435476
+              189.05653606435476
             ]
           },
           {
@@ -1306,11 +1256,11 @@
             "name": "upscale_method",
             "type": "COMBO",
             "linkIds": [
-              605
+              668
             ],
             "pos": [
               1144.9246174949021,
-              229.05653606435476
+              209.05653606435476
             ]
           },
           {
@@ -1318,11 +1268,11 @@
             "name": "scale_by",
             "type": "FLOAT",
             "linkIds": [
-              606
+              669
             ],
             "pos": [
               1144.9246174949021,
-              249.05653606435476
+              229.05653606435476
             ]
           },
           {
@@ -1334,7 +1284,7 @@
             ],
             "pos": [
               1144.9246174949021,
-              269.05653606435476
+              249.05653606435476
             ]
           },
           {
@@ -1346,7 +1296,7 @@
             ],
             "pos": [
               1144.9246174949021,
-              289.05653606435476
+              269.05653606435476
             ]
           },
           {
@@ -1358,7 +1308,7 @@
             ],
             "pos": [
               1144.9246174949021,
-              309.05653606435476
+              289.05653606435476
             ]
           },
           {
@@ -1371,7 +1321,32 @@
             "label": "downscale_method",
             "pos": [
               1144.9246174949021,
+              309.05653606435476
+            ]
+          },
+          {
+            "id": "7df04136-35f0-40ce-ae15-97f8b7fe1dd7",
+            "name": "pixels",
+            "type": "IMAGE",
+            "linkIds": [
+              666
+            ],
+            "pos": [
+              1144.9246174949021,
               329.05653606435476
+            ]
+          },
+          {
+            "id": "8ed44b37-c830-4dd0-bf5b-01fceb943916",
+            "name": "model_name",
+            "type": "COMBO",
+            "linkIds": [
+              671
+            ],
+            "label": "upscale_model",
+            "pos": [
+              1144.9246174949021,
+              349.05653606435476
             ]
           }
         ],
@@ -1404,7 +1379,7 @@
               130
             ],
             "flags": {},
-            "order": 2,
+            "order": 1,
             "mode": 0,
             "inputs": [
               {
@@ -1472,8 +1447,8 @@
             "id": 137,
             "type": "VAEDecode",
             "pos": [
-              1942.0114688086237,
-              42.51799146772121
+              1972.4960596899002,
+              -35.27603355088028
             ],
             "size": [
               210,
@@ -1482,7 +1457,7 @@
             "flags": {
               "collapsed": false
             },
-            "order": 1,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -1517,15 +1492,15 @@
             "id": 168,
             "type": "KSamplerFromString",
             "pos": [
-              1609.4922746927111,
-              3.0565360643547774
+              1643.4188301644544,
+              -23.85073206840662
             ],
             "size": [
               270,
               262
             ],
             "flags": {},
-            "order": 3,
+            "order": 2,
             "mode": 0,
             "inputs": [
               {
@@ -1550,7 +1525,7 @@
                 "localized_name": "latent_image",
                 "name": "latent_image",
                 "type": "LATENT",
-                "link": 482
+                "link": 664
               },
               {
                 "localized_name": "denoise",
@@ -1640,43 +1615,33 @@
             }
           },
           {
-            "id": 136,
-            "type": "LatentUpscaleBy",
+            "id": 231,
+            "type": "VAEEncode",
             "pos": [
-              1198.7918049949021,
-              83.06684783092899
+              1821.6250290326766,
+              460.66278930887717
             ],
             "size": [
-              315,
-              82
+              163.44325803185575,
+              46
             ],
-            "flags": {},
-            "order": 0,
+            "flags": {
+              "collapsed": false
+            },
+            "order": 3,
             "mode": 0,
             "inputs": [
               {
-                "localized_name": "samples",
-                "name": "samples",
-                "type": "LATENT",
-                "link": 445
+                "localized_name": "ピクセル",
+                "name": "pixels",
+                "type": "IMAGE",
+                "link": 673
               },
               {
-                "localized_name": "拡大方法",
-                "name": "upscale_method",
-                "type": "COMBO",
-                "widget": {
-                  "name": "upscale_method"
-                },
-                "link": 605
-              },
-              {
-                "localized_name": "スケールバイ",
-                "name": "scale_by",
-                "type": "FLOAT",
-                "widget": {
-                  "name": "scale_by"
-                },
-                "link": 606
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 663
               }
             ],
             "outputs": [
@@ -1686,20 +1651,222 @@
                 "type": "LATENT",
                 "slot_index": 0,
                 "links": [
-                  482
+                  664
                 ]
               }
             ],
             "properties": {
-              "Node name for S&R": "LatentUpscaleBy"
+              "Node name for S&R": "VAEEncode"
+            }
+          },
+          {
+            "id": 232,
+            "type": "UpscaleModelLoader",
+            "pos": [
+              1264.1388176874707,
+              363.253454047396
+            ],
+            "size": [
+              210,
+              58
+            ],
+            "flags": {},
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "モデル名",
+                "name": "model_name",
+                "type": "COMBO",
+                "widget": {
+                  "name": "model_name"
+                },
+                "link": 671
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "アップスケールモデル",
+                "name": "UPSCALE_MODEL",
+                "type": "UPSCALE_MODEL",
+                "links": [
+                  665
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "UpscaleModelLoader"
+            },
+            "widgets_values": [
+              "RealESRGAN_x4plus.safetensors"
+            ],
+            "widgets_values_named": {
+              "model_name": "RealESRGAN_x4plus.safetensors"
+            }
+          },
+          {
+            "id": 233,
+            "type": "ImageUpscaleWithModel",
+            "pos": [
+              1257.1619152249064,
+              485.51527083330757
+            ],
+            "size": [
+              221.9,
+              46
+            ],
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "拡大モデル",
+                "name": "upscale_model",
+                "type": "UPSCALE_MODEL",
+                "link": 665
+              },
+              {
+                "localized_name": "画像",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 666
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  667
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageUpscaleWithModel"
+            }
+          },
+          {
+            "id": 235,
+            "type": "ImageScaleBy",
+            "pos": [
+              1519.7372096453655,
+              495.0079208785115
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "画像",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 667
+              },
+              {
+                "localized_name": "拡大方法",
+                "name": "upscale_method",
+                "type": "COMBO",
+                "widget": {
+                  "name": "upscale_method"
+                },
+                "link": 668
+              },
+              {
+                "localized_name": "スケールバイ",
+                "name": "scale_by",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "scale_by"
+                },
+                "link": 670
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  673
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageScaleBy"
             },
             "widgets_values": [
               "nearest-exact",
-              1.5
+              1
             ],
             "widgets_values_named": {
               "upscale_method": "nearest-exact",
-              "scale_by": 1.5
+              "scale_by": 1
+            }
+          },
+          {
+            "id": 236,
+            "type": "ComfyMathExpression",
+            "pos": [
+              1260.8348903377478,
+              609.8558021893032
+            ],
+            "size": [
+              210,
+              128
+            ],
+            "flags": {},
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "a",
+                "name": "values.a",
+                "type": "FLOAT,INT,BOOLEAN",
+                "link": 669
+              },
+              {
+                "localized_name": "b",
+                "name": "values.b",
+                "shape": 7,
+                "type": "FLOAT,INT,BOOLEAN",
+                "link": null
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "浮動小数点",
+                "name": "FLOAT",
+                "type": "FLOAT",
+                "links": [
+                  670
+                ]
+              },
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "BOOL",
+                "name": "BOOL",
+                "type": "BOOLEAN",
+                "links": null
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ComfyMathExpression"
+            },
+            "widgets_values": [
+              "a * 0.25"
+            ],
+            "widgets_values_named": {
+              "expression": "a * 0.25"
             }
           }
         ],
@@ -1719,14 +1886,6 @@
             "origin_slot": 0,
             "target_id": 137,
             "target_slot": 0,
-            "type": "LATENT"
-          },
-          {
-            "id": 482,
-            "origin_id": 136,
-            "origin_slot": 0,
-            "target_id": 168,
-            "target_slot": 3,
             "type": "LATENT"
           },
           {
@@ -1794,14 +1953,6 @@
             "type": "STRING"
           },
           {
-            "id": 445,
-            "origin_id": -10,
-            "origin_slot": 8,
-            "target_id": 136,
-            "target_slot": 0,
-            "type": "LATENT"
-          },
-          {
             "id": 428,
             "origin_id": 155,
             "origin_slot": 0,
@@ -1810,33 +1961,65 @@
             "type": "IMAGE"
           },
           {
+            "id": 663,
+            "origin_id": -10,
+            "origin_slot": 2,
+            "target_id": 231,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 664,
+            "origin_id": 231,
+            "origin_slot": 0,
+            "target_id": 168,
+            "target_slot": 3,
+            "type": "LATENT"
+          },
+          {
+            "id": 665,
+            "origin_id": 232,
+            "origin_slot": 0,
+            "target_id": 233,
+            "target_slot": 0,
+            "type": "UPSCALE_MODEL"
+          },
+          {
+            "id": 667,
+            "origin_id": 233,
+            "origin_slot": 0,
+            "target_id": 235,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 670,
+            "origin_id": 236,
+            "origin_slot": 0,
+            "target_id": 235,
+            "target_slot": 2,
+            "type": "FLOAT"
+          },
+          {
             "id": 570,
             "origin_id": -10,
-            "origin_slot": 9,
+            "origin_slot": 8,
             "target_id": 168,
             "target_slot": 9,
             "type": "INT"
           },
           {
-            "id": 605,
+            "id": 668,
             "origin_id": -10,
-            "origin_slot": 10,
-            "target_id": 136,
+            "origin_slot": 9,
+            "target_id": 235,
             "target_slot": 1,
             "type": "COMBO"
           },
           {
-            "id": 606,
-            "origin_id": -10,
-            "origin_slot": 11,
-            "target_id": 136,
-            "target_slot": 2,
-            "type": "FLOAT"
-          },
-          {
             "id": 607,
             "origin_id": -10,
-            "origin_slot": 12,
+            "origin_slot": 11,
             "target_id": 168,
             "target_slot": 4,
             "type": "FLOAT"
@@ -1844,7 +2027,7 @@
           {
             "id": 608,
             "origin_id": -10,
-            "origin_slot": 13,
+            "origin_slot": 12,
             "target_id": 168,
             "target_slot": 5,
             "type": "INT"
@@ -1852,7 +2035,7 @@
           {
             "id": 609,
             "origin_id": -10,
-            "origin_slot": 14,
+            "origin_slot": 13,
             "target_id": 168,
             "target_slot": 6,
             "type": "FLOAT"
@@ -1860,10 +2043,42 @@
           {
             "id": 611,
             "origin_id": -10,
-            "origin_slot": 15,
+            "origin_slot": 14,
             "target_id": 155,
             "target_slot": 1,
             "type": "COMBO"
+          },
+          {
+            "id": 666,
+            "origin_id": -10,
+            "origin_slot": 15,
+            "target_id": 233,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 671,
+            "origin_id": -10,
+            "origin_slot": 16,
+            "target_id": 232,
+            "target_slot": 0,
+            "type": "COMBO"
+          },
+          {
+            "id": 673,
+            "origin_id": 235,
+            "origin_slot": 0,
+            "target_id": 231,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 669,
+            "origin_id": -10,
+            "origin_slot": 10,
+            "target_id": 236,
+            "target_slot": 0,
+            "type": "FLOAT,INT,BOOLEAN"
           }
         ],
         "extra": {}
@@ -1873,8 +2088,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 659,
+          "lastNodeId": 238,
+          "lastLinkId": 683,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -1886,7 +2101,7 @@
             715.2299364296323,
             -375.15111967254416,
             128,
-            108
+            68
           ]
         },
         "outputNode": {
@@ -1909,32 +2124,6 @@
             "pos": [
               819.2299364296323,
               -351.15111967254416
-            ]
-          },
-          {
-            "id": "67662959-1fc5-4134-8f01-1e2f85a266a3",
-            "name": "string_b",
-            "type": "STRING",
-            "linkIds": [
-              641
-            ],
-            "label": "positive",
-            "pos": [
-              819.2299364296323,
-              -331.15111967254416
-            ]
-          },
-          {
-            "id": "944e5903-2744-467e-b009-61ddb6a77720",
-            "name": "string_b_1",
-            "type": "STRING",
-            "linkIds": [
-              644
-            ],
-            "label": "negative",
-            "pos": [
-              819.2299364296323,
-              -311.15111967254416
             ]
           }
         ],
@@ -2080,7 +2269,7 @@
                 "type": "STRING",
                 "slot_index": 0,
                 "links": [
-                  640
+                  682
                 ]
               },
               {
@@ -2089,7 +2278,7 @@
                 "type": "STRING",
                 "slot_index": 1,
                 "links": [
-                  643
+                  683
                 ]
               },
               {
@@ -2098,7 +2287,7 @@
                 "type": "STRING",
                 "slot_index": 2,
                 "links": [
-                  437
+                  679
                 ]
               },
               {
@@ -2384,7 +2573,7 @@
                 "widget": {
                   "name": "lora_tag_list"
                 },
-                "link": 437
+                "link": 679
               },
               {
                 "localized_name": "positive",
@@ -2393,7 +2582,7 @@
                 "widget": {
                   "name": "positive"
                 },
-                "link": 642
+                "link": 682
               },
               {
                 "localized_name": "negative",
@@ -2402,7 +2591,7 @@
                 "widget": {
                   "name": "negative"
                 },
-                "link": 645
+                "link": 683
               },
               {
                 "localized_name": "enable_break",
@@ -2464,122 +2653,6 @@
               "negative": "",
               "enable_break": false
             }
-          },
-          {
-            "id": 223,
-            "type": "StringConcatenate",
-            "pos": [
-              1226.6560796507958,
-              -191.80854124678123
-            ],
-            "size": [
-              210,
-              166
-            ],
-            "flags": {},
-            "order": 4,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "string_a",
-                "name": "string_a",
-                "type": "STRING",
-                "widget": {
-                  "name": "string_a"
-                },
-                "link": 640
-              },
-              {
-                "localized_name": "string_b",
-                "name": "string_b",
-                "type": "STRING",
-                "widget": {
-                  "name": "string_b"
-                },
-                "link": 641
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "links": [
-                  642
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "StringConcatenate"
-            },
-            "widgets_values": [
-              "",
-              "",
-              ","
-            ],
-            "widgets_values_named": {
-              "string_a": "",
-              "string_b": "",
-              "delimiter": ","
-            }
-          },
-          {
-            "id": 224,
-            "type": "StringConcatenate",
-            "pos": [
-              1473.6756775673687,
-              -187.25485617736652
-            ],
-            "size": [
-              210,
-              166
-            ],
-            "flags": {},
-            "order": 5,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "string_a",
-                "name": "string_a",
-                "type": "STRING",
-                "widget": {
-                  "name": "string_a"
-                },
-                "link": 643
-              },
-              {
-                "localized_name": "string_b",
-                "name": "string_b",
-                "type": "STRING",
-                "widget": {
-                  "name": "string_b"
-                },
-                "link": 644
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "links": [
-                  645
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "StringConcatenate"
-            },
-            "widgets_values": [
-              "",
-              "",
-              ","
-            ],
-            "widgets_values_named": {
-              "string_a": "",
-              "string_b": "",
-              "delimiter": ","
-            }
           }
         ],
         "groups": [],
@@ -2639,14 +2712,6 @@
             "target_id": 125,
             "target_slot": 1,
             "type": "MODEL"
-          },
-          {
-            "id": 437,
-            "origin_id": 139,
-            "origin_slot": 2,
-            "target_id": 125,
-            "target_slot": 2,
-            "type": "STRING"
           },
           {
             "id": 557,
@@ -2729,49 +2794,25 @@
             "type": "STRING"
           },
           {
-            "id": 640,
+            "id": 679,
             "origin_id": 139,
-            "origin_slot": 0,
-            "target_id": 223,
-            "target_slot": 0,
+            "origin_slot": 2,
+            "target_id": 125,
+            "target_slot": 2,
             "type": "STRING"
           },
           {
-            "id": 641,
-            "origin_id": -10,
-            "origin_slot": 1,
-            "target_id": 223,
-            "target_slot": 1,
-            "type": "STRING"
-          },
-          {
-            "id": 642,
-            "origin_id": 223,
+            "id": 682,
+            "origin_id": 139,
             "origin_slot": 0,
             "target_id": 125,
             "target_slot": 3,
             "type": "STRING"
           },
           {
-            "id": 643,
+            "id": 683,
             "origin_id": 139,
             "origin_slot": 1,
-            "target_id": 224,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 644,
-            "origin_id": -10,
-            "origin_slot": 2,
-            "target_id": 224,
-            "target_slot": 1,
-            "type": "STRING"
-          },
-          {
-            "id": 645,
-            "origin_id": 224,
-            "origin_slot": 0,
             "target_id": 125,
             "target_slot": 4,
             "type": "STRING"
@@ -2784,8 +2825,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 659,
+          "lastNodeId": 238,
+          "lastLinkId": 683,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -3792,8 +3833,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 659,
+          "lastNodeId": 238,
+          "lastLinkId": 683,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -3880,6 +3921,7 @@
               614
             ],
             "localized_name": "浮動小数点",
+            "label": "scale_by",
             "pos": [
               1155.6983351366343,
               -353.83318362856005
@@ -3893,6 +3935,7 @@
               615
             ],
             "localized_name": "浮動小数点_1",
+            "label": "denoise",
             "pos": [
               1155.6983351366343,
               -333.83318362856005
@@ -3906,6 +3949,7 @@
               617
             ],
             "localized_name": "整数",
+            "label": "steps",
             "pos": [
               1155.6983351366343,
               -313.83318362856005
@@ -3919,6 +3963,7 @@
               618
             ],
             "localized_name": "浮動小数点_2",
+            "label": "cfg",
             "pos": [
               1155.6983351366343,
               -293.83318362856005
@@ -4188,8 +4233,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 229,
-          "lastLinkId": 659,
+          "lastNodeId": 238,
+          "lastLinkId": 683,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -4223,8 +4268,8 @@
             ],
             "localized_name": "string_a",
             "pos": [
-              51,
-              24
+              1061.3239996277869,
+              211.42154454500718
             ]
           },
           {
@@ -4236,8 +4281,8 @@
             ],
             "localized_name": "string_a_1",
             "pos": [
-              51,
-              44
+              1061.3239996277869,
+              231.42154454500718
             ]
           },
           {
@@ -4249,8 +4294,8 @@
             ],
             "localized_name": "string_a_2",
             "pos": [
-              51,
-              64
+              1061.3239996277869,
+              251.42154454500718
             ]
           },
           {
@@ -4262,8 +4307,8 @@
             ],
             "localized_name": "string_b",
             "pos": [
-              51,
-              84
+              1061.3239996277869,
+              271.4215445450072
             ]
           }
         ],
@@ -4277,8 +4322,8 @@
             ],
             "localized_name": "文字列",
             "pos": [
-              24,
-              24
+              1694.8496346442037,
+              241.42154454500718
             ]
           }
         ],
@@ -4296,7 +4341,7 @@
               196
             ],
             "flags": {},
-            "order": 4,
+            "order": 5,
             "mode": 0,
             "inputs": [
               {
@@ -4354,7 +4399,7 @@
               166
             ],
             "flags": {},
-            "order": 3,
+            "order": 4,
             "mode": 0,
             "inputs": [
               {
@@ -4403,7 +4448,7 @@
               166
             ],
             "flags": {},
-            "order": 1,
+            "order": 2,
             "mode": 0,
             "inputs": [
               {
@@ -4452,7 +4497,7 @@
               196.00000000000014
             ],
             "flags": {},
-            "order": 2,
+            "order": 3,
             "mode": 0,
             "inputs": [
               {
@@ -4512,7 +4557,7 @@
             "flags": {
               "collapsed": false
             },
-            "order": 0,
+            "order": 1,
             "mode": 0,
             "inputs": [
               {
@@ -4532,6 +4577,15 @@
                   "name": "string_b"
                 },
                 "link": 638
+              },
+              {
+                "localized_name": "delimiter",
+                "name": "delimiter",
+                "type": "STRING",
+                "widget": {
+                  "name": "delimiter"
+                },
+                "link": 681
               }
             ],
             "outputs": [
@@ -4551,12 +4605,47 @@
             "widgets_values": [
               "",
               "",
-              ""
+              "\n"
             ],
             "widgets_values_named": {
               "string_a": "",
               "string_b": "",
-              "delimiter": ""
+              "delimiter": "\n"
+            }
+          },
+          {
+            "id": 238,
+            "type": "PrimitiveStringMultiline",
+            "pos": [
+              1125.1343078298362,
+              -79.0352761246157
+            ],
+            "size": [
+              210,
+              88
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  681
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "PrimitiveStringMultiline"
+            },
+            "widgets_values": [
+              "\n"
+            ],
+            "widgets_values_named": {
+              "value": "\n"
             }
           }
         ],
@@ -4571,27 +4660,11 @@
             "type": "STRING"
           },
           {
-            "id": 653,
-            "origin_id": 227,
-            "origin_slot": 0,
-            "target_id": 228,
-            "target_slot": 1,
-            "type": "STRING"
-          },
-          {
             "id": 650,
             "origin_id": 219,
             "origin_slot": 0,
             "target_id": 226,
             "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 649,
-            "origin_id": 225,
-            "origin_slot": 0,
-            "target_id": 226,
-            "target_slot": 1,
             "type": "STRING"
           },
           {
@@ -4633,6 +4706,30 @@
             "target_id": -20,
             "target_slot": 0,
             "type": "STRING"
+          },
+          {
+            "id": 681,
+            "origin_id": 238,
+            "origin_slot": 0,
+            "target_id": 219,
+            "target_slot": 2,
+            "type": "STRING"
+          },
+          {
+            "id": 653,
+            "origin_id": 227,
+            "origin_slot": 0,
+            "target_id": 228,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 649,
+            "origin_id": 225,
+            "origin_slot": 0,
+            "target_id": 226,
+            "target_slot": 1,
+            "type": "STRING"
           }
         ],
         "extra": {}
@@ -4644,9 +4741,9 @@
     "frontendVersion": "1.53.6",
     "workflowRendererVersion": "LG",
     "ds": {
-      "scale": 0.40608366003413693,
+      "scale": 0.47058233538898714,
       "offset": [
-        734.2412460166684,
+        1182.6866713603386,
         873.3287207923661
       ]
     }

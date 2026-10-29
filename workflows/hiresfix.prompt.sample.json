@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 237,
-  "last_link_id": 664,
+  "last_node_id": 243,
+  "last_link_id": 677,
   "nodes": [
     {
       "id": 130,
@@ -228,11 +228,13 @@
       },
       "widgets_values": [
         364103767534992,
-        ""
+        "",
+        "RealESRGAN_x4plus.safetensors"
       ],
       "widgets_values_named": {
         "seed": 364103767534992,
-        "key_name_list": ""
+        "key_name_list": "",
+        "model_name": "RealESRGAN_x4plus.safetensors"
       }
     },
     {
@@ -257,6 +259,7 @@
         }
       ],
       "outputs": [],
+      "title": "Summary",
       "properties": {
         "Node name for S&R": "StringViewer"
       },
@@ -266,7 +269,13 @@
             [
               [
                 [
-                  ""
+                  [
+                    [
+                      [
+                        ""
+                      ]
+                    ]
+                  ]
                 ]
               ]
             ]
@@ -279,7 +288,13 @@
             [
               [
                 [
-                  ""
+                  [
+                    [
+                      [
+                        ""
+                      ]
+                    ]
+                  ]
                 ]
               ]
             ]
@@ -296,7 +311,7 @@
       ],
       "size": [
         210,
-        282
+        302
       ],
       "flags": {},
       "order": 7,
@@ -354,9 +369,6 @@
         {
           "name": "scale_by",
           "type": "FLOAT",
-          "widget": {
-            "name": "scale_by"
-          },
           "link": 657
         },
         {
@@ -400,19 +412,19 @@
         "",
         "",
         731215600810118,
-        1.5,
         0.4999999999999999,
         12,
-        1
+        1,
+        "bicubic"
       ],
       "widgets_values_named": {
         "sampler": "",
         "scheduler": "",
         "seed": 731215600810118,
-        "scale_by": 1.5,
         "denoise": 0.4999999999999999,
         "steps": 12,
-        "cfg": 1
+        "cfg": 1,
+        "upscale_method": "bicubic"
       }
     },
     {
@@ -610,19 +622,18 @@
           ]
         }
       ],
-      "title": "Settings",
       "properties": {
         "previewExposures": []
       },
       "widgets_values": [
         1.5,
-        0.5,
+        0.4,
         12,
         1
       ],
       "widgets_values_named": {
         "value": 1.5,
-        "value_1": 0.5,
+        "value_1": 0.4,
         "value_2": 12,
         "value_3": 1
       }
@@ -825,8 +836,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 6,
-          "lastNodeId": 237,
-          "lastLinkId": 664,
+          "lastNodeId": 243,
+          "lastLinkId": 677,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -838,7 +849,7 @@
             985.7533380924049,
             -353.35054745609807,
             128,
-            128
+            148
           ]
         },
         "outputNode": {
@@ -869,7 +880,7 @@
             "name": "pixels",
             "type": "IMAGE",
             "linkIds": [
-              397
+              666
             ],
             "localized_name": "ピクセル",
             "pos": [
@@ -899,6 +910,18 @@
             "pos": [
               1089.7533380924049,
               -269.35054745609807
+            ]
+          },
+          {
+            "id": "a35b9db6-7f05-4651-9db3-2d965b35e196",
+            "name": "model_name",
+            "type": "COMBO",
+            "linkIds": [
+              668
+            ],
+            "pos": [
+              1089.7533380924049,
+              -249.35054745609807
             ]
           }
         ],
@@ -1024,7 +1047,7 @@
             "flags": {
               "collapsed": false
             },
-            "order": 4,
+            "order": 3,
             "mode": 0,
             "inputs": [
               {
@@ -1138,7 +1161,7 @@
               166
             ],
             "flags": {},
-            "order": 5,
+            "order": 4,
             "mode": 0,
             "inputs": [
               {
@@ -1196,7 +1219,7 @@
               170
             ],
             "flags": {},
-            "order": 2,
+            "order": 1,
             "mode": 0,
             "inputs": [
               {
@@ -1291,7 +1314,7 @@
               280
             ],
             "flags": {},
-            "order": 3,
+            "order": 2,
             "mode": 0,
             "inputs": [
               {
@@ -1409,14 +1432,14 @@
             "flags": {
               "collapsed": false
             },
-            "order": 1,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
                 "localized_name": "ピクセル",
                 "name": "pixels",
                 "type": "IMAGE",
-                "link": 397
+                "link": 667
               },
               {
                 "localized_name": "vae",
@@ -1454,7 +1477,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 6,
+            "order": 5,
             "mode": 0,
             "inputs": [
               {
@@ -1503,7 +1526,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 7,
+            "order": 6,
             "mode": 0,
             "inputs": [
               {
@@ -1552,7 +1575,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 8,
+            "order": 7,
             "mode": 0,
             "inputs": [
               {
@@ -1601,7 +1624,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 9,
+            "order": 8,
             "mode": 0,
             "inputs": [
               {
@@ -1650,7 +1673,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 10,
+            "order": 9,
             "mode": 0,
             "inputs": [
               {
@@ -1699,7 +1722,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 11,
+            "order": 10,
             "mode": 0,
             "inputs": [
               {
@@ -1748,7 +1771,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 12,
+            "order": 11,
             "mode": 0,
             "inputs": [
               {
@@ -1797,7 +1820,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 13,
+            "order": 12,
             "mode": 0,
             "inputs": [
               {
@@ -1846,7 +1869,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 14,
+            "order": 13,
             "mode": 0,
             "inputs": [
               {
@@ -1893,7 +1916,7 @@
               196
             ],
             "flags": {},
-            "order": 15,
+            "order": 14,
             "mode": 0,
             "inputs": [
               {
@@ -1953,7 +1976,7 @@
             "flags": {
               "collapsed": true
             },
-            "order": 16,
+            "order": 15,
             "mode": 0,
             "inputs": [
               {
@@ -2001,7 +2024,7 @@
               166
             ],
             "flags": {},
-            "order": 5,
+            "order": 16,
             "mode": 0,
             "inputs": [
               {
@@ -2036,6 +2059,93 @@
               "string_a": "",
               "string_b": "\n\n---- Negative ----",
               "delimiter": ""
+            }
+          },
+          {
+            "id": 238,
+            "type": "UpscaleModelLoader",
+            "pos": [
+              1186.1180386413062,
+              -168.06588565101487
+            ],
+            "size": [
+              210,
+              58
+            ],
+            "flags": {},
+            "order": 17,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "モデル名",
+                "name": "model_name",
+                "type": "COMBO",
+                "widget": {
+                  "name": "model_name"
+                },
+                "link": 668
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "アップスケールモデル",
+                "name": "UPSCALE_MODEL",
+                "type": "UPSCALE_MODEL",
+                "links": [
+                  665
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "UpscaleModelLoader"
+            },
+            "widgets_values": [
+              "RealESRGAN_x4plus.safetensors"
+            ],
+            "widgets_values_named": {
+              "model_name": "RealESRGAN_x4plus.safetensors"
+            }
+          },
+          {
+            "id": 239,
+            "type": "ImageUpscaleWithModel",
+            "pos": [
+              1396.9569575200428,
+              -266.9804801985002
+            ],
+            "size": [
+              221.9,
+              46
+            ],
+            "flags": {},
+            "order": 18,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "拡大モデル",
+                "name": "upscale_model",
+                "type": "UPSCALE_MODEL",
+                "link": 665
+              },
+              {
+                "localized_name": "画像",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 666
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  667
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageUpscaleWithModel"
             }
           }
         ],
@@ -2104,14 +2214,6 @@
             "target_id": 203,
             "target_slot": 0,
             "type": "PROMPT_FILE"
-          },
-          {
-            "id": 397,
-            "origin_id": -10,
-            "origin_slot": 1,
-            "target_id": 140,
-            "target_slot": 0,
-            "type": "IMAGE"
           },
           {
             "id": 573,
@@ -2330,18 +2432,50 @@
             "type": "STRING"
           },
           {
-            "id": 648,
-            "origin_id": 229,
-            "origin_slot": 0,
-            "target_id": 227,
-            "target_slot": 1,
-            "type": "STRING"
-          },
-          {
             "id": 649,
             "origin_id": 228,
             "origin_slot": 0,
             "target_id": 207,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 665,
+            "origin_id": 238,
+            "origin_slot": 0,
+            "target_id": 239,
+            "target_slot": 0,
+            "type": "UPSCALE_MODEL"
+          },
+          {
+            "id": 666,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 239,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 667,
+            "origin_id": 239,
+            "origin_slot": 0,
+            "target_id": 140,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 668,
+            "origin_id": -10,
+            "origin_slot": 4,
+            "target_id": 238,
+            "target_slot": 0,
+            "type": "COMBO"
+          },
+          {
+            "id": 648,
+            "origin_id": 229,
+            "origin_slot": 0,
+            "target_id": 227,
             "target_slot": 1,
             "type": "STRING"
           }
@@ -2353,8 +2487,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 6,
-          "lastNodeId": 237,
-          "lastLinkId": 664,
+          "lastNodeId": 243,
+          "lastLinkId": 677,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -2365,8 +2499,8 @@
           "bounding": [
             1263.0049474952193,
             -446.9780048645325,
-            128,
-            288
+            141.33984375,
+            308
           ]
         },
         "outputNode": {
@@ -2384,11 +2518,11 @@
             "name": "samples",
             "type": "LATENT",
             "linkIds": [
-              572
+              674
             ],
             "localized_name": "samples",
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -422.9780048645325
             ]
           },
@@ -2401,7 +2535,7 @@
             ],
             "localized_name": "model",
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -402.9780048645325
             ]
           },
@@ -2414,7 +2548,7 @@
             ],
             "localized_name": "positive",
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -382.9780048645325
             ]
           },
@@ -2427,7 +2561,7 @@
             ],
             "localized_name": "negative",
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -362.9780048645325
             ]
           },
@@ -2440,7 +2574,7 @@
             ],
             "localized_name": "sampler",
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -342.9780048645325
             ]
           },
@@ -2453,7 +2587,7 @@
             ],
             "localized_name": "scheduler",
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -322.9780048645325
             ]
           },
@@ -2462,11 +2596,13 @@
             "name": "vae",
             "type": "VAE",
             "linkIds": [
-              568
+              568,
+              675,
+              677
             ],
             "localized_name": "vae",
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -302.9780048645325
             ]
           },
@@ -2478,7 +2614,7 @@
               611
             ],
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -282.9780048645325
             ]
           },
@@ -2487,10 +2623,10 @@
             "name": "scale_by",
             "type": "FLOAT",
             "linkIds": [
-              612
+              669
             ],
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -262.9780048645325
             ]
           },
@@ -2502,7 +2638,7 @@
               613
             ],
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -242.97800486453252
             ]
           },
@@ -2514,7 +2650,7 @@
               614
             ],
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -222.97800486453252
             ]
           },
@@ -2526,8 +2662,20 @@
               615
             ],
             "pos": [
-              1367.0049474952193,
+              1380.3447912452193,
               -202.97800486453252
+            ]
+          },
+          {
+            "id": "1cd27a74-565f-454f-887e-16a0d1c1ec96",
+            "name": "upscale_method",
+            "type": "COMBO",
+            "linkIds": [
+              676
+            ],
+            "pos": [
+              1380.3447912452193,
+              -182.97800486453252
             ]
           }
         ],
@@ -2549,60 +2697,6 @@
         "widgets": [],
         "nodes": [
           {
-            "id": 136,
-            "type": "LatentUpscaleBy",
-            "pos": [
-              1451.0049474952193,
-              -282.15418038499274
-            ],
-            "size": [
-              315,
-              82
-            ],
-            "flags": {},
-            "order": 0,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "samples",
-                "name": "samples",
-                "type": "LATENT",
-                "link": 572
-              },
-              {
-                "localized_name": "スケールバイ",
-                "name": "scale_by",
-                "type": "FLOAT",
-                "widget": {
-                  "name": "scale_by"
-                },
-                "link": 612
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "潜在",
-                "name": "LATENT",
-                "type": "LATENT",
-                "slot_index": 0,
-                "links": [
-                  477
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "LatentUpscaleBy"
-            },
-            "widgets_values": [
-              "nearest-exact",
-              1.5
-            ],
-            "widgets_values_named": {
-              "upscale_method": "nearest-exact",
-              "scale_by": 1.5
-            }
-          },
-          {
             "id": 167,
             "type": "KSamplerFromString",
             "pos": [
@@ -2616,7 +2710,7 @@
             "flags": {
               "collapsed": false
             },
-            "order": 2,
+            "order": 1,
             "mode": 0,
             "inputs": [
               {
@@ -2641,7 +2735,7 @@
                 "localized_name": "latent_image",
                 "name": "latent_image",
                 "type": "LATENT",
-                "link": 477
+                "link": 673
               },
               {
                 "localized_name": "denoise",
@@ -2744,7 +2838,7 @@
             "flags": {
               "collapsed": false
             },
-            "order": 1,
+            "order": 0,
             "mode": 0,
             "inputs": [
               {
@@ -2774,31 +2868,222 @@
             "properties": {
               "Node name for S&R": "VAEDecode"
             }
+          },
+          {
+            "id": 240,
+            "type": "VAEDecode",
+            "pos": [
+              1476.0641480867748,
+              -115.22513248276157
+            ],
+            "size": [
+              140,
+              46
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "サンプル",
+                "name": "samples",
+                "type": "LATENT",
+                "link": 674
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 675
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  671
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "VAEDecode"
+            }
+          },
+          {
+            "id": 241,
+            "type": "VAEEncode",
+            "pos": [
+              1664.824148086778,
+              -112.80513248276152
+            ],
+            "size": [
+              140,
+              46
+            ],
+            "flags": {},
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "ピクセル",
+                "name": "pixels",
+                "type": "IMAGE",
+                "link": 672
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 677
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "潜在",
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  673
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "VAEEncode"
+            }
+          },
+          {
+            "id": 242,
+            "type": "ImageScaleBy",
+            "pos": [
+              1688.1541480867759,
+              13.034867517238323
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {},
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "画像",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 671
+              },
+              {
+                "localized_name": "拡大方法",
+                "name": "upscale_method",
+                "type": "COMBO",
+                "widget": {
+                  "name": "upscale_method"
+                },
+                "link": 676
+              },
+              {
+                "localized_name": "スケールバイ",
+                "name": "scale_by",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "scale_by"
+                },
+                "link": 670
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  672
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageScaleBy"
+            },
+            "widgets_values": [
+              "bicubic",
+              1
+            ],
+            "widgets_values_named": {
+              "upscale_method": "bicubic",
+              "scale_by": 1
+            }
+          },
+          {
+            "id": 243,
+            "type": "ComfyMathExpression",
+            "pos": [
+              1416.2441480867772,
+              17.874867517238293
+            ],
+            "size": [
+              210,
+              128
+            ],
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "a",
+                "name": "values.a",
+                "type": "FLOAT,INT,BOOLEAN",
+                "link": 669
+              },
+              {
+                "localized_name": "b",
+                "name": "values.b",
+                "shape": 7,
+                "type": "FLOAT,INT,BOOLEAN",
+                "link": null
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "浮動小数点",
+                "name": "FLOAT",
+                "type": "FLOAT",
+                "links": [
+                  670
+                ]
+              },
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": null
+              },
+              {
+                "localized_name": "BOOL",
+                "name": "BOOL",
+                "type": "BOOLEAN",
+                "links": null
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ComfyMathExpression"
+            },
+            "widgets_values": [
+              "a * 0.25"
+            ],
+            "widgets_values_named": {
+              "expression": "a * 0.25"
+            }
           }
         ],
         "groups": [],
         "links": [
           {
-            "id": 477,
-            "origin_id": 136,
-            "origin_slot": 0,
-            "target_id": 167,
-            "target_slot": 3,
-            "type": "LATENT"
-          },
-          {
             "id": 473,
             "origin_id": 167,
             "origin_slot": 0,
             "target_id": 137,
-            "target_slot": 0,
-            "type": "LATENT"
-          },
-          {
-            "id": 572,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 136,
             "target_slot": 0,
             "type": "LATENT"
           },
@@ -2891,12 +3176,76 @@
             "type": "FLOAT"
           },
           {
-            "id": 612,
+            "id": 670,
+            "origin_id": 243,
+            "origin_slot": 0,
+            "target_id": 242,
+            "target_slot": 2,
+            "type": "FLOAT"
+          },
+          {
+            "id": 671,
+            "origin_id": 240,
+            "origin_slot": 0,
+            "target_id": 242,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 672,
+            "origin_id": 242,
+            "origin_slot": 0,
+            "target_id": 241,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 673,
+            "origin_id": 241,
+            "origin_slot": 0,
+            "target_id": 167,
+            "target_slot": 3,
+            "type": "LATENT"
+          },
+          {
+            "id": 674,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 240,
+            "target_slot": 0,
+            "type": "LATENT"
+          },
+          {
+            "id": 675,
+            "origin_id": -10,
+            "origin_slot": 6,
+            "target_id": 240,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 676,
+            "origin_id": -10,
+            "origin_slot": 12,
+            "target_id": 242,
+            "target_slot": 1,
+            "type": "COMBO"
+          },
+          {
+            "id": 669,
             "origin_id": -10,
             "origin_slot": 8,
-            "target_id": 136,
+            "target_id": 243,
+            "target_slot": 0,
+            "type": "FLOAT,INT,BOOLEAN"
+          },
+          {
+            "id": 677,
+            "origin_id": -10,
+            "origin_slot": 6,
+            "target_id": 241,
             "target_slot": 1,
-            "type": "FLOAT"
+            "type": "VAE"
           }
         ],
         "extra": {}
@@ -2906,8 +3255,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 6,
-          "lastNodeId": 237,
-          "lastLinkId": 664,
+          "lastNodeId": 243,
+          "lastLinkId": 677,
           "lastRerouteId": 0
         },
         "revision": 0,

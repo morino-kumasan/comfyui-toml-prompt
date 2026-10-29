@@ -197,9 +197,7 @@
       ],
       "properties": {
         "Node name for S&R": "PreviewImage"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 11,
@@ -263,7 +261,9 @@
                                                                         [
                                                                           [
                                                                             [
-                                                                              ""
+                                                                              [
+                                                                                ""
+                                                                              ]
                                                                             ]
                                                                           ]
                                                                         ]
@@ -336,7 +336,9 @@
                                                                         [
                                                                           [
                                                                             [
-                                                                              ""
+                                                                              [
+                                                                                ""
+                                                                              ]
                                                                             ]
                                                                           ]
                                                                         ]
@@ -742,9 +744,7 @@
       ],
       "properties": {
         "Node name for S&R": "PreviewImage"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 244,
@@ -776,16 +776,14 @@
       ],
       "properties": {
         "Node name for S&R": "PreviewImage"
-      },
-      "widgets_values": [],
-      "widgets_values_named": {}
+      }
     },
     {
       "id": 250,
       "type": "LoadVideo",
       "pos": [
-        -420.92024498208986,
-        700.7280955359122
+        -419.9497920597921,
+        764.7212443590292
       ],
       "size": [
         500.79449388233553,
@@ -820,8 +818,8 @@
       "id": 251,
       "type": "GetVideoComponents",
       "pos": [
-        -141.71926159909998,
-        1148.1415476934696
+        -140.74880867680224,
+        1210.6265449587124
       ],
       "size": [
         221.9,
@@ -1355,14 +1353,6 @@
       "IMAGE"
     ],
     [
-      673,
-      256,
-      0,
-      224,
-      0,
-      "VIDEO"
-    ],
-    [
       701,
       258,
       0,
@@ -1377,6 +1367,14 @@
       228,
       2,
       "INT"
+    ],
+    [
+      673,
+      256,
+      0,
+      224,
+      0,
+      "VIDEO"
     ]
   ],
   "groups": [
@@ -1424,12 +1422,26 @@
     },
     {
       "id": 7,
-      "title": "ManualReferences",
+      "title": "OverwritePicture1",
       "bounding": [
         -442.44837069587163,
         59.22339405665482,
-        541.3558112861265,
-        1711.946416465061
+        543.014777999788,
+        611.3886913748423
+      ],
+      "color": "#3f789e",
+      "flags": {
+        "pinned": true
+      }
+    },
+    {
+      "id": 8,
+      "title": "OverwriteVideo1",
+      "bounding": [
+        -440.2616417734167,
+        684.816225646347,
+        541.1683143944972,
+        647.0649857606427
       ],
       "color": "#3f789e",
       "flags": {
@@ -1443,7 +1455,7 @@
         "id": "f909a4e0-f0dc-44e1-bd3e-0af30ac554c0",
         "version": 1,
         "state": {
-          "lastGroupId": 7,
+          "lastGroupId": 8,
           "lastNodeId": 259,
           "lastLinkId": 702,
           "lastRerouteId": 0
@@ -2313,7 +2325,7 @@
         "id": "5aaadbfc-37c0-42ab-b03b-b20e80981af6",
         "version": 1,
         "state": {
-          "lastGroupId": 7,
+          "lastGroupId": 8,
           "lastNodeId": 259,
           "lastLinkId": 702,
           "lastRerouteId": 0
@@ -2919,7 +2931,7 @@
             ],
             "size": [
               400,
-              584
+              604
             ],
             "flags": {},
             "order": 1,
@@ -3666,7 +3678,7 @@
         "id": "072ed8aa-0e22-4ebf-a5d8-f16a4c38ad52",
         "version": 1,
         "state": {
-          "lastGroupId": 7,
+          "lastGroupId": 8,
           "lastNodeId": 259,
           "lastLinkId": 702,
           "lastRerouteId": 0
