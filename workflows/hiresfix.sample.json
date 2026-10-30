@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 238,
-  "last_link_id": 683,
+  "last_node_id": 253,
+  "last_link_id": 749,
   "nodes": [
     {
       "id": 130,
@@ -16,13 +16,13 @@
         605.852273895499
       ],
       "flags": {},
-      "order": 11,
+      "order": 16,
       "mode": 0,
       "inputs": [
         {
           "name": "images",
           "type": "IMAGE",
-          "link": 569
+          "link": 714
         }
       ],
       "outputs": [
@@ -62,7 +62,7 @@
           "slot_index": 0,
           "links": [
             630,
-            672
+            727
           ]
         },
         {
@@ -96,7 +96,7 @@
         603.8080080490663
       ],
       "flags": {},
-      "order": 8,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -135,7 +135,21 @@
                                                   [
                                                     [
                                                       [
-                                                        ""
+                                                        [
+                                                          [
+                                                            [
+                                                              [
+                                                                [
+                                                                  [
+                                                                    [
+                                                                      ""
+                                                                    ]
+                                                                  ]
+                                                                ]
+                                                              ]
+                                                            ]
+                                                          ]
+                                                        ]
                                                       ]
                                                     ]
                                                   ]
@@ -186,7 +200,21 @@
                                                   [
                                                     [
                                                       [
-                                                        ""
+                                                        [
+                                                          [
+                                                            [
+                                                              [
+                                                                [
+                                                                  [
+                                                                    [
+                                                                      ""
+                                                                    ]
+                                                                  ]
+                                                                ]
+                                                              ]
+                                                            ]
+                                                          ]
+                                                        ]
                                                       ]
                                                     ]
                                                   ]
@@ -214,173 +242,6 @@
       }
     },
     {
-      "id": 203,
-      "type": "c985c7fd-95da-460f-87b1-964891e4bc5e",
-      "pos": [
-        1367.0757348693471,
-        -541.8182847100896
-      ],
-      "size": [
-        302.99720114411366,
-        398
-      ],
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "width",
-          "type": "INT",
-          "widget": {
-            "name": "width"
-          },
-          "link": 574
-        },
-        {
-          "name": "height",
-          "type": "INT",
-          "widget": {
-            "name": "height"
-          },
-          "link": 575
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 578
-        },
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 580
-        },
-        {
-          "name": "positive",
-          "type": "CONDITIONING",
-          "link": 581
-        },
-        {
-          "name": "negative",
-          "type": "CONDITIONING",
-          "link": 582
-        },
-        {
-          "name": "sampler",
-          "type": "STRING",
-          "widget": {
-            "name": "sampler"
-          },
-          "link": 576
-        },
-        {
-          "name": "scheduler",
-          "type": "STRING",
-          "widget": {
-            "name": "scheduler"
-          },
-          "link": 577
-        },
-        {
-          "name": "seed",
-          "type": "INT",
-          "widget": {
-            "name": "seed"
-          },
-          "link": 571
-        },
-        {
-          "name": "scale_by",
-          "type": "FLOAT",
-          "link": 619
-        },
-        {
-          "name": "denoise",
-          "type": "FLOAT",
-          "widget": {
-            "name": "denoise"
-          },
-          "link": 620
-        },
-        {
-          "name": "steps",
-          "type": "INT",
-          "widget": {
-            "name": "steps"
-          },
-          "link": 621
-        },
-        {
-          "name": "cfg",
-          "type": "FLOAT",
-          "widget": {
-            "name": "cfg"
-          },
-          "link": 622
-        },
-        {
-          "label": "downscale_method",
-          "name": "upscale_method_1",
-          "type": "COMBO",
-          "widget": {
-            "name": "upscale_method_1"
-          },
-          "link": null
-        },
-        {
-          "name": "pixels",
-          "type": "IMAGE",
-          "link": 672
-        },
-        {
-          "label": "upscale_model",
-          "name": "model_name",
-          "type": "COMBO",
-          "widget": {
-            "name": "model_name"
-          },
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            569
-          ]
-        }
-      ],
-      "properties": {
-        "previewExposures": []
-      },
-      "widgets_values": [
-        832,
-        1216,
-        "",
-        "",
-        0,
-        "bicubic",
-        0.6,
-        20,
-        5,
-        "bicubic",
-        "RealESRGAN_x4plus.safetensors"
-      ],
-      "widgets_values_named": {
-        "width": 832,
-        "height": 1216,
-        "sampler": "",
-        "scheduler": "",
-        "seed": 0,
-        "upscale_method": "bicubic",
-        "denoise": 0.6,
-        "steps": 20,
-        "cfg": 5,
-        "upscale_method_1": "bicubic",
-        "model_name": "RealESRGAN_x4plus.safetensors"
-      }
-    },
-    {
       "id": 204,
       "type": "SeedNode",
       "pos": [
@@ -400,7 +261,7 @@
           "name": "seed",
           "type": "INT",
           "links": [
-            571
+            740
           ]
         }
       ],
@@ -414,102 +275,6 @@
       "widgets_values_named": {
         "seed": 0,
         "fixed": "randomize"
-      }
-    },
-    {
-      "id": 205,
-      "type": "7801e5cb-f848-451f-86fd-2b60563789c3",
-      "pos": [
-        1144.309339404818,
-        -542.2384605785207
-      ],
-      "size": [
-        210,
-        228
-      ],
-      "flags": {},
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "summary",
-          "type": "STRING",
-          "widget": {
-            "name": "summary"
-          },
-          "link": 680
-        }
-      ],
-      "outputs": [
-        {
-          "label": "width",
-          "name": "INT",
-          "type": "INT",
-          "links": [
-            574
-          ]
-        },
-        {
-          "label": "height",
-          "name": "INT_1",
-          "type": "INT",
-          "links": [
-            575
-          ]
-        },
-        {
-          "label": "sampler",
-          "name": "STRING_3",
-          "type": "STRING",
-          "links": [
-            576
-          ]
-        },
-        {
-          "label": "scheduler",
-          "name": "STRING_4",
-          "type": "STRING",
-          "links": [
-            577
-          ]
-        },
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "links": [
-            578
-          ]
-        },
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            580
-          ]
-        },
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            581
-          ]
-        },
-        {
-          "name": "CONDITIONING_1",
-          "type": "CONDITIONING",
-          "links": [
-            582
-          ]
-        }
-      ],
-      "properties": {
-        "previewExposures": []
-      },
-      "widgets_values": [
-        ""
-      ],
-      "widgets_values_named": {
-        "summary": ""
       }
     },
     {
@@ -570,7 +335,7 @@
           "name": "FLOAT",
           "type": "FLOAT",
           "links": [
-            619
+            730
           ]
         },
         {
@@ -578,7 +343,7 @@
           "name": "FLOAT_1",
           "type": "FLOAT",
           "links": [
-            620
+            735
           ]
         },
         {
@@ -586,7 +351,7 @@
           "name": "INT",
           "type": "INT",
           "links": [
-            621
+            736
           ]
         },
         {
@@ -594,7 +359,7 @@
           "name": "FLOAT_2",
           "type": "FLOAT",
           "links": [
-            622
+            737
           ]
         }
       ],
@@ -618,15 +383,15 @@
       "id": 216,
       "type": "StringPicker",
       "pos": [
-        1155.422990037139,
-        -61.58472856552197
+        1152.5251913457535,
+        -51.51843641720295
       ],
       "size": [
         238.5360107421875,
         106
       ],
       "flags": {
-        "collapsed": true
+        "collapsed": false
       },
       "order": 6,
       "mode": 0,
@@ -806,17 +571,17 @@
       "id": 229,
       "type": "724b1d7c-6714-4980-86ba-1ff25a6e9f66",
       "pos": [
-        1315.0317166528755,
-        -60.51144140659241
+        1156.1792852461522,
+        101.85165205034005
       ],
       "size": [
         210,
         250
       ],
       "flags": {
-        "collapsed": true
+        "collapsed": false
       },
-      "order": 7,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -858,7 +623,7 @@
           "type": "STRING",
           "links": [
             659,
-            680
+            700
           ]
         }
       ],
@@ -877,17 +642,599 @@
         "string_a_2": "",
         "string_b": ""
       }
+    },
+    {
+      "id": 239,
+      "type": "SummaryReader",
+      "pos": [
+        1146.045909118939,
+        -541.5471332029543
+      ],
+      "size": [
+        249.8939971923828,
+        168
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "summary",
+          "type": "STRING",
+          "widget": {
+            "name": "summary"
+          },
+          "link": 700
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 0,
+          "links": [
+            744
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 1,
+          "links": [
+            745
+          ]
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "slot_index": 2,
+          "links": [
+            743
+          ]
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "slot_index": 3,
+          "links": []
+        },
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            684
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SummaryReader"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "widgets_values_named": {
+        "summary": ""
+      }
+    },
+    {
+      "id": 240,
+      "type": "a677b36b-69b5-4fa5-9058-5bfdcf810997",
+      "pos": [
+        1421.491892783836,
+        -541.7916787681385
+      ],
+      "size": [
+        210,
+        248
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_text",
+          "type": "STRING",
+          "widget": {
+            "name": "json_text"
+          },
+          "link": 684
+        }
+      ],
+      "outputs": [
+        {
+          "label": "model",
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            685
+          ]
+        },
+        {
+          "label": "clip_model",
+          "name": "STRING_1",
+          "type": "STRING",
+          "links": [
+            686
+          ]
+        },
+        {
+          "label": "vae_model",
+          "name": "STRING_2",
+          "type": "STRING",
+          "links": [
+            687
+          ]
+        },
+        {
+          "label": "width",
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            706
+          ]
+        },
+        {
+          "label": "height",
+          "name": "INT_1",
+          "type": "INT",
+          "links": [
+            707
+          ]
+        },
+        {
+          "label": "clip",
+          "name": "INT_2",
+          "type": "INT",
+          "links": [
+            688
+          ]
+        },
+        {
+          "label": "enable_break",
+          "name": "BOOLEAN",
+          "type": "BOOLEAN",
+          "links": [
+            746
+          ]
+        },
+        {
+          "label": "sampler",
+          "name": "STRING_3",
+          "type": "STRING",
+          "links": [
+            738
+          ]
+        },
+        {
+          "label": "scheduler",
+          "name": "STRING_4",
+          "type": "STRING",
+          "links": [
+            739
+          ]
+        }
+      ],
+      "properties": {
+        "proxyWidgetErrorQuarantine": [
+          {
+            "originalEntry": [
+              "-1",
+              "json_text"
+            ],
+            "reason": "missingSourceNode",
+            "hostValue": "",
+            "attemptedAtVersion": 1
+          }
+        ],
+        "previewExposures": []
+      },
+      "widgets_values": [
+        ""
+      ],
+      "widgets_values_named": {
+        "json_text": ""
+      }
+    },
+    {
+      "id": 241,
+      "type": "CheckPointLoaderFromString",
+      "pos": [
+        1663.5607753195213,
+        -537.4830232229182
+      ],
+      "size": [
+        295.05234375,
+        170
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "ckpt_name",
+          "type": "STRING",
+          "widget": {
+            "name": "ckpt_name"
+          },
+          "link": 685
+        },
+        {
+          "name": "clip_name",
+          "type": "STRING",
+          "widget": {
+            "name": "clip_name"
+          },
+          "link": 686
+        },
+        {
+          "name": "vae_name",
+          "type": "STRING",
+          "widget": {
+            "name": "vae_name"
+          },
+          "link": 687
+        },
+        {
+          "name": "stop_at_clip_layer",
+          "type": "INT",
+          "widget": {
+            "name": "stop_at_clip_layer"
+          },
+          "link": 688
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            742
+          ]
+        },
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            741
+          ]
+        },
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            732,
+            747
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CheckPointLoaderFromString"
+      },
+      "widgets_values": [
+        "",
+        "",
+        "",
+        0
+      ],
+      "widgets_values_named": {
+        "ckpt_name": "",
+        "clip_name": "",
+        "vae_name": "",
+        "stop_at_clip_layer": 0
+      }
+    },
+    {
+      "id": 243,
+      "type": "ImageScale",
+      "pos": [
+        1535.4586550323565,
+        322.7300819171337
+      ],
+      "size": [
+        315,
+        130
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 748
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "widget": {
+            "name": "width"
+          },
+          "link": 706
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "widget": {
+            "name": "height"
+          },
+          "link": 707
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            714
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageScale"
+      },
+      "widgets_values": [
+        "bicubic",
+        832,
+        1216,
+        "disabled"
+      ],
+      "widgets_values_named": {
+        "upscale_method": "bicubic",
+        "width": 832,
+        "height": 1216,
+        "crop": "disabled"
+      }
+    },
+    {
+      "id": 251,
+      "type": "ab667856-57d1-4974-8c48-88d34ea62055",
+      "pos": [
+        1159.5150688267906,
+        -167.2435574340655
+      ],
+      "size": [
+        210,
+        58
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 727
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            731
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": []
+      },
+      "widgets_values": [
+        "RealESRGAN_x4plus.safetensors"
+      ],
+      "widgets_values_named": {
+        "model_name": "RealESRGAN_x4plus.safetensors"
+      }
+    },
+    {
+      "id": 252,
+      "type": "2bb3a7f6-b41b-47aa-9688-12016a6a0700",
+      "pos": [
+        1411.8146434495993,
+        -162.64834357829542
+      ],
+      "size": [
+        210,
+        98
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "label": "scale_by",
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 730
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 731
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 732
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            734
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": []
+      },
+      "widgets_values": [
+        "bicubic"
+      ],
+      "widgets_values_named": {
+        "upscale_method": "bicubic"
+      }
+    },
+    {
+      "id": 253,
+      "type": "a13ccd1a-cbe8-446c-a9eb-a5e049e39726",
+      "pos": [
+        1642.392721022958,
+        -160.90676985802224
+      ],
+      "size": [
+        210,
+        424.00000000000006
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 734
+        },
+        {
+          "name": "denoise",
+          "type": "FLOAT",
+          "widget": {
+            "name": "denoise"
+          },
+          "link": 735
+        },
+        {
+          "name": "steps",
+          "type": "INT",
+          "widget": {
+            "name": "steps"
+          },
+          "link": 736
+        },
+        {
+          "name": "cfg",
+          "type": "FLOAT",
+          "widget": {
+            "name": "cfg"
+          },
+          "link": 737
+        },
+        {
+          "name": "sampler",
+          "type": "STRING",
+          "widget": {
+            "name": "sampler"
+          },
+          "link": 738
+        },
+        {
+          "name": "scheduler",
+          "type": "STRING",
+          "widget": {
+            "name": "scheduler"
+          },
+          "link": 739
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 740
+        },
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 741
+        },
+        {
+          "name": "model",
+          "shape": 7,
+          "type": "MODEL",
+          "link": 742
+        },
+        {
+          "name": "lora_tag_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_tag_list"
+          },
+          "link": 743
+        },
+        {
+          "name": "positive",
+          "type": "STRING",
+          "widget": {
+            "name": "positive"
+          },
+          "link": 744
+        },
+        {
+          "name": "negative",
+          "type": "STRING",
+          "widget": {
+            "name": "negative"
+          },
+          "link": 745
+        },
+        {
+          "name": "enable_break",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enable_break"
+          },
+          "link": 746
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 747
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            748
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": []
+      },
+      "widgets_values": [
+        0.6,
+        20,
+        5,
+        "",
+        "",
+        0,
+        "",
+        "",
+        "",
+        false
+      ],
+      "widgets_values_named": {
+        "denoise": 0.6,
+        "steps": 20,
+        "cfg": 5,
+        "sampler": "",
+        "scheduler": "",
+        "seed": 0,
+        "lora_tag_list": "",
+        "positive": "",
+        "negative": "",
+        "enable_break": false
+      }
     }
   ],
   "links": [
-    [
-      569,
-      203,
-      0,
-      130,
-      0,
-      "IMAGE"
-    ],
     [
       630,
       138,
@@ -937,124 +1284,228 @@
       "STRING"
     ],
     [
-      574,
-      205,
-      0,
-      203,
-      0,
-      "INT"
-    ],
-    [
-      575,
-      205,
-      1,
-      203,
-      1,
-      "INT"
-    ],
-    [
-      578,
-      205,
+      684,
+      239,
       4,
-      203,
+      240,
+      0,
+      "STRING"
+    ],
+    [
+      685,
+      240,
+      0,
+      241,
+      0,
+      "STRING"
+    ],
+    [
+      686,
+      240,
+      1,
+      241,
+      1,
+      "STRING"
+    ],
+    [
+      687,
+      240,
+      2,
+      241,
+      2,
+      "STRING"
+    ],
+    [
+      688,
+      240,
+      5,
+      241,
+      3,
+      "INT"
+    ],
+    [
+      700,
+      229,
+      0,
+      239,
+      0,
+      "STRING"
+    ],
+    [
+      714,
+      243,
+      0,
+      130,
+      0,
+      "IMAGE"
+    ],
+    [
+      727,
+      138,
+      0,
+      251,
+      0,
+      "IMAGE"
+    ],
+    [
+      730,
+      213,
+      0,
+      252,
+      0,
+      "FLOAT"
+    ],
+    [
+      731,
+      251,
+      0,
+      252,
+      1,
+      "IMAGE"
+    ],
+    [
+      732,
+      241,
+      2,
+      252,
       2,
       "VAE"
     ],
     [
-      580,
-      205,
-      5,
-      203,
+      734,
+      252,
+      0,
+      253,
+      0,
+      "LATENT"
+    ],
+    [
+      735,
+      213,
+      1,
+      253,
+      1,
+      "FLOAT"
+    ],
+    [
+      736,
+      213,
+      2,
+      253,
+      2,
+      "INT"
+    ],
+    [
+      737,
+      213,
       3,
+      253,
+      3,
+      "FLOAT"
+    ],
+    [
+      738,
+      240,
+      7,
+      253,
+      4,
+      "STRING"
+    ],
+    [
+      739,
+      240,
+      8,
+      253,
+      5,
+      "STRING"
+    ],
+    [
+      740,
+      204,
+      0,
+      253,
+      6,
+      "INT"
+    ],
+    [
+      741,
+      241,
+      1,
+      253,
+      7,
+      "CLIP"
+    ],
+    [
+      742,
+      241,
+      0,
+      253,
+      8,
       "MODEL"
     ],
     [
-      581,
-      205,
-      6,
-      203,
-      4,
-      "CONDITIONING"
-    ],
-    [
-      582,
-      205,
-      7,
-      203,
-      5,
-      "CONDITIONING"
-    ],
-    [
-      576,
-      205,
+      743,
+      239,
       2,
-      203,
-      6,
-      "STRING"
-    ],
-    [
-      577,
-      205,
-      3,
-      203,
-      7,
-      "STRING"
-    ],
-    [
-      571,
-      204,
-      0,
-      203,
-      8,
-      "INT"
-    ],
-    [
-      619,
-      213,
-      0,
-      203,
+      253,
       9,
-      "FLOAT"
+      "STRING"
     ],
     [
-      620,
-      213,
-      1,
-      203,
-      10,
-      "FLOAT"
-    ],
-    [
-      621,
-      213,
-      2,
-      203,
-      11,
-      "INT"
-    ],
-    [
-      622,
-      213,
-      3,
-      203,
-      12,
-      "FLOAT"
-    ],
-    [
-      672,
-      138,
+      744,
+      239,
       0,
-      203,
-      14,
+      253,
+      10,
+      "STRING"
+    ],
+    [
+      745,
+      239,
+      1,
+      253,
+      11,
+      "STRING"
+    ],
+    [
+      746,
+      240,
+      6,
+      253,
+      12,
+      "BOOLEAN"
+    ],
+    [
+      747,
+      241,
+      2,
+      253,
+      13,
+      "VAE"
+    ],
+    [
+      748,
+      253,
+      0,
+      243,
+      0,
       "IMAGE"
     ],
     [
-      680,
-      229,
-      0,
-      205,
-      0,
-      "STRING"
+      706,
+      240,
+      3,
+      243,
+      1,
+      "INT"
+    ],
+    [
+      707,
+      240,
+      4,
+      243,
+      2,
+      "INT"
     ]
   ],
   "groups": [
@@ -1064,8 +1515,8 @@
       "bounding": [
         1125.705810546875,
         -621.07568359375,
-        566.7217331303166,
-        613.561719388091
+        906.5764658508069,
+        1434.4414767698372
       ],
       "color": "#A88",
       "flags": {
@@ -1104,1729 +1555,12 @@
   "definitions": {
     "subgraphs": [
       {
-        "id": "c985c7fd-95da-460f-87b1-964891e4bc5e",
-        "version": 1,
-        "state": {
-          "lastGroupId": 5,
-          "lastNodeId": 238,
-          "lastLinkId": 683,
-          "lastRerouteId": 0
-        },
-        "revision": 0,
-        "config": {},
-        "name": "Highres.fix",
-        "inputNode": {
-          "id": -10,
-          "bounding": [
-            1010.7918049949021,
-            5.056536064354773,
-            158.1328125,
-            388
-          ]
-        },
-        "outputNode": {
-          "id": -20,
-          "bounding": [
-            2601.972502661754,
-            85.05653606435477,
-            128,
-            67.99999999999999
-          ]
-        },
-        "inputs": [
-          {
-            "id": "de276cc9-3e76-40b1-b8f0-79508d1ac662",
-            "name": "width",
-            "type": "INT",
-            "linkIds": [
-              554
-            ],
-            "localized_name": "幅",
-            "pos": [
-              1144.9246174949021,
-              29.056536064354773
-            ]
-          },
-          {
-            "id": "e9977cd3-c5cd-4239-b0ae-e7745ee72523",
-            "name": "height",
-            "type": "INT",
-            "linkIds": [
-              555
-            ],
-            "localized_name": "高さ",
-            "pos": [
-              1144.9246174949021,
-              49.05653606435477
-            ]
-          },
-          {
-            "id": "79b07dea-dc99-4a01-8a12-8ae0bd8a513d",
-            "name": "vae",
-            "type": "VAE",
-            "linkIds": [
-              470,
-              663
-            ],
-            "localized_name": "vae",
-            "pos": [
-              1144.9246174949021,
-              69.05653606435477
-            ]
-          },
-          {
-            "id": "4018f376-73c5-49b1-9c75-f09b9f02b98e",
-            "name": "model",
-            "type": "MODEL",
-            "linkIds": [
-              479
-            ],
-            "localized_name": "model",
-            "pos": [
-              1144.9246174949021,
-              89.05653606435477
-            ]
-          },
-          {
-            "id": "a623db8f-e803-4cb2-8ed1-63e365c5c66f",
-            "name": "positive",
-            "type": "CONDITIONING",
-            "linkIds": [
-              480
-            ],
-            "localized_name": "positive",
-            "pos": [
-              1144.9246174949021,
-              109.05653606435477
-            ]
-          },
-          {
-            "id": "1e5f9c3d-5ae5-4c38-8c45-404a746095b6",
-            "name": "negative",
-            "type": "CONDITIONING",
-            "linkIds": [
-              481
-            ],
-            "localized_name": "negative",
-            "pos": [
-              1144.9246174949021,
-              129.05653606435476
-            ]
-          },
-          {
-            "id": "8ac5a2ee-edc4-463f-9670-16a58aad0891",
-            "name": "sampler",
-            "type": "STRING",
-            "linkIds": [
-              558
-            ],
-            "localized_name": "sampler",
-            "pos": [
-              1144.9246174949021,
-              149.05653606435476
-            ]
-          },
-          {
-            "id": "11b4b306-e10a-4159-a5f0-432c212a3c75",
-            "name": "scheduler",
-            "type": "STRING",
-            "linkIds": [
-              559
-            ],
-            "localized_name": "scheduler",
-            "pos": [
-              1144.9246174949021,
-              169.05653606435476
-            ]
-          },
-          {
-            "id": "db3c8c35-b2e1-43e7-a631-ad3e1dea6392",
-            "name": "seed",
-            "type": "INT",
-            "linkIds": [
-              570
-            ],
-            "pos": [
-              1144.9246174949021,
-              189.05653606435476
-            ]
-          },
-          {
-            "id": "9bb4946d-377e-4bed-9076-825ddbe589af",
-            "name": "upscale_method",
-            "type": "COMBO",
-            "linkIds": [
-              668
-            ],
-            "pos": [
-              1144.9246174949021,
-              209.05653606435476
-            ]
-          },
-          {
-            "id": "40a13df3-67b6-47ca-afae-53e31a551050",
-            "name": "scale_by",
-            "type": "FLOAT",
-            "linkIds": [
-              669
-            ],
-            "pos": [
-              1144.9246174949021,
-              229.05653606435476
-            ]
-          },
-          {
-            "id": "2cd719c6-9cbf-4ae2-af30-cdafd3713c4f",
-            "name": "denoise",
-            "type": "FLOAT",
-            "linkIds": [
-              607
-            ],
-            "pos": [
-              1144.9246174949021,
-              249.05653606435476
-            ]
-          },
-          {
-            "id": "c2f61f0b-61ca-4ca2-b4bf-4f39cae891f9",
-            "name": "steps",
-            "type": "INT",
-            "linkIds": [
-              608
-            ],
-            "pos": [
-              1144.9246174949021,
-              269.05653606435476
-            ]
-          },
-          {
-            "id": "410d4248-9efc-4df1-893f-d1bd38500ebe",
-            "name": "cfg",
-            "type": "FLOAT",
-            "linkIds": [
-              609
-            ],
-            "pos": [
-              1144.9246174949021,
-              289.05653606435476
-            ]
-          },
-          {
-            "id": "8a37610b-a356-4b28-b83d-ab883db13c14",
-            "name": "upscale_method_1",
-            "type": "COMBO",
-            "linkIds": [
-              611
-            ],
-            "label": "downscale_method",
-            "pos": [
-              1144.9246174949021,
-              309.05653606435476
-            ]
-          },
-          {
-            "id": "7df04136-35f0-40ce-ae15-97f8b7fe1dd7",
-            "name": "pixels",
-            "type": "IMAGE",
-            "linkIds": [
-              666
-            ],
-            "pos": [
-              1144.9246174949021,
-              329.05653606435476
-            ]
-          },
-          {
-            "id": "8ed44b37-c830-4dd0-bf5b-01fceb943916",
-            "name": "model_name",
-            "type": "COMBO",
-            "linkIds": [
-              671
-            ],
-            "label": "upscale_model",
-            "pos": [
-              1144.9246174949021,
-              349.05653606435476
-            ]
-          }
-        ],
-        "outputs": [
-          {
-            "id": "6b8a94f3-6f35-4f3c-a196-7d7b85c1611c",
-            "name": "IMAGE",
-            "type": "IMAGE",
-            "linkIds": [
-              428
-            ],
-            "localized_name": "画像",
-            "pos": [
-              2625.972502661754,
-              109.05653606435477
-            ]
-          }
-        ],
-        "widgets": [],
-        "nodes": [
-          {
-            "id": 155,
-            "type": "ImageScale",
-            "pos": [
-              2226.972502661754,
-              65.42745179155129
-            ],
-            "size": [
-              315,
-              130
-            ],
-            "flags": {},
-            "order": 1,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "画像",
-                "name": "image",
-                "type": "IMAGE",
-                "link": 427
-              },
-              {
-                "localized_name": "拡大方法",
-                "name": "upscale_method",
-                "type": "COMBO",
-                "widget": {
-                  "name": "upscale_method"
-                },
-                "link": 611
-              },
-              {
-                "localized_name": "幅",
-                "name": "width",
-                "type": "INT",
-                "widget": {
-                  "name": "width"
-                },
-                "link": 554
-              },
-              {
-                "localized_name": "高さ",
-                "name": "height",
-                "type": "INT",
-                "widget": {
-                  "name": "height"
-                },
-                "link": 555
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "画像",
-                "name": "IMAGE",
-                "type": "IMAGE",
-                "slot_index": 0,
-                "links": [
-                  428
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "ImageScale"
-            },
-            "widgets_values": [
-              "bicubic",
-              832,
-              1216,
-              "disabled"
-            ],
-            "widgets_values_named": {
-              "upscale_method": "bicubic",
-              "width": 832,
-              "height": 1216,
-              "crop": "disabled"
-            }
-          },
-          {
-            "id": 137,
-            "type": "VAEDecode",
-            "pos": [
-              1972.4960596899002,
-              -35.27603355088028
-            ],
-            "size": [
-              210,
-              46
-            ],
-            "flags": {
-              "collapsed": false
-            },
-            "order": 0,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "サンプル",
-                "name": "samples",
-                "type": "LATENT",
-                "link": 483
-              },
-              {
-                "localized_name": "vae",
-                "name": "vae",
-                "type": "VAE",
-                "link": 470
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "画像",
-                "name": "IMAGE",
-                "type": "IMAGE",
-                "slot_index": 0,
-                "links": [
-                  427
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "VAEDecode"
-            }
-          },
-          {
-            "id": 168,
-            "type": "KSamplerFromString",
-            "pos": [
-              1643.4188301644544,
-              -23.85073206840662
-            ],
-            "size": [
-              270,
-              262
-            ],
-            "flags": {},
-            "order": 2,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "model",
-                "name": "model",
-                "type": "MODEL",
-                "link": 479
-              },
-              {
-                "localized_name": "positive",
-                "name": "positive",
-                "type": "CONDITIONING",
-                "link": 480
-              },
-              {
-                "localized_name": "negative",
-                "name": "negative",
-                "type": "CONDITIONING",
-                "link": 481
-              },
-              {
-                "localized_name": "latent_image",
-                "name": "latent_image",
-                "type": "LATENT",
-                "link": 664
-              },
-              {
-                "localized_name": "denoise",
-                "name": "denoise",
-                "type": "FLOAT",
-                "widget": {
-                  "name": "denoise"
-                },
-                "link": 607
-              },
-              {
-                "localized_name": "steps",
-                "name": "steps",
-                "type": "INT",
-                "widget": {
-                  "name": "steps"
-                },
-                "link": 608
-              },
-              {
-                "localized_name": "cfg",
-                "name": "cfg",
-                "type": "FLOAT",
-                "widget": {
-                  "name": "cfg"
-                },
-                "link": 609
-              },
-              {
-                "localized_name": "sampler",
-                "name": "sampler",
-                "type": "STRING",
-                "widget": {
-                  "name": "sampler"
-                },
-                "link": 558
-              },
-              {
-                "localized_name": "scheduler",
-                "name": "scheduler",
-                "type": "STRING",
-                "widget": {
-                  "name": "scheduler"
-                },
-                "link": 559
-              },
-              {
-                "localized_name": "seed",
-                "name": "seed",
-                "type": "INT",
-                "widget": {
-                  "name": "seed"
-                },
-                "link": 570
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "潜在",
-                "name": "LATENT",
-                "type": "LATENT",
-                "links": [
-                  483
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "KSamplerFromString"
-            },
-            "widgets_values": [
-              0.6,
-              20,
-              5,
-              "",
-              "",
-              0,
-              "randomize"
-            ],
-            "widgets_values_named": {
-              "denoise": 0.6,
-              "steps": 20,
-              "cfg": 5,
-              "sampler": "",
-              "scheduler": "",
-              "seed": 0,
-              "control_after_generate": "randomize"
-            }
-          },
-          {
-            "id": 231,
-            "type": "VAEEncode",
-            "pos": [
-              1821.6250290326766,
-              460.66278930887717
-            ],
-            "size": [
-              163.44325803185575,
-              46
-            ],
-            "flags": {
-              "collapsed": false
-            },
-            "order": 3,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "ピクセル",
-                "name": "pixels",
-                "type": "IMAGE",
-                "link": 673
-              },
-              {
-                "localized_name": "vae",
-                "name": "vae",
-                "type": "VAE",
-                "link": 663
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "潜在",
-                "name": "LATENT",
-                "type": "LATENT",
-                "slot_index": 0,
-                "links": [
-                  664
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "VAEEncode"
-            }
-          },
-          {
-            "id": 232,
-            "type": "UpscaleModelLoader",
-            "pos": [
-              1264.1388176874707,
-              363.253454047396
-            ],
-            "size": [
-              210,
-              58
-            ],
-            "flags": {},
-            "order": 4,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "モデル名",
-                "name": "model_name",
-                "type": "COMBO",
-                "widget": {
-                  "name": "model_name"
-                },
-                "link": 671
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "アップスケールモデル",
-                "name": "UPSCALE_MODEL",
-                "type": "UPSCALE_MODEL",
-                "links": [
-                  665
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "UpscaleModelLoader"
-            },
-            "widgets_values": [
-              "RealESRGAN_x4plus.safetensors"
-            ],
-            "widgets_values_named": {
-              "model_name": "RealESRGAN_x4plus.safetensors"
-            }
-          },
-          {
-            "id": 233,
-            "type": "ImageUpscaleWithModel",
-            "pos": [
-              1257.1619152249064,
-              485.51527083330757
-            ],
-            "size": [
-              221.9,
-              46
-            ],
-            "flags": {},
-            "order": 5,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "拡大モデル",
-                "name": "upscale_model",
-                "type": "UPSCALE_MODEL",
-                "link": 665
-              },
-              {
-                "localized_name": "画像",
-                "name": "image",
-                "type": "IMAGE",
-                "link": 666
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "画像",
-                "name": "IMAGE",
-                "type": "IMAGE",
-                "links": [
-                  667
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "ImageUpscaleWithModel"
-            }
-          },
-          {
-            "id": 235,
-            "type": "ImageScaleBy",
-            "pos": [
-              1519.7372096453655,
-              495.0079208785115
-            ],
-            "size": [
-              270,
-              82
-            ],
-            "flags": {},
-            "order": 6,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "画像",
-                "name": "image",
-                "type": "IMAGE",
-                "link": 667
-              },
-              {
-                "localized_name": "拡大方法",
-                "name": "upscale_method",
-                "type": "COMBO",
-                "widget": {
-                  "name": "upscale_method"
-                },
-                "link": 668
-              },
-              {
-                "localized_name": "スケールバイ",
-                "name": "scale_by",
-                "type": "FLOAT",
-                "widget": {
-                  "name": "scale_by"
-                },
-                "link": 670
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "画像",
-                "name": "IMAGE",
-                "type": "IMAGE",
-                "links": [
-                  673
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "ImageScaleBy"
-            },
-            "widgets_values": [
-              "nearest-exact",
-              1
-            ],
-            "widgets_values_named": {
-              "upscale_method": "nearest-exact",
-              "scale_by": 1
-            }
-          },
-          {
-            "id": 236,
-            "type": "ComfyMathExpression",
-            "pos": [
-              1260.8348903377478,
-              609.8558021893032
-            ],
-            "size": [
-              210,
-              128
-            ],
-            "flags": {},
-            "order": 7,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "a",
-                "name": "values.a",
-                "type": "FLOAT,INT,BOOLEAN",
-                "link": 669
-              },
-              {
-                "localized_name": "b",
-                "name": "values.b",
-                "shape": 7,
-                "type": "FLOAT,INT,BOOLEAN",
-                "link": null
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "浮動小数点",
-                "name": "FLOAT",
-                "type": "FLOAT",
-                "links": [
-                  670
-                ]
-              },
-              {
-                "localized_name": "整数",
-                "name": "INT",
-                "type": "INT",
-                "links": null
-              },
-              {
-                "localized_name": "BOOL",
-                "name": "BOOL",
-                "type": "BOOLEAN",
-                "links": null
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "ComfyMathExpression"
-            },
-            "widgets_values": [
-              "a * 0.25"
-            ],
-            "widgets_values_named": {
-              "expression": "a * 0.25"
-            }
-          }
-        ],
-        "groups": [],
-        "links": [
-          {
-            "id": 427,
-            "origin_id": 137,
-            "origin_slot": 0,
-            "target_id": 155,
-            "target_slot": 0,
-            "type": "IMAGE"
-          },
-          {
-            "id": 483,
-            "origin_id": 168,
-            "origin_slot": 0,
-            "target_id": 137,
-            "target_slot": 0,
-            "type": "LATENT"
-          },
-          {
-            "id": 554,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 155,
-            "target_slot": 2,
-            "type": "INT"
-          },
-          {
-            "id": 555,
-            "origin_id": -10,
-            "origin_slot": 1,
-            "target_id": 155,
-            "target_slot": 3,
-            "type": "INT"
-          },
-          {
-            "id": 470,
-            "origin_id": -10,
-            "origin_slot": 2,
-            "target_id": 137,
-            "target_slot": 1,
-            "type": "VAE"
-          },
-          {
-            "id": 479,
-            "origin_id": -10,
-            "origin_slot": 3,
-            "target_id": 168,
-            "target_slot": 0,
-            "type": "MODEL"
-          },
-          {
-            "id": 480,
-            "origin_id": -10,
-            "origin_slot": 4,
-            "target_id": 168,
-            "target_slot": 1,
-            "type": "CONDITIONING"
-          },
-          {
-            "id": 481,
-            "origin_id": -10,
-            "origin_slot": 5,
-            "target_id": 168,
-            "target_slot": 2,
-            "type": "CONDITIONING"
-          },
-          {
-            "id": 558,
-            "origin_id": -10,
-            "origin_slot": 6,
-            "target_id": 168,
-            "target_slot": 7,
-            "type": "STRING"
-          },
-          {
-            "id": 559,
-            "origin_id": -10,
-            "origin_slot": 7,
-            "target_id": 168,
-            "target_slot": 8,
-            "type": "STRING"
-          },
-          {
-            "id": 428,
-            "origin_id": 155,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 0,
-            "type": "IMAGE"
-          },
-          {
-            "id": 663,
-            "origin_id": -10,
-            "origin_slot": 2,
-            "target_id": 231,
-            "target_slot": 1,
-            "type": "VAE"
-          },
-          {
-            "id": 664,
-            "origin_id": 231,
-            "origin_slot": 0,
-            "target_id": 168,
-            "target_slot": 3,
-            "type": "LATENT"
-          },
-          {
-            "id": 665,
-            "origin_id": 232,
-            "origin_slot": 0,
-            "target_id": 233,
-            "target_slot": 0,
-            "type": "UPSCALE_MODEL"
-          },
-          {
-            "id": 667,
-            "origin_id": 233,
-            "origin_slot": 0,
-            "target_id": 235,
-            "target_slot": 0,
-            "type": "IMAGE"
-          },
-          {
-            "id": 670,
-            "origin_id": 236,
-            "origin_slot": 0,
-            "target_id": 235,
-            "target_slot": 2,
-            "type": "FLOAT"
-          },
-          {
-            "id": 570,
-            "origin_id": -10,
-            "origin_slot": 8,
-            "target_id": 168,
-            "target_slot": 9,
-            "type": "INT"
-          },
-          {
-            "id": 668,
-            "origin_id": -10,
-            "origin_slot": 9,
-            "target_id": 235,
-            "target_slot": 1,
-            "type": "COMBO"
-          },
-          {
-            "id": 607,
-            "origin_id": -10,
-            "origin_slot": 11,
-            "target_id": 168,
-            "target_slot": 4,
-            "type": "FLOAT"
-          },
-          {
-            "id": 608,
-            "origin_id": -10,
-            "origin_slot": 12,
-            "target_id": 168,
-            "target_slot": 5,
-            "type": "INT"
-          },
-          {
-            "id": 609,
-            "origin_id": -10,
-            "origin_slot": 13,
-            "target_id": 168,
-            "target_slot": 6,
-            "type": "FLOAT"
-          },
-          {
-            "id": 611,
-            "origin_id": -10,
-            "origin_slot": 14,
-            "target_id": 155,
-            "target_slot": 1,
-            "type": "COMBO"
-          },
-          {
-            "id": 666,
-            "origin_id": -10,
-            "origin_slot": 15,
-            "target_id": 233,
-            "target_slot": 1,
-            "type": "IMAGE"
-          },
-          {
-            "id": 671,
-            "origin_id": -10,
-            "origin_slot": 16,
-            "target_id": 232,
-            "target_slot": 0,
-            "type": "COMBO"
-          },
-          {
-            "id": 673,
-            "origin_id": 235,
-            "origin_slot": 0,
-            "target_id": 231,
-            "target_slot": 0,
-            "type": "IMAGE"
-          },
-          {
-            "id": 669,
-            "origin_id": -10,
-            "origin_slot": 10,
-            "target_id": 236,
-            "target_slot": 0,
-            "type": "FLOAT,INT,BOOLEAN"
-          }
-        ],
-        "extra": {}
-      },
-      {
-        "id": "7801e5cb-f848-451f-86fd-2b60563789c3",
-        "version": 1,
-        "state": {
-          "lastGroupId": 5,
-          "lastNodeId": 238,
-          "lastLinkId": 683,
-          "lastRerouteId": 0
-        },
-        "revision": 0,
-        "config": {},
-        "name": "PromptDecode",
-        "inputNode": {
-          "id": -10,
-          "bounding": [
-            715.2299364296323,
-            -375.15111967254416,
-            128,
-            68
-          ]
-        },
-        "outputNode": {
-          "id": -20,
-          "bounding": [
-            2129.1313667397703,
-            -465.15111967254416,
-            128,
-            208
-          ]
-        },
-        "inputs": [
-          {
-            "id": "47622be4-cd9c-48d7-9ab7-a15c4ebb3515",
-            "name": "summary",
-            "type": "STRING",
-            "linkIds": [
-              634
-            ],
-            "pos": [
-              819.2299364296323,
-              -351.15111967254416
-            ]
-          }
-        ],
-        "outputs": [
-          {
-            "id": "a7c40231-cabb-4f59-b611-e8120f8db693",
-            "name": "INT",
-            "type": "INT",
-            "linkIds": [
-              560
-            ],
-            "localized_name": "整数",
-            "label": "width",
-            "pos": [
-              2153.1313667397703,
-              -441.15111967254416
-            ]
-          },
-          {
-            "id": "fc711537-784a-4d47-9ebe-a1d5107646e0",
-            "name": "INT_1",
-            "type": "INT",
-            "linkIds": [
-              561
-            ],
-            "localized_name": "整数_1",
-            "label": "height",
-            "pos": [
-              2153.1313667397703,
-              -421.15111967254416
-            ]
-          },
-          {
-            "id": "fe102c11-89e3-45a0-b906-89a08994f94b",
-            "name": "STRING_3",
-            "type": "STRING",
-            "linkIds": [
-              566
-            ],
-            "label": "sampler",
-            "pos": [
-              2153.1313667397703,
-              -401.15111967254416
-            ]
-          },
-          {
-            "id": "d958ae30-6abc-4172-9418-cd5966b77287",
-            "name": "STRING_4",
-            "type": "STRING",
-            "linkIds": [
-              567
-            ],
-            "label": "scheduler",
-            "pos": [
-              2153.1313667397703,
-              -381.15111967254416
-            ]
-          },
-          {
-            "id": "de40de74-5427-4b47-a6ad-40319dee8bd3",
-            "name": "VAE",
-            "type": "VAE",
-            "linkIds": [
-              562
-            ],
-            "localized_name": "VAE",
-            "pos": [
-              2153.1313667397703,
-              -361.15111967254416
-            ]
-          },
-          {
-            "id": "18dc1daa-17a2-41d3-b892-f3fdcee60cfb",
-            "name": "MODEL",
-            "type": "MODEL",
-            "linkIds": [
-              563
-            ],
-            "localized_name": "モデル",
-            "pos": [
-              2153.1313667397703,
-              -341.15111967254416
-            ]
-          },
-          {
-            "id": "bba04ec3-502e-4c50-9e6e-dfe73fe32762",
-            "name": "CONDITIONING",
-            "type": "CONDITIONING",
-            "linkIds": [
-              564
-            ],
-            "localized_name": "条件付け",
-            "pos": [
-              2153.1313667397703,
-              -321.15111967254416
-            ]
-          },
-          {
-            "id": "ab8f3163-fc00-4787-a3d4-1711ef4452ea",
-            "name": "CONDITIONING_1",
-            "type": "CONDITIONING",
-            "linkIds": [
-              565
-            ],
-            "localized_name": "条件付け_1",
-            "pos": [
-              2153.1313667397703,
-              -301.15111967254416
-            ]
-          }
-        ],
-        "widgets": [],
-        "nodes": [
-          {
-            "id": 139,
-            "type": "SummaryReader",
-            "pos": [
-              896.5338378175544,
-              -414.5423807017532
-            ],
-            "size": [
-              249.8939971923828,
-              168
-            ],
-            "flags": {},
-            "order": 1,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "summary",
-                "name": "summary",
-                "type": "STRING",
-                "widget": {
-                  "name": "summary"
-                },
-                "link": 634
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "slot_index": 0,
-                "links": [
-                  682
-                ]
-              },
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "slot_index": 1,
-                "links": [
-                  683
-                ]
-              },
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "slot_index": 2,
-                "links": [
-                  679
-                ]
-              },
-              {
-                "localized_name": "整数",
-                "name": "INT",
-                "type": "INT",
-                "slot_index": 3,
-                "links": []
-              },
-              {
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "links": [
-                  550
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "SummaryReader"
-            },
-            "widgets_values": [
-              ""
-            ],
-            "widgets_values_named": {
-              "summary": ""
-            }
-          },
-          {
-            "id": 202,
-            "type": "a677b36b-69b5-4fa5-9058-5bfdcf810997",
-            "pos": [
-              1214.4895066815486,
-              -519.3262966651338
-            ],
-            "size": [
-              210,
-              248
-            ],
-            "flags": {
-              "collapsed": false
-            },
-            "order": 3,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "json_text",
-                "name": "json_text",
-                "type": "STRING",
-                "widget": {
-                  "name": "json_text"
-                },
-                "link": 550
-              }
-            ],
-            "outputs": [
-              {
-                "label": "model",
-                "localized_name": "文字列",
-                "name": "STRING",
-                "type": "STRING",
-                "links": [
-                  551
-                ]
-              },
-              {
-                "label": "clip_model",
-                "localized_name": "文字列_1",
-                "name": "STRING_1",
-                "type": "STRING",
-                "links": [
-                  552
-                ]
-              },
-              {
-                "label": "vae_model",
-                "localized_name": "文字列_2",
-                "name": "STRING_2",
-                "type": "STRING",
-                "links": [
-                  553
-                ]
-              },
-              {
-                "label": "width",
-                "localized_name": "整数",
-                "name": "INT",
-                "type": "INT",
-                "links": [
-                  560
-                ]
-              },
-              {
-                "label": "height",
-                "localized_name": "整数_1",
-                "name": "INT_1",
-                "type": "INT",
-                "links": [
-                  561
-                ]
-              },
-              {
-                "label": "clip",
-                "localized_name": "整数_2",
-                "name": "INT_2",
-                "type": "INT",
-                "links": [
-                  556
-                ]
-              },
-              {
-                "label": "enable_break",
-                "name": "BOOLEAN",
-                "type": "BOOLEAN",
-                "links": [
-                  557
-                ]
-              },
-              {
-                "label": "sampler",
-                "name": "STRING_3",
-                "type": "STRING",
-                "links": [
-                  566
-                ]
-              },
-              {
-                "label": "scheduler",
-                "name": "STRING_4",
-                "type": "STRING",
-                "links": [
-                  567
-                ]
-              }
-            ],
-            "properties": {
-              "proxyWidgetErrorQuarantine": [
-                {
-                  "originalEntry": [
-                    "-1",
-                    "json_text"
-                  ],
-                  "reason": "missingSourceNode",
-                  "hostValue": "",
-                  "attemptedAtVersion": 1
-                }
-              ],
-              "previewExposures": []
-            },
-            "widgets_values": [
-              ""
-            ],
-            "widgets_values_named": {
-              "json_text": ""
-            }
-          },
-          {
-            "id": 166,
-            "type": "CheckPointLoaderFromString",
-            "pos": [
-              1485.0745517822697,
-              -559.4319286089545
-            ],
-            "size": [
-              295.05234375,
-              170
-            ],
-            "flags": {},
-            "order": 2,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "ckpt_name",
-                "name": "ckpt_name",
-                "type": "STRING",
-                "widget": {
-                  "name": "ckpt_name"
-                },
-                "link": 551
-              },
-              {
-                "localized_name": "clip_name",
-                "name": "clip_name",
-                "type": "STRING",
-                "widget": {
-                  "name": "clip_name"
-                },
-                "link": 552
-              },
-              {
-                "localized_name": "vae_name",
-                "name": "vae_name",
-                "type": "STRING",
-                "widget": {
-                  "name": "vae_name"
-                },
-                "link": 553
-              },
-              {
-                "localized_name": "stop_at_clip_layer",
-                "name": "stop_at_clip_layer",
-                "type": "INT",
-                "widget": {
-                  "name": "stop_at_clip_layer"
-                },
-                "link": 556
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "モデル",
-                "name": "MODEL",
-                "type": "MODEL",
-                "links": [
-                  468
-                ]
-              },
-              {
-                "localized_name": "CLIP",
-                "name": "CLIP",
-                "type": "CLIP",
-                "links": [
-                  469
-                ]
-              },
-              {
-                "localized_name": "VAE",
-                "name": "VAE",
-                "type": "VAE",
-                "links": [
-                  562
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "CheckPointLoaderFromString"
-            },
-            "widgets_values": [
-              "",
-              "",
-              "",
-              0
-            ],
-            "widgets_values_named": {
-              "ckpt_name": "",
-              "clip_name": "",
-              "vae_name": "",
-              "stop_at_clip_layer": 0
-            }
-          },
-          {
-            "id": 125,
-            "type": "MultipartCLIPTextEncode",
-            "pos": [
-              1821.6313362221922,
-              -436.69686606999306
-            ],
-            "size": [
-              247.50003051757812,
-              280
-            ],
-            "flags": {},
-            "order": 0,
-            "mode": 0,
-            "inputs": [
-              {
-                "localized_name": "clip",
-                "name": "clip",
-                "type": "CLIP",
-                "link": 469
-              },
-              {
-                "localized_name": "model",
-                "name": "model",
-                "shape": 7,
-                "type": "MODEL",
-                "link": 468
-              },
-              {
-                "localized_name": "lora_tag_list",
-                "name": "lora_tag_list",
-                "type": "STRING",
-                "widget": {
-                  "name": "lora_tag_list"
-                },
-                "link": 679
-              },
-              {
-                "localized_name": "positive",
-                "name": "positive",
-                "type": "STRING",
-                "widget": {
-                  "name": "positive"
-                },
-                "link": 682
-              },
-              {
-                "localized_name": "negative",
-                "name": "negative",
-                "type": "STRING",
-                "widget": {
-                  "name": "negative"
-                },
-                "link": 683
-              },
-              {
-                "localized_name": "enable_break",
-                "name": "enable_break",
-                "type": "BOOLEAN",
-                "widget": {
-                  "name": "enable_break"
-                },
-                "link": 557
-              }
-            ],
-            "outputs": [
-              {
-                "localized_name": "モデル",
-                "name": "MODEL",
-                "type": "MODEL",
-                "slot_index": 0,
-                "links": [
-                  563
-                ]
-              },
-              {
-                "localized_name": "CLIP",
-                "name": "CLIP",
-                "type": "CLIP",
-                "links": null
-              },
-              {
-                "localized_name": "条件付け",
-                "name": "CONDITIONING",
-                "type": "CONDITIONING",
-                "slot_index": 2,
-                "links": [
-                  564
-                ]
-              },
-              {
-                "localized_name": "条件付け",
-                "name": "CONDITIONING",
-                "type": "CONDITIONING",
-                "slot_index": 3,
-                "links": [
-                  565
-                ]
-              }
-            ],
-            "properties": {
-              "Node name for S&R": "MultipartCLIPTextEncode"
-            },
-            "widgets_values": [
-              "",
-              "",
-              "",
-              false
-            ],
-            "widgets_values_named": {
-              "lora_tag_list": "",
-              "positive": "",
-              "negative": "",
-              "enable_break": false
-            }
-          }
-        ],
-        "groups": [],
-        "links": [
-          {
-            "id": 550,
-            "origin_id": 139,
-            "origin_slot": 4,
-            "target_id": 202,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 551,
-            "origin_id": 202,
-            "origin_slot": 0,
-            "target_id": 166,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 552,
-            "origin_id": 202,
-            "origin_slot": 1,
-            "target_id": 166,
-            "target_slot": 1,
-            "type": "STRING"
-          },
-          {
-            "id": 553,
-            "origin_id": 202,
-            "origin_slot": 2,
-            "target_id": 166,
-            "target_slot": 2,
-            "type": "STRING"
-          },
-          {
-            "id": 556,
-            "origin_id": 202,
-            "origin_slot": 5,
-            "target_id": 166,
-            "target_slot": 3,
-            "type": "INT"
-          },
-          {
-            "id": 469,
-            "origin_id": 166,
-            "origin_slot": 1,
-            "target_id": 125,
-            "target_slot": 0,
-            "type": "CLIP"
-          },
-          {
-            "id": 468,
-            "origin_id": 166,
-            "origin_slot": 0,
-            "target_id": 125,
-            "target_slot": 1,
-            "type": "MODEL"
-          },
-          {
-            "id": 557,
-            "origin_id": 202,
-            "origin_slot": 6,
-            "target_id": 125,
-            "target_slot": 5,
-            "type": "BOOLEAN"
-          },
-          {
-            "id": 560,
-            "origin_id": 202,
-            "origin_slot": 3,
-            "target_id": -20,
-            "target_slot": 0,
-            "type": "INT"
-          },
-          {
-            "id": 561,
-            "origin_id": 202,
-            "origin_slot": 4,
-            "target_id": -20,
-            "target_slot": 1,
-            "type": "INT"
-          },
-          {
-            "id": 566,
-            "origin_id": 202,
-            "origin_slot": 7,
-            "target_id": -20,
-            "target_slot": 2,
-            "type": "STRING"
-          },
-          {
-            "id": 567,
-            "origin_id": 202,
-            "origin_slot": 8,
-            "target_id": -20,
-            "target_slot": 3,
-            "type": "STRING"
-          },
-          {
-            "id": 562,
-            "origin_id": 166,
-            "origin_slot": 2,
-            "target_id": -20,
-            "target_slot": 4,
-            "type": "VAE"
-          },
-          {
-            "id": 563,
-            "origin_id": 125,
-            "origin_slot": 0,
-            "target_id": -20,
-            "target_slot": 5,
-            "type": "MODEL"
-          },
-          {
-            "id": 564,
-            "origin_id": 125,
-            "origin_slot": 2,
-            "target_id": -20,
-            "target_slot": 6,
-            "type": "CONDITIONING"
-          },
-          {
-            "id": 565,
-            "origin_id": 125,
-            "origin_slot": 3,
-            "target_id": -20,
-            "target_slot": 7,
-            "type": "CONDITIONING"
-          },
-          {
-            "id": 634,
-            "origin_id": -10,
-            "origin_slot": 0,
-            "target_id": 139,
-            "target_slot": 0,
-            "type": "STRING"
-          },
-          {
-            "id": 679,
-            "origin_id": 139,
-            "origin_slot": 2,
-            "target_id": 125,
-            "target_slot": 2,
-            "type": "STRING"
-          },
-          {
-            "id": 682,
-            "origin_id": 139,
-            "origin_slot": 0,
-            "target_id": 125,
-            "target_slot": 3,
-            "type": "STRING"
-          },
-          {
-            "id": 683,
-            "origin_id": 139,
-            "origin_slot": 1,
-            "target_id": 125,
-            "target_slot": 4,
-            "type": "STRING"
-          }
-        ],
-        "extra": {}
-      },
-      {
         "id": "a677b36b-69b5-4fa5-9058-5bfdcf810997",
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 238,
-          "lastLinkId": 683,
+          "lastNodeId": 253,
+          "lastLinkId": 749,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -3833,8 +2567,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 238,
-          "lastLinkId": 683,
+          "lastNodeId": 253,
+          "lastLinkId": 749,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -4233,8 +2967,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 5,
-          "lastNodeId": 238,
-          "lastLinkId": 683,
+          "lastNodeId": 253,
+          "lastLinkId": 749,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -4733,6 +3467,1213 @@
           }
         ],
         "extra": {}
+      },
+      {
+        "id": "ab667856-57d1-4974-8c48-88d34ea62055",
+        "version": 1,
+        "state": {
+          "lastGroupId": 5,
+          "lastNodeId": 253,
+          "lastLinkId": 749,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "Upscalex4",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            1051.913570058073,
+            288.69404256593447,
+            128,
+            88
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1668.5671675955105,
+            288.69404256593447,
+            128,
+            68
+          ]
+        },
+        "inputs": [
+          {
+            "id": "f505cccc-193e-4798-b9d3-3c9b64a90815",
+            "name": "image",
+            "type": "IMAGE",
+            "linkIds": [
+              724
+            ],
+            "localized_name": "画像",
+            "pos": [
+              1155.913570058073,
+              312.69404256593447
+            ]
+          },
+          {
+            "id": "4a90fa4e-5ac5-4107-8997-181256b1d117",
+            "name": "model_name",
+            "type": "COMBO",
+            "linkIds": [
+              729
+            ],
+            "pos": [
+              1155.913570058073,
+              332.69404256593447
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "8d0ff33d-7f76-4acd-882b-b9d735523ecf",
+            "name": "IMAGE",
+            "type": "IMAGE",
+            "linkIds": [
+              718
+            ],
+            "localized_name": "画像",
+            "pos": [
+              1692.5671675955105,
+              312.69404256593447
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 248,
+            "type": "ImageUpscaleWithModel",
+            "pos": [
+              1386.6671675955104,
+              262.2136009588903
+            ],
+            "size": [
+              221.9,
+              46
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "拡大モデル",
+                "name": "upscale_model",
+                "type": "UPSCALE_MODEL",
+                "link": 717
+              },
+              {
+                "localized_name": "画像",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 724
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  718
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageUpscaleWithModel"
+            }
+          },
+          {
+            "id": 247,
+            "type": "UpscaleModelLoader",
+            "pos": [
+              1239.913570058073,
+              355.1744841729786
+            ],
+            "size": [
+              210,
+              58
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "モデル名",
+                "name": "model_name",
+                "type": "COMBO",
+                "widget": {
+                  "name": "model_name"
+                },
+                "link": 729
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "アップスケールモデル",
+                "name": "UPSCALE_MODEL",
+                "type": "UPSCALE_MODEL",
+                "links": [
+                  717
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "UpscaleModelLoader"
+            },
+            "widgets_values": [
+              "RealESRGAN_x4plus.safetensors"
+            ],
+            "widgets_values_named": {
+              "model_name": "RealESRGAN_x4plus.safetensors"
+            }
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 717,
+            "origin_id": 247,
+            "origin_slot": 0,
+            "target_id": 248,
+            "target_slot": 0,
+            "type": "UPSCALE_MODEL"
+          },
+          {
+            "id": 724,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 248,
+            "target_slot": 1,
+            "type": "IMAGE"
+          },
+          {
+            "id": 718,
+            "origin_id": 248,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 729,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 247,
+            "target_slot": 0,
+            "type": "COMBO"
+          }
+        ],
+        "extra": {}
+      },
+      {
+        "id": "2bb3a7f6-b41b-47aa-9688-12016a6a0700",
+        "version": 1,
+        "state": {
+          "lastGroupId": 5,
+          "lastNodeId": 253,
+          "lastLinkId": 749,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "AdjustImage",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            1479.0550427083504,
+            315.34559165948986,
+            141.33984375,
+            128
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            2441.0397394351357,
+            335.34559165948986,
+            128,
+            68
+          ]
+        },
+        "inputs": [
+          {
+            "id": "0929aae2-22b5-4006-8656-d5c69c29ce71",
+            "name": "values.a",
+            "type": "FLOAT,INT,BOOLEAN",
+            "linkIds": [
+              726
+            ],
+            "localized_name": "a",
+            "label": "scale_by",
+            "pos": [
+              1596.3948864583504,
+              339.34559165948986
+            ]
+          },
+          {
+            "id": "c528f179-508e-4107-ba5f-951dfe47fb6c",
+            "name": "image",
+            "type": "IMAGE",
+            "linkIds": [
+              728
+            ],
+            "localized_name": "画像",
+            "pos": [
+              1596.3948864583504,
+              359.34559165948986
+            ]
+          },
+          {
+            "id": "53e91e7f-140d-4a9d-9997-2a353fc18e1b",
+            "name": "vae",
+            "type": "VAE",
+            "linkIds": [
+              715
+            ],
+            "localized_name": "vae",
+            "pos": [
+              1596.3948864583504,
+              379.34559165948986
+            ]
+          },
+          {
+            "id": "4cc426ee-6c61-4d8a-842b-a3483d3ab3ff",
+            "name": "upscale_method",
+            "type": "COMBO",
+            "linkIds": [
+              749
+            ],
+            "pos": [
+              1596.3948864583504,
+              399.34559165948986
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "5d1bb89e-cb40-457a-b8e6-c1495eeaf377",
+            "name": "LATENT",
+            "type": "LATENT",
+            "linkIds": [
+              716
+            ],
+            "localized_name": "潜在",
+            "pos": [
+              2465.0397394351357,
+              359.34559165948986
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 250,
+            "type": "ComfyMathExpression",
+            "pos": [
+              1667.0550427083504,
+              330.9183323148857
+            ],
+            "size": [
+              210,
+              128
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "a",
+                "name": "values.a",
+                "type": "FLOAT,INT,BOOLEAN",
+                "link": 726
+              },
+              {
+                "localized_name": "b",
+                "name": "values.b",
+                "shape": 7,
+                "type": "FLOAT,INT,BOOLEAN",
+                "link": null
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "浮動小数点",
+                "name": "FLOAT",
+                "type": "FLOAT",
+                "links": [
+                  719
+                ]
+              },
+              {
+                "localized_name": "整数",
+                "name": "INT",
+                "type": "INT",
+                "links": []
+              },
+              {
+                "localized_name": "BOOL",
+                "name": "BOOL",
+                "type": "BOOLEAN",
+                "links": []
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ComfyMathExpression"
+            },
+            "widgets_values": [
+              "a * 0.25"
+            ],
+            "widgets_values_named": {
+              "expression": "a * 0.25"
+            }
+          },
+          {
+            "id": 249,
+            "type": "ImageScaleBy",
+            "pos": [
+              1901.0676620159682,
+              309.772851004094
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "画像",
+                "name": "image",
+                "type": "IMAGE",
+                "link": 728
+              },
+              {
+                "localized_name": "拡大方法",
+                "name": "upscale_method",
+                "type": "COMBO",
+                "widget": {
+                  "name": "upscale_method"
+                },
+                "link": 749
+              },
+              {
+                "localized_name": "スケールバイ",
+                "name": "scale_by",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "scale_by"
+                },
+                "link": 719
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "links": [
+                  725
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ImageScaleBy"
+            },
+            "widgets_values": [
+              "bicubic",
+              1
+            ],
+            "widgets_values_named": {
+              "upscale_method": "bicubic",
+              "scale_by": 1
+            }
+          },
+          {
+            "id": 246,
+            "type": "VAEEncode",
+            "pos": [
+              2217.59648140328,
+              316.4225194344596
+            ],
+            "size": [
+              163.44325803185575,
+              46
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 0,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "ピクセル",
+                "name": "pixels",
+                "type": "IMAGE",
+                "link": 725
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 715
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "潜在",
+                "name": "LATENT",
+                "type": "LATENT",
+                "slot_index": 0,
+                "links": [
+                  716
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "VAEEncode"
+            }
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 725,
+            "origin_id": 249,
+            "origin_slot": 0,
+            "target_id": 246,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 728,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 249,
+            "target_slot": 0,
+            "type": "IMAGE"
+          },
+          {
+            "id": 715,
+            "origin_id": -10,
+            "origin_slot": 2,
+            "target_id": 246,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 716,
+            "origin_id": 246,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "LATENT"
+          },
+          {
+            "id": 719,
+            "origin_id": 250,
+            "origin_slot": 0,
+            "target_id": 249,
+            "target_slot": 2,
+            "type": "FLOAT"
+          },
+          {
+            "id": 726,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 250,
+            "target_slot": 0,
+            "type": "FLOAT"
+          },
+          {
+            "id": 749,
+            "origin_id": -10,
+            "origin_slot": 3,
+            "target_id": 249,
+            "target_slot": 1,
+            "type": "COMBO"
+          }
+        ],
+        "extra": {}
+      },
+      {
+        "id": "a13ccd1a-cbe8-446c-a9eb-a5e049e39726",
+        "version": 1,
+        "state": {
+          "lastGroupId": 5,
+          "lastNodeId": 253,
+          "lastLinkId": 749,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "img2img",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            1639.060717485413,
+            -188.57876985802216,
+            128,
+            328
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            2707.2802120604993,
+            -58.578769858022156,
+            128,
+            68
+          ]
+        },
+        "inputs": [
+          {
+            "id": "dca68a99-7b23-40f9-9274-69f2b7838e45",
+            "name": "latent_image",
+            "type": "LATENT",
+            "linkIds": [
+              733
+            ],
+            "localized_name": "latent_image",
+            "pos": [
+              1743.060717485413,
+              -164.57876985802216
+            ]
+          },
+          {
+            "id": "b0ce6b98-5be8-4f2d-9f62-bbbced94acf3",
+            "name": "denoise",
+            "type": "FLOAT",
+            "linkIds": [
+              721
+            ],
+            "localized_name": "denoise",
+            "pos": [
+              1743.060717485413,
+              -144.57876985802216
+            ]
+          },
+          {
+            "id": "392c9001-ba94-4dbb-97fb-385170916d18",
+            "name": "steps",
+            "type": "INT",
+            "linkIds": [
+              722
+            ],
+            "localized_name": "steps",
+            "pos": [
+              1743.060717485413,
+              -124.57876985802216
+            ]
+          },
+          {
+            "id": "9970f75e-9a50-4384-938e-2532006738f5",
+            "name": "cfg",
+            "type": "FLOAT",
+            "linkIds": [
+              723
+            ],
+            "localized_name": "cfg",
+            "pos": [
+              1743.060717485413,
+              -104.57876985802216
+            ]
+          },
+          {
+            "id": "4fc9c40e-f465-48a4-a1b6-d1b92139a410",
+            "name": "sampler",
+            "type": "STRING",
+            "linkIds": [
+              712
+            ],
+            "localized_name": "sampler",
+            "pos": [
+              1743.060717485413,
+              -84.57876985802216
+            ]
+          },
+          {
+            "id": "d5d1f419-d1e1-4616-b159-419d589c6599",
+            "name": "scheduler",
+            "type": "STRING",
+            "linkIds": [
+              713
+            ],
+            "localized_name": "scheduler",
+            "pos": [
+              1743.060717485413,
+              -64.57876985802216
+            ]
+          },
+          {
+            "id": "3d2f1792-c6ce-45fc-9a77-de97eb5e7b90",
+            "name": "seed",
+            "type": "INT",
+            "linkIds": [
+              720
+            ],
+            "localized_name": "seed",
+            "pos": [
+              1743.060717485413,
+              -44.578769858022156
+            ]
+          },
+          {
+            "id": "90e36d0a-fb96-4c41-847a-4371a1342034",
+            "name": "clip",
+            "type": "CLIP",
+            "linkIds": [
+              689
+            ],
+            "localized_name": "clip",
+            "pos": [
+              1743.060717485413,
+              -24.578769858022156
+            ]
+          },
+          {
+            "id": "051aead7-538c-43b5-b01b-af3c5b344553",
+            "name": "model",
+            "type": "MODEL",
+            "linkIds": [
+              690
+            ],
+            "localized_name": "model",
+            "shape": 7,
+            "pos": [
+              1743.060717485413,
+              -4.578769858022156
+            ]
+          },
+          {
+            "id": "9f31ff39-e1bf-4585-baf2-456b7b875bb0",
+            "name": "lora_tag_list",
+            "type": "STRING",
+            "linkIds": [
+              701
+            ],
+            "localized_name": "lora_tag_list",
+            "pos": [
+              1743.060717485413,
+              15.421230141977844
+            ]
+          },
+          {
+            "id": "a788aad4-533c-46ca-a5c5-7bbc5d37f8cd",
+            "name": "positive",
+            "type": "STRING",
+            "linkIds": [
+              702
+            ],
+            "localized_name": "positive",
+            "pos": [
+              1743.060717485413,
+              35.421230141977844
+            ]
+          },
+          {
+            "id": "5dbaf594-1b45-43e7-a83e-7f2608d9b5c9",
+            "name": "negative",
+            "type": "STRING",
+            "linkIds": [
+              703
+            ],
+            "localized_name": "negative",
+            "pos": [
+              1743.060717485413,
+              55.421230141977844
+            ]
+          },
+          {
+            "id": "dda500b2-49b0-4cf7-8cd0-a2dbf809e51b",
+            "name": "enable_break",
+            "type": "BOOLEAN",
+            "linkIds": [
+              691
+            ],
+            "localized_name": "enable_break",
+            "pos": [
+              1743.060717485413,
+              75.42123014197784
+            ]
+          },
+          {
+            "id": "61430cba-5811-4a1e-9e7a-2ef80401666d",
+            "name": "vae",
+            "type": "VAE",
+            "linkIds": [
+              708
+            ],
+            "localized_name": "vae",
+            "pos": [
+              1743.060717485413,
+              95.42123014197784
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "3c917051-b49b-4638-9476-f795bb50679c",
+            "name": "IMAGE",
+            "type": "IMAGE",
+            "linkIds": [
+              704
+            ],
+            "localized_name": "画像",
+            "pos": [
+              2731.2802120604993,
+              -34.578769858022156
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 245,
+            "type": "KSamplerFromString",
+            "pos": [
+              2127.236282535055,
+              -141.73720194282438
+            ],
+            "size": [
+              270,
+              262
+            ],
+            "flags": {},
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "model",
+                "name": "model",
+                "type": "MODEL",
+                "link": 709
+              },
+              {
+                "localized_name": "positive",
+                "name": "positive",
+                "type": "CONDITIONING",
+                "link": 710
+              },
+              {
+                "localized_name": "negative",
+                "name": "negative",
+                "type": "CONDITIONING",
+                "link": 711
+              },
+              {
+                "localized_name": "latent_image",
+                "name": "latent_image",
+                "type": "LATENT",
+                "link": 733
+              },
+              {
+                "localized_name": "denoise",
+                "name": "denoise",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "denoise"
+                },
+                "link": 721
+              },
+              {
+                "localized_name": "steps",
+                "name": "steps",
+                "type": "INT",
+                "widget": {
+                  "name": "steps"
+                },
+                "link": 722
+              },
+              {
+                "localized_name": "cfg",
+                "name": "cfg",
+                "type": "FLOAT",
+                "widget": {
+                  "name": "cfg"
+                },
+                "link": 723
+              },
+              {
+                "localized_name": "sampler",
+                "name": "sampler",
+                "type": "STRING",
+                "widget": {
+                  "name": "sampler"
+                },
+                "link": 712
+              },
+              {
+                "localized_name": "scheduler",
+                "name": "scheduler",
+                "type": "STRING",
+                "widget": {
+                  "name": "scheduler"
+                },
+                "link": 713
+              },
+              {
+                "localized_name": "seed",
+                "name": "seed",
+                "type": "INT",
+                "widget": {
+                  "name": "seed"
+                },
+                "link": 720
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "潜在",
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [
+                  705
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "KSamplerFromString"
+            },
+            "widgets_values": [
+              0.6,
+              20,
+              5,
+              "",
+              "",
+              0,
+              "randomize"
+            ],
+            "widgets_values_named": {
+              "denoise": 0.6,
+              "steps": 20,
+              "cfg": 5,
+              "sampler": "",
+              "scheduler": "",
+              "seed": 0,
+              "control_after_generate": "randomize"
+            }
+          },
+          {
+            "id": 242,
+            "type": "MultipartCLIPTextEncode",
+            "pos": [
+              1827.060717485413,
+              -149.57876985802216
+            ],
+            "size": [
+              247.50003051757812,
+              280
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "clip",
+                "name": "clip",
+                "type": "CLIP",
+                "link": 689
+              },
+              {
+                "localized_name": "model",
+                "name": "model",
+                "shape": 7,
+                "type": "MODEL",
+                "link": 690
+              },
+              {
+                "localized_name": "lora_tag_list",
+                "name": "lora_tag_list",
+                "type": "STRING",
+                "widget": {
+                  "name": "lora_tag_list"
+                },
+                "link": 701
+              },
+              {
+                "localized_name": "positive",
+                "name": "positive",
+                "type": "STRING",
+                "widget": {
+                  "name": "positive"
+                },
+                "link": 702
+              },
+              {
+                "localized_name": "negative",
+                "name": "negative",
+                "type": "STRING",
+                "widget": {
+                  "name": "negative"
+                },
+                "link": 703
+              },
+              {
+                "localized_name": "enable_break",
+                "name": "enable_break",
+                "type": "BOOLEAN",
+                "widget": {
+                  "name": "enable_break"
+                },
+                "link": 691
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "slot_index": 0,
+                "links": [
+                  709
+                ]
+              },
+              {
+                "localized_name": "CLIP",
+                "name": "CLIP",
+                "type": "CLIP",
+                "links": []
+              },
+              {
+                "localized_name": "条件付け",
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "slot_index": 2,
+                "links": [
+                  710
+                ]
+              },
+              {
+                "localized_name": "条件付け",
+                "name": "CONDITIONING",
+                "type": "CONDITIONING",
+                "slot_index": 3,
+                "links": [
+                  711
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "MultipartCLIPTextEncode"
+            },
+            "widgets_values": [
+              "",
+              "",
+              "",
+              false
+            ],
+            "widgets_values_named": {
+              "lora_tag_list": "",
+              "positive": "",
+              "negative": "",
+              "enable_break": false
+            }
+          },
+          {
+            "id": 244,
+            "type": "VAEDecode",
+            "pos": [
+              2437.2802120604993,
+              -128.27280342529804
+            ],
+            "size": [
+              210,
+              46
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "サンプル",
+                "name": "samples",
+                "type": "LATENT",
+                "link": 705
+              },
+              {
+                "localized_name": "vae",
+                "name": "vae",
+                "type": "VAE",
+                "link": 708
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "画像",
+                "name": "IMAGE",
+                "type": "IMAGE",
+                "slot_index": 0,
+                "links": [
+                  704
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "VAEDecode"
+            }
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 709,
+            "origin_id": 242,
+            "origin_slot": 0,
+            "target_id": 245,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 710,
+            "origin_id": 242,
+            "origin_slot": 2,
+            "target_id": 245,
+            "target_slot": 1,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 711,
+            "origin_id": 242,
+            "origin_slot": 3,
+            "target_id": 245,
+            "target_slot": 2,
+            "type": "CONDITIONING"
+          },
+          {
+            "id": 705,
+            "origin_id": 245,
+            "origin_slot": 0,
+            "target_id": 244,
+            "target_slot": 0,
+            "type": "LATENT"
+          },
+          {
+            "id": 733,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 245,
+            "target_slot": 3,
+            "type": "LATENT"
+          },
+          {
+            "id": 721,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 245,
+            "target_slot": 4,
+            "type": "FLOAT"
+          },
+          {
+            "id": 722,
+            "origin_id": -10,
+            "origin_slot": 2,
+            "target_id": 245,
+            "target_slot": 5,
+            "type": "INT"
+          },
+          {
+            "id": 723,
+            "origin_id": -10,
+            "origin_slot": 3,
+            "target_id": 245,
+            "target_slot": 6,
+            "type": "FLOAT"
+          },
+          {
+            "id": 712,
+            "origin_id": -10,
+            "origin_slot": 4,
+            "target_id": 245,
+            "target_slot": 7,
+            "type": "STRING"
+          },
+          {
+            "id": 713,
+            "origin_id": -10,
+            "origin_slot": 5,
+            "target_id": 245,
+            "target_slot": 8,
+            "type": "STRING"
+          },
+          {
+            "id": 720,
+            "origin_id": -10,
+            "origin_slot": 6,
+            "target_id": 245,
+            "target_slot": 9,
+            "type": "INT"
+          },
+          {
+            "id": 689,
+            "origin_id": -10,
+            "origin_slot": 7,
+            "target_id": 242,
+            "target_slot": 0,
+            "type": "CLIP"
+          },
+          {
+            "id": 690,
+            "origin_id": -10,
+            "origin_slot": 8,
+            "target_id": 242,
+            "target_slot": 1,
+            "type": "MODEL"
+          },
+          {
+            "id": 701,
+            "origin_id": -10,
+            "origin_slot": 9,
+            "target_id": 242,
+            "target_slot": 2,
+            "type": "STRING"
+          },
+          {
+            "id": 702,
+            "origin_id": -10,
+            "origin_slot": 10,
+            "target_id": 242,
+            "target_slot": 3,
+            "type": "STRING"
+          },
+          {
+            "id": 703,
+            "origin_id": -10,
+            "origin_slot": 11,
+            "target_id": 242,
+            "target_slot": 4,
+            "type": "STRING"
+          },
+          {
+            "id": 691,
+            "origin_id": -10,
+            "origin_slot": 12,
+            "target_id": 242,
+            "target_slot": 5,
+            "type": "BOOLEAN"
+          },
+          {
+            "id": 708,
+            "origin_id": -10,
+            "origin_slot": 13,
+            "target_id": 244,
+            "target_slot": 1,
+            "type": "VAE"
+          },
+          {
+            "id": 704,
+            "origin_id": 244,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "IMAGE"
+          }
+        ],
+        "extra": {}
       }
     ]
   },
@@ -4741,10 +4682,10 @@
     "frontendVersion": "1.53.6",
     "workflowRendererVersion": "LG",
     "ds": {
-      "scale": 0.47058233538898714,
+      "scale": 0.8033508422585288,
       "offset": [
-        1182.6866713603386,
-        873.3287207923661
+        206.86419702270837,
+        753.4558372571439
       ]
     }
   },

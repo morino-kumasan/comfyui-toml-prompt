@@ -1,8 +1,8 @@
 {
   "id": "c02333ed-b4f4-4a46-b23e-9c8258468608",
   "revision": 0,
-  "last_node_id": 209,
-  "last_link_id": 551,
+  "last_node_id": 210,
+  "last_link_id": 559,
   "nodes": [
     {
       "id": 171,
@@ -16,7 +16,7 @@
         502.4708251953125
       ],
       "flags": {},
-      "order": 16,
+      "order": 9,
       "mode": 0,
       "inputs": [
         {
@@ -34,7 +34,11 @@
         [
           [
             [
-              ""
+              [
+                [
+                  ""
+                ]
+              ]
             ]
           ]
         ]
@@ -43,7 +47,11 @@
         "output_text": [
           [
             [
-              ""
+              [
+                [
+                  ""
+                ]
+              ]
             ]
           ]
         ]
@@ -61,7 +69,7 @@
         244.04544067382812
       ],
       "flags": {},
-      "order": 13,
+      "order": 7,
       "mode": 0,
       "inputs": [
         {
@@ -85,8 +93,8 @@
       "id": 161,
       "type": "CLIPLoader",
       "pos": [
-        1144.4642333984375,
-        -223.90444946289062
+        1715.3777274293655,
+        -534.4143700347854
       ],
       "size": [
         270,
@@ -123,8 +131,8 @@
       "id": 159,
       "type": "VAELoader",
       "pos": [
-        1151.107666015625,
-        -60.897159576416016
+        1716.7002458889167,
+        -381.9095727013895
       ],
       "size": [
         270,
@@ -158,15 +166,15 @@
       "id": 167,
       "type": "WanImageToVideo",
       "pos": [
-        1705.1102294921875,
-        -227.5868682861328
+        1410.9366752096123,
+        -283.81897641611766
       ],
       "size": [
         270,
         210
       ],
       "flags": {},
-      "order": 20,
+      "order": 12,
       "mode": 0,
       "inputs": [
         {
@@ -266,21 +274,21 @@
       "id": 172,
       "type": "KSamplerAdvanced",
       "pos": [
-        1150.344970703125,
-        105.11679077148438
+        1167.337833870226,
+        76.99067242593793
       ],
       "size": [
         308,
         334
       ],
       "flags": {},
-      "order": 25,
+      "order": 13,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
-          "link": 502
+          "link": 558
         },
         {
           "name": "positive",
@@ -355,15 +363,15 @@
       "id": 125,
       "type": "MultipartCLIPTextEncode",
       "pos": [
-        1453.2720947265625,
-        -224.176513671875
+        1162.1176158500011,
+        -285.72340523767105
       ],
       "size": [
         210,
         280
       ],
       "flags": {},
-      "order": 14,
+      "order": 8,
       "mode": 0,
       "inputs": [
         {
@@ -448,374 +456,24 @@
       }
     },
     {
-      "id": 186,
-      "type": "StringConcat",
-      "pos": [
-        1434.613037109375,
-        -518.272216796875
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 18,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_from",
-          "type": "STRING",
-          "widget": {
-            "name": "text_from"
-          },
-          "link": 505
-        },
-        {
-          "name": "text_to",
-          "type": "STRING",
-          "widget": {
-            "name": "text_to"
-          },
-          "link": 504
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            506
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "StringConcat"
-      },
-      "widgets_values": [
-        "",
-        "",
-        "\n"
-      ],
-      "widgets_values_named": {
-        "text_from": "",
-        "text_to": "",
-        "sep": "\n"
-      }
-    },
-    {
-      "id": 187,
-      "type": "StringConcat",
-      "pos": [
-        1437.087890625,
-        -407.0859069824219
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 19,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text_from",
-          "type": "STRING",
-          "widget": {
-            "name": "text_from"
-          },
-          "link": 507
-        },
-        {
-          "name": "text_to",
-          "type": "STRING",
-          "widget": {
-            "name": "text_to"
-          },
-          "link": 508
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            509
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "StringConcat"
-      },
-      "widgets_values": [
-        "",
-        "",
-        "\n"
-      ],
-      "widgets_values_named": {
-        "text_from": "",
-        "text_to": "",
-        "sep": "\n"
-      }
-    },
-    {
-      "id": 162,
-      "type": "ModelSamplingSD3",
-      "pos": [
-        1639.8995361328125,
-        -520.6702880859375
-      ],
-      "size": [
-        270,
-        58
-      ],
-      "flags": {},
-      "order": 23,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 497
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            502
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ModelSamplingSD3"
-      },
-      "widgets_values": [
-        5
-      ],
-      "widgets_values_named": {
-        "shift": 5
-      }
-    },
-    {
-      "id": 185,
-      "type": "SplitLoraList",
-      "pos": [
-        1454.9278564453125,
-        -275.054443359375
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 15,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "lora_list",
-          "type": "STRING",
-          "widget": {
-            "name": "lora_list"
-          },
-          "link": 503
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            504
-          ]
-        },
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            508
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "SplitLoraList"
-      },
-      "widgets_values": [
-        ""
-      ],
-      "widgets_values_named": {
-        "lora_list": ""
-      }
-    },
-    {
-      "id": 181,
-      "type": "MultipleLoraTagLoader",
-      "pos": [
-        2030.72021484375,
-        -535.5966186523438
-      ],
-      "size": [
-        270,
-        514
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            505
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "MultipleLoraTagLoader"
-      },
-      "widgets_values": [
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0
-      ],
-      "widgets_values_named": {
-        "lora_name_0": "[none]",
-        "strength_0": 0,
-        "lora_name_1": "[none]",
-        "strength_1": 0,
-        "lora_name_2": "[none]",
-        "strength_2": 0,
-        "lora_name_3": "[none]",
-        "strength_3": 0,
-        "lora_name_4": "[none]",
-        "strength_4": 0,
-        "lora_name_5": "[none]",
-        "strength_5": 0,
-        "lora_name_6": "[none]",
-        "strength_6": 0,
-        "lora_name_7": "[none]",
-        "strength_7": 0,
-        "lora_name_8": "[none]",
-        "strength_8": 0,
-        "lora_name_9": "[none]",
-        "strength_9": 0
-      }
-    },
-    {
-      "id": 182,
-      "type": "MultipleLoraTagLoader",
-      "pos": [
-        2031.59765625,
-        23.23336410522461
-      ],
-      "size": [
-        270,
-        514
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            507
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "MultipleLoraTagLoader"
-      },
-      "widgets_values": [
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0,
-        "[none]",
-        0
-      ],
-      "widgets_values_named": {
-        "lora_name_0": "[none]",
-        "strength_0": 0,
-        "lora_name_1": "[none]",
-        "strength_1": 0,
-        "lora_name_2": "[none]",
-        "strength_2": 0,
-        "lora_name_3": "[none]",
-        "strength_3": 0,
-        "lora_name_4": "[none]",
-        "strength_4": 0,
-        "lora_name_5": "[none]",
-        "strength_5": 0,
-        "lora_name_6": "[none]",
-        "strength_6": 0,
-        "lora_name_7": "[none]",
-        "strength_7": 0,
-        "lora_name_8": "[none]",
-        "strength_8": 0,
-        "lora_name_9": "[none]",
-        "strength_9": 0
-      }
-    },
-    {
       "id": 173,
       "type": "KSamplerAdvanced",
       "pos": [
-        1497.683837890625,
-        104.93248748779297
+        1513.5047794599936,
+        78.56425153884307
       ],
       "size": [
         308,
         334
       ],
       "flags": {},
-      "order": 26,
+      "order": 14,
       "mode": 0,
       "inputs": [
         {
           "name": "model",
           "type": "MODEL",
-          "link": 495
+          "link": 559
         },
         {
           "name": "positive",
@@ -871,222 +529,6 @@
       }
     },
     {
-      "id": 184,
-      "type": "LoadLoraFromLoraList",
-      "pos": [
-        1432.65966796875,
-        -349.0226135253906
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 22,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 521
-        },
-        {
-          "name": "lora_tag_list",
-          "type": "STRING",
-          "widget": {
-            "name": "lora_tag_list"
-          },
-          "link": 509
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            499
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadLoraFromLoraList"
-      },
-      "widgets_values": [
-        ""
-      ],
-      "widgets_values_named": {
-        "lora_tag_list": ""
-      }
-    },
-    {
-      "id": 179,
-      "type": "ModelSamplingSD3",
-      "pos": [
-        1662.35791015625,
-        -406.609375
-      ],
-      "size": [
-        250.43359375,
-        58
-      ],
-      "flags": {},
-      "order": 24,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 499
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            495
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "ModelSamplingSD3"
-      },
-      "widgets_values": [
-        5
-      ],
-      "widgets_values_named": {
-        "shift": 5
-      }
-    },
-    {
-      "id": 183,
-      "type": "LoadLoraFromLoraList",
-      "pos": [
-        1426.5234375,
-        -462.7834167480469
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 21,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 520
-        },
-        {
-          "name": "lora_tag_list",
-          "type": "STRING",
-          "widget": {
-            "name": "lora_tag_list"
-          },
-          "link": 506
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            497
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "LoadLoraFromLoraList"
-      },
-      "widgets_values": [
-        ""
-      ],
-      "widgets_values_named": {
-        "lora_tag_list": ""
-      }
-    },
-    {
-      "id": 192,
-      "type": "JsonExtractString",
-      "pos": [
-        1148.6041259765625,
-        -403.9539794921875
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 4,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            516
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractString"
-      },
-      "widgets_values": [
-        "",
-        "model_l"
-      ],
-      "widgets_values_named": {
-        "json_string": "",
-        "key": "model_l"
-      }
-    },
-    {
-      "id": 191,
-      "type": "JsonExtractString",
-      "pos": [
-        1147.7041015625,
-        -516.8851928710938
-      ],
-      "size": [
-        270,
-        106
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 5,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            515
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "JsonExtractString"
-      },
-      "widgets_values": [
-        "",
-        "model_h"
-      ],
-      "widgets_values_named": {
-        "json_string": "",
-        "key": "model_h"
-      }
-    },
-    {
       "id": 163,
       "type": "TomlPromptDecode",
       "pos": [
@@ -1098,7 +540,7 @@
         523.9749145507812
       ],
       "flags": {},
-      "order": 12,
+      "order": 6,
       "mode": 0,
       "inputs": [
         {
@@ -1127,7 +569,7 @@
           "type": "STRING",
           "links": [
             460,
-            503
+            557
           ]
         },
         {
@@ -1146,7 +588,8 @@
           "name": "STRING",
           "type": "STRING",
           "links": [
-            547
+            547,
+            556
           ]
         }
       ],
@@ -1165,96 +608,6 @@
       }
     },
     {
-      "id": 190,
-      "type": "UNETLoaderFromString",
-      "pos": [
-        1150.7962646484375,
-        -463.6108703613281
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "unet_name",
-          "type": "STRING",
-          "widget": {
-            "name": "unet_name"
-          },
-          "link": 515
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            520
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "UNETLoaderFromString"
-      },
-      "widgets_values": [
-        ""
-      ],
-      "widgets_values_named": {
-        "unet_name": ""
-      }
-    },
-    {
-      "id": 193,
-      "type": "UNETLoaderFromString",
-      "pos": [
-        1162.904052734375,
-        -348.2492980957031
-      ],
-      "size": [
-        270,
-        82
-      ],
-      "flags": {
-        "collapsed": true
-      },
-      "order": 9,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "unet_name",
-          "type": "STRING",
-          "widget": {
-            "name": "unet_name"
-          },
-          "link": 516
-        }
-      ],
-      "outputs": [
-        {
-          "name": "MODEL",
-          "type": "MODEL",
-          "links": [
-            521
-          ]
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "UNETLoaderFromString"
-      },
-      "widgets_values": [
-        ""
-      ],
-      "widgets_values_named": {
-        "unet_name": ""
-      }
-    },
-    {
       "id": 169,
       "type": "SaveAnimatedWEBP",
       "pos": [
@@ -1266,7 +619,7 @@
         497.3449904593057
       ],
       "flags": {},
-      "order": 30,
+      "order": 18,
       "mode": 0,
       "inputs": [
         {
@@ -1310,7 +663,7 @@
         521.1101684570312
       ],
       "flags": {},
-      "order": 6,
+      "order": 2,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1353,7 +706,7 @@
         89.1644738632483
       ],
       "flags": {},
-      "order": 11,
+      "order": 5,
       "mode": 4,
       "inputs": [
         {
@@ -1391,7 +744,7 @@
       "flags": {
         "collapsed": false
       },
-      "order": 27,
+      "order": 15,
       "mode": 0,
       "inputs": [
         {
@@ -1431,7 +784,7 @@
         89.1644738632483
       ],
       "flags": {},
-      "order": 28,
+      "order": 16,
       "mode": 4,
       "inputs": [
         {
@@ -1466,7 +819,7 @@
         26
       ],
       "flags": {},
-      "order": 29,
+      "order": 17,
       "mode": 0,
       "inputs": [
         {
@@ -1500,7 +853,7 @@
         120.4269027886574
       ],
       "flags": {},
-      "order": 7,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1539,7 +892,7 @@
         58
       ],
       "flags": {},
-      "order": 8,
+      "order": 4,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -1565,17 +918,17 @@
       "id": 209,
       "type": "8a182f31-d422-4b3a-809b-f0caed83e63d",
       "pos": [
-        1710.1663375221335,
-        48.83227207582564
+        1410.158909503317,
+        -533.9004381072859
       ],
       "size": [
         210,
         148
       ],
       "flags": {
-        "collapsed": true
+        "collapsed": false
       },
-      "order": 17,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -1629,6 +982,68 @@
       ],
       "widgets_values_named": {
         "json_string": ""
+      }
+    },
+    {
+      "id": 210,
+      "type": "3c5026f5-ca5c-46f0-ab08-094bb266fcdd",
+      "pos": [
+        1159.3671324377297,
+        -534.6240582810436
+      ],
+      "size": [
+        210,
+        162
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "json_string",
+          "type": "STRING",
+          "widget": {
+            "name": "json_string"
+          },
+          "link": 556
+        },
+        {
+          "name": "lora_list",
+          "type": "STRING",
+          "widget": {
+            "name": "lora_list"
+          },
+          "link": 557
+        }
+      ],
+      "outputs": [
+        {
+          "label": "high",
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            558
+          ]
+        },
+        {
+          "label": "low",
+          "name": "MODEL_1",
+          "type": "MODEL",
+          "links": [
+            559
+          ]
+        }
+      ],
+      "properties": {
+        "previewExposures": []
+      },
+      "widgets_values": [
+        "",
+        ""
+      ],
+      "widgets_values_named": {
+        "json_string": "",
+        "lora_list": ""
       }
     }
   ],
@@ -1770,126 +1185,6 @@
       "PROMPT_FILE"
     ],
     [
-      495,
-      179,
-      0,
-      173,
-      0,
-      "MODEL"
-    ],
-    [
-      497,
-      183,
-      0,
-      162,
-      0,
-      "MODEL"
-    ],
-    [
-      499,
-      184,
-      0,
-      179,
-      0,
-      "MODEL"
-    ],
-    [
-      502,
-      162,
-      0,
-      172,
-      0,
-      "MODEL"
-    ],
-    [
-      503,
-      163,
-      2,
-      185,
-      0,
-      "STRING"
-    ],
-    [
-      504,
-      185,
-      0,
-      186,
-      1,
-      "STRING"
-    ],
-    [
-      505,
-      181,
-      0,
-      186,
-      0,
-      "STRING"
-    ],
-    [
-      506,
-      186,
-      0,
-      183,
-      1,
-      "STRING"
-    ],
-    [
-      507,
-      182,
-      0,
-      187,
-      0,
-      "STRING"
-    ],
-    [
-      508,
-      185,
-      1,
-      187,
-      1,
-      "STRING"
-    ],
-    [
-      509,
-      187,
-      0,
-      184,
-      1,
-      "STRING"
-    ],
-    [
-      515,
-      191,
-      0,
-      190,
-      0,
-      "STRING"
-    ],
-    [
-      516,
-      192,
-      0,
-      193,
-      0,
-      "STRING"
-    ],
-    [
-      520,
-      190,
-      0,
-      183,
-      0,
-      "MODEL"
-    ],
-    [
-      521,
-      193,
-      0,
-      184,
-      0,
-      "MODEL"
-    ],
-    [
       526,
       195,
       0,
@@ -1970,6 +1265,38 @@
       "INT"
     ],
     [
+      556,
+      163,
+      5,
+      210,
+      0,
+      "STRING"
+    ],
+    [
+      557,
+      163,
+      2,
+      210,
+      1,
+      "STRING"
+    ],
+    [
+      558,
+      210,
+      0,
+      172,
+      0,
+      "MODEL"
+    ],
+    [
+      559,
+      210,
+      1,
+      173,
+      0,
+      "MODEL"
+    ],
+    [
       534,
       200,
       0,
@@ -2005,8 +1332,8 @@
       "bounding": [
         1125.705810546875,
         -621.07568359375,
-        1231.9954833984375,
-        1207.9017333984375
+        986.4930402324617,
+        1208.4576444282511
       ],
       "color": "#A88",
       "flags": {
@@ -2015,7 +1342,7 @@
     },
     {
       "id": 5,
-      "title": "img2vid",
+      "title": "Input",
       "bounding": [
         1,
         -621,
@@ -2049,8 +1376,8 @@
         "version": 1,
         "state": {
           "lastGroupId": 6,
-          "lastNodeId": 209,
-          "lastLinkId": 551,
+          "lastNodeId": 210,
+          "lastLinkId": 559,
           "lastRerouteId": 0
         },
         "revision": 0,
@@ -2645,16 +1972,654 @@
           }
         ],
         "extra": {}
+      },
+      {
+        "id": "3c5026f5-ca5c-46f0-ab08-094bb266fcdd",
+        "version": 1,
+        "state": {
+          "lastGroupId": 6,
+          "lastNodeId": 210,
+          "lastLinkId": 559,
+          "lastRerouteId": 0
+        },
+        "revision": 0,
+        "config": {},
+        "name": "LoadModels",
+        "inputNode": {
+          "id": -10,
+          "bounding": [
+            423.8091412492837,
+            -956.5837848379108,
+            128,
+            88
+          ]
+        },
+        "outputNode": {
+          "id": -20,
+          "bounding": [
+            1818.5122452171536,
+            -956.5837848379108,
+            128,
+            88
+          ]
+        },
+        "inputs": [
+          {
+            "id": "bddd7718-b1a4-4919-a57e-7aa5cef48d0c",
+            "name": "json_string",
+            "type": "STRING",
+            "linkIds": [
+              552,
+              553
+            ],
+            "localized_name": "json_string",
+            "pos": [
+              527.8091412492837,
+              -932.5837848379108
+            ]
+          },
+          {
+            "id": "b5e17966-64bd-4eb1-a0ec-146f689b9f8b",
+            "name": "lora_list",
+            "type": "STRING",
+            "linkIds": [
+              503
+            ],
+            "localized_name": "lora_list",
+            "pos": [
+              527.8091412492837,
+              -912.5837848379108
+            ]
+          }
+        ],
+        "outputs": [
+          {
+            "id": "fd199e75-96ac-4236-8cdc-7e66e203af62",
+            "name": "MODEL",
+            "type": "MODEL",
+            "linkIds": [
+              502
+            ],
+            "localized_name": "モデル",
+            "label": "high",
+            "pos": [
+              1842.5122452171536,
+              -932.5837848379108
+            ]
+          },
+          {
+            "id": "af93bb77-773c-444b-9212-546ff58fe687",
+            "name": "MODEL_1",
+            "type": "MODEL",
+            "linkIds": [
+              495
+            ],
+            "localized_name": "モデル_1",
+            "label": "low",
+            "pos": [
+              1842.5122452171536,
+              -912.5837848379108
+            ]
+          }
+        ],
+        "widgets": [],
+        "nodes": [
+          {
+            "id": 191,
+            "type": "JsonExtractString",
+            "pos": [
+              612.5707479590089,
+              -1136.8144675049327
+            ],
+            "size": [
+              270,
+              112
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 6,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 552
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  515
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "model_h"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "model_h"
+            }
+          },
+          {
+            "id": 192,
+            "type": "JsonExtractString",
+            "pos": [
+              611.8091412492837,
+              -929.0811102609642
+            ],
+            "size": [
+              270,
+              112
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 7,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "json_string",
+                "name": "json_string",
+                "type": "STRING",
+                "widget": {
+                  "name": "json_string"
+                },
+                "link": 553
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  516
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "JsonExtractString"
+            },
+            "widgets_values": [
+              "",
+              "model_l"
+            ],
+            "widgets_values_named": {
+              "json_string": "",
+              "key": "model_l"
+            }
+          },
+          {
+            "id": 185,
+            "type": "SplitLoraList",
+            "pos": [
+              617.803971730689,
+              -766.353102170889
+            ],
+            "size": [
+              210,
+              108
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 4,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "lora_list",
+                "name": "lora_list",
+                "type": "STRING",
+                "widget": {
+                  "name": "lora_list"
+                },
+                "link": 503
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  555
+                ]
+              },
+              {
+                "localized_name": "文字列",
+                "name": "STRING",
+                "type": "STRING",
+                "links": [
+                  554
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "SplitLoraList"
+            },
+            "widgets_values": [
+              ""
+            ],
+            "widgets_values_named": {
+              "lora_list": ""
+            }
+          },
+          {
+            "id": 193,
+            "type": "UNETLoaderFromString",
+            "pos": [
+              914.840702476258,
+              -924.4762312631635
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 8,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "unet_name",
+                "name": "unet_name",
+                "type": "STRING",
+                "widget": {
+                  "name": "unet_name"
+                },
+                "link": 516
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  521
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "UNETLoaderFromString"
+            },
+            "widgets_values": [
+              ""
+            ],
+            "widgets_values_named": {
+              "unet_name": ""
+            }
+          },
+          {
+            "id": 190,
+            "type": "UNETLoaderFromString",
+            "pos": [
+              918.932961443382,
+              -1130.8076179237426
+            ],
+            "size": [
+              270,
+              82
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 5,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "unet_name",
+                "name": "unet_name",
+                "type": "STRING",
+                "widget": {
+                  "name": "unet_name"
+                },
+                "link": 515
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  520
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "UNETLoaderFromString"
+            },
+            "widgets_values": [
+              ""
+            ],
+            "widgets_values_named": {
+              "unet_name": ""
+            }
+          },
+          {
+            "id": 183,
+            "type": "LoadLoraFromLoraList",
+            "pos": [
+              1231.8924223669667,
+              -1124.257310318181
+            ],
+            "size": [
+              210,
+              88
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 2,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "model",
+                "name": "model",
+                "type": "MODEL",
+                "link": 520
+              },
+              {
+                "localized_name": "lora_tag_list",
+                "name": "lora_tag_list",
+                "type": "STRING",
+                "widget": {
+                  "name": "lora_tag_list"
+                },
+                "link": 555
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  497
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "LoadLoraFromLoraList"
+            },
+            "widgets_values": [
+              ""
+            ],
+            "widgets_values_named": {
+              "lora_tag_list": ""
+            }
+          },
+          {
+            "id": 184,
+            "type": "LoadLoraFromLoraList",
+            "pos": [
+              1238.4303841063556,
+              -928.4146077888876
+            ],
+            "size": [
+              210,
+              88
+            ],
+            "flags": {
+              "collapsed": false
+            },
+            "order": 3,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "model",
+                "name": "model",
+                "type": "MODEL",
+                "link": 521
+              },
+              {
+                "localized_name": "lora_tag_list",
+                "name": "lora_tag_list",
+                "type": "STRING",
+                "widget": {
+                  "name": "lora_tag_list"
+                },
+                "link": 554
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  499
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "LoadLoraFromLoraList"
+            },
+            "widgets_values": [
+              ""
+            ],
+            "widgets_values_named": {
+              "lora_tag_list": ""
+            }
+          },
+          {
+            "id": 162,
+            "type": "ModelSamplingSD3",
+            "pos": [
+              1488.5122452171536,
+              -1124.065466253564
+            ],
+            "size": [
+              270,
+              58
+            ],
+            "flags": {},
+            "order": 0,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "モデル",
+                "name": "model",
+                "type": "MODEL",
+                "link": 497
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  502
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ModelSamplingSD3"
+            },
+            "widgets_values": [
+              5
+            ],
+            "widgets_values_named": {
+              "shift": 5
+            }
+          },
+          {
+            "id": 179,
+            "type": "ModelSamplingSD3",
+            "pos": [
+              1504.6342686567211,
+              -940.3057348103614
+            ],
+            "size": [
+              250.43359375,
+              58
+            ],
+            "flags": {},
+            "order": 1,
+            "mode": 0,
+            "inputs": [
+              {
+                "localized_name": "モデル",
+                "name": "model",
+                "type": "MODEL",
+                "link": 499
+              }
+            ],
+            "outputs": [
+              {
+                "localized_name": "モデル",
+                "name": "MODEL",
+                "type": "MODEL",
+                "links": [
+                  495
+                ]
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "ModelSamplingSD3"
+            },
+            "widgets_values": [
+              5
+            ],
+            "widgets_values_named": {
+              "shift": 5
+            }
+          }
+        ],
+        "groups": [],
+        "links": [
+          {
+            "id": 516,
+            "origin_id": 192,
+            "origin_slot": 0,
+            "target_id": 193,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 515,
+            "origin_id": 191,
+            "origin_slot": 0,
+            "target_id": 190,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 520,
+            "origin_id": 190,
+            "origin_slot": 0,
+            "target_id": 183,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 555,
+            "origin_id": 185,
+            "origin_slot": 0,
+            "target_id": 183,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 521,
+            "origin_id": 193,
+            "origin_slot": 0,
+            "target_id": 184,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 554,
+            "origin_id": 185,
+            "origin_slot": 1,
+            "target_id": 184,
+            "target_slot": 1,
+            "type": "STRING"
+          },
+          {
+            "id": 497,
+            "origin_id": 183,
+            "origin_slot": 0,
+            "target_id": 162,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 499,
+            "origin_id": 184,
+            "origin_slot": 0,
+            "target_id": 179,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 552,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 191,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 553,
+            "origin_id": -10,
+            "origin_slot": 0,
+            "target_id": 192,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 503,
+            "origin_id": -10,
+            "origin_slot": 1,
+            "target_id": 185,
+            "target_slot": 0,
+            "type": "STRING"
+          },
+          {
+            "id": 502,
+            "origin_id": 162,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 0,
+            "type": "MODEL"
+          },
+          {
+            "id": 495,
+            "origin_id": 179,
+            "origin_slot": 0,
+            "target_id": -20,
+            "target_slot": 1,
+            "type": "MODEL"
+          }
+        ],
+        "extra": {}
       }
     ]
   },
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.33764147581744774,
+      "scale": 0.812609841827768,
       "offset": [
-        959.792750676864,
-        1182.7432086581475
+        198.66666666666674,
+        799.242227629089
       ]
     },
     "frontendVersion": "1.53.6",
